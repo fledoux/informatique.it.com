@@ -1,0 +1,36 @@
+{# templates/user/_form.html.twig #}
+{{ form_start(form) }}
+
+{# Identité & contact #}
+{% if form.email is defined %} {{ form_row(form.email) }} {% endif %}
+{% if form.firstName is defined %} {{ form_row(form.firstName) }} {% endif %}
+{% if form.lastName is defined %} {{ form_row(form.lastName) }} {% endif %}
+{% if form.phone is defined %} {{ form_row(form.phone) }} {% endif %}
+
+{# Compagnie & statut #}
+{% if form.company is defined %} {{ form_row(form.company) }} {% endif %}
+{% if form.userStatus is defined %} {{ form_row(form.userStatus) }} {% endif %}
+
+{# Sécurité & rôles #}
+{% if form.password is defined %} {{ form_row(form.password) }} {% endif %}
+{% if form.roles is defined %} {{ form_row(form.roles) }} {% endif %}
+{% if form.isVerified is defined %} {{ form_row(form.isVerified) }} {% endif %}
+{% if form.agreeTerms is defined %} {{ form_row(form.agreeTerms) }} {% endif %}
+
+{# Options diverses #}
+{% if form.channels is defined %} {{ form_row(form.channels) }} {% endif %}
+{% if form.note is defined %} {{ form_row(form.note) }} {% endif %}
+
+{# Champs techniques #}
+{% if form.lastLoginAt is defined %} {{ form_row(form.lastLoginAt) }} {% endif %}
+{% if form.createdAt is defined %} {{ form_row(form.createdAt) }} {% endif %}
+{% if form.updatedAt is defined %} {{ form_row(form.updatedAt) }} {% endif %}
+
+{{ form_rest(form) }}
+
+<div class="btn-group mt-3" role="group" aria-label="Basic example">
+ <button type="submit" class="btn btn-danger">{{ 'Btn.Save'|trans|raw }}</button>
+ <a href="{{ path('app_user_index') }}" class="btn btn-outline-danger">{{ 'Btn.Back'|trans|raw }}</a>
+</div>
+
+{{ form_end(form) }}

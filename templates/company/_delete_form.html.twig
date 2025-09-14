@@ -1,0 +1,9 @@
+<form method="post"
+      action="{{ path('app_company_delete', {'id': company|raw.id}) }}"
+      onsubmit="return confirm('{{ 'Are you sure you want to delete this item'|trans|raw }}');"
+      style="display:inline">
+  <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ company|raw.id) }}">
+  <button class="btn btn-link text-decoration-none text-danger p-0">
+    {{ 'Btn.Delete'|trans|raw }}
+  </button>
+</form>

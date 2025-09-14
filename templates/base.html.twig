@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light" class="h-100">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>
+			{% block title %}Bienvenue !
+			{% endblock %}
+		</title>
+		<link rel="icon" href="{{ asset('img/favicon.svg') }}" type="image/svg+xml">
+		{% block stylesheets %}
+			{{ include('tpl/_style.html.twig') }}
+		{% endblock %}
+		{% block javascripts %}
+			{{ include('tpl/_script.html.twig') }}
+		{% endblock %}
+	</head>
+	<body class="d-flex flex-column h-100 bg-body-tertiary">
+		{% set currentRoute = app.request.attributes.get('_route') %}
+		{{ include('tpl/_nav.html.twig') }}
+		<div class="container pb-5">
+			<main class="flex-shrink-0">
+				{% include 'tpl/_flash.html.twig' %}
+				{% block body %}{% endblock %}
+			</main>
+		</div>
+		<footer class="footer mt-auto py-3 bg-secondary text-white">
+			<div class="container">
+				Mon-support.fr est une marque de Yellow Cactus.</div>
+		</footer>
+	</body>
+</html>

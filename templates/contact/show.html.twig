@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'Contact.View'|trans|raw }}{% endblock %}
+{% block body %}
+<h1>{{ 'Contact.View'|trans|raw }}</h1>
+<dl class="row">
+  <dt class="col-sm-3">Id</dt>
+  <dd class="col-sm-9">{{ contact.id }}</dd>
+  <dt class="col-sm-3">Name</dt>
+  <dd class="col-sm-9">{{ contact.name }}</dd>
+  <dt class="col-sm-3">Email</dt>
+  <dd class="col-sm-9">{{ contact.email }}</dd>
+  <dt class="col-sm-3">Phone</dt>
+  <dd class="col-sm-9">{{ contact.phone }}</dd>
+  <dt class="col-sm-3">Type</dt>
+  <dd class="col-sm-9">{{ contact.type }}</dd>
+  <dt class="col-sm-3">Need</dt>
+  <dd class="col-sm-9">{{ contact.need }}</dd>
+</dl>
+<div class="btn-group" role="group" aria-label="Basic example">
+<a href="{{ path('app_contact_edit', {'id': contact.id}) }}" class="btn btn-orange">Modifier</a>
+<a href="{{ path('app_contact_index') }}" class="btn btn-outline-orange">Retour</a>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base_center.html.twig' %}
+
+{% block title %}
+	{{ 'Register'|trans|raw }}
+{% endblock %}
+
+{% block body %}
+	<div class="alert alert-primary" role="alert">
+		<h4 class="alert-heading">{{ 'Register.Check your email'|trans|raw }}</h4>
+		<p class="m-0">{{ 'Register.We have just sent you a link to complete your registration.'|trans|raw  }}</p>
+	</div>
+{% endblock %}

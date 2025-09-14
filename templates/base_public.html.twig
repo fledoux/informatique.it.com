@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light" class="h-100">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>
+			{% block title %}Bienvenue !
+			{% endblock %}
+		</title>
+		<link rel="icon" href="{{ asset('img/favicon.svg') }}" type="image/svg+xml">
+		{% block stylesheets %}
+			{{ include('tpl/_style.html.twig') }}
+		{% endblock %}
+		{% block javascripts %}
+			{{ include('tpl/_script.html.twig') }}
+		{% endblock %}
+	</head>
+	<body class="body d-flex flex-column h-100 bg-body-tertiary">
+		{% set currentRoute = app.request.attributes.get('_route') %}
+		{{ include('tpl/_nav_public.html.twig') }}
+		<div class="container">
+			<main class="flex-shrink-0">
+				{% include 'tpl/_flash.html.twig' %}
+				{% block body %}{% endblock %}
+			</main>
+		</div>
+
+		<div class="container-fluid">
+			<footer class="mt-5">
+				<div class="bg-white px-3 py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
+					<a href="https://www.yellowcactus.com" target="_blank"><img src="{{ asset('assets/img/logo/yellowcactus_logo_bw.svg') }}" alt="Yellow Cactus" style="height:24px;" class="ms-2"></a>
+					<div class="small text-muted">©
+						{{ "now"|date("Y") }},
+						<a href="https://www.yellowcactus.com" target="_blank" class="text-orange">Yellow Cactus</a>. <a href="/" class="text-orange">informatique.it.com</a> est une marque de
+						<a href="https://www.yellowcactus.com" target="_blank" class="text-orange">Yellow Cactus</a>. Tous droits réservés.</div>
+					<div class="small">
+						<a href="#" class="me-3 text-orange">Mentions légales</a>
+						<a href="#" class="me-3 text-orange">RGPD</a>
+						<a href="#" class="text-orange">CGV</a>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+	</body>
+</html>

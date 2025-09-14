@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{ 'User.Users List'|trans|raw }}
+{% endblock %}
+{% block body %}
+	<h1 class="mb-4">{{ 'User.Users List'|trans|raw }}</h1>
+	<div class="table-responsive-lg">
+		<table class="table align-middle table-sm table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="text-left">{{ 'Global.Id'|trans|raw }}</th>
+					<th class="text-left">{{ 'User.Email'|trans|raw }}</th>
+					<th class="text-left">{{ 'User.Roles'|trans|raw }}</th>
+					<th>{{ 'Global.Actions'|trans|raw }}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in users %}
+					<tr>
+						<td class="text-left">{{ item.id }}</td>
+						<td class="text-left">{{ item.email }}</td>
+						<td class="text-left">
+							{% set _roles = item.roles is iterable ? item.roles : (item.roles ? [item.roles] : []) %}
+							{{ _roles|filter(r => r is not empty)|join(', ') }}
+						</td>
+						<td>
+							<a href="{{ path('app_user_edit', {'id': item.id}) }}" class="btn btn-link text-decoration-none text-primary">{{ 'Btn.Edit'|trans|raw }}</a>
+							{% include 'user/_delete_form.html.twig' with { 'user': item } %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<a href="{{ path('app_user_new') }}" class="btn btn-orange mt-3">{{ 'Btn.New'|trans|raw }}</a>
+{% endblock %}

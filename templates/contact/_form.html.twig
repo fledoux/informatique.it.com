@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<div class="btn-group mt-3" role="group" aria-label="Basic example">
+	<button class="btn btn-danger">{{ 'Btn.Save'|trans|raw }}</button>
+	<a href="{{ path('app_contact_index') }}" class="btn btn-outline-danger">{{ 'Btn.Back'|trans|raw }}</a>
+</div>
+{{ form_end(form) }}

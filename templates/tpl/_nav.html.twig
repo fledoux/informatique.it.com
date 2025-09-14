@@ -1,0 +1,28 @@
+<div class="container">
+	<header class="py-3 mb-5 border-bottom">
+		<nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Thirteenth navbar example">
+			<a href="/"><img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="Mon Support by Yellow Cactus" height=" 60" class="d-inline-block align-text-top"></a>
+			<button class="navbar-toggler my-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbars" aria-controls="navbars" aria-expanded="true" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="navbar-collapse collapse m-xs-3" id="navbars" style="">
+				<div class="d-lg-flex col-lg-12 justify-content-lg-end">
+					<a class="me-2 mb-2 btn {{ currentRoute starts with 'app_user_' ? 'btn-orange' : 'btn-outline-orange' }}" href="{{ path('app_user_index') }}">
+						<i class="fa-regular fa-users"></i>
+						{{ 'Nav.Users'|trans|raw }}
+					</a>
+					{% if is_granted('ROLE_SUPER_ADMIN') %}
+						<a class="me-2 mb-2 btn {{ currentRoute starts with 'app_company_' ? 'btn-orange' : 'btn-outline-orange' }}" href="{{ path('app_company_index') }}">
+							<i class="fa-regular fa-building"></i>
+							{{ 'Nav.Companies'|trans|raw }}
+						</a>
+					{% endif %}
+					<a class="mb-2 btn btn-outline-secondary" href="{{ path('app_logout') }}">
+						<i class="fa-regular fa-arrow-right-from-bracket"></i>
+					</a>
+				</div>
+			</div>
+
+		</nav>
+	</header>
+</div>

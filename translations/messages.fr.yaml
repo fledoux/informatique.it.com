@@ -1,0 +1,113 @@
+
+# {{ 'Register.Register'|trans|raw }}
+
+Btn:
+  New: <i class="fa-regular fa-plus-square"></i> Nouveau
+  Back: <i class="fa-regular fa-reply"></i> Retour
+  Save: <i class="fa-regular fa-save"></i> Enregistrer
+  View: <i class="fa-regular fa-eye"></i> Visualiser
+  Edit: <i class="fa-regular fa-edit"></i> Editer
+  Delete: <i class="ms-2 fa-regular fa-trash-can"></i>
+Btn Icon Only:
+  New: <i class="fa-regular fa-plus-square"></i>
+  Back: <i class="fa-regular fa-reply"></i>
+  Save: <i class="fa-regular fa-save"></i>
+  View: <i class="fa-regular fa-eye"></i>
+  Edit: <i class="fa-regular fa-edit"></i>
+  Delete: <i class="ms-2 fa-regular fa-trash-can"></i>
+
+Nav:
+  My Support: Mon Support
+  Users: Utilisateurs
+  Companies: Entreprises
+  Register: Inscription
+  Connect: Connexion
+  Logout: Déconnexion
+
+Global:
+  Back: Retour
+  Cancel: Annuler
+  Actions: Actions
+  Id: N°
+  Are you sure you want to delete this item: Êtes-vous sûr de vouloir supprimer cet élément ?
+
+Verify:
+  link_invalid_id: "Lien invalide : identifiant manquant."
+  user_not_found: "Utilisateur introuvable."
+  email_verified_success: "Votre email a bien été vérifié."
+  email_subject: "Veuillez confirmer votre adresse e-mail"
+
+Register:
+  Create an account: Créer un compte
+  Email: Email
+  Password: Mot de passe
+  Register: Inscription
+  Check your email: Vérifiez votre mail
+  We have just sent you a link to complete your registration.: Nous venons de vous envoyer un lien pour&nbsp;finaliser votre inscription.
+  Agree terms: Accepter les conditions générales d'utilisation.
+
+Login:
+  Please log in: Connectez-vous
+  Login: Identifiant
+  Password: Mot de passe
+  Remember me: Se souvenir de moi
+  Connect: Connexion
+  Cancel: Annuler
+
+User:
+  Add user: Ajouter un utilisateur
+  Edit user: Editer l'utilisateur
+  Email: Email
+  Password: Mot de passe
+  Roles: Rôles
+  Administrator: Administrateur
+  User: Utilisateur
+  Users List: Liste des utilisateurs
+
+Dashboard:
+  Welcome: Bienvenue
+
+Home:
+  Homepage: Page d'accueil
+  Welcome: Bienvenue
+
+Company:
+  Id: N°
+  CompanyStatus: Statut
+  Name: Nom
+  Siret: SIRET
+  VatNumber: Numéro de TVA
+  EmailCompany: Email
+  PhoneCompany: Téléphone
+  Website: Site web
+  AddressLine1: Adresse ligne 1
+  AddressLine2: Adresse ligne 2
+  PostalCode: Code postal
+  City: Ville
+  CountryCode: Code pays
+  Notes: Notes
+  BillingContactId: Contact de facturation
+  CreatedAt: Créé le
+  UpdatedAt: Mis à jour le
+  Add: Ajouter une entreprise
+  Update: Mettre à jour l'entreprise
+  View: Voir l'entreprise
+  List: Liste des entreprises
+  Select a country: Sélectionner un pays
+
+Contact:
+  Name: Nom / Société
+  NameExample: Ex. Dupont SARL
+  Email: Email
+  MailExample: vous@entreprise.com
+  Phone: Téléphone
+  PhoneExample: 06 12 34 56 78
+  WhatKind: Vous êtes
+  Select: Sélectionner
+  Need: Votre besoin
+  NeedExample: Décrivez votre demande...
+  Type:
+    Individual: Particulier
+    Association: Association
+    Company: Entreprise
+    Collectivity: Collectivité

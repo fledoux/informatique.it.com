@@ -1,0 +1,25 @@
+{% extends 'base_center.html.twig' %}
+{% block title %}
+	{{ 'Login.Connect'|trans|raw }}
+{% endblock %}
+
+{% block body %}
+	<div class="card rounded-4 shadow m-3">
+		<div class="card-body">
+		<img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="Mon Support by Yellow Cactus" class="d-inline-block align-text-top mb-2 mx-3">
+			<h5 class="card-title py-3">
+				<i class="fa-regular fa-shield-keyhole"></i>
+				{{ 'Login.Please log in'|trans|raw }}</h5>
+			{{ form_start(loginForm, { action: path('app_login') }) }}
+			{{ form_row(loginForm._username) }}
+			{{ form_row(loginForm._password) }}
+			{{ form_row(loginForm._remember_me) }}
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+			<button class="btn btn-orange w-100 my-3">{{ 'Login.Connect'|trans|raw }}</button>
+			{{ form_end(loginForm) }}
+			<p>
+				<a href="{{ path('app_home') }}" class="btn btn-link p-0 float-end text-secondary">{{ 'Global.Cancel'|trans|raw }}</a>
+			</p>
+		</div>
+	</div>
+{% endblock %}
