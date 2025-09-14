@@ -1,0 +1,21 @@
+RewriteEngine On
+
+# Support des tokens Authorization
+RewriteCond %{HTTP:Authorization} .
+RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Réécriture vers index.php sauf si fichier ou dossier physique
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Headers de sécurité
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options nosniff
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Bloquer accès fichiers sensibles
+<FilesMatch "\.(env|lock|gitignore|htaccess|yaml|yml|twig)$">
+    Require all denied
+</FilesMatch>
