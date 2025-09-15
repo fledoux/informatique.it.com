@@ -75,7 +75,7 @@
 				      <i class="fa-regular fa-user-gear"></i>
 				    </div>
 				    <h5 class="fw-bold">Expertise</h5>
-				    <p class="text-secondary mb-0">Microsoft 365, Google Workspace, réseaux, sécurité : une équipe polyvalente et certifiée.</p>
+				    <p class="text-secondary mb-0">Microsoft 365, Google Workspace, réseaux, sécurité : une équipe polyvalente et certifiée.</p>
 				  </div>
 				</div>
 
@@ -85,7 +85,7 @@
 				      <i class="fa-regular fa-sliders"></i>
 				    </div>
 				    <h5 class="fw-bold">Flexibilité</h5>
-				    <p class="text-secondary mb-0">Tickets, packs ou contrat : vous choisissez le mode d’engagement qui vous convient.</p>
+				    <p class="text-secondary mb-0">Tickets, packs ou contrat : vous choisissez le mode d’engagement qui vous convient.</p>
 				  </div>
 				</div>
 			</div>
@@ -113,7 +113,7 @@
 							<li class="mb-2">
 								<i class="fa-regular fa-check text-success me-2"></i>Formation courte sur vos outils</li>
 						</ul>
-						<a href="#tarifs" class="btn btn-outline-orange">Voir tarifs</a>
+						<a href="#tarifs" class="btn btn-outline-orange w-100 w-sm-auto">Voir tarifs</a>
 					</div>
 				</div>
 				<div class="col-lg-4">
@@ -133,7 +133,7 @@
 							<li class="mb-2">
 								<i class="fa-regular fa-check text-success me-2"></i>Rapports mensuels & KPIs</li>
 						</ul>
-						<a href="#contact" class="btn btn-orange">Demander une proposition</a>
+						<a href="#contact" class="btn btn-orange w-100 w-sm-auto">Demander nous<span class="d-none d-sm-inline"> une proposition</span></a>
 					</div>
 				</div>
 				<div class="col-lg-4">
@@ -151,7 +151,7 @@
 							<li class="mb-2">
 								<i class="fa-regular fa-check text-success me-2"></i>Formation anti-phishing</li>
 						</ul>
-						<a href="#contact" class="btn btn-outline-orange">Plan d’action</a>
+						<a href="#contact" class="btn btn-outline-orange w-100 w-sm-auto">Plan d’action</a>
 					</div>
 				</div>
 			</div>
@@ -175,7 +175,7 @@
 								<span class="text-secondary small" data-suffix="ticket">/ ticket H.T. (30 min), valable 1 an.</span>
 							</div>
 						</div>
-						<a href="{{ path('app_dashboard') }}" class="btn btn-outline-dark mt-3 mt-md-0">Souscrire</a>
+						<a href="{{ path('app_dashboard') }}" class="btn btn-outline-dark w-100 w-sm-auto mt-3 mt-md-0">Souscrire</a>
 					</div>
 				</div>
 				<div class="col-md-12 col-lg-6">
@@ -301,7 +301,7 @@
 				<!-- Col: Unités de 30 minutes -->
 				<div class="col-lg-6">
 					<div class="p-4 bg-dark bg-opacity-25 rounded-4 shadow-soft h-100">
-						<div class="d-flex align-items-start gap-3 mb-2">
+						<div class="d-flex flex-column flex-sm-row align-items-start gap-3 mb-2">
 							<div class="feature-icon">
 								<i class="fa-regular fa-stopwatch"></i>
 							</div>
@@ -326,7 +326,7 @@
 
 				<div class="col-lg-6">
 					<div class="p-4 bg-white border rounded-4 shadow-soft h-100">
-						<div class="d-flex align-items-start gap-3 mb-3">
+						<div class="d-flex flex-column flex-sm-row align-items-start gap-3 mb-2">
 							<div class="feature-icon">
 								<i class="fa-regular fa-clock-rotate-left"></i>
 							</div>
@@ -455,7 +455,7 @@
 							</div>
 						</div>
 						<div class="mt-5">
-							<button type="button" id="calcReset" class="btn btn-sm btn-outline-orange">
+							<button type="button" id="calcReset" class="btn btn-outline-orange w-100 w-sm-auto">
 								<i class="fa-regular fa-rotate-left me-1"></i>Réinitialiser
 							</button>
 						</div>
@@ -470,19 +470,19 @@
 							<span class="totalEnHeure"></span>
 							d'intervention</h5>
 						<div class="d-flex flex-wrap align-items-center gap-3 mb-3">
-							<div class="p-2 px-3 border border-2 rounded-4 text-center text-uppercase fw-bold">
+							<div class="p-2 px-3 border border-2 rounded-4 text-center text-uppercase fw-bold w-100 w-sm-auto">
 								<small class="text-muted">Base :
 									<span class="fw-bold" id="outBase">0</span>
 									<i class="fa-regular fa-ticket ms-1"></i>
 								</small>
 							</div>
-							<div class="p-2 px-3 border border-2 rounded-4 text-center text-uppercase fw-bold text-muted">
+							<div class="p-2 px-3 border border-2 rounded-4 text-center text-uppercase fw-bold text-muted w-100 w-sm-auto">
 								<small>+ Majoration :
 									<span class="fw-bold" id="outExtra">0</span>
 									<i class="fa-regular fa-ticket ms-1"></i>
 								</small>
 							</div>
-							<div class="p-2 px-3 border border-2 border-orange rounded-4 text-center text-uppercase bg-light fw-bold text-orange">
+							<div class="p-2 px-3 border border-2 border-orange rounded-4 text-center text-uppercase bg-light fw-bold text-orange w-100 w-sm-auto">
 								<small class="">Total :
 									<span class="fw-bold" id="outTotal">0</span>
 									<i class="fa-regular fa-ticket ms-1 text-orange"></i>
@@ -594,7 +594,8 @@
 			<div class="hero rounded-4 p-4">
 				<div class="row mt-0">
 					<div class="col-md-8 mx-auto">
-						<div class="p-4 bg-white border border-2 rounded-4 shadow-soft d-flex align-items-center justify-content-between">
+
+						<div class="d-flex flex-column flex-sm-row align-items-center gap-3 mb-2">
 							<div>
 								<h6 class="fw-bold mb-1 text-orange">Connexion à distance avec TeamViewer</h6>
 								<p class="text-secondary mb-0 small">Nous utilisons
@@ -738,7 +739,7 @@
 	<!-- AVIS -->
 	<section class="py-5">
 		<div class="container">
-			<h2 class="section-title text-center">Ce que disent nos clients</h2>
+			<h2 class="section-title text-center">Ce que disent nos&nbsp;clients</h2>
 			<div class="gradient-bar"></div>
 			<div class="row g-4 mt-1">
 				<div class="col-md-4">
@@ -919,7 +920,7 @@
 	<!-- CONTACT -->
 	<section id="contact" class="py-5">
 		<div class="container">
-			<h2 class="section-title text-center">Parlons de vos besoins</h2>
+			<h2 class="section-title text-center">Parlons de vos&nbsp;besoins</h2>
 			<div class="gradient-bar"></div>
 			<div class="row g-4 mt-1">
 				<div class="col-lg-7">
@@ -954,7 +955,7 @@
 								<div class="col-12 d-grid d-md-flex gap-2">
 									<button type="submit" class="btn btn-orange">
 										<i class="fa-regular fa-paper-plane me-2"></i>
-										Envoyer ma demande
+										Envoyer<span class="d-none d-sm-inline"> ma demande</span>
 									</button>
 									<a href="tel:+33149662177" class="btn btn-outline-orange">
 										<i class="fa-regular fa-phone me-2"></i>
@@ -973,7 +974,7 @@
 						{% else %}
 							<div class="alert alert-warning mb-0" role="alert">
 								Le formulaire est momentanément indisponible. Vous pouvez nous joindre au
-								<a href="tel:+33149662177" class="alert-link">01 49 66 21 77</a>
+								<a href="tel:+33149662177" class="alert-link">01 49 66 21 77</a>
 								ou par
 								<a href="mailto:contact@mon-support.fr" class="alert-link">email</a>.
 							</div>
@@ -995,14 +996,14 @@
 						<hr class="my-4">
 						<h6 class="fw-bold">Besoin urgent ?</h6>
 						<p class="mb-2">Activez un ticket prioritaire :</p>
-						<a href="{{ path('app_dashboard') }}" class="btn btn-orange">
+						<a href="{{ path('app_dashboard') }}" class="btn btn-orange w-100 w-sm-auto">
 							<i class="fa-regular fa-ticket me-1"></i>
 							Ouvrir un ticket
 						</a>
 						<hr class="my-4">
-						<img src="{{ asset('assets/img/logo/tv-logo.svg') }}" alt="TeamViewer" style="height:30px;">
+						<img src="{{ asset('assets/img/logo/tv-logo.svg') }}" alt="TeamViewer" class="img-fluid logo-tv">
 						<p class="mt-4">
-							<a href="https://get.teamviewer.com/78369w6g" target="_blank" class="btn btn-primary"><i class="fa-regular fa-arrow-down-to-line"></i> Obtenir le logiciel TeamViewer</a>
+							<a href="https://get.teamviewer.com/78369w6g" target="_blank" class="btn btn-primary w-100 w-sm-auto"><i class="fa-regular fa-arrow-down-to-line"></i> Obtenir<span class="d-none d-sm-inline"> le logiciel</span> TeamViewer</a>
 						</p>
 					</div>
 				</div>

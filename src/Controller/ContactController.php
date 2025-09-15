@@ -10,10 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/contact')]
 final class ContactController extends AbstractController
 {
+    #[IsGranted('PUBLIC_SUPER_ADMIN')]
     #[Route(name: 'app_contact_index', methods: ['GET'])]
     public function index(ContactRepository $contactRepository): Response
     {
@@ -22,12 +24,14 @@ final class ContactController extends AbstractController
         ]);
     }
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/thanks', name: 'app_contact_thanks', methods: ['GET'])]
     public function __invoke(): Response
     {
         return $this->render('contact/thanks.html.twig');
     }
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/new', name: 'app_contact_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -48,6 +52,7 @@ final class ContactController extends AbstractController
         ]);
     }
 
+    #[IsGranted('PUBLIC_SUPER_ADMIN')]
     #[Route('/{id}', name: 'app_contact_show', methods: ['GET'])]
     public function show(Contact $contact): Response
     {
@@ -56,6 +61,7 @@ final class ContactController extends AbstractController
         ]);
     }
 
+    #[IsGranted('PUBLIC_SUPER_ADMIN')]
     #[Route('/{id}/edit', name: 'app_contact_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
     {
@@ -74,6 +80,7 @@ final class ContactController extends AbstractController
         ]);
     }
 
+    #[IsGranted('PUBLIC_SUPER_ADMIN')]
     #[Route('/{id}', name: 'app_contact_delete', methods: ['POST'])]
     public function delete(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
     {

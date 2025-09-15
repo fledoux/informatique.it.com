@@ -103,6 +103,18 @@ footer a { text-decoration: none; }
 .form-control::-ms-input-placeholder, input::-ms-input-placeholder, textarea::-ms-input-placeholder { color: var(--placeholder) !important; }
 .form-control:-ms-input-placeholder, input:-ms-input-placeholder, textarea:-ms-input-placeholder { color: var(--placeholder) !important; }
 
-@media (max-width: 576px) {
-  .hero, .hero-33, .hero-50 { --hero-rx: 1200px; --hero-ry: 600px; --hero-posx: 60%; --hero-posy: -30%; --hero-stop: 75%; }
-}
+@media (max-width: 576px) {.hero, .hero-33, .hero-50 { --hero-rx: 1200px; --hero-ry: 600px; --hero-posx: 60%; --hero-posy: -30%; --hero-stop: 75%; }}
+
+/* Brand logo responsive sizing */
+.navbar-brand .brand-logo { height: 60px; width: auto; }
+@media (max-width: 1200px) { .navbar-brand .brand-logo { height: 40px; } }
+@media (max-width: 992px)  { .navbar-brand .brand-logo { height: 56px; } }
+@media (max-width: 768px)  { .navbar-brand .brand-logo { height: 48px; } }
+@media (max-width: 576px)  { .navbar-brand .brand-logo { height: 40px; } }
+
+/* Responsive width helper: full on XS, auto from SM */
+@media (min-width: 576px) {.w-sm-auto { width: auto !important; }}
+
+/* TeamViewer inline logo sizing */
+.logo-tv { max-width: 220px; height: auto; }
+@media (max-width: 575.98px) { .logo-tv { max-width: 150px; } }

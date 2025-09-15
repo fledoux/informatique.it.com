@@ -2,9 +2,9 @@
 <nav class="navbar navbar-expand-lg bg-white sticky-top shadow-sm">
 	<div class="container">
 		<a class="navbar-brand fw-bold" href="#">
-			<img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="Mon Support by Yellow Cactus" height=" 60" class="d-inline-block align-text-top">
+			<img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="informatique.it.com" class="brand-logo d-inline-block align-text-top">
 		</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+		<button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div id="navMain" class="collapse navbar-collapse">
@@ -21,19 +21,19 @@
 				<li class="nav-item">
 					<a class="nav-link" href="#faq">FAQ</a>
 				</li>
-				<li class="nav-item ms-lg-2">
-					<a class="btn btn-orange" href="#contact">
+				<li class="nav-item ms-lg-2 mb-2">
+					<a class="btn btn-orange w-100" href="#contact">
 						<i class="fa-solid fa-bolt me-1"></i>
 						Devis gratuit</a>
 				</li>
-				<li class="nav-item ms-lg-2">
-					<a class="ms-auto btn btn-outline-orange" href="{{ path('app_register') }}">
+				<li class="nav-item ms-lg-2 mb-2">
+					<a class="ms-auto btn btn-outline-orange w-100" href="{{ path('app_register') }}">
 						<i class="fa-regular fa-address-card"></i>
 						{{ 'Nav.Register'|trans|raw }}
 					</a>
 				</li>
-				<li class="nav-item ms-lg-2">
-					<a class="btn btn-outline-secondary" href="{{ path('app_login') }}">
+				<li class="nav-item ms-lg-2 mb-2">
+					<a class="btn btn-outline-secondary w-100" href="{{ path('app_login') }}">
 						<i class="fa-regular fa-arrow-right-to-bracket"></i>
 						{{ 'Nav.Connect'|trans|raw }}
 					</a>
