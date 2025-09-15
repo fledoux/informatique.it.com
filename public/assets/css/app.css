@@ -118,3 +118,18 @@ footer a { text-decoration: none; }
 /* TeamViewer inline logo sizing */
 .logo-tv { max-width: 220px; height: auto; }
 @media (max-width: 575.98px) { .logo-tv { max-width: 150px; } }
+
+/* Logos slider */
+.logo-track { display: flex; align-items: center; gap: 3rem; width: max-content; will-change: transform; }
+.logo-track img { height: 38px; max-height: 38px; width: auto; opacity: .8; filter: grayscale(100%); transition: .2s; }
+.logo-track img:hover { filter: grayscale(0%); opacity: 1; }
+/* JS handles motion; keep CSS keyframes disabled */
+@media (max-width: 575.98px) { .logo-track { gap: 2rem; } .logo-track img { height: 38px; max-height: 38px; }}
+
+.logo-scroller { position: relative; overflow: hidden; }
+.logo-track img { height: 48px; max-height: 48px; width: auto; opacity: .8; filter: grayscale(100%); transition: .2s; }
+.logo-track img:hover { filter: grayscale(0%); opacity: 1; }
+/* Ceinture pour le slider JS */
+.logo-belt { display: flex; gap: 3rem; will-change: transform; }
+.logo-belt .logo-track { display: flex; align-items: center; gap: 3rem; }
+@media (max-width: 575.98px) { .logo-belt, .logo-belt .logo-track { gap: 2rem; } }
