@@ -50,43 +50,43 @@
 				</div>
 
 				<div class="col-md-6 col-lg-3">
-				  <div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
-				    <div class="feature-icon mb-3 mx-auto mx-sm-0">
-				      <i class="fa-regular fa-shield-heart"></i>
-				    </div>
-				    <h5 class="fw-bold">Fiabilité</h5>
-				    <p class="text-secondary mb-0">SLA, process documentés, suivi d’incidents. Un service qui tient ses promesses.</p>
-				  </div>
+					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+						<div class="feature-icon mb-3 mx-auto mx-sm-0">
+							<i class="fa-regular fa-shield-heart"></i>
+						</div>
+						<h5 class="fw-bold">Fiabilité</h5>
+						<p class="text-secondary mb-0">SLA, process documentés, suivi d’incidents. Un service qui tient ses promesses.</p>
+					</div>
 				</div>
 
 				<div class="col-md-6 col-lg-3">
-				  <div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
-				    <div class="feature-icon mb-3 mx-auto mx-sm-0">
-				      <i class="fa-regular fa-magnifying-glass-chart"></i>
-				    </div>
-				    <h5 class="fw-bold">Transparence</h5>
-				    <p class="text-secondary mb-0">Tableaux de bord, comptes rendus clairs, indicateurs utiles – pas de jargon inutile.</p>
-				  </div>
+					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+						<div class="feature-icon mb-3 mx-auto mx-sm-0">
+							<i class="fa-regular fa-magnifying-glass-chart"></i>
+						</div>
+						<h5 class="fw-bold">Transparence</h5>
+						<p class="text-secondary mb-0">Tableaux de bord, comptes rendus clairs, indicateurs utiles – pas de jargon inutile.</p>
+					</div>
 				</div>
 
 				<div class="col-md-6 col-lg-3">
-				  <div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
-				    <div class="feature-icon mb-3 mx-auto mx-sm-0">
-				      <i class="fa-regular fa-user-gear"></i>
-				    </div>
-				    <h5 class="fw-bold">Expertise</h5>
-				    <p class="text-secondary mb-0">Microsoft 365, Google Workspace, réseaux, sécurité : une équipe polyvalente et certifiée.</p>
-				  </div>
+					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+						<div class="feature-icon mb-3 mx-auto mx-sm-0">
+							<i class="fa-regular fa-user-gear"></i>
+						</div>
+						<h5 class="fw-bold">Expertise</h5>
+						<p class="text-secondary mb-0">Microsoft 365, Google Workspace, réseaux, sécurité : une équipe polyvalente et certifiée.</p>
+					</div>
 				</div>
 
 				<div class="col-md-6 col-lg-3">
-				  <div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
-				    <div class="feature-icon mb-3 mx-auto mx-sm-0">
-				      <i class="fa-regular fa-sliders"></i>
-				    </div>
-				    <h5 class="fw-bold">Flexibilité</h5>
-				    <p class="text-secondary mb-0">Tickets, packs ou contrat : vous choisissez le mode d’engagement qui vous convient.</p>
-				  </div>
+					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+						<div class="feature-icon mb-3 mx-auto mx-sm-0">
+							<i class="fa-regular fa-sliders"></i>
+						</div>
+						<h5 class="fw-bold">Flexibilité</h5>
+						<p class="text-secondary mb-0">Tickets, packs ou contrat : vous choisissez le mode d’engagement qui vous convient.</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -133,7 +133,9 @@
 							<li class="mb-2">
 								<i class="fa-regular fa-check text-success me-2"></i>Rapports mensuels & KPIs</li>
 						</ul>
-						<a href="#contact" class="btn btn-orange w-100 w-sm-auto">Demander nous<span class="d-none d-sm-inline"> une proposition</span></a>
+						<a href="#contact" class="btn btn-orange w-100 w-sm-auto">Demander nous<span class="d-none d-sm-inline">
+								une proposition</span>
+						</a>
 					</div>
 				</div>
 				<div class="col-lg-4">
@@ -490,6 +492,18 @@
 							</div>
 						</div>
 
+						{# Aide au scroll – visible uniquement en petit écran #}
+						<div class="d-sm-none p-2 mb-3 text-center bg-orange text-white border rounded-4">
+							<i class="fa-regular fa-arrows-left-right me-1 fa-2xl"></i><br>
+							Faites glisser horizontalement<br>pour voir la suite
+						</div>
+
+						{# Ajoute la classe scroll-shadow au wrapper #}
+						<div class="table-responsive scroll-shadow">
+							<table
+								class="table border border-2 border-secondary align-middle mb-0">{# ... le contenu de la table reste inchangé ... #}
+							</table>
+						</div>
 
 						<div class="table-responsive">
 							<table class="table border border-2 border-secondary align-middle mb-0">
@@ -955,7 +969,8 @@
 								<div class="col-12 d-grid d-md-flex gap-2">
 									<button type="submit" class="btn btn-orange">
 										<i class="fa-regular fa-paper-plane me-2"></i>
-										Envoyer<span class="d-none d-sm-inline"> ma demande</span>
+										Envoyer<span class="d-none d-sm-inline">
+											ma demande</span>
 									</button>
 									<a href="tel:+33149662177" class="btn btn-outline-orange">
 										<i class="fa-regular fa-phone me-2"></i>
@@ -1003,7 +1018,11 @@
 						<hr class="my-4">
 						<img src="{{ asset('assets/img/logo/tv-logo.svg') }}" alt="TeamViewer" class="img-fluid logo-tv">
 						<p class="mt-4">
-							<a href="https://get.teamviewer.com/78369w6g" target="_blank" class="btn btn-primary w-100 w-sm-auto"><i class="fa-regular fa-arrow-down-to-line"></i> Obtenir<span class="d-none d-sm-inline"> le logiciel</span> TeamViewer</a>
+							<a href="https://get.teamviewer.com/78369w6g" target="_blank" class="btn btn-primary w-100 w-sm-auto">
+								<i class="fa-regular fa-arrow-down-to-line"></i>
+								Obtenir<span class="d-none d-sm-inline">
+									le logiciel</span>
+								TeamViewer</a>
 						</p>
 					</div>
 				</div>

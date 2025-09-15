@@ -133,3 +133,21 @@ footer a { text-decoration: none; }
 .logo-belt { display: flex; gap: 3rem; will-change: transform; }
 .logo-belt .logo-track { display: flex; align-items: center; gap: 3rem; }
 @media (max-width: 575.98px) { .logo-belt, .logo-belt .logo-track { gap: 2rem; } }
+
+/* Scroll hint gradient for responsive tables */
+.scroll-shadow { position: relative; }
+@media (max-width: 767.98px) {
+  .scroll-shadow { overflow: auto; }
+  .scroll-shadow::after {
+    content: "";
+    position: sticky;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 36px;
+    display: block;
+    float: right;
+    background: linear-gradient(270deg, rgba(255,255,255,1), rgba(255,255,255,0));
+    pointer-events: none;
+  }
+}
