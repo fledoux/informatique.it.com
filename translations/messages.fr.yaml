@@ -7,6 +7,10 @@ Btn:
   View: <i class="fa-regular fa-eye"></i> Visualiser
   Edit: <i class="fa-regular fa-edit"></i> Editer
   Delete: <i class="ms-2 fa-regular fa-trash-can"></i>
+  ViewAll: <i class="fa-regular fa-list"></i> Voir tout
+  NewTicket: <i class="fa-regular fa-plus-square"></i> Nouvelle demande
+  NewContact: <i class="fa-regular fa-user-plus"></i> Nouveau contact
+  NewCompany: <i class="fa-regular fa-building"></i> Nouvelle entreprise
 Btn Icon Only:
   New: <i class="fa-regular fa-plus-square"></i>
   Back: <i class="fa-regular fa-reply"></i>
@@ -14,6 +18,10 @@ Btn Icon Only:
   View: <i class="fa-regular fa-eye"></i>
   Edit: <i class="fa-regular fa-edit"></i>
   Delete: <i class="ms-2 fa-regular fa-trash-can"></i>
+  ViewAll: <i class="fa-regular fa-list"></i>
+  NewTicket: <i class="fa-regular fa-plus-square"></i>
+  NewContact: <i class="fa-regular fa-user-plus"></i>
+  NewCompany: <i class="fa-regular fa-building"></i>
 
 Company:
   Id: N°
@@ -61,7 +69,15 @@ Contact:
     Collectivity: Collectivité
 
 Dashboard:
-  Welcome: Bienvenue
+  Welcome: <span class="d-none d-sm-inline">Bienvenue sur votre support</span><span class="d-inline d-sm-none">Votre support</span>
+  RecentTickets: 20 Dernières demandes
+  KPI:
+    Open: Ouverts
+    Tickets: Tickets
+    Waiting: En attente
+    Overdue: Délai dépassé
+    Contacts: Contacts
+    Companies: Entreprises
 
 Home:
   Homepage: Page d'accueil
@@ -134,6 +150,13 @@ Ticket:
     resolved: "Résolu"
     closed: "Clôturé"
     canceled: "Annulé"
+  statusClass:
+    new: secondary
+    in_progress: danger
+    waiting: warning
+    resolved: success
+    closed: dark
+    canceled: secondary
   priority:
     low: "Basse"
     normal: "Normale"
