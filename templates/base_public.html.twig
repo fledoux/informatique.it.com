@@ -25,22 +25,20 @@
 			</main>
 		</div>
 
-		<div class="container-fluid">
-			<footer class="mt-5">
-				<div class="bg-white px-3 py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
-					<a href="https://www.yellowcactus.com" target="_blank"><img src="{{ asset('assets/img/logo/yellowcactus_logo_bw.svg') }}" alt="Yellow Cactus" style="height:24px;" class="ms-2"></a>
-					<div class="small text-muted">©
-						{{ "now"|date("Y") }},
-						<a href="https://www.yellowcactus.com" target="_blank" class="text-orange">Yellow Cactus</a>. <a href="/" class="text-orange">informatique.it.com</a> est une marque de
-						<a href="https://www.yellowcactus.com" target="_blank" class="text-orange">Yellow Cactus</a>. Tous droits réservés.</div>
-					<div class="small">
-						<a href="{{ path('app_legal') }}" class="me-3 text-orange">Mentions légales</a>
-						<a href="{{ path('app_rgpd') }}" class="me-3 text-orange">RGPD</a>
-						<a href="{{ path('app_cgv') }}" class="text-orange">CGV</a>
-					</div>
+		<footer class="mt-5 px-5 bg-white">
+			<div class="container-fluid px-0 py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
+				<a href="https://www.yellowcactus.com" target="_blank"><img src="{{ asset('assets/img/logo/yellowcactus_logo_bw.svg') }}" alt="Yellow Cactus" style="height:24px;" class="ms-2"></a>
+				<div class="small text-muted">©
+					{{ "now"|date("Y") }},
+					<a href="https://www.yellowcactus.com" target="_blank" class="text-orange">Yellow Cactus</a>. <a href="/" class="text-orange">informatique.it.com</a> est une marque de
+					<a href="https://www.yellowcactus.com" target="_blank" class="text-orange">Yellow Cactus</a>. Tous droits réservés.</div>
+				<div class="small">
+					<a href="{{ path('app_legal') }}" class="me-3 text-orange">Mentions légales</a>
+					<a href="{{ path('app_rgpd') }}" class="me-3 text-orange">RGPD</a>
+					<a href="{{ path('app_cgv') }}" class="text-orange">CGV</a>
 				</div>
-			</footer>
-		</div>
+			</div>
+		</footer>
 
 	</body>
 </html>
