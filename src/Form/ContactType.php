@@ -35,10 +35,10 @@ class ContactType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'label' => 'Contact.WhatKind',
                 'choices' => [
-                    'Contact.Type.Individual' => 'Particulier',
+                    'Contact.Type.Individual' => 'Individual',
                     'Contact.Type.Association' => 'Association',
-                    'Contact.Type.Company' => 'Entreprise',
-                    'Contact.Type.Collectivity' => 'Collectivité',
+                    'Contact.Type.Company' => 'Company',
+                    'Contact.Type.Collectivity' => 'Collectivity',
                 ],
                 'placeholder' => 'Contact.Select',
                 'required' => true

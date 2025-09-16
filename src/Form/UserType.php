@@ -102,13 +102,13 @@ class UserType extends AbstractType
             ->add('isVerified', CheckboxType::class, [
                 'label' => 'User.IsVerified',
                 'required' => false,
-                'row_attr'   => ['class' => 'mb-3 col-12 col-lg-3'],
+                'row_attr'   => ['class' => 'mb-3 col-12 col-lg-12'],
                 'label_attr' => ['class' => 'form-check-label'],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'User.AgreeTerms',
                 'required' => false,
-                'row_attr'   => ['class' => 'mb-3 col-12 col-lg-3'],
+                'row_attr'   => ['class' => 'mb-3 col-12 col-lg-12'],
                 'label_attr' => ['class' => 'form-check-label'],
             ])
 
@@ -130,7 +130,7 @@ class UserType extends AbstractType
                 'required' => false,
                 'row_attr'   => ['class' => 'mb-3 col-12'],
                 'label_attr' => ['class' => 'form-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control', 'rows' => 6],
             ])
 
             // Champs techniques — en lecture seule (non mappés) si tu veux les afficher

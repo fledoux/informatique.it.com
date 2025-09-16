@@ -4,7 +4,7 @@
 		<label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}" {% endfor %}>
 			{{ label|trans({}, translation_domain) }}
 			{% if required %}
-				<span class="text-danger">*</span>
+				<span class="text-orange">*</span>
 			{% endif %}
 		</label>
 	{% endif %}

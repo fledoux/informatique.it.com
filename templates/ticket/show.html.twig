@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'Ticket.View'|trans|raw }}{% endblock %}
+{% block body %}
+<h1>{{ 'Ticket.View'|trans|raw }}</h1>
+<dl class="row">
+  <dt class="col-sm-3">Id</dt>
+  <dd class="col-sm-9">{{ ticket.id }}</dd>
+  <dt class="col-sm-3">Ticket_status</dt>
+  <dd class="col-sm-9">{{ ticket.ticket_status }}</dd>
+  <dt class="col-sm-3">Priority</dt>
+  <dd class="col-sm-9">{{ ticket.priority }}</dd>
+  <dt class="col-sm-3">Company_id</dt>
+  <dd class="col-sm-9">{{ ticket.company_id }}</dd>
+  <dt class="col-sm-3">Created_by_id</dt>
+  <dd class="col-sm-9">{{ ticket.created_by_id }}</dd>
+  <dt class="col-sm-3">Assigned_to_id</dt>
+  <dd class="col-sm-9">{{ ticket.assigned_to_id }}</dd>
+  <dt class="col-sm-3">Assigned_at</dt>
+  <dd class="col-sm-9">{{ ticket.assigned_at }}</dd>
+  <dt class="col-sm-3">Code_folder</dt>
+  <dd class="col-sm-9">{{ ticket.code_folder }}</dd>
+  <dt class="col-sm-3">Subject</dt>
+  <dd class="col-sm-9">{{ ticket.subject }}</dd>
+  <dt class="col-sm-3">Question</dt>
+  <dd class="col-sm-9">{{ ticket.question }}</dd>
+  <dt class="col-sm-3">Due_at</dt>
+  <dd class="col-sm-9">{{ ticket.due_at }}</dd>
+  <dt class="col-sm-3">Is_billable</dt>
+  <dd class="col-sm-9">{{ ticket.is_billable }}</dd>
+  <dt class="col-sm-3">Created_at</dt>
+  <dd class="col-sm-9">{{ ticket.created_at }}</dd>
+  <dt class="col-sm-3">Updated_at</dt>
+  <dd class="col-sm-9">{{ ticket.updated_at }}</dd>
+</dl>
+<div class="btn-group" role="group" aria-label="Basic example">
+<a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="btn btn-orange">Modifier</a>
+<a href="{{ path('app_ticket_index') }}" class="btn btn-outline-orange">Retour</a>
+</div>
+{% endblock %}

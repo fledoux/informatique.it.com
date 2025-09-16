@@ -65,7 +65,7 @@ class CrudBootstrapCommand extends Command
 {% block body %}
 <h1 class="mb-4">{{ '$entity.List'|trans|raw }}</h1>
 <div class="table-responsive-lg">
-<table class="table align-middle table-sm table-bordered table-hover">
+<table class="table align-middle table-xs table-bordered table-hover">
   <thead>
     <tr>
 $theadHtml
@@ -77,8 +77,8 @@ $theadHtml
       <tr>
 $tbodyHtml
         <td>
-          <a href="{{ path('app_{$entityRoute}_show', {'id': item.id}) }}" class="btn btn-link text-decoration-none text-primary">{{ 'Btn.View'|trans|raw }}</a>
-          <a href="{{ path('app_{$entityRoute}_edit', {'id': item.id}) }}" class="btn btn-link text-decoration-none text-primary">{{ 'Btn.Edit'|trans|raw }}</a>
+          <a href="{{ path('app_{$entityRoute}_show', {'id': item.id}) }}" class="btn btn-link text-decoration-none text-orange">{{ 'Btn.View'|trans|raw }}</a>
+          <a href="{{ path('app_{$entityRoute}_edit', {'id': item.id}) }}" class="btn btn-link text-decoration-none text-orange">{{ 'Btn.Edit'|trans|raw }}</a>
           {% include '{$entityRoute}/_delete_form.html.twig' with { '{$entityRoute}': item } %}
         </td>
       </tr>
@@ -94,8 +94,8 @@ TWIG,
 {{ form_start(form) }}
   {{ form_widget(form) }}
    <div class="btn-group mt-3" role="group" aria-label="Basic example">
-<button class="btn btn-danger">{{ 'Btn.Save'|trans|raw }}</button>
-<a href="{{ path('app_{$entityRoute}_index') }}" class="btn btn-outline-danger">{{ 'Btn.Back'|trans|raw }}</a>
+<button class="btn btn-primary">{{ 'Btn.Save'|trans|raw }}</button>
+<a href="{{ path('app_{$entityRoute}_index') }}" class="btn btn-outline-primary">{{ 'Btn.Back'|trans|raw }}</a>
 </div>
 {{ form_end(form) }}
 TWIG,
@@ -138,7 +138,7 @@ TWIG,
       onsubmit="return confirm('{{ 'Are you sure you want to delete this item'|trans|raw }}');"
       style="display:inline">
   <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ {$entityVar}|raw.id) }}">
-  <button class="btn btn-link text-decoration-none text-danger p-0">
+  <button class="btn btn-link text-decoration-none text-orange p-0">
     {{ 'Btn.Delete'|trans|raw }}
   </button>
 </form>

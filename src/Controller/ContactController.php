@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/contact')]
 final class ContactController extends AbstractController
 {
-    #[IsGranted('PUBLIC_SUPER_ADMIN')]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route(name: 'app_contact_index', methods: ['GET'])]
     public function index(ContactRepository $contactRepository): Response
     {
@@ -52,7 +52,7 @@ final class ContactController extends AbstractController
         ]);
     }
 
-    #[IsGranted('PUBLIC_SUPER_ADMIN')]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route('/{id}', name: 'app_contact_show', methods: ['GET'])]
     public function show(Contact $contact): Response
     {
@@ -61,7 +61,7 @@ final class ContactController extends AbstractController
         ]);
     }
 
-    #[IsGranted('PUBLIC_SUPER_ADMIN')]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route('/{id}/edit', name: 'app_contact_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
     {
@@ -80,7 +80,7 @@ final class ContactController extends AbstractController
         ]);
     }
 
-    #[IsGranted('PUBLIC_SUPER_ADMIN')]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route('/{id}', name: 'app_contact_delete', methods: ['POST'])]
     public function delete(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
     {

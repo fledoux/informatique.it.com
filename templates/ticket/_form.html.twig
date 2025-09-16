@@ -1,0 +1,24 @@
+{# /Users/fledoux/Sites/informatique.it.com/templates/ticket/_form.html.twig #}
+{{ form_start(form) }}
+
+{{ form_row(form.ticket_status) }}
+{{ form_row(form.priority) }}
+
+{{ form_row(form.company_id) }}
+{{ form_row(form.created_by_id) }}
+{{ form_row(form.assigned_to_id) }}
+
+{{ form_row(form.due_at) }}
+
+{{ form_row(form.code_folder) }}
+{{ form_row(form.subject) }}
+{{ form_row(form.question) }}
+
+{{ form_row(form.is_billable) }}
+
+<div class="btn-group mt-3" role="group" aria-label="Basic example">
+	<button class="btn btn-primary">{{ 'Btn.Save'|trans|raw }}</button>
+	<a href="{{ path('app_ticket_index') }}" class="btn btn-outline-primary">{{ 'Btn.Back'|trans|raw }}</a>
+</div>
+
+{{ form_end(form) }}

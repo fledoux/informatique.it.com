@@ -76,9 +76,16 @@ class Company
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'companyId')]
     private Collection $users;
 
+    /**
+     * @var Collection<int, Ticket>
+     */
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'company_id', orphanRemoval: true)]
+    private Collection $tickets;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -301,6 +308,36 @@ class Company
             // set the owning side to null (unless already changed)
             if ($user->getCompanyId() === $this) {
                 $user->setCompanyId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ticket>
+     */
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    public function addTicket(Ticket $ticket): static
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets->add($ticket);
+            $ticket->setCompanyId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(Ticket $ticket): static
+    {
+        if ($this->tickets->removeElement($ticket)) {
+            // set the owning side to null (unless already changed)
+            if ($ticket->getCompanyId() === $this) {
+                $ticket->setCompanyId(null);
             }
         }
 

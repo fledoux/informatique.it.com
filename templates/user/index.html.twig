@@ -5,7 +5,7 @@
 {% block body %}
 	<h1 class="mb-4">{{ 'User.Users List'|trans|raw }}</h1>
 	<div class="table-responsive-lg">
-		<table class="table align-middle table-sm table-bordered table-hover">
+		<table class="table align-middle table-xs table-bordered table-hover">
 			<thead>
 				<tr>
 					<th class="text-left">{{ 'Global.Id'|trans|raw }}</th>
@@ -24,7 +24,7 @@
 							{{ _roles|filter(r => r is not empty)|join(', ') }}
 						</td>
 						<td>
-							<a href="{{ path('app_user_edit', {'id': item.id}) }}" class="btn btn-link text-decoration-none text-primary">{{ 'Btn.Edit'|trans|raw }}</a>
+							<a href="{{ path('app_user_edit', {'id': item.id}) }}" class="btn btn-link text-decoration-none text-orange">{{ 'Btn.Edit'|trans|raw }}</a>
 							{% include 'user/_delete_form.html.twig' with { 'user': item } %}
 						</td>
 					</tr>
