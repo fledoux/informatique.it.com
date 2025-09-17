@@ -3,92 +3,28 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link
-		rel="manifest" href="/manifest.json">
-		{# ===== FAVICONS (modern + Apple) ===== #}
+		{% block meta %}
+			<meta name="robots" content="index,follow">
+			<meta name="description" content="Support informatique, infogérance et cybersécurité pour PME – dépannage rapide, contrats sans engagement, devis 24h.">
+		{% endblock %}
 		{% block favicons %}
+			<link rel="manifest" href="/manifest.json">
+            <link rel="icon" href="{{ asset('img/favicon/favicon.svg') }}" type="image/svg+xml">
 			<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>
 			<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
 			<link rel="shortcut icon" href="/favicon.ico"/>
 			<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
 			<meta name="apple-mobile-web-app-title" content="informatique"/>
-			<link rel="manifest" href="/site.webmanifest"/>
-		{% endblock %}
-		{# ===== SEO BASICS ===== #}
-		{% block meta_basic %}
-			<meta
-			name="robots" content="index,follow">
-			{# override with noindex on private pages #}
-			{% block meta_description %}<meta name="description" content="Support informatique, infogérance et cybersécurité pour PME – dépannage rapide, contrats sans engagement, devis 24h.">
-			{% endblock %}
-			<link rel="canonical">
-			href="
-			{% block canonical_url %}
-				{{ app.request.uri }}
-			{% endblock %}"
-		{% endblock %}
-
-		{# ===== SOCIAL / OPEN GRAPH ===== #}
-		{% block social_meta %}
-		<meta property="og:type" content="{% block og_type %}website{% endblock %}">
-		<meta property="og:site_name" content="{% block og_site_name %}Mon‑Support{% endblock %}">
-		<meta property="og:locale" content="fr_FR">
-		<meta property="og:title" content="{% block og_title %}{% block title_og %}{{ block('title') }}{% endblock %}{% endblock %}">
-		<meta property="og:description" content="{% block og_description %}{% block meta_description_text %}Support informatique, infogérance et cybersécurité pour PME – dépannage rapide, contrats sans engagement, devis 24h.{% endblock %}{% endblock %}">
-		<meta property="og:url" content="{{ app.request.uri }}">
-		<meta property="og:image" content="{% block og_image %}{{ asset('assets/img/logo/logo.svg') }}{% endblock %}">
-
-		<meta name="twitter:card" content="summary_large_image">
-		<meta name="twitter:title" content="{% block twitter_title %}{{ block('og_title') }}{% endblock %}">
-		<meta name="twitter:description">
-		content="{% block twitter_description %}{{ block('og_description') }}{% endblock %}"
-			<meta name="twitter:image">
-			content="
-			{% block twitter_image %}
-				{{ block('og_image') }}
-			{% endblock %}"
-		{% endblock %}
-
-		{# ===== HREFLANG (multilingue) ===== #}
-		{% block hreflang %}{# Exemple:
-									            <link rel="alternate" href="https://mon-support.fr/" hreflang="fr"/>
-									            <link rel="alternate" href="https://mon-support.com/" hreflang="en"/>
-									            <link rel="alternate" href="https://mon-support.fr/" hreflang="x-default"/>
-									        #}{% endblock %}
-
-		{# ===== PRELOADS (perf & CWV) ===== #}
-		{% block preload_assets %}{# Exemple police locale; adapte le chemin si besoin #}
-			{# <link rel="preload" as="font" href="{{ asset('assets/fonts/Inter-roman.var.woff2') }}" type="font/woff2" crossorigin> #}
-			{# Héros prioritaire #}
-			{# <link rel="preload" as="image" href="{{ asset('assets/img/hero.jpg') }}" fetchpriority="high"/> #}
-		{% endblock %}
-
-		{# ===== SCHEMA.ORG (JSON‑LD) ===== #}
-		{% block schema_org %}
-			{# Organization / LocalBusiness #}
-			{% block ld_organization %}{% endblock %}
-			{# Breadcrumbs #}
-			{% block ld_breadcrumb %}{% endblock %}
-			{# WebSite / SearchAction #}
-			{% block ld_website %}{% endblock %}
-			{# WebPage #}
-			{% block ld_webpage %}{% endblock %}
-			{# Service (pour pages offres) #}
-			{% block ld_service %}{% endblock %}
 		{% endblock %}
 		<title>
-			{% block title %}Bienvenue !
+			{% block title %}
+				Bienvenue !
 			{% endblock %}
 		</title>
-		<link rel="icon" href="{{ asset('img/favicon/favicon.svg') }}" type="image/svg+xml">
+		
 		{% block stylesheets %}
 			{{ include('tpl/_style.html.twig') }}
 		{% endblock %}
-		<style>
-			img {
-				height: auto
-			}
-		</style>
 		{% block javascripts %}
 			{{ include('tpl/_script.html.twig') }}
 		{% endblock %}
