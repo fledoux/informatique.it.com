@@ -10,6 +10,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use App\Enum\TicketStatus;
 
 class TicketType extends AbstractType
 {
@@ -18,15 +20,15 @@ class TicketType extends AbstractType
         $builder
             ->add('ticket_status', ChoiceType::class, [
                 'label' => 'Statut',
-                'choices' => [
-                    'Ticket.status.new' => 'new',
-                    'Ticket.status.in_progress' => 'in_progress',
-                    'Ticket.status.waiting' => 'waiting',
-                    'Ticket.status.resolved' => 'resolved',
-                    'Ticket.status.closed' => 'closed',
-                    'Ticket.status.canceled' => 'canceled',
-                ],
+                // enum cases as choices
+                'choices' => TicketStatus::cases(),
+                // view value = enum backed value
+                'choice_value' => static function (?TicketStatus $status) { return $status?->value; },
+                // translated label using your existing i18n keys
+                'choice_label' => static function (TicketStatus $status) { return 'Ticket.status.' . $status->value; },
                 'translation_domain' => 'messages',
+                'choice_translation_domain' => 'messages',
+                'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])
             ->add('priority', ChoiceType::class, [
                 'label' => 'Priorité',
@@ -37,42 +39,55 @@ class TicketType extends AbstractType
                     'Ticket.priority.urgent' => 'urgent',
                 ],
                 'translation_domain' => 'messages',
+                'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])
             ->add('code_folder', null, [
                 'label' => 'Code dossier',
                 'required' => false,
+                'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])
             ->add('subject', null, [
                 'label' => 'Objet',
+                'row_attr' => ['class' => 'col-12 col-lg-12'],
             ])
             ->add('question', null, [
                 'label' => 'Question / Description',
+                'row_attr' => ['class' => 'col-12'],
+                'attr' => ['rows' => 12],
             ])
             ->add('due_at', null, [
                 'widget' => 'single_text',
                 'label' => 'Échéance',
                 'required' => false,
+                'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])
-            ->add('is_billable', null, [
+            ->add('is_billable', CheckboxType::class, [
                 'label' => 'Facturable',
                 'required' => false,
+                'row_attr' => ['class' => 'col-12 col-lg-12 form-check form-check-lg'],
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'form-check-input form-check-input-primary'],
+                'data' => true,
             ])
             ->add('company_id', EntityType::class, [
                 'class' => Company::class,
                 'choice_label' => 'name',
                 'label' => 'Société',
                 'placeholder' => '— Sélectionner une société —',
+                'row_attr' => ['class' => 'col-12 col-lg-6'],
             ])
             ->add('created_by_id', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'email',
                 'label' => 'Créé par',
+                'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])
             ->add('assigned_to_id', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'email',
                 'label' => 'Assigné à',
                 'required' => false,
+                'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])
         ;
     }

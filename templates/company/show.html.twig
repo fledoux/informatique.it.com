@@ -3,39 +3,39 @@
 {% block body %}
 <h1>{{ 'Company.View'|trans|raw }}</h1>
 <dl class="row">
-  <dt class="col-sm-3">Id</dt>
+  <dt class="col-sm-3">{{ 'Company.Id'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.id }}</dd>
-  <dt class="col-sm-3">CompanyStatus</dt>
+  <dt class="col-sm-3">{{ 'Company.CompanyStatus'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.companyStatus ? company.companyStatus.value : '' }}</dd>
-  <dt class="col-sm-3">Name</dt>
+  <dt class="col-sm-3">{{ 'Company.Name'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.name }}</dd>
-  <dt class="col-sm-3">Siret</dt>
+  <dt class="col-sm-3">{{ 'Company.Siret'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.siret }}</dd>
-  <dt class="col-sm-3">VatNumber</dt>
+  <dt class="col-sm-3">{{ 'Company.VatNumber'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.vatNumber }}</dd>
-  <dt class="col-sm-3">EmailCompany</dt>
+  <dt class="col-sm-3">{{ 'Company.EmailCompany'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.emailCompany }}</dd>
-  <dt class="col-sm-3">PhoneCompany</dt>
+  <dt class="col-sm-3">{{ 'Company.PhoneCompany'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.phoneCompany }}</dd>
-  <dt class="col-sm-3">Website</dt>
+  <dt class="col-sm-3">{{ 'Company.Website'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.website }}</dd>
-  <dt class="col-sm-3">AddressLine1</dt>
+  <dt class="col-sm-3">{{ 'Company.AddressLine1'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.addressLine1 }}</dd>
-  <dt class="col-sm-3">AddressLine2</dt>
+  <dt class="col-sm-3">{{ 'Company.AddressLine2'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.addressLine2 }}</dd>
-  <dt class="col-sm-3">PostalCode</dt>
+  <dt class="col-sm-3">{{ 'Company.PostalCode'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.postalCode }}</dd>
-  <dt class="col-sm-3">City</dt>
+  <dt class="col-sm-3">{{ 'Company.City'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.city }}</dd>
-  <dt class="col-sm-3">CountryCode</dt>
+  <dt class="col-sm-3">{{ 'Company.CountryCode'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.countryCode }}</dd>
-  <dt class="col-sm-3">Notes</dt>
+  <dt class="col-sm-3">{{ 'Company.Notes'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.notes }}</dd>
-  <dt class="col-sm-3">BillingContactId</dt>
+  <dt class="col-sm-3">{{ 'Company.BillingContactId'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.billingContactId ? company.billingContactId.email : '' }}</dd>
-  <dt class="col-sm-3">CreatedAt</dt>
+  <dt class="col-sm-3">{{ 'Company.CreatedAt'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.createdAt ? company.createdAt|date('Y-m-d H:i') : '' }}</dd>
-  <dt class="col-sm-3">UpdatedAt</dt>
+  <dt class="col-sm-3">{{ 'Company.UpdatedAt'|trans|raw }}</dt>
   <dd class="col-sm-9">{{ company.updatedAt ? company.updatedAt|date('Y-m-d H:i') : '' }}</dd>
 </dl>
 <div class="btn-group" role="group" aria-label="Basic example">

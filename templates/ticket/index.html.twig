@@ -31,7 +31,10 @@
 					<tr>
 						<td class="text-center">{{ item.id }}</td>
 						<td class="text-left">
-							{{ item.ticketStatus ? ('Ticket.status.' ~ item.ticketStatus)|trans : '—' }}
+							{% set st = item.ticketStatus ? item.ticketStatus.value : null %}
+							<span class="badge bg-{{ ('Ticket.statusClass.' ~ st)|trans }}">
+							    {{ st ? ('Ticket.status.' ~ st)|trans : '—' }}
+							</span>
 						</td>
 						<td class="text-left">
 							{{ item.priority ? ('Ticket.priority.' ~ item.priority)|trans : '—' }}

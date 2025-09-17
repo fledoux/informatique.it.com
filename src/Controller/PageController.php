@@ -11,6 +11,7 @@ use App\Form\ContactType;
 use App\Repository\TicketRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\ContactRepository;
+use App\Enum\TicketStatus;
 
 final class PageController extends AbstractController
 {
@@ -34,52 +35,40 @@ final class PageController extends AbstractController
     ): Response {
         $now = new \DateTimeImmutable();
 
-        // Compteurs
-        $ticketsCount    = $ticketRepo->count([]);
-        $companiesCount  = $companyRepo->count([]);
-        $contactsCount   = $contactRepo->count([]);
+        // Agrégation des statistiques tickets en 1 requête
+        $stats = $ticketRepo->getDashboardStats(
+            $now,
+            [TicketStatus::New->value, TicketStatus::InProgress->value, TicketStatus::Waiting->value], // open
+            [TicketStatus::Waiting->value], // waiting
+            [TicketStatus::Resolved->value, TicketStatus::Closed->value, TicketStatus::Canceled->value] // closed
+        );
 
-        // Statuts utiles (doivent exister dans ta data)
-        $openStatuses    = ['new', 'in_progress', 'waiting'];
-        $closedStatuses  = ['resolved', 'closed', 'canceled'];
+        // Compteurs globaux
+        $ticketsCount    = (int) ($stats['total'] ?? 0);
+        $openTicketsCount = (int) ($stats['openCnt'] ?? 0);
+        $waitingCount     = (int) ($stats['waitingCnt'] ?? 0);
+        $overdueCount     = (int) ($stats['overdueCnt'] ?? 0);
 
-        // Tickets ouverts
-        $openTicketsCount = $ticketRepo->createQueryBuilder('t')
-            ->select('COUNT(t.id)')
-            ->andWhere('t.ticket_status IN (:st)')
-            ->setParameter('st', $openStatuses)
+        // Compteurs annexes (company / contact)
+        $companiesCount  = (int) $companyRepo->count([]);
+        $contactsCount   = (int) $contactRepo->count([]);
+
+        // Derniers tickets avec préchargement des relations pour éviter le N+1
+        $recentTickets = $ticketRepo->createQueryBuilder('t')
+            ->leftJoin('t.company_id', 'co')->addSelect('co')
+            ->leftJoin('t.assigned_to_id', 'u')->addSelect('u')
+            ->orderBy('t.id', 'DESC')
+            ->setMaxResults(20)
             ->getQuery()
-            ->getSingleScalarResult();
-
-        // En attente
-        $waitingCount = $ticketRepo->createQueryBuilder('t')
-            ->select('COUNT(t.id)')
-            ->andWhere('t.ticket_status = :st')
-            ->setParameter('st', 'waiting')
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        // En retard (due_at passée et pas clôturé)
-        $overdueCount = $ticketRepo->createQueryBuilder('t')
-            ->select('COUNT(t.id)')
-            ->andWhere('t.due_at IS NOT NULL')
-            ->andWhere('t.due_at < :now')
-            ->andWhere('t.ticket_status NOT IN (:closed)')
-            ->setParameter('now', $now)
-            ->setParameter('closed', $closedStatuses)
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        // Derniers tickets
-        $recentTickets = $ticketRepo->findBy([], ['id' => 'DESC'], 20);
+            ->getResult();
 
         return $this->render('page/dashboard.html.twig', [
-            'ticketsCount'     => (int)$ticketsCount,
-            'companiesCount'   => (int)$companiesCount,
-            'contactsCount'    => (int)$contactsCount,
-            'openTicketsCount' => (int)$openTicketsCount,
-            'waitingCount'     => (int)$waitingCount,
-            'overdueCount'     => (int)$overdueCount,
+            'ticketsCount'     => $ticketsCount,
+            'companiesCount'   => $companiesCount,
+            'contactsCount'    => $contactsCount,
+            'openTicketsCount' => $openTicketsCount,
+            'waitingCount'     => $waitingCount,
+            'overdueCount'     => $overdueCount,
             'recentTickets'    => $recentTickets,
         ]);
     }

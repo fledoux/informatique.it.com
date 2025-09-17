@@ -135,7 +135,7 @@ TWIG,
       '_delete_form' => <<<TWIG
 <form method="post"
       action="{{ path('app_{$entityRoute}_delete', {'id': {$entityVar}|raw.id}) }}"
-      onsubmit="return confirm('{{ 'Are you sure you want to delete this item'|trans|raw }}');"
+      onsubmit="return confirm('{{ 'Global.Are you sure you want to delete this item'|trans|raw }}');"
       style="display:inline">
   <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ {$entityVar}|raw.id) }}">
   <button class="btn btn-link text-decoration-none text-orange p-0">

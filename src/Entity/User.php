@@ -80,15 +80,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'updated_at')]
     private ?\DateTimeImmutable $updated_at = null;
 
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'assigned_to_id')]
+    private Collection $assignedTickets;
+
     /**
      * @var Collection<int, Ticket>
      */
     #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'created_by_id', orphanRemoval: true)]
-    private Collection $tickets;
+    private Collection $createdTickets;
 
     public function __construct()
     {
         $this->companies = new ArrayCollection();
+        $this->assignedTickets = new ArrayCollection();
         $now = new \DateTimeImmutable();
         if ($this->user_status === null) {
             $this->user_status = 'active';
@@ -108,7 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->last_name === null) {
             $this->last_name = '';
         }
-        $this->tickets = new ArrayCollection();
+        $this->createdTickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -431,13 +435,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getTickets(): Collection
     {
-        return $this->tickets;
+        return $this->createdTickets;
     }
 
     public function addTicket(Ticket $ticket): static
     {
-        if (!$this->tickets->contains($ticket)) {
-            $this->tickets->add($ticket);
+        if (!$this->createdTickets->contains($ticket)) {
+            $this->createdTickets->add($ticket);
             $ticket->setCreatedById($this);
         }
 
@@ -446,13 +450,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeTicket(Ticket $ticket): static
     {
-        if ($this->tickets->removeElement($ticket)) {
+        if ($this->createdTickets->removeElement($ticket)) {
             // set the owning side to null (unless already changed)
             if ($ticket->getCreatedById() === $this) {
                 $ticket->setCreatedById(null);
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ticket>
+     */
+    public function getAssignedTickets(): Collection
+    {
+        return $this->assignedTickets;
+    }
+
+    public function addAssignedTicket(Ticket $ticket): static
+    {
+        if (!$this->assignedTickets->contains($ticket)) {
+            $this->assignedTickets->add($ticket);
+            $ticket->setAssignedToId($this);
+        }
+        return $this;
+    }
+
+    public function removeAssignedTicket(Ticket $ticket): static
+    {
+        if ($this->assignedTickets->removeElement($ticket)) {
+            if ($ticket->getAssignedToId() === $this) {
+                $ticket->setAssignedToId(null);
+            }
+        }
         return $this;
     }
 }

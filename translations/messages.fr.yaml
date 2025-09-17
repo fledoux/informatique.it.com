@@ -28,15 +28,15 @@ Company:
   CompanyStatus: Statut
   Name: Nom
   Siret: SIRET
-  VatNumber: Numéro de TVA
+  VatNumber: TVA
   EmailCompany: Email
   PhoneCompany: Téléphone
   Website: Site web
   AddressLine1: Adresse ligne 1
   AddressLine2: Adresse ligne 2
-  PostalCode: Code postal
+  PostalCode: CP
   City: Ville
-  CountryCode: Code pays
+  CountryCode: Pays
   Notes: Notes
   BillingContactId: Contact de facturation
   CreatedAt: Créé le
@@ -119,6 +119,8 @@ Register:
   Agree terms: Accepter les conditions générales d'utilisation.
 
 Ticket:
+  View: Visualisation de la demande
+  Add: Créer une nouvelle demande
   List: Liste des demandes
   YourList: Liste de vos demandes
   Update: Mettre à jour la demande
@@ -143,6 +145,7 @@ Ticket:
   Company: Entreprise
   Contact: Contact
   AssignedTo: Assigné à
+  AssignedAt: Assigné le
   status:
     new: "Nouveau"
     in_progress: "En cours"
@@ -151,8 +154,8 @@ Ticket:
     closed: "Clôturé"
     canceled: "Annulé"
   statusClass:
-    new: secondary
-    in_progress: danger
+    new: danger
+    in_progress: info
     waiting: warning
     resolved: success
     closed: dark

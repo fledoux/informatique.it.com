@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
+use App\Entity\Ticket;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 class Company
@@ -73,7 +74,7 @@ class Company
     /**
      * @var Collection<int, User>
      */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'companyId')]
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'company')]
     private Collection $users;
 
     /**
@@ -296,7 +297,7 @@ class Company
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
-            $user->setCompanyId($this);
+            $user->setCompany($this);
         }
 
         return $this;
@@ -306,8 +307,8 @@ class Company
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($user->getCompanyId() === $this) {
-                $user->setCompanyId(null);
+            if ($user->getCompany() === $this) {
+                $user->setCompany(null);
             }
         }
 

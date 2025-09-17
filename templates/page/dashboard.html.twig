@@ -139,7 +139,7 @@
 								<tr>
 									<td class="text-muted text-center">{{ t.id }}</td>
 									<td>
-										{% set st = t.ticketStatus %}
+										{% set st = t.ticketStatus ? t.ticketStatus.value : null %}
 										<span class="badge bg-{{ ('Ticket.statusClass.' ~ st)|trans }}">
 											{{ st ? ('Ticket.status.' ~ st)|trans : '—' }}
 										</span>

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TicketRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Enum\TicketStatus;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -15,8 +16,8 @@ class Ticket
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $ticket_status = null;
+    #[ORM\Column(type: 'string', enumType: TicketStatus::class, length: 20)]
+    private ?TicketStatus $ticket_status = null;
 
     #[ORM\Column(length: 20)]
     private ?string $priority = null;
@@ -25,11 +26,11 @@ class Ticket
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $company_id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
+    #[ORM\ManyToOne(inversedBy: 'createdTickets')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $created_by_id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
+    #[ORM\ManyToOne(inversedBy: 'assignedTickets')]
     private ?User $assigned_to_id = null;
 
     #[ORM\Column(nullable: true)]
@@ -61,12 +62,12 @@ class Ticket
         return $this->id;
     }
 
-    public function getTicketStatus(): ?string
+    public function getTicketStatus(): ?TicketStatus
     {
         return $this->ticket_status;
     }
 
-    public function setTicketStatus(string $ticket_status): static
+    public function setTicketStatus(TicketStatus $ticket_status): static
     {
         $this->ticket_status = $ticket_status;
 

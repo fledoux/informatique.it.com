@@ -34,14 +34,14 @@ class UserType extends AbstractType
             ])
             ->add('firstName', TextType::class, [
                 'label' => 'User.FirstName',
-                'required' => false,
+                'required' => true,
                 'row_attr'   => ['class' => 'mb-3 col-12 col-lg-4'],
                 'label_attr' => ['class' => 'form-label'],
                 'attr'       => ['class' => 'form-control'],
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'User.LastName',
-                'required' => false,
+                'required' => true,
                 'row_attr'   => ['class' => 'mb-3 col-12 col-lg-4'],
                 'label_attr' => ['class' => 'form-label'],
                 'attr'       => ['class' => 'form-control'],
@@ -80,7 +80,7 @@ class UserType extends AbstractType
             // Sécurité & rôles
             ->add('password', PasswordType::class, [
                 'label' => 'User.Password',
-                'required' => false,
+                'required' => true,
                 'mapped' => false, // do not map directly to entity so setPassword(null) is never called
                 'empty_data' => '', // when left empty, the form returns an empty string instead of null
                 'row_attr'   => ['class' => 'mb-3 col-12 col-lg-4'],
