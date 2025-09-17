@@ -11,6 +11,7 @@ Btn:
   NewTicket: <i class="fa-regular fa-plus-square"></i> Nouvelle demande
   NewContact: <i class="fa-regular fa-user-plus"></i> Nouveau contact
   NewCompany: <i class="fa-regular fa-building"></i> Nouvelle entreprise
+  NewUser: <i class="fa-regular fa-user"></i> Ajouter un Utilisateur
 Btn Icon Only:
   New: <i class="fa-regular fa-plus-square"></i>
   Back: <i class="fa-regular fa-reply"></i>
@@ -22,6 +23,7 @@ Btn Icon Only:
   NewTicket: <i class="fa-regular fa-plus-square"></i>
   NewContact: <i class="fa-regular fa-user-plus"></i>
   NewCompany: <i class="fa-regular fa-building"></i>
+  NewUser: <i class="fa-regular fa-user"></i>
 
 Company:
   Id: N°
@@ -170,7 +172,7 @@ Ticket:
 
 User:
   Add user: Ajouter un utilisateur
-  Edit user: Editer l'utilisateur
+  Edit user: Modifier l'utilisateur
   Email: Email
   Status: Statuts
   Phone: Téléphone
@@ -192,6 +194,11 @@ User:
   Note: Note
   LastLoginAt: Dernière connexion
   SuperAdmin: Super Admin
+  Select: Sélectionnez…
+  Active: Active
+  Inactive: Inactive
+  SMS: SMS
+  —: —
 
 Verify:
   link_invalid_id: "Lien invalide : identifiant manquant."

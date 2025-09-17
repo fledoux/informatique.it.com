@@ -26,7 +26,7 @@ final class PageController extends AbstractController
         return $this->render('page/home.html.twig', ['form' => $form->createView()]);
     }
 
-    #[IsGranted('PUBLIC_ACCESS')]
+    #[IsGranted('ROLE_USER')]
     #[Route('/dashboard', name: 'app_dashboard', methods: ['GET'])]
     public function index(
         TicketRepository $ticketRepo,

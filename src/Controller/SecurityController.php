@@ -10,9 +10,11 @@ use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class SecurityController extends AbstractController
 {
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/login', name: 'app_login')]
     public function login(
         Request $request,
@@ -48,6 +50,7 @@ final class SecurityController extends AbstractController
         ]);
     }
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/logout', name: 'app_logout')]
     public function logout(): void {}
 }

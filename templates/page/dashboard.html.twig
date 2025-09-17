@@ -21,7 +21,7 @@
 					</a>
 				{% endif %}
 				{% if is_granted('ROLE_ADMIN') %}
-					<a href="{{ path('app_contact_new') }}" class="btn btn-outline-secondary w-100 w-sm-auto">
+					<a href="{{ path('app_user_new') }}" class="btn btn-outline-secondary w-100 w-sm-auto">
 						{{ 'Btn.NewUser'|trans|raw }}
 					</a>
 				{% endif %}

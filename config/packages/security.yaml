@@ -37,8 +37,4 @@ security:
         path: /
 
   access_control:
-    - { path: ^/login, roles: PUBLIC_ACCESS }
-    - { path: ^/register, roles: PUBLIC_ACCESS }
-    - { path: ^/register/verify, roles: PUBLIC_ACCESS }
-    - { path: ^/user, roles: ROLE_ADMIN }
-    - { path: ^/company, roles: ROLE_SUPER_ADMIN }
+    #- { path: ^/login, roles: PUBLIC_ACCESS }

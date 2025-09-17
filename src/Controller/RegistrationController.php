@@ -19,12 +19,12 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('PUBLIC_ACCESS')]
 #[Route('/register')]
 class RegistrationController extends AbstractController
 {
     public function __construct(private EmailVerifier $emailVerifier) {}
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -63,12 +63,14 @@ class RegistrationController extends AbstractController
         return $this->render('registration/wait.html.twig');
     }
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/pending', name: 'app_register_pending')]
     public function pendingPage()
     {
         return $this->render('registration/pending.html.twig', []);
     }
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/verify', name: 'app_verify', methods: ['GET'])]
     public function verifyUserEmail(
         Request $request,

@@ -7,8 +7,6 @@ use App\Entity\Company;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
-// Core types
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -16,8 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-
-// Doctrine bridge
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class UserType extends AbstractType
@@ -25,7 +21,6 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // Identité & contact
             ->add('email', EmailType::class, [
                 'label' => 'User.Email',
                 'row_attr'   => ['class' => 'mb-3 col-12 col-lg-4'],
@@ -53,12 +48,10 @@ class UserType extends AbstractType
                 'label_attr' => ['class' => 'form-label'],
                 'attr'       => ['class' => 'form-control'],
             ])
-
-            // Société & statut
             ->add('company', EntityType::class, [
                 'class' => Company::class,
                 'choice_label' => 'name',
-                'placeholder' => '—',
+                'placeholder' => 'User.—',
                 'required' => false,
                 'label' => 'User.Company',
                 'row_attr'   => ['class' => 'mb-3 col-12 col-lg-6'],
@@ -68,16 +61,14 @@ class UserType extends AbstractType
             ->add('userStatus', ChoiceType::class, [
                 'label' => 'User.Status',
                 'choices' => [
-                    'Active' => 'active',
-                    'Inactive' => 'inactive',
+                    'User.Active' => 'active',
+                    'User.Inactive' => 'inactive',
                 ],
-                'placeholder' => 'Sélectionnez…',
+                'placeholder' => 'User.Select',
                 'required' => false,
                 'row_attr'   => ['class' => 'mb-3 col-12 col-lg-3'],
                 'label_attr' => ['class' => 'form-label'],
             ])
-
-            // Sécurité & rôles
             ->add('password', PasswordType::class, [
                 'label' => 'User.Password',
                 'required' => true,
@@ -111,8 +102,6 @@ class UserType extends AbstractType
                 'row_attr'   => ['class' => 'mb-3 col-12 col-lg-12'],
                 'label_attr' => ['class' => 'form-check-label'],
             ])
-
-            // Préférences & note
             ->add('channels', ChoiceType::class, [
                 'label' => 'User.Channels',
                 'choices' => [
@@ -132,15 +121,13 @@ class UserType extends AbstractType
                 'label_attr' => ['class' => 'form-label'],
                 'attr'       => ['class' => 'form-control', 'rows' => 6],
             ])
-
-            // Champs techniques — en lecture seule (non mappés) si tu veux les afficher
             ->add('lastLoginAt', TextType::class, [
                 'label' => 'User.LastLoginAt',
                 'mapped' => false,
                 'required' => false,
                 'disabled' => true,
                 'data' => $options['data']?->getLastLoginAt()?->format('Y-m-d H:i:s'),
-                'row_attr'   => ['class' => 'mb-3 col-12 col-lg-4'],
+                'row_attr'   => ['class' => 'mb-3 col-12 col-lg-4 opacity-25'],
                 'label_attr' => ['class' => 'form-label'],
             ])
             ->add('createdAt', TextType::class, [
@@ -149,7 +136,7 @@ class UserType extends AbstractType
                 'required' => false,
                 'disabled' => true,
                 'data' => $options['data']?->getCreatedAt()?->format('Y-m-d H:i:s'),
-                'row_attr'   => ['class' => 'mb-3 col-12 col-lg-4'],
+                'row_attr'   => ['class' => 'mb-3 col-12 col-lg-4 opacity-25'],
                 'label_attr' => ['class' => 'form-label'],
             ])
             ->add('updatedAt', TextType::class, [
@@ -158,7 +145,7 @@ class UserType extends AbstractType
                 'required' => false,
                 'disabled' => true,
                 'data' => $options['data']?->getUpdatedAt()?->format('Y-m-d H:i:s'),
-                'row_attr'   => ['class' => 'mb-3 col-12 col-lg-4'],
+                'row_attr'   => ['class' => 'mb-3 col-12 col-lg-4 opacity-25'],
                 'label_attr' => ['class' => 'form-label'],
             ]);
     }

@@ -16,10 +16,11 @@
 	{{ form_row(form.lastLoginAt) }}
 	{{ form_row(form.createdAt) }}
 	{{ form_row(form.updatedAt) }}
-	<div class="btn-group mt-3" role="group" aria-label="Basic example">
-		<button type="submit" class="btn btn-primary">{{ 'Btn.Save'|trans|raw }}</button>
-		<a href="{{ path('app_user_index') }}" class="btn btn-outline-primary">{{ 'Btn.Back'|trans|raw }}</a>
-	</div>
-	{{ form_rest(form) }}
 </div>
+<div class="btn-group mt-3" role="group" aria-label="Basic example">
+	<button type="submit" class="btn btn-primary">{{ 'Btn.Save'|trans|raw }}</button>
+	<a href="{{ path('app_user_index') }}" class="btn btn-outline-primary">{{ 'Btn.Back'|trans|raw }}</a>
+</div>
+{{ form_rest(form) }}
+
 {{ form_end(form) }}
