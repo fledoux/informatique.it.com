@@ -12,23 +12,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 
 #[Route('/ticket')]
 final class TicketController extends AbstractController
 {
 
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('LIST', subject: 'ticket')]
     #[Route(name: 'app_ticket_index', methods: ['GET'])]
-    public function index(TicketRepository $ticketRepository): Response
+    public function index(TicketRepository $ticketRepository, #[MapEntity(id: 'id')] Ticket $ticket): Response
     {
         return $this->render('ticket/index.html.twig', [
             'tickets' => $ticketRepository->findBy([], ['id' => 'DESC']),
         ]);
     }
 
-    #[IsGranted('ROLE_USER')]
+     #[IsGranted('ROLE_USER')]
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, #[MapEntity(id: 'id')] Ticket $ticket, EntityManagerInterface $entityManager): Response
     {
         $ticket = new Ticket();
         $ticket->setTicketStatus(TicketStatus::New);
@@ -49,18 +51,18 @@ final class TicketController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('VIEW', subject: 'ticket')]
     #[Route('/{id}', name: 'app_ticket_show', methods: ['GET'])]
-    public function show(Ticket $ticket): Response
+    public function show(#[MapEntity(id: 'id')] Ticket $ticket): Response
     {
         return $this->render('ticket/show.html.twig', [
             'ticket' => $ticket,
         ]);
     }
 
-    #[IsGranted('ROLE_SUPER_ADMIN')]
+    #[IsGranted('EDIT', subject: 'ticket')]
     #[Route('/{id}/edit', name: 'app_ticket_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Ticket $ticket, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, #[MapEntity(id: 'id')] Ticket $ticket, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
@@ -80,7 +82,7 @@ final class TicketController extends AbstractController
 
     #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route('/{id}', name: 'app_ticket_delete', methods: ['POST'])]
-    public function delete(Request $request, Ticket $ticket, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, #[MapEntity(id: 'id')] Ticket $ticket, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $ticket->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($ticket);

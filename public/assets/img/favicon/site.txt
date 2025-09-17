@@ -19,3 +19,7 @@
   "background_color": "#ffffff",
   "display": "standalone"
 }
+
+Dans la mesure où aucun remboursement n’est envisageable sur ce dossier (notamment via assurance), je souhaite m’assurer que les prestations engagées correspondent précisément à un accompagnement adapté à la situation et calibré de manière juste.
+
+
