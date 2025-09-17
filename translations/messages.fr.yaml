@@ -69,7 +69,8 @@ Contact:
     Collectivity: Collectivité
 
 Dashboard:
-  Welcome: <span class="d-none d-sm-inline">Bienvenue sur votre support</span><span class="d-inline d-sm-none">Votre support</span>
+  Welcome: Bienvenue sur votre support
+  WelcomeTitle: <span class="d-none d-sm-inline">Bienvenue sur votre support</span><span class="d-inline d-sm-none">Votre support</span>
   RecentTickets: 20 Dernières demandes
   KPI:
     Open: Ouverts
