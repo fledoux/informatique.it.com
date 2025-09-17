@@ -19,7 +19,7 @@ class TicketType extends AbstractType
     {
         $builder
             ->add('ticket_status', ChoiceType::class, [
-                'label' => 'Statut',
+                'label' => 'Ticket.Ticket_status',
                 // enum cases as choices
                 'choices' => TicketStatus::cases(),
                 // view value = enum backed value
@@ -31,7 +31,7 @@ class TicketType extends AbstractType
                 'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])
             ->add('priority', ChoiceType::class, [
-                'label' => 'Priorité',
+                'label' => 'Ticket.Priority',
                 'choices' => [
                     'Ticket.priority.low' => 'low',
                     'Ticket.priority.normal' => 'normal',
@@ -42,27 +42,27 @@ class TicketType extends AbstractType
                 'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])
             ->add('code_folder', null, [
-                'label' => 'Code dossier',
+                'label' => 'Ticket.Code_folder',
                 'required' => false,
                 'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])
             ->add('subject', null, [
-                'label' => 'Objet',
+                'label' => 'Ticket.Subject',
                 'row_attr' => ['class' => 'col-12 col-lg-12'],
             ])
             ->add('question', null, [
-                'label' => 'Question / Description',
+                'label' => 'Ticket.Question',
                 'row_attr' => ['class' => 'col-12'],
                 'attr' => ['rows' => 12],
             ])
             ->add('due_at', null, [
                 'widget' => 'single_text',
-                'label' => 'Échéance',
+                'label' => 'Ticket.Due_at',
                 'required' => false,
                 'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])
             ->add('is_billable', CheckboxType::class, [
-                'label' => 'Facturable',
+                'label' => 'Ticket.Is_billable',
                 'required' => false,
                 'row_attr' => ['class' => 'col-12 col-lg-12 form-check form-check-lg'],
                 'label_attr' => ['class' => 'form-check-label'],
@@ -72,20 +72,20 @@ class TicketType extends AbstractType
             ->add('company_id', EntityType::class, [
                 'class' => Company::class,
                 'choice_label' => 'name',
-                'label' => 'Société',
-                'placeholder' => '— Sélectionner une société —',
+                'label' => 'Ticket.Company_id',
+                'placeholder' => 'Ticket.SelectACompany',
                 'row_attr' => ['class' => 'col-12 col-lg-6'],
             ])
             ->add('created_by_id', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'email',
-                'label' => 'Créé par',
+                'label' => 'Ticket.Created_by_id',
                 'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])
             ->add('assigned_to_id', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'email',
-                'label' => 'Assigné à',
+                'label' => 'Ticket.AssignedTo',
                 'required' => false,
                 'row_attr' => ['class' => 'col-12 col-lg-3'],
             ])

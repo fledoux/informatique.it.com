@@ -146,6 +146,7 @@ Ticket:
   Contact: Contact
   AssignedTo: Assigné à
   AssignedAt: Assigné le
+  SelectACompany: — Sélectionner une société —
   status:
     new: "Nouveau"
     in_progress: "En cours"
