@@ -3,18 +3,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		{% block meta %}
-			<meta name="robots" content="index,follow">
-			<meta name="description" content="Support informatique, infogérance et cybersécurité pour les Entreprises et les Particuliers – assistance rapide, contrats sans engagement, devis 24h.">
-		{% endblock %}
-		{% block favicons %}
-			<link rel="manifest" href="/manifest.json">
-            <link rel="icon" href="/assets/img/favicon/favicon.svg" type="image/svg+xml">
-			<link rel="icon" href="/assets/img/favicon/favicon-96x96.png" type="image/png" sizes="96x96"/>
-			<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png" sizes="180x180"/>
-            <link rel="shortcut icon" href="/favicon.ico"/>
-			<meta name="apple-mobile-web-app-title" content="informatique"/>
-		{% endblock %}
+		{{ include('tpl/_meta.html.twig') }}
+        {{ include('tpl/_favicon.html.twig') }}
 		<title>
 			{% block title %}
 				Bienvenue !
