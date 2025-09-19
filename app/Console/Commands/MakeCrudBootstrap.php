@@ -1064,7 +1064,7 @@ HTML;
             $options = $this->enumFields[$column];
             $optionsArray = [];
             foreach ($options as $option) {
-                $optionsArray[] = "'{$option}' => __('{$entitySlug}.enums.{$column}.{$option}')";
+                $optionsArray[] = "'{$option}' => __('{$entitySlug}.enum.{$column}.{$option}')";
             }
             $optionsStr = '[' . implode(', ', $optionsArray) . ']';
             

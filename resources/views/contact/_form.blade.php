@@ -24,7 +24,7 @@
         <div class="col-12 col-lg-4">
             <x-forms.select name="type" 
                             :label="__('contact.fields.type')" 
-                            :options="['active' => __('contact.enums.type.active'), 'inactive' => __('contact.enums.type.inactive')]"
+                            :options="['active' => __('contact.enum.type.active'), 'inactive' => __('contact.enum.type.inactive')]"
                             :value="$contact->type ?? 'active'" />
         </div>
         <div class="col-12">
