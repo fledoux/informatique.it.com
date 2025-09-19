@@ -1,0 +1,102 @@
+@extends('layouts.public')
+
+@section('title', 'Conditions Générales de Vente')
+
+@section('content')
+
+<section class="py-5">
+    <div class="container">
+        <h1 class="section-title text-center">Conditions Générales de Vente (CGV)</h1>
+        <div class="gradient-bar"></div>
+        <p class="text-secondary text-center mt-2">
+            Dernière mise à jour : {{ date('01/m/Y') }}
+        </p>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft">
+            <h2 class="h4 fw-bold mb-3">1. Objet</h2>
+            <p class="mb-0 text-secondary">
+                Les présentes conditions générales de vente (ci-après « CGV ») régissent l'ensemble des prestations de services informatiques 
+                proposées par la société <strong>Yellow Cactus</strong> 
+                <a href="https://yellowcactus.com" class="text-orange" target="_blank">https://yellowcactus.com</a>, 
+                sous la marque <strong>informatique.it.com</strong>.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft">
+            <h2 class="h4 fw-bold mb-3">2. Prestations</h2>
+            <p class="mb-0 text-secondary">
+                Nos services comprennent notamment : le support informatique à distance ou sur site, l'infogérance, 
+                la maintenance préventive et corrective, ainsi que les prestations de conseil.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft">
+            <h2 class="h4 fw-bold mb-3">3. Commandes</h2>
+            <p class="mb-0 text-secondary">
+                Toute commande de prestation implique l'adhésion pleine et entière du client aux présentes CGV. 
+                Les devis émis sont valables <strong>30 jours</strong> à compter de leur date d'émission.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft">
+            <h2 class="h4 fw-bold mb-3">4. Tarifs et facturation</h2>
+            <p class="mb-0 text-secondary">
+                Les prix sont exprimés en euros HT, auxquels s'ajoute la TVA au taux en vigueur. 
+                Les tarifs applicables sont ceux indiqués sur le site ou mentionnés dans le devis accepté par le client. 
+                Toute heure ou unité commencée est due. Les majorations (interventions de nuit, week-end, jours fériés, urgence, déplacement) 
+                sont précisées sur la page <a href="{{ route('home') }}#tarifs" class="text-orange">Tarifs</a>.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft">
+            <h2 class="h4 fw-bold mb-3">5. Modalités de paiement</h2>
+            <p class="mb-0 text-secondary">
+                Les factures sont payables comptant, sauf conditions particulières mentionnées au devis. 
+                Tout retard de paiement entraîne, de plein droit et sans mise en demeure, l'application de pénalités de retard 
+                calculées au taux légal en vigueur, ainsi qu'une indemnité forfaitaire de recouvrement de 40 €.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft">
+            <h2 class="h4 fw-bold mb-3">6. Obligations du client</h2>
+            <p class="mb-0 text-secondary">
+                Le client s'engage à fournir toutes les informations nécessaires à la bonne exécution des prestations 
+                et à maintenir ses infrastructures dans des conditions conformes aux usages professionnels.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft">
+            <h2 class="h4 fw-bold mb-3">7. Responsabilité</h2>
+            <p class="mb-0 text-secondary">
+                La société <strong>Yellow Cactus</strong> ne pourra être tenue responsable des dommages indirects subis par le client, 
+                tels que perte de chiffre d'affaires ou perte de données. La responsabilité est limitée au montant facturé pour la prestation concernée.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft">
+            <h2 class="h4 fw-bold mb-3">8. Résiliation</h2>
+            <p class="mb-0 text-secondary">
+                En cas de manquement grave de l'une des parties à ses obligations, le contrat pourra être résilié de plein droit par l'autre partie, 
+                après mise en demeure restée sans effet pendant 15 jours.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft">
+            <h2 class="h4 fw-bold mb-3">9. Données personnelles</h2>
+            <p class="mb-0 text-secondary">
+                Le traitement des données personnelles est régi par notre 
+                <a href="{{ route('rgpd') }}" class="text-orange">Politique de confidentialité (RGPD)</a>.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft">
+            <h2 class="h4 fw-bold mb-3">10. Droit applicable et juridiction</h2>
+            <p class="mb-0 text-secondary">
+                Les présentes CGV sont soumises au droit français. Tout litige relatif à leur interprétation ou exécution 
+                sera de la compétence exclusive des tribunaux de Nanterre, sauf dispositions légales impératives.
+            </p>
+        </div>
+    </div>
+</section>
+
+@endsection

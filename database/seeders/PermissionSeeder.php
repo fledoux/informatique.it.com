@@ -29,6 +29,13 @@ class PermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'user.edit']);
         Permission::firstOrCreate(['name' => 'user.delete']);
 
+        // Permissions contact
+        Permission::firstOrCreate(['name' => 'contact.index']);
+        Permission::firstOrCreate(['name' => 'contact.show']);
+        Permission::firstOrCreate(['name' => 'contact.create']);
+        Permission::firstOrCreate(['name' => 'contact.edit']);
+        Permission::firstOrCreate(['name' => 'contact.delete']);
+
         // Permissions génériques
         Permission::firstOrCreate(['name' => 'admin.access']);
         Permission::firstOrCreate(['name' => 'reports.access']);
@@ -41,13 +48,13 @@ class PermissionSeeder extends Seeder
         // Admin : Gestion complète
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $admin->syncPermissions([
-            'admin.access', 'reports.access', 'company.index', 'company.show', 'company.create', 'company.edit', 'company.delete', 'user.index', 'user.show', 'user.create', 'user.edit', 'user.delete'
+            'admin.access', 'reports.access', 'company.index', 'company.show', 'company.create', 'company.edit', 'company.delete', 'user.index', 'user.show', 'user.create', 'user.edit', 'user.delete', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'contact.delete'
         ]);
         
         // Manager : Gestion limitée (pas de suppression)
         $manager = Role::firstOrCreate(['name' => 'manager']);
         $manager->syncPermissions([
-            'company.index', 'company.show', 'company.create', 'company.edit', 'user.index', 'user.show', 'user.edit'
+            'company.index', 'company.show', 'company.create', 'company.edit', 'user.index', 'user.show', 'user.edit', 'contact.index', 'contact.show', 'contact.create', 'contact.edit'
         ]);
         
         // User : Lecture seule sur profil et company

@@ -1,9 +1,32 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
-Route::get('/', function () {
-    return view('welcome');
+// Public routes
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/legal', [PageController::class, 'legal'])->name('legal');
+Route::get('/rgpd', [PageController::class, 'rgpd'])->name('rgpd');
+Route::get('/cgv', [PageController::class, 'cgv'])->name('cgv');
+
+// Auth routes
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Registration routes
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/register/pending', [RegisterController::class, 'pending'])->name('register.pending');
+Route::get('/email/verify/{id}/{hash}', [RegisterController::class, 'verify'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
+
+// Protected routes (dashboard requires authentication)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
 });
 
 Route::resource('company', \App\Http\Controllers\CompanyController::class);

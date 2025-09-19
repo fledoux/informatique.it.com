@@ -1,0 +1,158 @@
+@extends('layouts.public')
+
+@section('title', __('Home.RGPD'))
+
+@section('content')
+
+@php
+$rgpd_email = 'rgpd@informatique.it.com';
+@endphp
+
+<section class="py-5">
+    <div class="container">
+        <h1 class="section-title text-center">Politique de confidentialité (RGPD)</h1>
+        <div class="gradient-bar"></div>
+
+        <p class="text-secondary text-center mt-2">
+            Dernière mise à jour : {{ date('01/m/Y') }}
+        </p>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point1">
+            <h2 class="h4 fw-bold mb-3">1. Responsable du traitement</h2>
+            <p class="text-secondary mb-0">
+                <strong>informatique.it.com</strong>, marque de <strong>Yellow Cactus</strong> (ci-après « nous »),
+                est responsable du traitement de vos données personnelles collectées via ce site.
+                Contact : <a href="mailto:{{ $rgpd_email }}" class="text-orange">{{ $rgpd_email }}</a>
+                — Tél. 01&nbsp;49&nbsp;66&nbsp;21&nbsp;77.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point2">
+            <h2 class="h4 fw-bold mb-3">2. Données collectées</h2>
+            <ul class="text-secondary mb-0">
+                <li class="mb-1">Données d'identification : nom, société, e-mail, téléphone.</li>
+                <li class="mb-1">Contenu libre : message et pièces jointes que vous nous envoyez.</li>
+                <li class="mb-1">Données de relation client : historique des demandes, tickets, facturation.</li>
+                <li class="mb-1">Données techniques : logs serveur, événements de sécurité, cookies techniques (<a href="#point9" class="text-orange">voir §9</a>).</li>
+            </ul>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point3">
+            <h2 class="h4 fw-bold mb-3">3. Finalités & bases légales</h2>
+            <ul class="text-secondary mb-0">
+                <li class="mb-1"><strong>Traitement des demandes et support</strong> (exécution d'un contrat ou mesures précontractuelles).</li>
+                <li class="mb-1"><strong>Gestion client et facturation</strong> (obligation légale & exécution du contrat).</li>
+                <li class="mb-1"><strong>Sécurité du site et prévention de la fraude</strong> (intérêt légitime).</li>
+                <li class="mb-1"><strong>Prospection B2B raisonnable</strong> (intérêt légitime) — avec droit d'opposition.</li>
+            </ul>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point4">
+            <h2 class="h4 fw-bold mb-3">4. Durées de conservation</h2>
+            <ul class="text-secondary mb-0">
+                <li class="mb-1">Prospects : jusqu'à 3 ans après le dernier contact.</li>
+                <li class="mb-1">Clients & tickets : pendant la relation contractuelle + 5 ans (preuve/garanties).</li>
+                <li class="mb-1">Facturation : 10 ans (obligations comptables).</li>
+                <li class="mb-1">Logs techniques : 6 à 12 mois (sécurité).</li>
+            </ul>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point5">
+            <h2 class="h4 fw-bold mb-3">5. Destinataires</h2>
+            <p class="text-secondary mb-0">
+                Accès limité à nos équipes habilitées. Prestataires (hébergement, outils de ticketing, e-mail) 
+                agissant comme sous-traitants au sens du RGPD, sur la base de contrats conformes (art. 28 RGPD).
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point6">
+            <h2 class="h4 fw-bold mb-3">6. Transferts hors UE</h2>
+            <p class="text-secondary mb-0">
+                Lorsque des prestataires situés hors UE sont utilisés, les transferts s'appuient sur un
+                <strong>mécanisme de protection adéquat</strong> (décision d'adéquation, clauses contractuelles types, etc.).
+                Détails disponibles sur demande.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point7">
+            <h2 class="h4 fw-bold mb-3">7. Sécurité</h2>
+            <p class="text-secondary mb-0">
+                Mesures techniques et organisationnelles proportionnées : contrôle d'accès, sauvegardes, 
+                chiffrement en transit, journalisation des accès, gestion des droits, revue de sécurité.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point8">
+            <h2 class="h4 fw-bold mb-3">8. Vos droits</h2>
+            <p class="text-secondary mb-2">
+                Vous disposez des droits d'<strong>accès</strong>, <strong>rectification</strong>, <strong>effacement</strong>,
+                <strong>limitation</strong>, <strong>opposition</strong>, et <strong>portabilité</strong>, 
+                ainsi que du droit de définir des directives post-mortem (France). Pour exercer vos droits :
+                <a href="mailto:{{ $rgpd_email }}" class="text-orange">{{ $rgpd_email }}</a>.
+            </p>
+            <p class="text-secondary mb-0">
+                Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, 
+                vous pouvez saisir la <a href="https://www.cnil.fr/fr/plaintes" class="text-orange" target="_blank" rel="noopener">CNIL</a>.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point9">
+            <h2 class="h4 fw-bold mb-3">9. Cookies</h2>
+            <p class="text-secondary mb-2">
+                Nous utilisons uniquement des <strong>cookies techniques</strong> nécessaires au fonctionnement du site (ex. session).
+                Aucun cookie publicitaire n'est déposé sans votre consentement. Si nous activons des mesures d'audience non exemptées,
+                une bannière de consentement s'affichera.
+            </p>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle">
+                    <thead>
+                        <tr>
+                            <th>Cookie</th>
+                            <th>Finalité</th>
+                            <th>Durée</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-secondary">
+                        <tr>
+                            <td>PHPSESSID</td>
+                            <td>Session utilisateur</td>
+                            <td>Session</td>
+                            <td>Technique</td>
+                        </tr>
+                        <tr>
+                            <td>MATOMO</td>
+                            <td>Mémoire du consentement de mesure d'audience</td>
+                            <td>12 mois</td>
+                            <td>Mesure d'audience</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point10">
+            <h2 class="h4 fw-bold mb-3">10. Mineurs</h2>
+            <p class="text-secondary mb-0">
+                Nos services s'adressent aux professionnels et aux particuliers majeurs. 
+                Les demandes impliquant des mineurs nécessitent l'accord du représentant légal.
+            </p>
+        </div>
+
+        <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point11">
+            <h2 class="h4 fw-bold mb-3">11. Évolutions de la politique</h2>
+            <p class="text-secondary mb-0">
+                Cette politique peut être mise à jour pour refléter des évolutions légales, techniques ou organisationnelles.
+                La date de mise à jour figure en haut de page.
+            </p>
+        </div>
+
+        <div class="mt-4 text-center">
+            <a href="{{ route('contact.create') }}" class="btn btn-orange">
+                <i class="fa-regular fa-envelope me-2"></i>Poser une question RGPD
+            </a>
+        </div>
+    </div>
+</section>
+
+@endsection

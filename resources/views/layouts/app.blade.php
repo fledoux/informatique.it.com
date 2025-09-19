@@ -1,28 +1,28 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light" class="h-100">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>@yield('title', 'App')</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @include('partials.meta')
+    @include('partials.favicon')
+    <title>
+        @yield('title', 'Support informatique')
+    </title>
+    <link rel="icon" href="{{ asset('img/favicon/favicon.svg') }}" type="image/svg+xml">
+    @stack('stylesheets')
+    @include('partials.style')
+    @stack('javascripts')
+    @include('partials.script')
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary mb-4">
-    <div class="container">
-      <a class="navbar-brand" href="{{ url('/') }}">App</a>
-      <div class="ms-auto">
-        <a class="btn btn-outline-primary btn-sm" href="{{ route('company.index') }}">Companies</a>
-      </div>
+<body class="d-flex flex-column h-100 bg-body-tertiary">
+    @php($currentRoute = request()->route()->getName())
+    @include('partials.nav')
+    <div class="container pb-5">
+        <main class="flex-shrink-0">
+            @include('partials.flash')
+            @yield('content')
+        </main>
     </div>
-  </nav>
-
-  <main class="container">
-    @if(session('success'))
-      <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    @yield('content')
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @include('partials.footer')
 </body>
 </html>

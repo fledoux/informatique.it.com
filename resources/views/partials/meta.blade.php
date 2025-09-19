@@ -1,0 +1,3 @@
+{{-- Meta tags --}}
+<meta name="robots" content="index,follow">
+<meta name="description" content="Support informatique, infogérance et cybersécurité pour les Entreprises et les Particuliers – assistance rapide, contrats sans engagement, devis 24h.">
