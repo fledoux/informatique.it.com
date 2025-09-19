@@ -14,23 +14,14 @@ class Contact extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email', 
-        'phone',
-        'type',
-        'need',
-    ];
+    protected $fillable = ['name','email','phone','type','need'];
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
+    protected $casts = ['email_verified_at' => 'datetime','password' => 'hashed','created_at' => 'datetime','updated_at' => 'datetime'];
 
     /**
      * Types de demande possibles

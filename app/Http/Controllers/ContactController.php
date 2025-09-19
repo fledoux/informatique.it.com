@@ -2,63 +2,92 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use \App\Models\Contact;
+use App\Http\Requests\ContactStoreRequest;
+use App\Http\Requests\ContactUpdateRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $contacts = Contact::query()->latest('id')->paginate(15);
+        return view('contact.index', compact('contacts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('contact.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(ContactStoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
+        }
+        $contact = Contact::create($data);
+        return redirect()->route('contact.index')->with('success', __('crud.messages.created'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        try {
+            $contact = Contact::findOrFail($id);
+            return view('contact.show', compact('contact'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('contact.index')
+                ->with('error', __('crud.messages.not_found'));
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        try {
+            $contact = Contact::findOrFail($id);
+            return view('contact.edit', compact('contact'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('contact.index')
+                ->with('error', __('crud.messages.edit_not_found'));
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(ContactUpdateRequest $request, $id)
     {
-        //
+        try {
+            $contact = Contact::findOrFail($id);
+            $data = $request->validated();
+            if (!empty($data['password'])) {
+                $data['password'] = bcrypt($data['password']);
+            } else {
+                unset($data['password']);
+            }
+            $contact->update($data);
+            return redirect()->route('contact.index')->with('success', __('crud.messages.updated'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('contact.index')
+                ->with('error', __('crud.messages.update_not_found'));
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        try {
+            $contact = Contact::findOrFail($id);
+            
+            // Empêcher l'auto-suppression
+            if (strtolower('Contact') === 'user' && auth()->check() && $contact->id === auth()->id()) {
+                return redirect()->route('contact.index')
+                    ->with('error', __('crud.messages.cannot_delete_self'));
+            }
+            
+            $contact->delete();
+            return redirect()->route('contact.index')->with('success', __('crud.messages.deleted'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('contact.index')
+                ->with('error', __('crud.messages.delete_not_found'));
+        }
     }
 }

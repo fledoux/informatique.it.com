@@ -83,18 +83,18 @@ class PageController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
-            'company' => ['nullable', 'string', 'max:255'],
-            'subject' => ['required', 'string', 'in:devis,info,urgence,partenariat'],
-            'message' => ['required', 'string', 'max:5000'],
+            'phone' => ['required', 'string', 'max:20'],
+            'type' => ['required', 'string', 'in:Individual,Association,Company,Collectivity'],
+            'need' => ['required', 'string', 'max:5000'],
         ]);
 
         // Create the contact record
         Contact::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'phone' => null, // Not in the form, could be added later
-            'type' => $validated['subject'],
-            'need' => "Entreprise: " . ($validated['company'] ?? 'Non précisée') . "\n\n" . $validated['message'],
+            'phone' => $validated['phone'],
+            'type' => $validated['type'],
+            'need' => $validated['need'],
         ]);
 
         // Redirect back with success message

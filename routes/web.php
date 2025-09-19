@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use \App\Http\Controllers\UserController;
+use \App\Http\Controllers\ContactController;
 
 // Public routes
 Route::get('/', [PageController::class, 'home'])->name('home');
@@ -33,25 +35,49 @@ Route::middleware(['auth'])->group(function () {
 Route::resource('company', \App\Http\Controllers\CompanyController::class);
 
 Route::prefix('user')->group(function () {
-    Route::get('/', [\App\Http\Controllers\UserController::class, 'index'])
+    Route::get('/', [UserController::class, 'index'])
         ->middleware('permission:user.index')
         ->name('user.index');
-    Route::get('/create', [\App\Http\Controllers\UserController::class, 'create'])
+    Route::get('/create', [UserController::class, 'create'])
         ->middleware('permission:user.create')
         ->name('user.create');
-    Route::post('/', [\App\Http\Controllers\UserController::class, 'store'])
+    Route::post('/', [UserController::class, 'store'])
         ->middleware('permission:user.create')
         ->name('user.store');
-    Route::get('/{user}', [\App\Http\Controllers\UserController::class, 'show'])
+    Route::get('/{user}', [UserController::class, 'show'])
         ->middleware('permission:user.show')
         ->name('user.show');
-    Route::get('/{user}/edit', [\App\Http\Controllers\UserController::class, 'edit'])
+    Route::get('/{user}/edit', [UserController::class, 'edit'])
         ->middleware('permission:user.edit')
         ->name('user.edit');
-    Route::put('/{user}', [\App\Http\Controllers\UserController::class, 'update'])
+    Route::put('/{user}', [UserController::class, 'update'])
         ->middleware('permission:user.edit')
         ->name('user.update');
-    Route::delete('/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])
+    Route::delete('/{user}', [UserController::class, 'destroy'])
         ->middleware('permission:user.delete')
         ->name('user.destroy');
+});
+
+Route::prefix('contact')->group(function () {
+    Route::get('/', [ContactController::class, 'index'])
+        ->middleware('permission:contact.index')
+        ->name('contact.index');
+    Route::get('/create', [ContactController::class, 'create'])
+        //->middleware('permission:contact.create')
+        ->name('contact.create');
+    Route::post('/', [ContactController::class, 'store'])
+        //->middleware('permission:contact.create')
+        ->name('contact.store');
+    Route::get('/{contact}', [ContactController::class, 'show'])
+        ->middleware('permission:contact.show')
+        ->name('contact.show');
+    Route::get('/{contact}/edit', [ContactController::class, 'edit'])
+        ->middleware('permission:contact.edit')
+        ->name('contact.edit');
+    Route::put('/{contact}', [ContactController::class, 'update'])
+        ->middleware('permission:contact.edit')
+        ->name('contact.update');
+    Route::delete('/{contact}', [ContactController::class, 'destroy'])
+        ->middleware('permission:contact.delete')
+        ->name('contact.destroy');
 });
