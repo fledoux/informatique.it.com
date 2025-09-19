@@ -1,187 +1,287 @@
 {{-- Home page JavaScript --}}
 <script>
-// Toggle HT/TTC (TTC = HT * 1.20)
+	// Toggle HT/TTC (TTC = HT * 1.20)
 (function () {
-    const toggle = document.getElementById('toggleTTC');
-    const prices = () => document.querySelectorAll('#tarifs .js-price');
-    const perTicket = () => document.querySelectorAll('#tarifs .js-per');
-    const suffixes = () => document.querySelectorAll('#tarifs [data-suffix]');
+const toggle = document.getElementById('toggleTTC');
+const prices = () => document.querySelectorAll('#tarifs .js-price');
+const perTicket = () => document.querySelectorAll('#tarifs .js-per');
+const suffixes = () => document.querySelectorAll('#tarifs [data-suffix]');
+function formatFR(n) {
+const isInt = Math.abs(n - Math.round(n)) < 1e-9;
+return new Intl.NumberFormat('fr-FR', {
+minimumFractionDigits: isInt ? 0 : 2,
+maximumFractionDigits: isInt ? 0 : 2
+}).format(n);
+}
+function refresh() {
+const isTTC = !! toggle ?. checked;
+prices().forEach(node => {
+const ht = parseFloat(node.getAttribute('data-ht'));
+if (Number.isNaN(ht)) 
+return;
 
-    function formatFR(n) {
-        const isInt = Math.abs(n - Math.round(n)) < 1e-9;
-        return new Intl.NumberFormat('fr-FR', {
-            minimumFractionDigits: isInt ? 0 : 2,
-            maximumFractionDigits: isInt ? 0 : 2
-        }).format(n);
-    }
 
-    function refresh() {
-        const isTTC = !!toggle?.checked;
+const value = isTTC ? (ht * 1.20) : ht;
+node.textContent = formatFR(value);
+});
+perTicket().forEach(node => {
+const ht = parseFloat(node.getAttribute('data-ht'));
+if (Number.isNaN(ht)) 
+return;
 
-        prices().forEach(node => {
-            const ht = parseFloat(node.getAttribute('data-ht'));
-            if (Number.isNaN(ht)) return;
 
-            const value = isTTC ? (ht * 1.20) : ht;
-            node.textContent = formatFR(value);
-        });
+const value = isTTC ? (ht * 1.20) : ht;
+node.textContent = formatFR(value);
+});
+suffixes().forEach(el => {
+const kind = el.getAttribute('data-suffix');
+if (kind === 'ticket') {
+el.innerHTML = isTTC ? '/ ticket T.T.C. (30 min), valable 1 an.' : '/ ticket H.T. (30 min), valable 1 an.';
+} else if (kind === 'pack') {
+el.innerHTML = isTTC ? '/ pack T.T.C.' : '/ pack H.T.';
+}
+});
+}
+if (toggle) {
+toggle.addEventListener('change', refresh);
+}
+refresh();
 
-        perTicket().forEach(node => {
-            const ht = parseFloat(node.getAttribute('data-ht'));
-            if (Number.isNaN(ht)) return;
+// --- Simulateur ---
+const $ = (sel) => document.querySelector(sel);
+const fmt = (n) => new Intl.NumberFormat('fr-FR', {
+minimumFractionDigits: (Math.abs(n - Math.round(n)) < 1e-9) ? 0 : 2,
+maximumFractionDigits: (Math.abs(n - Math.round(n)) < 1e-9) ? 0 : 2
+}).format(n) + '€';
 
-            const value = isTTC ? (ht * 1.20) : ht;
-            node.textContent = formatFR(value);
-        });
+function minutesToHeureLabel(m) {
+const min = Math.max(0, parseInt(m, 10) || 0);
+const h = Math.floor(min / 60);
+const r = min % 60;
+if (h > 0 && r > 0) 
+return `${h}h${r}`;
 
-        suffixes().forEach(el => {
-            const kind = el.getAttribute('data-suffix');
-            if (kind === 'ticket') {
-                el.innerHTML = isTTC ? '/ ticket T.T.C. (30 min), valable 1 an.' : '/ ticket H.T. (30 min), valable 1 an.';
-            } else if (kind === 'pack') {
-                el.innerHTML = isTTC ? '/ pack T.T.C.' : '/ pack H.T.';
-            }
-        });
-    }
 
-    if (toggle) {
-        toggle.addEventListener('change', refresh);
-    }
-    refresh();
+if (h > 0 && r === 0) 
+return `${h}h`;
 
-    // --- Simulator ---
-    const $ = (sel) => document.querySelector(sel);
-    const fmt = (n) => new Intl.NumberFormat('fr-FR', {
-        minimumFractionDigits: (Math.abs(n - Math.round(n)) < 1e-9) ? 0 : 2,
-        maximumFractionDigits: (Math.abs(n - Math.round(n)) < 1e-9) ? 0 : 2
-    }).format(n) + '€';
 
-    function minutesToHeureLabel(m) {
-        const min = Math.max(0, parseInt(m, 10) || 0);
-        const h = Math.floor(min / 60);
-        const r = min % 60;
-        if (h > 0 && r > 0) return `${h}h${r}`;
-        if (h > 0 && r === 0) return `${h}h`;
-        return `${r}min`;
-    }
+return `${r}min`;
+}
+function refreshHeure() {
+const minutesEl = document.getElementById('calcMinutes');
+const label = minutesToHeureLabel(minutesEl ? minutesEl.value : 0);
+document.querySelectorAll('.totalEnHeure').forEach(span => {
+span.textContent = label;
+});
+}
+const PRICES = {
+unit: 68,
+p10: 57,
+p50: 46,
+p100: 37,
+p400: 34
+};
+// HT par ticket
+// Majorations (tickets additionnels)
+const EXTRA = {
+night: 1, // Nuit → +1 ticket
+weekend: 1, // Week-end → +1 ticket
+holiday: 2, // Jour férié → +2 tickets
+urgent: 3, // Urgence → +3 tickets
+travel: 3 // Déplacement Paris/RP → +3 tickets
+};
 
-    function refreshHeure() {
-        const minutesEl = document.getElementById('calcMinutes');
-        const label = minutesToHeureLabel(minutesEl ? minutesEl.value : 0);
-        document.querySelectorAll('.totalEnHeure').forEach(span => {
-            span.textContent = label;
-        });
-    }
+function setExtrasUI() { // Met à jour les badges visuels d’après la config
+document.querySelectorAll('.js-extra').forEach(badge => {
+const key = badge.getAttribute('data-key');
+const val = EXTRA[key] ?? 0;
+const label = val + ' ticket' + (
+val > 1 ? 's' : ''
+);
+badge.textContent = '+' + label;
+});
+}
+const ids = {
+// Totaux HT
+tot_ht_unit: '#tot_ht_unit',
+tot_ht_p10: '#tot_ht_p10',
+tot_ht_p50: '#tot_ht_p50',
+tot_ht_p100: '#tot_ht_p100',
+tot_ht_p400: '#tot_ht_p400',
+// Totaux TTC
+tot_ttc_unit: '#tot_ttc_unit',
+tot_ttc_p10: '#tot_ttc_p10',
+tot_ttc_p50: '#tot_ttc_p50',
+tot_ttc_p100: '#tot_ttc_p100',
+tot_ttc_p400: '#tot_ttc_p400',
+// Prix unitaire HT
+t_ht_unit: '#t_ht_unit',
+t_ht_p10: '#t_ht_p10',
+t_ht_p50: '#t_ht_p50',
+t_ht_p100: '#t_ht_p100',
+t_ht_p400: '#t_ht_p400',
+// Prix unitaire TTC
+t_ttc_unit: '#t_ttc_unit',
+t_ttc_p10: '#t_ttc_p10',
+t_ttc_p50: '#t_ttc_p50',
+t_ttc_p100: '#t_ttc_p100',
+t_ttc_p400: '#t_ttc_p400'
+};
 
-    const PRICES = {
-        unit: 68,
-        p10: 57,
-        p50: 46,
-        p100: 37,
-        p400: 34
-    };
-    // HT per ticket
+function computeTickets() {
+const minutes = Math.max(parseInt($('#calcMinutes') ?. value || '0', 10), 0);
+const base = Math.max(1, Math.ceil(minutes / 30));
+let extra = 0;
+if ($('#calcNight') ?. checked) 
+extra += (EXTRA.night ?? 0);
 
-    // Surcharges (additional tickets)
-    const EXTRA = {
-        night: 1,    // Night → +1 ticket
-        weekend: 1,  // Weekend → +1 ticket
-        holiday: 2,  // Holiday → +2 tickets
-        urgent: 3,   // Urgent → +3 tickets
-        travel: 3    // Travel Paris/RP → +3 tickets
-    };
 
-    function setExtrasUI() { // Update visual badges from config
-        document.querySelectorAll('.js-extra').forEach(badge => {
-            const key = badge.getAttribute('data-key');
-            const val = EXTRA[key] ?? 0;
-            const label = val + ' ticket' + (val > 1 ? 's' : '');
-            badge.textContent = '+' + label;
-        });
-    }
+if ($('#calcWeekend') ?. checked) 
+extra += (EXTRA.weekend ?? 0);
 
-    const ids = {
-        // HT totals
-        tot_ht_unit: '#tot_ht_unit',
-        tot_ht_p10: '#tot_ht_p10',
-        tot_ht_p50: '#tot_ht_p50',
-        tot_ht_p100: '#tot_ht_p100',
-        tot_ht_p400: '#tot_ht_p400',
-        // TTC totals
-        tot_ttc_unit: '#tot_ttc_unit',
-        tot_ttc_p10: '#tot_ttc_p10',
-        tot_ttc_p50: '#tot_ttc_p50',
-        tot_ttc_p100: '#tot_ttc_p100',
-        tot_ttc_p400: '#tot_ttc_p400',
-        // HT unit price
-        t_ht_unit: '#t_ht_unit',
-        t_ht_p10: '#t_ht_p10',
-        t_ht_p50: '#t_ht_p50',
-        t_ht_p100: '#t_ht_p100',
-        t_ht_p400: '#t_ht_p400',
-        // TTC unit price
-        t_ttc_unit: '#t_ttc_unit',
-        t_ttc_p10: '#t_ttc_p10',
-        t_ttc_p50: '#t_ttc_p50',
-        t_ttc_p100: '#t_ttc_p100',
-        t_ttc_p400: '#t_ttc_p400'
-    };
 
-    function computeTickets() {
-        const minutes = Math.max(parseInt($('#calcMinutes')?.value || '0', 10), 0);
-        const base = Math.max(1, Math.ceil(minutes / 30));
-        let extra = 0;
+if ($('#calcHoliday') ?. checked) 
+extra += (EXTRA.holiday ?? 0);
 
-        if ($('#calcNight')?.checked) extra += (EXTRA.night ?? 0);
-        if ($('#calcWeekend')?.checked) extra += (EXTRA.weekend ?? 0);
-        if ($('#calcHoliday')?.checked) extra += (EXTRA.holiday ?? 0);
-        if ($('#calcUrgent')?.checked) extra += (EXTRA.urgent ?? 0);
-        if ($('#calcTravel')?.checked) extra += (EXTRA.travel ?? 0);
 
-        const total = base + extra;
-        $('#outBase') && ($('#outBase').textContent = base);
-        $('#outExtra') && ($('#outExtra').textContent = extra);
-        $('#outTotal') && ($('#outTotal').textContent = total);
-        return {base, extra, total};
-    }
+if ($('#calcUrgent') ?. checked) 
+extra += (EXTRA.urgent ?? 0);
 
-    function refreshSimulator() {
-        const {total} = computeTickets();
-        refreshHeure();
 
-        // Fill HT/TTC unit prices
-        Object.entries(PRICES).forEach(([key, priceHT]) => {
-            const uHT = priceHT;
-            const uTTC = priceHT * 1.2;
-            const t_ht = document.querySelector(ids['t_ht_' + key]);
-            const t_ttc = document.querySelector(ids['t_ttc_' + key]);
-            
-            if (t_ht) t_ht.textContent = fmt(uHT);
-            if (t_ttc) t_ttc.textContent = fmt(uTTC);
+if ($('#calcTravel') ?. checked) 
+extra += (EXTRA.travel ?? 0);
 
-            // Calculate totals
-            const totalHT = total * uHT;
-            const totalTTC = total * uTTC;
-            const tot_ht = document.querySelector(ids['tot_ht_' + key]);
-            const tot_ttc = document.querySelector(ids['tot_ttc_' + key]);
-            
-            if (tot_ht) tot_ht.textContent = fmt(totalHT);
-            if (tot_ttc) tot_ttc.textContent = fmt(totalTTC);
-        });
-    }
 
-    // Initialize
-    setExtrasUI();
+const total = base + extra;
+$('#outBase') && ($('#outBase').textContent = base);
+$('#outExtra') && ($('#outExtra').textContent = extra);
+$('#outTotal') && ($('#outTotal').textContent = total);
+return {base, extra, total};
+}
 
-    // Event listeners
-    document.getElementById('calcMinutes')?.addEventListener('input', refreshSimulator);
-    document.getElementById('calcNight')?.addEventListener('change', refreshSimulator);
-    document.getElementById('calcWeekend')?.addEventListener('change', refreshSimulator);
-    document.getElementById('calcHoliday')?.addEventListener('change', refreshSimulator);
-    document.getElementById('calcUrgent')?.addEventListener('change', refreshSimulator);
-    document.getElementById('calcTravel')?.addEventListener('change', refreshSimulator);
+function refreshSimulator() {
+const {total} = computeTickets();
+refreshHeure();
+// Remplir prix unitaires HT/TTC
+Object.entries(PRICES).forEach(([key, priceHT]) => {
+const uHT = priceHT;
+const uTTC = priceHT * 1.2;
+const t_ht = document.querySelector(ids['t_ht_' + key]);
+const t_ttc = document.querySelector(ids['t_ttc_' + key]);
+if (t_ht) 
+t_ht.textContent = fmt(uHT);
 
-    // Initial calculation
-    refreshSimulator();
+
+if (t_ttc) 
+t_ttc.textContent = fmt(uTTC);
+
+
+});
+// Totaux par offre (HT & TTC)
+Object.entries(PRICES).forEach(([key, priceHT]) => {
+const totalHT = total * priceHT;
+const totalTTC = totalHT * 1.2;
+const th = document.querySelector(ids['tot_ht_' + key]);
+const tt = document.querySelector(ids['tot_ttc_' + key]);
+if (th) 
+th.textContent = fmt(totalHT);
+
+
+if (tt) 
+tt.textContent = fmt(totalTTC);
+
+
+});
+// Surligner la meilleure offre (HT)
+let bestKey = null,
+bestVal = Infinity;
+Object.entries(PRICES).forEach(([key, priceHT]) => {
+const val = total * priceHT;
+if (val < bestVal) {
+bestVal = val;
+bestKey = key;
+}
+});
+document.querySelectorAll('#simuRows tr').forEach(tr => tr.classList.remove('table-success'));
+if (bestKey) {
+const tr = document.querySelector(`#simuRows tr[data-offre="${bestKey}"]`);
+if (tr) 
+tr.classList.add('table-success');
+
+}
+}[
+'#calcMinutes',
+'#calcNight',
+'#calcWeekend',
+'#calcHoliday',
+'#calcUrgent',
+'#calcTravel'
+].forEach(sel => {
+const el = document.querySelector(sel);
+if (el) 
+el.addEventListener('input', () => {
+refreshSimulator();
+refreshHeure();
+});
+
+
+if (el && el.type === 'checkbox') 
+el.addEventListener('change', refreshSimulator);
+
+});
+
+const resetBtn = document.getElementById('calcReset');
+if (resetBtn) {
+resetBtn.addEventListener('click', () => {
+const minutes = document.getElementById('calcMinutes');
+if (minutes) 
+minutes.value = 30;
+[
+'#calcNight',
+'#calcWeekend',
+'#calcHoliday',
+'#calcUrgent',
+'#calcTravel'
+].forEach(sel => {
+const el = document.querySelector(sel);
+if (el) 
+el.checked = false;
+
+
+});
+refreshHeure();
+refreshSimulator();
+});
+}
+
+refreshHeure();
+setExtrasUI();
+refreshSimulator();
 })();
+// Validation Bootstrap
+(() => {
+const forms = document.querySelectorAll('.needs-validation');
+Array.from(forms).forEach(form => {
+form.addEventListener('submit', event => {
+if (!form.checkValidity()) {
+event.preventDefault();
+event.stopPropagation();
+}
+form.classList.add('was-validated');
+}, false);
+});
+})();
+
+$.ajax({
+url: 'https://extranet.yellowcactus.com/guest/api/ask_support.json',
+type: 'POST',
+dataType: 'json',
+success: function (response) {
+$('.support').html(response.data.support);
+},
+error: function () {
+$('.support').html('+ de 9700');
+}
+});
 </script>

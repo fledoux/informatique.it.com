@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Contact;
 
 class PageController extends Controller
 {
@@ -72,5 +73,32 @@ class PageController extends Controller
     public function cgv()
     {
         return view('pages.cgv');
+    }
+
+    /**
+     * Handle contact form submission
+     */
+    public function contact(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'company' => ['nullable', 'string', 'max:255'],
+            'subject' => ['required', 'string', 'in:devis,info,urgence,partenariat'],
+            'message' => ['required', 'string', 'max:5000'],
+        ]);
+
+        // Create the contact record
+        Contact::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => null, // Not in the form, could be added later
+            'type' => $validated['subject'],
+            'need' => "Entreprise: " . ($validated['company'] ?? 'Non précisée') . "\n\n" . $validated['message'],
+        ]);
+
+        // Redirect back with success message
+        return redirect()->route('home')
+            ->with('success', 'Votre message a été envoyé avec succès. Nous vous répondrons rapidement.');
     }
 }

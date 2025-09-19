@@ -12,7 +12,14 @@ $icons = [
 <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080;">
     @foreach($types as $type)
         @if(session()->has($type))
-            @foreach(session($type) as $message)
+            @php
+                $messages = session($type);
+                // Ensure $messages is always an array
+                if (!is_array($messages)) {
+                    $messages = [$messages];
+                }
+            @endphp
+            @foreach($messages as $message)
                 <div class="toast align-items-center text-bg-{{ $type }} border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
                     <div class="d-flex">
                         <div class="toast-body">

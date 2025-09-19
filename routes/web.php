@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 
 // Public routes
 Route::get('/', [PageController::class, 'home'])->name('home');
+Route::post('/', [PageController::class, 'contact'])->name('contact.submit');
 Route::get('/legal', [PageController::class, 'legal'])->name('legal');
 Route::get('/rgpd', [PageController::class, 'rgpd'])->name('rgpd');
 Route::get('/cgv', [PageController::class, 'cgv'])->name('cgv');
