@@ -17,7 +17,7 @@ class ContactUpdateRequest extends FormRequest
             'name' => ['required','string','max:255'],
             'email' => ['required','email','max:255'],
             'phone' => ['nullable','string','max:50'],
-            'type' => ['required','string','max:255'],
+            'type' => ['required','in:active,inactive'],
             'need' => ['required','string']
         ];
     }

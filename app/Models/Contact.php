@@ -21,7 +21,7 @@ class Contact extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = ['email_verified_at' => 'datetime','password' => 'hashed','created_at' => 'datetime','updated_at' => 'datetime'];
+    protected $casts = ['email_verified_at' => 'datetime','password' => 'hashed','created_at' => 'datetime','updated_at' => 'datetime','type' => 'string'];
 
     /**
      * Types de demande possibles

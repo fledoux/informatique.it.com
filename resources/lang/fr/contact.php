@@ -20,5 +20,8 @@ return [
             'phone' => 'Phone',
             'type' => 'Type',
             'need' => 'Need'
-    ]
+    ],
+
+            'enum.type.active' => 'Actif',
+            'enum.type.inactive' => 'Inactif'
 ];

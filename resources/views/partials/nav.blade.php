@@ -11,7 +11,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">
-                        <a class="ms-auto mb-2 btn w-100 {{ str_starts_with($currentRoute, 'ticket.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('ticket.index') }}">
+                        <a class="ms-auto mb-2 btn w-100 {{ str_starts_with($currentRoute, 'ticket.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('user.index') }}">
                             <i class="fa-regular fa-message-question"></i>
                             {{ __('Nav.Support') }}
                         </a>

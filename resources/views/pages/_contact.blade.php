@@ -10,33 +10,30 @@
                         @csrf
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <x-forms.input name="name" label="Nom / Société" type="text" :required="true" placeholder="Ex. Dupont SARL" />
+                                <x-forms.input name="name" label="Nom / Société" type="text" :required="true"
+                                    placeholder="Ex. Dupont SARL" />
                             </div>
                             <div class="col-md-6">
-                                <x-forms.input name="email" label="Email" type="email" :required="true" placeholder="vous@entreprise.com" />
+                                <x-forms.input name="email" label="Email" type="email" :required="true"
+                                    placeholder="vous@entreprise.com" />
                             </div>
                             <div class="col-md-6">
-                                <x-forms.input name="phone" label="Téléphone" type="tel" :required="true" placeholder="06 12 34 56 78" />
+                                <x-forms.input name="phone" label="Téléphone" type="tel" :required="true"
+                                    placeholder="06 12 34 56 78" />
                             </div>
                             <div class="col-md-6">
-                                <x-forms.select name="type" 
-                                               label="Vous êtes" 
-                                               :required="true"
-                                               placeholder="-- Choisissez --"
-                                               :options="[
-                                                   'Individual' => 'Particulier',
-                                                   'Association' => 'Association',
-                                                   'Company' => 'Entreprise',
-                                                   'Collectivity' => 'Collectivité'
-                                               ]" />
+                                <x-forms.select name="type" label="Vous êtes" :required="true"
+                                    placeholder="-- Choisissez --" :options="[
+                                        'Individual' => 'Particulier',
+                                        'Association' => 'Association',
+                                        'Company' => 'Entreprise',
+                                        'Collectivity' => 'Collectivité',
+                                    ]" />
                             </div>
                             <div class="col-12">
-                                <x-forms.input name="need" 
-                                               label="Votre besoin" 
-											   placeholder="Décrivez votre demande..."
-                                               type="textarea" 
-                                               :required="true" 
-                                               :rows="4" />
+                                <x-forms.input name="need" label="Votre besoin"
+                                    placeholder="Décrivez votre demande..." type="textarea" :required="true"
+                                    :rows="4" />
                             </div>
 
                             <div class="col-12 d-grid d-md-flex gap-2">
@@ -51,7 +48,8 @@
                             </div>
                             <div class="col-12">
                                 <small class="text-muted">
-                                    <i class="fa-regular fa-lock me-1"></i>Vos données ne sont ni revendues ni partagées.
+                                    <i class="fa-regular fa-lock me-1"></i>Vos données ne sont ni revendues ni
+                                    partagées.
                                 </small>
                             </div>
                         </div>
@@ -65,10 +63,12 @@
                     </h5>
                     <ul class="list-unstyled text-secondary">
                         <li class="mb-2">
-                            <i class="fa-regular fa-calendar-check me-2 text-orange"></i>Lun–Ven 9h–18h (astreinte en option)
+                            <i class="fa-regular fa-calendar-check me-2 text-orange"></i>Lun–Ven 9h–18h (astreinte en
+                            option)
                         </li>
                         <li class="mb-2">
-                            <i class="fa-regular fa-map-location-dot me-2 text-orange"></i>À distance • Sur site (selon zone et/ou sur Devis)
+                            <i class="fa-regular fa-map-location-dot me-2 text-orange"></i>À distance • Sur site (selon
+                            zone et/ou sur Devis)
                         </li>
                         <li class="mb-2">
                             <i class="fa-regular fa-file-signature me-2 text-orange"></i>Devis sous 24h ouvrées
@@ -84,7 +84,8 @@
                     <hr class="my-4">
                     <img src="{{ asset('assets/img/logo/tv-logo.svg') }}" alt="TeamViewer" class="img-fluid logo-tv">
                     <p class="mt-4">
-                        <a href="https://get.teamviewer.com/78369w6g" target="_blank" class="btn btn-primary w-100 w-sm-auto">
+                        <a href="https://get.teamviewer.com/78369w6g" target="_blank"
+                            class="btn btn-primary w-100 w-sm-auto">
                             <i class="fa-regular fa-arrow-down-to-line"></i>
                             Obtenir<span class="d-none d-sm-inline"> le logiciel</span> TeamViewer
                         </a>

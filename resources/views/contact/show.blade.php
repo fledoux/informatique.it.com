@@ -15,7 +15,14 @@
         <dt class="col-sm-3">{{ __('contact.fields.phone') }}</dt>
         <dd class="col-sm-9">{{ $contact->phone ?? '—' }}</dd>
         <dt class="col-sm-3">{{ __('contact.fields.type') }}</dt>
-        <dd class="col-sm-9">{{ $contact->type ?? '—' }}</dd>
+        <dd class="col-sm-9">
+            @php($badgeColor = 'secondary')
+            @switch($contact->type)
+                @case('active') @php($badgeColor = 'success') @break
+                @case('inactive') @php($badgeColor = 'secondary') @break
+            @endswitch
+            <span class="badge bg-{{ $badgeColor }}">{{ __('contact.enum.type.' . $contact->type) }}</span>
+        </dd>
         <dt class="col-sm-3">{{ __('contact.fields.need') }}</dt>
         <dd class="col-sm-9">{{ $contact->need ?? '—' }}</dd>
     </dl>

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name')->comment('Nom du contact');
             $table->string('email')->comment('Email du contact');
             $table->string('phone', 50)->nullable()->comment('Téléphone du contact');
-            $table->string('type')->comment('Type de demande');
+            $table->enum('type', ['active', 'inactive'])->default('active');
             $table->longText('need')->comment('Description du besoin');
             $table->timestamps();
             

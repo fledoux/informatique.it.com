@@ -31,7 +31,14 @@
 <td>{{ $contact->name }}</td>
 <td>{{ $contact->email }}</td>
 <td>{{ $contact->phone }}</td>
-<td>{{ $contact->type }}</td>
+<td>
+@php($badgeColor = 'secondary')
+@switch($contact->type)
+    @case('active') @php($badgeColor = 'success') @break
+    @case('inactive') @php($badgeColor = 'secondary') @break
+@endswitch
+<span class="badge bg-{{ $badgeColor }}">{{ __('contact.enum.type.' . $contact->type) }}</span>
+</td>
 <td>{{ $contact->need }}</td>
 <td class="text-nowrap">
 <a href="{{ route('contact.show', $contact) }}" class="btn btn-link text-decoration-none p-0 me-2">

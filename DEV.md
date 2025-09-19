@@ -1,3 +1,8 @@
+Laravel Command
+
+php artisan migrate:fresh
+php artisan db:seed --class=PermissionSeeder
+
 User
 - status: string(20) — Utilisateur activé/désactivé (active|inactive)
 - companyId: relation ManyToOne → Company — Société d’appartenance

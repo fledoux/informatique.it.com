@@ -106,7 +106,7 @@ class MakeCrudBootstrap extends Command
 
         $files = [
             "{$viewDir}/index.blade.php"  => $this->stubIndex($entity, $entitySlug, $varSing, $varPlur, $columns),
-            "{$viewDir}/_form.blade.php"  => $this->stubForm($entity, $entitySlug, $varSing, $columns),
+            "{$viewDir}/_form.blade.php"  => $this->stubForm($entity, $entitySlug, $varSing, $columns, $this->table),
             "{$viewDir}/create.blade.php" => $this->stubCreate($entity, $entitySlug),
             "{$viewDir}/edit.blade.php"   => $this->stubEdit($entity, $entitySlug, $varSing),
             "{$viewDir}/show.blade.php"   => $this->stubShow($entity, $entitySlug, $varSing, $columns),
@@ -448,25 +448,25 @@ PHP;
         $routesFile = base_path('routes/web.php');
         $resourceLines = <<<PHP
 Route::prefix('{$entitySlug}')->group(function () {
-    Route::get('/', [\\App\\Http\\Controllers\\{$entity}Controller::class, 'index'])
+    Route::get('/', [{$entity}Controller::class, 'index'])
         ->middleware('permission:{$entitySlug}.index')
         ->name('{$entitySlug}.index');
-    Route::get('/create', [\\App\\Http\\Controllers\\{$entity}Controller::class, 'create'])
+    Route::get('/create', [{$entity}Controller::class, 'create'])
         ->middleware('permission:{$entitySlug}.create')
         ->name('{$entitySlug}.create');
-    Route::post('/', [\\App\\Http\\Controllers\\{$entity}Controller::class, 'store'])
+    Route::post('/', [{$entity}Controller::class, 'store'])
         ->middleware('permission:{$entitySlug}.create')
         ->name('{$entitySlug}.store');
-    Route::get('/{{$entitySlug}}', [\\App\\Http\\Controllers\\{$entity}Controller::class, 'show'])
+    Route::get('/{{$entitySlug}}', [{$entity}Controller::class, 'show'])
         ->middleware('permission:{$entitySlug}.show')
         ->name('{$entitySlug}.show');
-    Route::get('/{{$entitySlug}}/edit', [\\App\\Http\\Controllers\\{$entity}Controller::class, 'edit'])
+    Route::get('/{{$entitySlug}}/edit', [{$entity}Controller::class, 'edit'])
         ->middleware('permission:{$entitySlug}.edit')
         ->name('{$entitySlug}.edit');
-    Route::put('/{{$entitySlug}}', [\\App\\Http\\Controllers\\{$entity}Controller::class, 'update'])
+    Route::put('/{{$entitySlug}}', [{$entity}Controller::class, 'update'])
         ->middleware('permission:{$entitySlug}.edit')
         ->name('{$entitySlug}.update');
-    Route::delete('/{{$entitySlug}}', [\\App\\Http\\Controllers\\{$entity}Controller::class, 'destroy'])
+    Route::delete('/{{$entitySlug}}', [{$entity}Controller::class, 'destroy'])
         ->middleware('permission:{$entitySlug}.delete')
         ->name('{$entitySlug}.destroy');
 });
@@ -474,7 +474,43 @@ PHP;
 
         if ($fs->exists($routesFile)) {
             $routes = $fs->get($routesFile);
-            if (strpos($routes, $resourceLines) === false) {
+            
+            // Vérifier si le groupe de routes existe déjà
+            $routeGroupPattern = "Route::prefix('{$entitySlug}')->group(function ()";
+            if (strpos($routes, $routeGroupPattern) !== false) {
+                $this->info("Routes pour {$entitySlug} existent déjà, génération ignorée");
+            } else {
+                // Vérifier si le use statement existe déjà
+                $useStatement = "use \\App\\Http\\Controllers\\{$entity}Controller;";
+                if (strpos($routes, $useStatement) === false) {
+                    // Ajouter le use statement après les autres use statements
+                    $lines = explode("\n", $routes);
+                    $insertIndex = 0;
+                    
+                    // Trouver la dernière ligne use ou après <?php
+                    for ($i = 0; $i < count($lines); $i++) {
+                        if (str_starts_with(trim($lines[$i]), 'use ') && str_contains($lines[$i], 'Controller')) {
+                            $insertIndex = $i + 1;
+                        }
+                    }
+                    
+                    // Si pas de use Controller trouvé, chercher après les autres use
+                    if ($insertIndex === 0) {
+                        for ($i = 0; $i < count($lines); $i++) {
+                            if (str_starts_with(trim($lines[$i]), 'use ')) {
+                                $insertIndex = $i + 1;
+                            }
+                        }
+                    }
+                    
+                    // Insérer le use statement
+                    array_splice($lines, $insertIndex, 0, $useStatement);
+                    $routes = implode("\n", $lines);
+                    $fs->put($routesFile, $routes);
+                    $this->info("Use statement ajouté pour {$entity}Controller");
+                }
+                
+                // Ajouter les routes
                 $fs->append($routesFile, PHP_EOL . $resourceLines . PHP_EOL);
                 $this->info("Routes avec middlewares de permission ajoutées dans routes/web.php");
             }
@@ -986,11 +1022,10 @@ PHP
         return $foreignKeys;
     }
 
-    private function inputFor(string $column, string $varSing, string $entitySlug): string
+    private function inputFor(string $column, string $varSing, string $entitySlug, string $tableName = ''): string
     {
-        $d = '$';
         $name  = $column;
-        $labelExpr = "{{ __('{$entitySlug}.fields.{$name}') }}";
+        $labelExpr = "__('{$entitySlug}.fields.{$name}')";
         $varToken = '$' . $varSing;
         $lower = strtolower($column);
 
@@ -998,10 +1033,10 @@ PHP
         if ($lower === 'password') {
             return <<<HTML
         <div class="col-12 col-lg-6">
-            <label for="{$name}" class="form-label">{$labelExpr}</label>
-            <input id="{$name}" type="password" name="{$name}" class="form-control" value="">
-            <small class="form-text text-muted">Laissez vide pour conserver le mot de passe actuel</small>
-            @error('{$name}')<div class="text-danger small">{{ {$d}message }}</div>@enderror
+            <x-forms.input name="{$name}" 
+                           :label="{$labelExpr}" 
+                           type="password" 
+                           placeholder="Laissez vide pour conserver le mot de passe actuel" />
         </div>
 HTML;
         }
@@ -1015,16 +1050,11 @@ HTML;
             
             return <<<HTML
         <div class="col-12 col-lg-6">
-            <label for="{$name}" class="form-label">{$labelExpr}</label>
-            <select id="{$name}" name="{$name}" class="form-select">
-                <option value="">-- Sélectionner --</option>
-                @foreach(\\App\\Models\\{$modelName}::orderBy('{$displayField}')->get() as {$d}option)
-                    <option value="{{ {$d}option->id }}" {{ old('{$name}', {$varToken}->{$name}) == {$d}option->id ? 'selected' : '' }}>
-                        {{ {$d}option->{$displayField} }}
-                    </option>
-                @endforeach
-            </select>
-            @error('{$name}')<div class="text-danger small">{{ {$d}message }}</div>@enderror
+            <x-forms.relation name="{$name}" 
+                              :label="{$labelExpr}" 
+                              model="{$modelName}" 
+                              display-field="{$displayField}"
+                              :value="{$varToken}->{$name} ?? null" />
         </div>
 HTML;
         }
@@ -1032,21 +1062,18 @@ HTML;
         // NOUVEAU : Champs enum Laravel natifs (PRIORITÉ sur les autres)
         if (isset($this->enumFields[$column])) {
             $options = $this->enumFields[$column];
-            $optionsHtml = '';
-            
+            $optionsArray = [];
             foreach ($options as $option) {
-                $value = $option;
-                $label = ucfirst($option);
-                $selected = "{{ old('{$name}', {$varToken}->{$name} ?? '{$options[0]}') === '{$value}' ? 'selected' : '' }}";
-                $optionsHtml .= "\n                <option value=\"{$value}\" {$selected}>{$label}</option>";
+                $optionsArray[] = "'{$option}' => __('{$entitySlug}.enums.{$column}.{$option}')";
             }
+            $optionsStr = '[' . implode(', ', $optionsArray) . ']';
             
             return <<<HTML
         <div class="col-12 col-lg-4">
-            <label for="{$name}" class="form-label">{$labelExpr}</label>
-            <select id="{$name}" name="{$name}" class="form-select">{$optionsHtml}
-            </select>
-            @error('{$name}')<div class="text-danger small">{{ {$d}message }}</div>@enderror
+            <x-forms.select name="{$name}" 
+                            :label="{$labelExpr}" 
+                            :options="{$optionsStr}"
+                            :value="{$varToken}->{$name} ?? '{$options[0]}'" />
         </div>
 HTML;
         }
@@ -1055,52 +1082,45 @@ HTML;
         if (Str::endsWith($lower, '_at') || in_array($lower, ['last_login', 'email_verified_at'])) {
             return <<<HTML
         <div class="col-12 col-lg-6">
-            <label for="{$name}" class="form-label">{$labelExpr}</label>
-            <input id="{$name}" type="datetime-local" name="{$name}" class="form-control" 
-                   value="{{ old('{$name}', {$varToken}->{$name} ? ({$varToken}->{$name} instanceof \\Carbon\\Carbon ? {$varToken}->{$name}->format('Y-m-d\\TH:i') : {$varToken}->{$name}) : '') }}">
-            @error('{$name}')<div class="text-danger small">{{ {$d}message }}</div>@enderror
+            <x-forms.input name="{$name}" 
+                           :label="{$labelExpr}" 
+                           type="datetime-local"
+                           :value="old('{$name}', {$varToken}->{$name} ? ({$varToken}->{$name} instanceof \\Carbon\\Carbon ? {$varToken}->{$name}->format('Y-m-d\\\\TH:i') : {$varToken}->{$name}) : '')" />
         </div>
 HTML;
         }
 
         // Cas spécial : JSON avec structure booléenne (commentaire détecté)
         if (isset($this->jsonBooleanFields[$column])) {
-            $checkboxes = '';
+            $optionsArray = [];
             foreach ($this->jsonBooleanFields[$column] as $key) {
-                $checkboxes .= <<<HTML
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" 
-                       id="{$name}_{$key}" 
-                       name="{$name}[{$key}]" 
-                       value="1"
-                       @php({$d}oldData = old('{$name}', is_array({$varToken}->{$name}) ? {$varToken}->{$name} : (is_string({$varToken}->{$name}) ? json_decode({$varToken}->{$name}, true) : [])))
-                       {{ isset({$d}oldData['{$key}']) && {$d}oldData['{$key}'] ? 'checked' : '' }}>
-                <label class="form-check-label" for="{$name}_{$key}">
-                    {{ __('{$entitySlug}.fields.{$name}_{$key}') }}
-                </label>
-            </div>
-HTML;
+                $optionsArray[] = "'{$key}' => __('{$entitySlug}.fields.{$name}_{$key}')";
             }
+            $optionsStr = '[' . implode(', ', $optionsArray) . ']';
+            $valuesStr = "old('{$name}', is_array({$varToken}->{$name}) ? {$varToken}->{$name} : (is_string({$varToken}->{$name}) ? json_decode({$varToken}->{$name}, true) : []))";
             
             return <<<HTML
         <div class="col-12 col-lg-6">
-            <label class="form-label">{$labelExpr}</label>
-            <div class="border rounded p-3">
-{$checkboxes}
-            </div>
-            @error('{$name}')<div class="text-danger small">{{ {$d}message }}</div>@enderror
+            <x-forms.checkbox-group name="{$name}" 
+                                    :label="{$labelExpr}" 
+                                    :options="{$optionsStr}"
+                                    :values="{$valuesStr}" />
         </div>
 HTML;
         }
 
         // Cas général : champ JSON (textarea)
         if (in_array($column, $this->jsonFields)) {
+            $jsonValue = "is_array({$varToken}->{$name}) ? json_encode({$varToken}->{$name}, JSON_PRETTY_PRINT) : {$varToken}->{$name}";
             return <<<HTML
         <div class="col-12">
-            <label for="{$name}" class="form-label">{$labelExpr}</label>
-            <textarea id="{$name}" name="{$name}" class="form-control" rows="4" placeholder='{"key": "value"}'>@php({$d}jsonValue = is_array({$varToken}->{$name}) ? json_encode({$varToken}->{$name}, JSON_PRETTY_PRINT) : {$varToken}->{$name}){{ old('{$name}', {$d}jsonValue) }}</textarea>
+            <x-forms.input name="{$name}" 
+                           :label="{$labelExpr}" 
+                           type="textarea" 
+                           :rows="4" 
+                           placeholder='{"key": "value"}'
+                           :value="old('{$name}', {$jsonValue})" />
             <small class="form-text text-muted">Format JSON attendu</small>
-            @error('{$name}')<div class="text-danger small">{{ {$d}message }}</div>@enderror
         </div>
 HTML;
         }
@@ -1108,20 +1128,20 @@ HTML;
         // NOUVEAU : Champs booléens avec enum (ex: active|inactive)
         if (isset($this->booleanEnumFields[$column])) {
             $options = $this->booleanEnumFields[$column];
-            $optionsHtml = '';
-            
+            $optionsArray = [];
             foreach ($options as $index => $option) {
                 $value = $index === 0 ? 'true' : 'false'; // Premier = true, second = false
-                $selected = "{{ old('{$name}', {$varToken}->{$name} ?? " . ($index === 0 ? 'true' : 'false') . ") == '{$value}' ? 'selected' : '' }}";
-                $optionsHtml .= "\n                <option value=\"{$value}\" {$selected}>" . ucfirst($option) . "</option>";
+                $optionsArray[] = "'{$value}' => '" . ucfirst($option) . "'";
             }
+            $optionsStr = '[' . implode(', ', $optionsArray) . ']';
+            $defaultValue = 'true';
             
             return <<<HTML
         <div class="col-12 col-lg-4">
-            <label for="{$name}" class="form-label">{$labelExpr}</label>
-            <select id="{$name}" name="{$name}" class="form-select">{$optionsHtml}
-            </select>
-            @error('{$name}')<div class="text-danger small">{{ {$d}message }}</div>@enderror
+            <x-forms.select name="{$name}" 
+                            :label="{$labelExpr}" 
+                            :options="{$optionsStr}"
+                            :value="old('{$name}', {$varToken}->{$name} ?? '{$defaultValue}')" />
         </div>
 HTML;
         }
@@ -1130,33 +1150,29 @@ HTML;
         if (in_array($column, $this->booleanFields)) {
             return <<<HTML
         <div class="col-12 col-lg-4">
-            <label for="{$name}" class="form-label">{$labelExpr}</label>
-            @php({$d}__current = old('{$name}', {$varToken}->{$name} ?? false))
-            <select id="{$name}" name="{$name}" class="form-select">
-                <option value="0" {{ !{$d}__current ? 'selected' : '' }}>Non</option>
-                <option value="1" {{ {$d}__current ? 'selected' : '' }}>Oui</option>
-            </select>
-            @error('{$name}')<div class="text-danger small">{{ {$d}message }}</div>@enderror
+            <x-forms.select name="{$name}" 
+                            :label="{$labelExpr}" 
+                            :options="['0' => 'Non', '1' => 'Oui']"
+                            :value="old('{$name}', {$varToken}->{$name} ?? false) ? '1' : '0'" />
         </div>
 HTML;
         }
 
-        // textarea pour notes/description/body/question
-        if (Str::contains($lower, ['notes', 'note', 'description', 'body', 'question'])) {
-            $value = "{{ old('{$name}', {$varToken}->{$name} ?? null) }}";
+        // textarea pour les champs longText et text
+        if ($this->isLongTextField($tableName, $column) || $this->isTextField($tableName, $column)) {
             return <<<HTML
         <div class="col-12">
-            <label for="{$name}" class="form-label">{$labelExpr}</label>
-            <textarea id="{$name}" name="{$name}" class="form-control" rows="4">{$value}</textarea>
-            @error('{$name}')<div class="text-danger small">{{ {$d}message }}</div>@enderror
+            <x-forms.input name="{$name}" 
+                           :label="{$labelExpr}" 
+                           type="textarea" 
+                           :rows="4"
+                           :value="old('{$name}', {$varToken}->{$name} ?? null)" />
         </div>
 HTML;
         }
 
         // types spécifiques
         $type = 'text';
-        $value = "{{ old('{$name}', {$varToken}->{$name} ?? null) }}";
-
         if ($lower === 'email') {
             $type = 'email';
         }
@@ -1167,9 +1183,9 @@ HTML;
             $type = 'tel';
         }
 
-        $extra = '';
+        $placeholder = '';
         if ($lower === 'country') {
-            $extra = ' maxlength="2" placeholder="FR"';
+            $placeholder = 'FR';
         }
 
         // taille de colonne par défaut
@@ -1181,11 +1197,18 @@ HTML;
             $colClass = 'col-12 col-lg-8';
         }
 
+        $additionalAttrs = '';
+        if ($lower === 'country') {
+            $additionalAttrs = 'maxlength="2"';
+        }
+
         return <<<HTML
         <div class="{$colClass}">
-            <label for="{$name}" class="form-label">{$labelExpr}</label>
-            <input id="{$name}" type="{$type}" name="{$name}" class="form-control" value="{$value}"{$extra}>
-            @error('{$name}')<div class="text-danger small">{{ {$d}message }}</div>@enderror
+            <x-forms.input name="{$name}" 
+                           :label="{$labelExpr}" 
+                           type="{$type}"
+                           :value="old('{$name}', {$varToken}->{$name} ?? null)"
+                           placeholder="{$placeholder}" {$additionalAttrs} />
         </div>
 HTML;
     }
@@ -1217,6 +1240,42 @@ HTML;
         
         // Ultime fallback
         return 'id';
+    }
+
+    private function isLongTextField(string $tableName, string $columnName): bool
+    {
+        $migrationPath = database_path('migrations');
+        $files = glob($migrationPath . '/*_create_' . $tableName . '_table.php');
+        
+        if (empty($files)) {
+            return false;
+        }
+        
+        $migrationFile = end($files);
+        $content = file_get_contents($migrationFile);
+        
+        // Cherche les déclarations longText pour ce champ
+        $pattern = '/\$table\s*->\s*longText\s*\(\s*[\'"]' . preg_quote($columnName, '/') . '[\'"].*?\)/';
+        
+        return preg_match($pattern, $content) === 1;
+    }
+
+    private function isTextField(string $tableName, string $columnName): bool
+    {
+        $migrationPath = database_path('migrations');
+        $files = glob($migrationPath . '/*_create_' . $tableName . '_table.php');
+        
+        if (empty($files)) {
+            return false;
+        }
+        
+        $migrationFile = end($files);
+        $content = file_get_contents($migrationFile);
+        
+        // Cherche les déclarations text pour ce champ
+        $pattern = '/\$table\s*->\s*text\s*\(\s*[\'"]' . preg_quote($columnName, '/') . '[\'"].*?\)/';
+        
+        return preg_match($pattern, $content) === 1;
     }
 
     private function stubIndex(string $entity, string $entitySlug, string $varSing, string $varPlur, array $columns): string
@@ -1364,14 +1423,14 @@ style="display:inline">
 BLADE;
     }
 
-    private function stubForm(string $entity, string $entitySlug, string $varSing, array $columns): string
+    private function stubForm(string $entity, string $entitySlug, string $varSing, array $columns, string $tableName = ''): string
     {
         $fields = '';
         foreach ($columns as $column) {
             if (in_array($column, ['id', 'created_at', 'updated_at'])) {
                 continue;
             }
-            $fields .= $this->inputFor($column, $varSing, $entitySlug) . "\n";
+            $fields .= $this->inputFor($column, $varSing, $entitySlug, $tableName) . "\n";
         }
 
         return <<<BLADE
