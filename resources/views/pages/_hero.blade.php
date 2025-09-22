@@ -23,7 +23,7 @@
                     <a href="#contact" class="btn btn-orange btn-lg w-100 w-sm-auto">
                         <i class="fa-regular fa-calendar-check me-2"></i><span class="d-none d-sm-inline">Obtenir un&nbsp;</span>devis en&nbsp;2&nbsp;min
                     </a>
-                    <a href="#tarifs" class="btn btn-outline-orange btn-lg w-100 w-sm-auto">
+                    <a href="#tarifs" class="btn border-2 btn-outline-orange btn-lg w-100 w-sm-auto">
                         <i class="fa-regular fa-tags me-2"></i>Voir les tarifs
                     </a>
                 </div>
