@@ -44,7 +44,7 @@
     @case('active') @php($badgeColor = 'success') @break
     @case('inactive') @php($badgeColor = 'secondary') @break
 @endswitch
-<span class="badge bg-{{ $badgeColor }}">{{ __('user.enum.status.' . $user->status) }}</span>
+<span class="badge bg-{{ $badgeColor }}">{{ __('user.enums.status.' . $user->status) }}</span>
 </td>
 <td>{{ $user->company_id ? \App\Models\Company::find($user->company_id)?->name : '—' }}</td>
 <td>{{ $user->firstname }}</td>
@@ -57,7 +57,7 @@
     @case('oui') @php($badgeColor = 'primary') @break
     @case('non') @php($badgeColor = 'primary') @break
 @endswitch
-<span class="badge bg-{{ $badgeColor }}">{{ __('user.enum.agree_terms.' . $user->agree_terms) }}</span>
+<span class="badge bg-{{ $badgeColor }}">{{ __('user.enums.agree_terms.' . $user->agree_terms) }}</span>
 </td>
 <td>@php($selected = collect(["email","sms"])->filter(fn($key) => $user->channels[$key] ?? false)->map(fn($key) => __('user.fields.channels_' . $key))->join(', ')){{ $selected ?: '—' }}</td>
 <td>{{ $user->note }}</td>

@@ -6,6 +6,7 @@ use \App\Models\User;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -79,7 +80,6 @@ class UserController extends Controller
             
             // Empêcher l'auto-suppression
             if (strtolower('User') === 'user' && Auth::check() && $user->id === Auth::id()) {
-                if (Auth::check() && $ticket->author_id === Auth::id()) {
                 return redirect()->route('user.index')
                     ->with('error', __('crud.messages.cannot_delete_self'));
             }

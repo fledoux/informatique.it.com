@@ -3,7 +3,7 @@
 return [
     'Welcome' => 'Bienvenue sur votre tableau de bord',
     'WelcomeTitle' => 'Tableau de bord',
-    'RecentTickets' => 'Tickets récents',
+    'RecentTickets' => 'Dernières demandes',
     
     'KPI' => [
         'Tickets' => 'Tickets',
@@ -13,4 +13,6 @@ return [
         'Contacts' => 'Contacts',
         'Companies' => 'Sociétés',
     ],
+    
+    'NoTicketsYet' => 'Aucun ticket pour le moment.',
 ];

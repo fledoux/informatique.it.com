@@ -171,7 +171,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center text-muted py-4">Aucun ticket pour le moment.</td>
+                                <td colspan="8" class="text-center text-muted py-4">{{ __('dashboard.NoTicketsYet') }}</td>
                             </tr>
                         @endforelse
                     </tbody>

@@ -8,9 +8,12 @@ return [
     'Connect' => 'Login',
     'Support' => 'Support',
     'Users' => 'Users',
-    'Companies' => 'Companies', 
+    'Companies' => 'Companies',
     'Contact' => 'Contact',
     'Contacts' => 'Contacts',
     'Login' => 'Login',
     'Logout' => 'Logout',
+    'Language' => 'Language',
+    'French' => 'Français',
+    'English' => 'English',
 ];

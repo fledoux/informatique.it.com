@@ -3,7 +3,7 @@
 return [
     'Welcome' => 'Welcome to your dashboard',
     'WelcomeTitle' => 'Dashboard',
-    'RecentTickets' => '20 Dernières demandes',
+    'RecentTickets' => 'Recent Requests',
     
     'KPI' => [
         'Tickets' => 'Tickets',
@@ -13,4 +13,6 @@ return [
         'Contacts' => 'Contacts',
         'Companies' => 'Companies',
     ],
+    
+    'NoTicketsYet' => 'No tickets yet.',
 ];

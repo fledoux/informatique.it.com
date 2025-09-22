@@ -82,23 +82,21 @@
                 </div>
                 <div class="col-12 text-center mt-4">
                     <div class="row align-items-center">
-                        <div class="col-md-3 text-center text-md-start">
-                            <h6 class="fw-semibold text-secondary mb-2 mb-md-0">
-                                <i class="fa-regular fa-code me-2"></i>
+                        <div class="col-md-12 text-center text-md-start">
+                            <span class="h6 fw-semibold text-secondary mb-2 mb-md-0">
+                                <i class="fa-regular fa-code me-1"></i>
                                 Technologies utilisées :
-                            </h6>
-                        </div>
-                        <div class="col-md-9">
-                            <div
-                                class="d-flex flex-wrap justify-content-center justify-content-md-start gap-3 align-items-center">
-                                <span class="badge badge-outline-secondary">Laravel 12</span>
-                                <span class="badge badge-outline-secondary">PHP 8.4</span>
-                                <span class="badge badge-outline-secondary">Bootstrap 5</span>
-                                <span class="badge badge-outline-secondary">MySQL</span>
-                                <span class="badge badge-outline-secondary">JavaScript</span>
+                            </span>
+                            <span>
+                                <span class="badge badge-outline-secondary me-2">Laravel 12</span>
+                                <span class="badge badge-outline-secondary me-2">PHP 8.4</span>
+                                <span class="badge badge-outline-secondary me-2">Bootstrap 5</span>
+                                <span class="badge badge-outline-secondary me-2">MySQL</span>
+                                <span class="badge badge-outline-secondary me-2">JavaScript</span>
                                 <span class="badge badge-outline-secondary">Docker</span>
-                            </div>
+                            </span>
                         </div>
+
                     </div>
                 </div>
             </div>

@@ -13,4 +13,7 @@ return [
     'Contacts' => 'Contacts',
     'Login' => 'Connexion',
     'Logout' => 'Déconnexion',
+    'Language' => 'Langue',
+    'French' => 'Français',
+    'English' => 'English',
 ];

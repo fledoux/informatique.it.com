@@ -4,9 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\LocaleController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\ContactController;
 use \App\Http\Controllers\TicketController;
+
+// Locale routes (accessible sans authentification)
+Route::post('/locale/change', [LocaleController::class, 'change'])->name('locale.change');
+Route::get('/locale/current', [LocaleController::class, 'current'])->name('locale.current');
 
 // Public routes
 Route::get('/', [PageController::class, 'home'])->name('home');

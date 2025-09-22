@@ -14,6 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         \App\Console\Commands\MakeCrudBootstrap::class,
     ])
     ->withMiddleware(function (Middleware $middleware) {
+        // Appliquer SetLocale globalement pour toutes les requêtes web
+        $middleware->web(append: [
+            \App\Http\Middleware\SetLocale::class,
+        ]);
+        
         $middleware->alias([
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,

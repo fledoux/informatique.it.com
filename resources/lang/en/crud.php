@@ -1,6 +1,16 @@
 <?php
 return [
-    'List' => 'List',
+        'messages' => [
+        'created' => 'Created successfully',
+        'updated' => 'Updated successfully',
+        'deleted' => 'Deleted successfully',
+        'not_found' => 'Item not found',
+        'edit_not_found' => 'Cannot edit: item not found',
+        'update_not_found' => 'Cannot update: item not found',
+        'delete_not_found' => 'Cannot delete: item not found',
+        'cannot_delete_self' => 'You cannot delete your own account',
+        'locale_updated' => 'Language updated successfully',
+    ],'List',
     'Create' => 'Create',
     'Edit' => 'Edit',
     'Details' => 'Details',
