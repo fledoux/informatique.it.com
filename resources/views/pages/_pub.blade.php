@@ -4,9 +4,9 @@
         <div class="hero border rounded-4 p-4">
             <div class="row align-items-center">
                 <div class="col-lg-8">
-                    <h2 class="fw-bold mb-3 h4">
-                        <i class="fa-brands fa-laravel me-2 fa-2x text-warning"></i>
-                        Une application comme celle-ci pour votre entreprise ?
+                    <h2 class="fw-bold mb-3">
+                        <i class="fa-brands fa-laravel me-2 text-warning"></i>
+                        Une application pour votre entreprise ?
                     </h2>
                     <p class="fs-5 mb-4 opacity-90">
                         Cette plateforme de support informatique a été développée sur mesure par <strong>Yellow
@@ -65,7 +65,7 @@
                                 <i class="fa-regular fa-paper-plane me-1"></i>
                                 Contactez-nous
                             </a>
-                            <a href="https://www.yellowcactus.com/fr/esn" class="btn btn-outline-secondary btn-sm"
+                            <a href="https://www.yellowcactus.com" class="btn btn-outline-secondary btn-sm"
                                 target="_blank" rel="noopener">
                                 <i class="fa-regular fa-external-link me-1"></i>
                                 Découvrir nos services
