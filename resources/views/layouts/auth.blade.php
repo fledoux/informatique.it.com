@@ -21,5 +21,6 @@
         @include('partials.flash')
         @yield('content')
     </main>
+    @include('partials._matomo')
 </body>
 </html>

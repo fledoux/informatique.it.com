@@ -24,5 +24,6 @@
         </main>
     </div>
     @include('partials.footer')
+    @include('partials._matomo')
 </body>
 </html>
