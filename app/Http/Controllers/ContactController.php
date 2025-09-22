@@ -6,6 +6,7 @@ use \App\Models\Contact;
 use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 class ContactController extends Controller
 {
@@ -20,6 +21,7 @@ class ContactController extends Controller
         return view('contact.create');
     }
 
+    #[ProtectAgainstSpam]
     public function store(ContactStoreRequest $request)
     {
         $data = $request->validated();

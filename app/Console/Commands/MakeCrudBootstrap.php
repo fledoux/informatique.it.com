@@ -344,6 +344,10 @@ class MakeCrudBootstrap extends Command
                     }
                     PHP;
 
+                // Générer eager loading pour éviter le problème N+1
+                $eagerRelations = $this->getEagerLoadingRelations($columns);
+                $withClause = empty($eagerRelations) ? '' : "->with(['" . implode("', '", $eagerRelations) . "'])";
+
                 $controllerBody = <<<PHP
 <?php
 
@@ -358,7 +362,7 @@ class {$entity}Controller extends Controller
 {
     public function index()
     {
-        \${$varPlur} = {$entity}::query()->latest('id')->paginate(15);
+        \${$varPlur} = {$entity}::query(){$withClause}->latest('id')->paginate(15);
         return view('{$entitySlug}.index', compact('{$varPlur}'));
     }
 
@@ -382,7 +386,7 @@ class {$entity}Controller extends Controller
     public function show(\$id)
     {
         try {
-            \${$varSing} = {$entity}::findOrFail(\$id);
+            \${$varSing} = {$entity}::query(){$withClause}->findOrFail(\$id);
             return view('{$entitySlug}.show', compact('{$varSing}'));
         } catch (ModelNotFoundException \$e) {
             return redirect()->route('{$entitySlug}.index')
@@ -393,7 +397,7 @@ class {$entity}Controller extends Controller
     public function edit(\$id)
     {
         try {
-            \${$varSing} = {$entity}::findOrFail(\$id);
+            \${$varSing} = {$entity}::query(){$withClause}->findOrFail(\$id);
             return view('{$entitySlug}.edit', compact('{$varSing}'));
         } catch (ModelNotFoundException \$e) {
             return redirect()->route('{$entitySlug}.index')
@@ -648,17 +652,6 @@ PHP;
         }
 
         // --- Génération des fichiers de traduction (en & fr) pour le CRUD ---
-        $labelsMap = [];
-        foreach ($columns as $c) {
-            $labelsMap[$c] = $this->labelFrom($c);
-            
-            // Ajouter les traductions pour les champs JSON booléens
-            if (isset($this->jsonBooleanFields[$c])) {
-                foreach ($this->jsonBooleanFields[$c] as $key) {
-                    $labelsMap["{$c}_{$key}"] = ucfirst($key);
-                }
-            }
-        }
 
         // CORRIGÉ : Ajouter les traductions enum SEULEMENT pour les champs de CETTE table
         $enumTranslations = [];
@@ -666,16 +659,18 @@ PHP;
             if (isset($this->enumFields[$column])) {
                 $enumValues = $this->enumFields[$column];
                 foreach ($enumValues as $enumValue) {
-                    $enumTranslations["enum.{$column}.{$enumValue}"] = ucfirst($enumValue);
+                    $enumTranslations[$column][$enumValue] = ucfirst($enumValue);
                 }
             }
         }
 
         $entityLabel = $entity;
-        $common = [
+        
+        // Traductions anglaises
+        $commonEN = [
             'entity'   => $entityLabel,
             'id'       => 'ID',
-            'List'     => 'Create',
+            'List'     => 'List',
             'Edit'     => 'Edit',
             'Details'  => 'Details',
             'Actions'  => 'Actions',
@@ -685,6 +680,22 @@ PHP;
             'Delete'   => 'Delete',
             'Delete?'  => 'Delete?',
             'No data'  => 'No data',
+        ];
+        
+        // Traductions françaises  
+        $commonFR = [
+            'entity'   => $entityLabel,
+            'id'       => 'ID',
+            'List'     => 'Liste',
+            'Edit'     => 'Modifier',
+            'Details'  => 'Détails',
+            'Actions'  => 'Actions',
+            'New'      => 'Nouveau',
+            'Save'     => 'Enregistrer',
+            'Back'     => 'Retour',
+            'Delete'   => 'Supprimer',
+            'Delete?'  => 'Supprimer ?',
+            'No data'  => 'Aucune donnée',
         ];
 
         // MODIFIÉ : Fonction d'export avec enum
@@ -701,14 +712,18 @@ PHP;
             }
             $commonStr = implode(",\n", $lines);
 
-            // CORRIGÉ : Seulement si des enum existent pour cette entité
+            // CORRIGÉ : Structure array moderne pour les enums
             $enumStr = '';
             if (!empty($enums)) {
-                $enumLines = [];
-                foreach ($enums as $k => $v) {
-                    $enumLines[] = "        '{$k}' => '" . addslashes($v) . "'";
+                $enumSections = [];
+                foreach ($enums as $enumField => $enumValues) {
+                    $enumValueLines = [];
+                    foreach ($enumValues as $key => $label) {
+                        $enumValueLines[] = "                '{$key}' => '" . addslashes($label) . "'";
+                    }
+                    $enumSections[] = "            '{$enumField}' => [\n" . implode(",\n", $enumValueLines) . "\n            ]";
                 }
-                $enumStr = ",\n\n    " . implode(",\n    ", $enumLines);
+                $enumStr = ",\n\n    'enum' => [\n" . implode(",\n", $enumSections) . "\n    ]";
             }
 
             return "<?php\n\nreturn [\n{$commonStr},\n\n    'fields' => [\n{$fieldsStr}\n    ]{$enumStr}\n];\n";
@@ -726,30 +741,55 @@ PHP;
 
         // FR : Traductions françaises pour les enum courants (SEULEMENT pour cette entité)
         $frEnumTranslations = [];
-        foreach ($enumTranslations as $key => $defaultValue) {
-            $frValue = match($defaultValue) {
-                'Active' => 'Actif',
-                'Inactive' => 'Inactif', 
-                'Pending' => 'En attente',
-                'Draft' => 'Brouillon',
-                'Published' => 'Publié',
-                'Archived' => 'Archivé',
-                'High' => 'Élevé',
-                'Medium' => 'Moyen',
-                'Low' => 'Faible',
-                'Urgent' => 'Urgent',
-                'Normal' => 'Normal',
-                'Public' => 'Public',
-                'Private' => 'Privé',
-                'Oui' => 'Oui',        // NOUVEAU : Support pour vos valeurs custom
-                'Non' => 'Non',        // NOUVEAU : Support pour vos valeurs custom
-                default => $defaultValue
-            };
-            $frEnumTranslations[$key] = $frValue;
+        foreach ($enumTranslations as $enumField => $enumValues) {
+            foreach ($enumValues as $key => $defaultValue) {
+                $frValue = match($defaultValue) {
+                    'New' => 'Nouveau',
+                    'In_progress' => 'En cours', 
+                    'In Progress' => 'En cours',
+                    'Waiting' => 'En attente',
+                    'Resolved' => 'Résolu',
+                    'Closed' => 'Fermé',
+                    'Canceled' => 'Annulé',
+                    'Active' => 'Actif',
+                    'Inactive' => 'Inactif', 
+                    'Pending' => 'En attente',
+                    'Draft' => 'Brouillon',
+                    'Published' => 'Publié',
+                    'Archived' => 'Archivé',
+                    'High' => 'Élevée',
+                    'Medium' => 'Moyen',
+                    'Low' => 'Faible',
+                    'Urgent' => 'Urgent',
+                    'Normal' => 'Normal',
+                    'Public' => 'Public',
+                    'Private' => 'Privé',
+                    'Oui' => 'Oui',
+                    'Non' => 'Non',
+                    default => $defaultValue
+                };
+                $frEnumTranslations[$enumField][$key] = $frValue;
+            }
         }
 
-        $fs->put($enFile, $exportArray($common, $labelsMap, $enEnumTranslations));
-        $fs->put($frFile, $exportArray($common, $labelsMap, $frEnumTranslations));
+        // Générer les labels traduits pour les champs
+        $labelsMapEN = [];
+        $labelsMapFR = [];
+        foreach ($columns as $c) {
+            $labelsMapEN[$c] = $this->labelFrom($c); // Version anglaise (ex: Company Id)
+            $labelsMapFR[$c] = $this->labelFromFR($c); // Version française (ex: Entreprise)
+            
+            // Ajouter les traductions pour les champs JSON booléens
+            if (isset($this->jsonBooleanFields[$c])) {
+                foreach ($this->jsonBooleanFields[$c] as $key) {
+                    $labelsMapEN["{$c}_{$key}"] = $this->labelFrom("{$c}_{$key}");
+                    $labelsMapFR["{$c}_{$key}"] = $this->labelFromFR("{$c}_{$key}");
+                }
+            }
+        }
+
+        $fs->put($enFile, $exportArray($commonEN, $labelsMapEN, $enEnumTranslations));
+        $fs->put($frFile, $exportArray($commonFR, $labelsMapFR, $frEnumTranslations));
 
         // Ensure minimal crud.php exists in resources/lang/en and fr
         $crudEn = resource_path('lang/en/crud.php');
@@ -842,6 +882,74 @@ PHP
     private function labelFrom(string $column): string
     {
         return Str::headline($column); // ex: company_status -> Company Status
+    }
+
+    private function labelFromFR(string $column): string
+    {
+        // Traductions spécifiques pour les champs courants
+        $translations = [
+            'status' => 'Statut',
+            'priority' => 'Priorité',
+            'company_id' => 'Entreprise',
+            'author_id' => 'Auteur',
+            'assigned_to' => 'Assigné à',
+            'assigned_at' => 'Date d\'assignation',
+            'due' => 'Échéance',
+            'folder_code' => 'Code dossier',
+            'subject' => 'Sujet',
+            'question' => 'Description',
+            'billable' => 'Facturable',
+            'name' => 'Nom',
+            'email' => 'Email',
+            'password' => 'Mot de passe',
+            'phone' => 'Téléphone',
+            'address' => 'Adresse',
+            'city' => 'Ville',
+            'zip' => 'Code postal',
+            'country' => 'Pays',
+            'website' => 'Site web',
+            'description' => 'Description',
+            'created_at' => 'Créé le',
+            'updated_at' => 'Modifié le',
+        ];
+        
+        return $translations[$column] ?? Str::headline($column);
+    }
+
+    /**
+     * Convertit un nom de colonne de clé étrangère en nom de relation
+     * Ex: company_id -> company, author_id -> author
+     */
+    private function getRelationNameFromColumn(string $column): string
+    {
+        // Pour les colonnes comme author_id, assigned_to, etc.
+        if (Str::endsWith($column, '_id')) {
+            return Str::camel(Str::replaceLast('_id', '', $column));
+        }
+        
+        // Pour les colonnes comme assigned_to
+        if ($column === 'assigned_to') {
+            return 'assignedUser'; // Relation spéciale
+        }
+        
+        return Str::camel($column);
+    }
+
+    /**
+     * Génère la liste des relations à charger pour l'eager loading
+     */
+    private function getEagerLoadingRelations(array $columns): array
+    {
+        $relations = [];
+        
+        foreach ($columns as $column) {
+            if (isset($this->foreignKeys[$column])) {
+                $relationName = $this->getRelationNameFromColumn($column);
+                $relations[] = $relationName;
+            }
+        }
+        
+        return $relations;
     }
 
     private function getColumnsMeta(string $table): array
@@ -1297,7 +1405,9 @@ HTML;
                 $fk = $this->foreignKeys[$column];
                 $modelName = $fk['model'];
                 $displayField = $this->getDisplayFieldForTable($fk['table']);
-                $tds .= "\n<td>{{ \${$varSing}->{$column} ? \\App\\Models\\{$modelName}::find(\${$varSing}->{$column})?->{$displayField} : '—' }}</td>";
+                // Utiliser la relation au lieu de find() pour éviter le problème N+1
+                $relationName = $this->getRelationNameFromColumn($column);
+                $tds .= "\n<td>{{ \${$varSing}->{$relationName}?->{$displayField} ?? '—' }}</td>";
             }
             // CORRIGÉ : Gestion des champs enum Laravel avec traductions et couleurs dynamiques
             elseif (isset($this->enumFields[$column])) {

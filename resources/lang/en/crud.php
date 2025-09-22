@@ -11,4 +11,19 @@ return [
     'Delete' => 'Delete',
     'Delete?' => 'Delete?',
     'No data' => 'No data',
+    
+    'boolean' => [
+        'yes' => 'Yes',
+        'no' => 'No',
+    ],
+    
+    'messages' => [
+        'created' => 'Record created successfully.',
+        'updated' => 'Record updated successfully.',
+        'deleted' => 'Record deleted successfully.',
+        'not_found' => 'This record does not exist or has been deleted.',
+        'edit_not_found' => 'Unable to edit: this record does not exist or has been deleted.',
+        'update_not_found' => 'Unable to update: this record does not exist or has been deleted.',
+        'delete_not_found' => 'Unable to delete: this record does not exist or has already been deleted.',
+    ]
 ];

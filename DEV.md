@@ -1,9 +1,9 @@
-Laravel Command
-
+# Laravel Command
 php artisan migrate:fresh
 php artisan db:seed --class=PermissionSeeder
+php artisan make:crud-bootstrap Ticket --force
 
-User
+# User
 - status: string(20) — Utilisateur activé/désactivé (active|inactive)
 - companyId: relation ManyToOne → Company — Société d’appartenance
 - firstname: string(120), nullable — Prénom
@@ -14,7 +14,7 @@ User
 - channels: json, nullable — Préférences de communication {“email”:true,“sms”:true}
 - note: string(255), nullable — Note interne / rôle dans la société
 
-Company
+# Company
 - company_status: string(20) — Activation/désactivation métier (active|inactive)
 - name: string(190) — Nom société
 - siret: string(20), nullable — Identifiant SIRET
@@ -29,9 +29,9 @@ Company
 - country: string(2), nullable — Pays (ISO-2)
 - notes: text, nullable — Notes internes
 
-Ticket
-- status: string(20) — Statut métier (new|in_progress|waiting|resolved|closed|canceled)
-- priority: string(20) — Niveau d’urgence (low|normal|high|urgent)
+# Ticket
+- status: enum — Statut métier (new|in_progress|waiting|resolved|closed|canceled)
+- priority: enum — Niveau d’urgence (low|normal|high|urgent)
 - companyId: relation ManyToOne → Company — Société concernée
 - authorId: relation ManyToOne → User — Créateur du ticket (client)
 - assignedTo: relation ManyToOne → User, nullable — Utilisateur en charge actuellement
@@ -42,7 +42,7 @@ Ticket
 - due: datetime_immutable, nullable — Livraison au plus tard
 - billable: boolean (default true) — Ticket facturable
 
-TicketMessage
+# TicketMessage
 - status: string(20) — Message activé/désactivé (active|inactive)
 - companyId: relation ManyToOne → Company — Société concernée
 - ticketId: relation ManyToOne → Ticket — Ticket parent
@@ -51,7 +51,7 @@ TicketMessage
 - body: text — Contenu du message
 - internal: boolean (default false) — Note interne non visible côté client
 
-ConversationShare
+# ConversationShare
 - status: string(20) — Statut du lien (active|inactive|expired)
 - ticketId: relation ManyToOne → Ticket — Ticket concerné
 - companyId: relation ManyToOne → Company — Société concernée
@@ -59,7 +59,7 @@ ConversationShare
 - uuid: string(36) — Identifiant public unique (UUID v4) pour accès sans login
 - expires: datetime_immutable — Date d’expiration (par défaut +7 jours)
 
-TicketAttachment
+# TicketAttachment
 - status: string(20) — PJ activée/désactivée (active|inactive)
 - companyId: relation ManyToOne → Company — Société concernée
 - ticketId: relation ManyToOne → Ticket — PJ globale
@@ -70,12 +70,12 @@ TicketAttachment
 - mimeType: string(120), nullable — Type MIME
 - sizeBytes: bigint, nullable — Poids du fichier
 
-TicketAssignment
+# TicketAssignment
 - ticketId: relation ManyToOne → Ticket — Ticket concerné
 - assignedTo: relation ManyToOne → User — Nouvel utilisateur en charge
 - assignedAt: datetime_immutable — Quand l’attribution a eu lieu
 
-Charge
+# Charge
 - companyId: relation ManyToOne → Company — Société concernée
 - ticketId: relation ManyToOne → Ticket — Ticket concerné
 - technician_id: relation ManyToOne → User — Technicien qui saisit
@@ -85,7 +85,7 @@ Charge
 - billedUnits: decimal(12,3) (default 0.000) — Unités facturables
 - note: string(255), nullable — Note du technicien
 
-Credit
+# Credit
 - status: string(20) — Crédit activé/désactivé (active|inactive)
 - companyId: relation ManyToOne → Company — Société concernée
 - type: string(10) — Type de mouvement (topup|consume|adjust)
@@ -94,7 +94,7 @@ Credit
 - ticketId: relation ManyToOne → Ticket, nullable — Lien consommation ticket
 - chargeId: relation ManyToOne → Charge, nullable — Lien consommation charge
 
-Approval
+# Approval
 - status: string(16) — Statut (pending|approved|declined|expired)
 - companyId: relation ManyToOne → Company — Société concernée
 - message_id: relation ManyToOne → TicketMessage — Message concerné
@@ -107,3 +107,42 @@ Approval
 - delivered_at: datetime_immutable, nullable — Date distribution (si dispo)
 - approvedAt: datetime_immutable, nullable — Date réponse approbateur
 - responseComment: string(255), nullable — Commentaire optionnel approbateur
+
+
+<?php
+use Illuminate\Support\Facades\Auth;
+
+// Vérifier si l'utilisateur a un rôle spécifique
+if (Auth::user()->hasRole('admin')) {
+    // L'utilisateur est admin
+}
+
+// Vérifier plusieurs rôles (OR)
+if (Auth::user()->hasAnyRole(['admin', 'super-admin'])) {
+    // L'utilisateur est admin OU super-admin
+}
+
+// Vérifier tous les rôles (AND)
+if (Auth::user()->hasAllRoles(['admin', 'manager'])) {
+    // L'utilisateur est admin ET manager
+}
+
+// Obtenir tous les rôles de l'utilisateur
+$roles = Auth::user()->getRoleNames(); // Collection des noms de rôles
+
+@role('admin')
+    <p>Contenu visible seulement aux admins</p>
+@endrole
+
+@hasrole('admin')
+    <p>Autre façon de vérifier un rôle</p>
+@endhasrole
+
+@hasanyrole('admin|manager')
+    <p>Visible aux admins OU managers</p>
+@endhasanyrole
+
+{{-- Afficher les rôles de l'utilisateur --}}
+@auth
+    <p>Vos rôles : {{ auth()->user()->getRoleNames()->implode(', ') }}</p>
+@endauth

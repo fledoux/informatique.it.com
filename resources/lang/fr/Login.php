@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'Connect' => 'Se connecter',
-    'Please log in' => 'Veuillez vous connecter',
+    'Connect' => 'Connexion',
+    'Please log in' => 'Connectez-vous',
     'Email' => 'E-mail',
     'Password' => 'Mot de passe',
     'Remember me' => 'Se souvenir de moi',

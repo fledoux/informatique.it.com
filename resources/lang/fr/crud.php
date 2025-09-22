@@ -12,6 +12,11 @@ return [
     'Delete?' => 'Supprimer ?',
     'No data' => 'Aucune donnée',
     
+    'boolean' => [
+        'yes' => 'Oui',
+        'no' => 'Non',
+    ],
+    
     'messages' => [
         'created' => 'Créé avec succès',
         'updated' => 'Mis à jour avec succès',

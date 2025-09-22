@@ -10,5 +10,5 @@ return [
     'Contacts' => 'Contacts',
     'Login' => 'Connexion',
     'Logout' => 'Déconnexion',
-    'Register' => 'S\'inscrire',
+    'Register' => 'Inscription',
 ];

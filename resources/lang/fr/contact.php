@@ -14,14 +14,21 @@ return [
         'Delete?' => 'Delete?',
         'No data' => 'No data',
 
-    'fields' => [
-            'name' => 'Name',
-            'email' => 'Email',
-            'phone' => 'Phone',
-            'type' => 'Type',
-            'need' => 'Need'
-    ],
+        'fields' => [
+                'name' => 'Name',
+                'email' => 'Email',
+                'phone' => 'Phone',
+                'type' => 'Type',
+                'need' => 'Need'
+        ],
 
-            'enum.type.active' => 'Actif',
-            'enum.type.inactive' => 'Inactif'
+        'types' => [
+                'Individual' => 'Particulier',
+                'Association' => 'Association',
+                'Company' => 'Entreprise',
+                'Collectivity' => 'Collectivité',
+        ],
+
+        'enum.type.active' => 'Actif',
+        'enum.type.inactive' => 'Inactif'
 ];

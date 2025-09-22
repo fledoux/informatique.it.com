@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Contact;
+use App\Models\Ticket;
+use App\Models\Company;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 class PageController extends Controller
 {
@@ -26,27 +29,18 @@ class PageController extends Controller
      */
     public function dashboard()
     {
-        // This will be handled by middleware
-        // For now, basic implementation
+        // Get all dashboard statistics in optimized queries
+        $ticketStats = Ticket::dashboardStats();
+        $companiesCount = Company::count();
+        $contactsCount = Contact::count();
         
-        $now = now();
-        
-        // Mock data - you'll need to implement actual repositories/models
-        $ticketsCount = 0;
-        $companiesCount = 0;
-        $contactsCount = 0;
-        $openTicketsCount = 0;
-        $waitingCount = 0;
-        $overdueCount = 0;
-        $recentTickets = collect();
+        // Get the 20 most recent tickets
+        $recentTickets = Ticket::recent(20);
         
         return view('pages.dashboard', compact(
-            'ticketsCount',
+            'ticketStats',
             'companiesCount', 
             'contactsCount',
-            'openTicketsCount',
-            'waitingCount',
-            'overdueCount',
             'recentTickets'
         ));
     }
@@ -78,6 +72,7 @@ class PageController extends Controller
     /**
      * Handle contact form submission
      */
+    #[ProtectAgainstSpam]
     public function contact(Request $request)
     {
         $validated = $request->validate([

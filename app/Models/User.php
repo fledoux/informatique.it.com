@@ -46,6 +46,30 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Obtenir l'ID de la société de l'utilisateur
+     */
+    public function getCompanyId(): ?int
+    {
+        return $this->company_id;
+    }
+
+    /**
+     * Vérifier si l'utilisateur appartient à une société
+     */
+    public function hasCompany(): bool
+    {
+        return !is_null($this->company_id);
+    }
+
+    /**
+     * Obtenir le nom de la société
+     */
+    public function getCompanyName(): ?string
+    {
+        return $this->company?->name;
+    }
+
+    /**
      * Send the email verification notification.
      *
      * @return void

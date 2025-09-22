@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\ContactController;
+use \App\Http\Controllers\TicketController;
 
 // Public routes
 Route::get('/', [PageController::class, 'home'])->name('home');
@@ -80,4 +81,28 @@ Route::prefix('contact')->group(function () {
     Route::delete('/{contact}', [ContactController::class, 'destroy'])
         ->middleware('permission:contact.delete')
         ->name('contact.destroy');
+});
+
+Route::prefix('ticket')->group(function () {
+    Route::get('/', [TicketController::class, 'index'])
+        ->middleware('permission:ticket.index')
+        ->name('ticket.index');
+    Route::get('/create', [TicketController::class, 'create'])
+        ->middleware('permission:ticket.create')
+        ->name('ticket.create');
+    Route::post('/', [TicketController::class, 'store'])
+        ->middleware('permission:ticket.create')
+        ->name('ticket.store');
+    Route::get('/{ticket}', [TicketController::class, 'show'])
+        ->middleware('permission:ticket.show')
+        ->name('ticket.show');
+    Route::get('/{ticket}/edit', [TicketController::class, 'edit'])
+        ->middleware('permission:ticket.edit')
+        ->name('ticket.edit');
+    Route::put('/{ticket}', [TicketController::class, 'update'])
+        ->middleware('permission:ticket.edit')
+        ->name('ticket.update');
+    Route::delete('/{ticket}', [TicketController::class, 'destroy'])
+        ->middleware('permission:ticket.delete')
+        ->name('ticket.destroy');
 });

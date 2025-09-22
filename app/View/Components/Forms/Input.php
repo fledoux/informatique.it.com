@@ -16,6 +16,8 @@ class Input extends Component
         public ?string $placeholder = null,
         public ?string $value = null,
         public ?int $rows = null,
+        public ?string $class = null,
+        public bool $labelAfter = false,
     ) {}
 
     public function render(): View|Closure|string

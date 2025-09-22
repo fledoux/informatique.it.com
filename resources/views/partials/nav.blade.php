@@ -11,9 +11,9 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">
-                        <a class="ms-auto mb-2 btn w-100 {{ str_starts_with($currentRoute, 'ticket.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('user.index') }}">
+                        <a class="ms-auto mb-2 btn w-100 {{ str_starts_with($currentRoute, 'ticket.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('ticket.index') }}">
                             <i class="fa-regular fa-message-question"></i>
-                            {{ __('Nav.Support') }}
+                            {{ __('nav.Support') }}
                         </a>
                     </li>
                 @endauth
@@ -21,7 +21,7 @@
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ str_starts_with($currentRoute, 'user.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('user.index') }}">
                             <i class="fa-regular fa-users"></i>
-                            {{ __('Nav.Users') }}
+                            {{ __('nav.Users') }}
                         </a>
                     </li>
                 @endauth
@@ -29,7 +29,7 @@
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ str_starts_with($currentRoute, 'company.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('company.index') }}">
                             <i class="fa-regular fa-building"></i>
-                            {{ __('Nav.Companies') }}
+                            {{ __('nav.Companies') }}
                         </a>
                     </li>
                 @endcan
@@ -39,9 +39,9 @@
                             <i class="fa-regular fa-address-book"></i>
                             {{ $contactsCount ?? 0 }}
                             @if(($contactsCount ?? 0) <= 1)
-                                {{ __('Nav.Contact') }}
+                                {{ __('nav.Contact') }}
                             @else
-                                {{ __('Nav.Contacts') }}
+                                {{ __('nav.Contacts') }}
                             @endif
                         </a>
                     </li>
@@ -52,7 +52,7 @@
                             @csrf
                             <button type="submit" class="btn btn-outline-secondary w-100">
                                 <i class="fa-regular fa-arrow-right-from-bracket"></i>
-                                {{ __('Nav.Logout') }}
+                                {{ __('nav.Logout') }}
                             </button>
                         </form>
                     </li>
@@ -60,13 +60,13 @@
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="btn btn-outline-secondary w-100" href="{{ route('register') }}">
                             <i class="fa-regular fa-user-plus"></i>
-                            {{ __('Nav.Register') }}
+                            {{ __('nav.Register') }}
                         </a>
                     </li>
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="btn btn-orange w-100" href="{{ route('login') }}">
                             <i class="fa-regular fa-arrow-right-to-bracket"></i>
-                            {{ __('Nav.Login') }}
+                            {{ __('nav.Login') }}
                         </a>
                     </li>
                 @endauth

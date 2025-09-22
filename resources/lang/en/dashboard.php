@@ -3,7 +3,7 @@
 return [
     'Welcome' => 'Welcome to your dashboard',
     'WelcomeTitle' => 'Dashboard',
-    'RecentTickets' => 'Recent Tickets',
+    'RecentTickets' => '20 Dernières demandes',
     
     'KPI' => [
         'Tickets' => 'Tickets',

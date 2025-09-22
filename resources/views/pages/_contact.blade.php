@@ -8,6 +8,7 @@
                 <div class="p-4 bg-white border rounded-4 shadow-soft h-100">
                     <form action="{{ route('contact.submit') }}" method="POST">
                         @csrf
+                        @honeypot
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <x-forms.input name="name" label="Nom / Société" type="text" :required="true"
@@ -23,12 +24,7 @@
                             </div>
                             <div class="col-md-6">
                                 <x-forms.select name="type" label="Vous êtes" :required="true"
-                                    placeholder="-- Choisissez --" :options="[
-                                        'Individual' => 'Particulier',
-                                        'Association' => 'Association',
-                                        'Company' => 'Entreprise',
-                                        'Collectivity' => 'Collectivité',
-                                    ]" />
+                                    placeholder="-- Choisissez --" :options="__('contact.types')" />
                             </div>
                             <div class="col-12">
                                 <x-forms.input name="need" label="Votre besoin"

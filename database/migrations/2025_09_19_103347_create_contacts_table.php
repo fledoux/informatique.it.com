@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('phone', 50)->nullable()->comment('Téléphone du contact');
             $table->enum('type', ['active', 'inactive'])->default('active');
             $table->longText('need')->comment('Description du besoin');
-            $table->timestamps();
+            $table->datetime('created_at')->nullable();
+            $table->datetime('updated_at')->nullable();
             
             // Index pour les recherches fréquentes
             $table->index('email');

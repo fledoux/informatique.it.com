@@ -21,7 +21,7 @@
 
         <p>
             <a href="{{ route('home') }}" class="btn btn-link p-0 float-end text-secondary">
-                {{ __('Global.Back') }}
+                {{ __('global.Back') }}
             </a>
         </p>
     </div>
