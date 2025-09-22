@@ -16,7 +16,7 @@
         <p class="text-center">{{ __('Register.Contact us at') }}&nbsp;<strong>01&nbsp;49&nbsp;66&nbsp;21&nbsp;77</strong></p>
         <p class="text-center">{{ __('Register.Or visit') }}</p>
         <p class="text-center">
-            <a href="https://extranet.yellowcactus.com" target="_blank">extranet.yellowcactus.com</a>
+            <a href="https://extranet.yellowcactus.com" class="text-orange" target="_blank">extranet.yellowcactus.com</a>
         </p>
 
         <p>
