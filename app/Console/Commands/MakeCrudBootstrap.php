@@ -1513,6 +1513,7 @@ HTML;
 </div>
 
 <a href="{{ route('{$entitySlug}.create') }}" class="btn btn-orange mt-3">
+    <i class="fa-regular fa-square-plus"></i>
 {{ __('crud.New') }}
 </a>
 @endsection

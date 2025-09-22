@@ -58,7 +58,6 @@
                             @csrf
                             <button type="submit" class="btn btn-outline-secondary w-100">
                                 <i class="fa-regular fa-arrow-right-from-bracket"></i>
-                                {{ __('nav.Logout') }}
                             </button>
                         </form>
                     </li>

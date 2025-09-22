@@ -6,7 +6,7 @@ return [
     'Tickets' => 'Tickets',
     'Register' => 'S\'inscrire',
     'Connect' => 'Connexion',
-    'Support' => 'Support',
+    'Support' => 'Mon Support',
     'Users' => 'Utilisateurs',
     'Companies' => 'Sociétés', 
     'Contact' => 'Contact',

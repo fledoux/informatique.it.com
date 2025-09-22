@@ -3,6 +3,7 @@
     <div class="dropdown">
         <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="languageDropdown"
             data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-regular fa-flag"></i>
             @if (app()->getLocale() == 'fr')
                 FR
             @else

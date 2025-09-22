@@ -33,15 +33,17 @@ class PageController extends Controller
         $ticketStats = Ticket::dashboardStats();
         $companiesCount = Company::count();
         $contactsCount = Contact::count();
+        $lastXTickets = 20;
         
         // Get the 20 most recent tickets
-        $recentTickets = Ticket::recent(20);
-        
+        $recentTickets = Ticket::recent($lastXTickets);
+
         return view('pages.dashboard', compact(
             'ticketStats',
             'companiesCount', 
             'contactsCount',
-            'recentTickets'
+            'recentTickets',
+            'lastXTickets'
         ));
     }
 
