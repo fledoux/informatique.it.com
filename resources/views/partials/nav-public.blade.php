@@ -22,12 +22,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}#faq">{{ __('nav.FAQ') }}</a>
                 </li>
+                @include('partials._lang')
                 <li class="nav-item ms-lg-2 mb-2">
                     <a class="btn btn-orange w-100" href="{{ route('home') }}#contact">
                         <i class="fa-solid fa-bolt me-1"></i>
                         {{ __('nav.FreeQuote') }}</a>
                 </li>
-                @include('partials._lang')
                 <li class="nav-item ms-lg-2 mb-2">
                     <a class="ms-auto btn btn-outline-orange w-100" href="{{ route('register') }}">
                         <i class="fa-regular fa-address-card"></i>
