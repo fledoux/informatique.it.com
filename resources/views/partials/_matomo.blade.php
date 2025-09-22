@@ -1,3 +1,4 @@
+@if(app()->environment('production'))
 <script>
   var _paq = window._paq = window._paq || [];
   _paq.push(['trackPageView']);
@@ -10,3 +11,4 @@
     g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
+@endif
