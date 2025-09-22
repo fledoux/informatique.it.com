@@ -11,19 +11,19 @@
         <div id="navMain" class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#offres">Offres</a>
+                    <a class="nav-link" href="{{ route('home') }}#offres">Offres</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#tarifs">Tarifs</a>
+                    <a class="nav-link" href="{{ route('home') }}#tarifs">Tarifs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#cas-clients">Cas clients</a>
+                    <a class="nav-link" href="{{ route('home') }}#cas-clients">Cas clients</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#faq">FAQ</a>
+                    <a class="nav-link" href="{{ route('home') }}#faq">FAQ</a>
                 </li>
                 <li class="nav-item ms-lg-2 mb-2">
-                    <a class="btn btn-orange w-100" href="#contact">
+                    <a class="btn btn-orange w-100" href="{{ route('home') }}#contact">
                         <i class="fa-solid fa-bolt me-1"></i>
                         Devis gratuit</a>
                 </li>
