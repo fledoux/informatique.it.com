@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', __('Home.Welcome'))
+@section('title', __('home.Welcome'))
 
 @section('content')
 @include('pages._hero')

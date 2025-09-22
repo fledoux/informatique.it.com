@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', __('Home.RGPD'))
+@section('title', __('home.RGPD'))
 
 @section('content')
 
