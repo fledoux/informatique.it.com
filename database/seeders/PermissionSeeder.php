@@ -29,6 +29,13 @@ class PermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'contact.edit']);
         Permission::firstOrCreate(['name' => 'contact.delete']);
 
+        // Permissions locale
+        Permission::firstOrCreate(['name' => 'locale.index']);
+        Permission::firstOrCreate(['name' => 'locale.show']);
+        Permission::firstOrCreate(['name' => 'locale.create']);
+        Permission::firstOrCreate(['name' => 'locale.edit']);
+        Permission::firstOrCreate(['name' => 'locale.delete']);
+
         // Permissions page
         Permission::firstOrCreate(['name' => 'page.index']);
         Permission::firstOrCreate(['name' => 'page.show']);
@@ -62,13 +69,13 @@ class PermissionSeeder extends Seeder
         // Admin : Gestion complète
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $admin->syncPermissions([
-            'admin.access', 'reports.access', 'company.index', 'company.show', 'company.create', 'company.edit', 'company.delete', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'contact.delete', 'page.index', 'page.show', 'page.create', 'page.edit', 'page.delete', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'ticket.delete', 'user.index', 'user.show', 'user.create', 'user.edit', 'user.delete'
+            'admin.access', 'reports.access', 'company.index', 'company.show', 'company.create', 'company.edit', 'company.delete', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'contact.delete', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'locale.delete', 'page.index', 'page.show', 'page.create', 'page.edit', 'page.delete', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'ticket.delete', 'user.index', 'user.show', 'user.create', 'user.edit', 'user.delete'
         ]);
         
         // Manager : Gestion limitée (pas de suppression)
         $manager = Role::firstOrCreate(['name' => 'manager']);
         $manager->syncPermissions([
-            'company.index', 'company.show', 'company.create', 'company.edit', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'page.index', 'page.show', 'page.create', 'page.edit', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'user.index', 'user.show', 'user.edit'
+            'company.index', 'company.show', 'company.create', 'company.edit', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'page.index', 'page.show', 'page.create', 'page.edit', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'user.index', 'user.show', 'user.edit'
         ]);
         
         // User : Lecture seule sur profil et company

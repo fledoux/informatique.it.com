@@ -1,86 +1,47 @@
 <?php
 
-return array (
-  'entity' => 'Ticket',
-  'id' => 'ID',
-  'List' => 'Liste',
-  'Edit' => 'Modifier',
-  'Details' => 'Détails',
-  'Actions' => 'Actions',
-  'New' => 'Nouveau',
-  'Save' => 'Enregistrer',
-  'Back' => 'Retour',
-  'Delete' => 'Supprimer',
-  'Delete?' => 'Supprimer ?',
-  'No data' => 'Aucune donnée',
-  
-  // En-têtes de colonnes
-  'Id' => 'N°',
-  'Status' => 'Statut', 
-  'Priority' => 'Priorité',
-  'Subject' => 'Sujet',
-  'Company' => 'Entreprise',
-  'AssignedTo' => 'Assigné à',
-  'DueAt' => 'Échéance',
-  'fields' => 
-  array (
-    'status' => 'Statut',
-    'priority' => 'Priorité',
-    'company_id' => 'Entreprise',
-    'author_id' => 'Auteur',
-    'assigned_to' => 'Assigné à',
-    'assigned_at' => 'Date d\'assignation',
-    'due' => 'Échéance',
-    'folder_code' => 'Code dossier',
-    'subject' => 'Sujet',
-    'question' => 'Description',
-    'billable' => 'Facturable',
-    'id' => 'ID',
-    'name' => 'Nom',
-    'email' => 'E-mail',
-    'phone' => 'Téléphone',
-    'created_at' => 'Créé le',
-    'updated_at' => 'Modifié le',
-    'user_id' => 'Utilisateur',
-    'notes' => 'Notes',
-    'website' => 'Site web',
-    'address_line1' => 'Adresse ligne 1',
-    'address_line2' => 'Adresse ligne 2',
-    'zip' => 'Code postal',
-    'city' => 'Ville',
-    'country' => 'Pays',
-    'siret' => 'Numéro SIRET',
-    'vat_number' => 'Numéro de TVA',
-    'type' => 'Type',
-    'need' => 'Besoin',
-    'password' => 'Mot de passe',
-    'firstname' => 'Prénom',
-    'lastname' => 'Nom de famille',
-    'last_login' => 'Dernière connexion',
-    'agree_terms' => 'J\'accepte les conditions',
-    'channels' => 'Canaux de notification',
-    'note' => 'Note',
-    'channels_email' => 'Notifications par e-mail',
-    'channels_sms' => 'Notifications par SMS',
-  ),
-  'enum' => 
-  array (
-    'status' => 
-    array (
-      'new' => 'Nouveau',
-      'in_progress' => 'En cours',
-      'waiting' => 'En attente',
-      'resolved' => 'Résolu',
-      'closed' => 'Fermé',
-      'canceled' => 'Annulé',
-    ),
-    'priority' => 
-    array (
-      'low' => 'Faible',
-      'normal' => 'Normal',
-      'high' => 'Élevée',
-      'urgent' => 'Urgent',
-    ),
-  ),
-  'YourList' => 'Vos tickets',
-);
+return [
+        'entity' => 'Ticket',
+        'id' => 'ID',
+        'List' => 'Liste',
+        'Edit' => 'Modifier',
+        'Details' => 'Détails',
+        'Actions' => 'Actions',
+        'New' => 'Nouveau',
+        'Save' => 'Enregistrer',
+        'Back' => 'Retour',
+        'Delete' => 'Supprimer',
+        'Delete?' => 'Supprimer ?',
+        'No data' => 'Aucune donnée',
+
+    'fields' => [
+            'status' => 'Statut',
+            'priority' => 'Priorité',
+            'company_id' => 'Entreprise',
+            'author_id' => 'Auteur',
+            'assigned_to' => 'Assigné à',
+            'assigned_at' => 'Date d\'assignation',
+            'due' => 'Échéance',
+            'folder_code' => 'Code dossier',
+            'subject' => 'Sujet',
+            'question' => 'Description',
+            'billable' => 'Facturable'
+    ],
+
+    'enum' => [
+            'status' => [
+                'new' => 'Nouveau',
+                'in_progress' => 'En cours',
+                'waiting' => 'En attente',
+                'resolved' => 'Résolu',
+                'closed' => 'Fermé',
+                'canceled' => 'Annulé'
+            ],
+            'priority' => [
+                'low' => 'Faible',
+                'normal' => 'Normal',
+                'high' => 'Élevée',
+                'urgent' => 'Urgent'
+            ]
+    ]
+];

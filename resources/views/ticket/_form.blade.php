@@ -42,9 +42,8 @@
         <div class="col-12 col-lg-6">
             <x-forms.input name="due" 
                            :label="__('ticket.fields.due')" 
-                           type="text"
-                           :value="old('due', $ticket->due ?? null)"
-                           placeholder=""  />
+                           type="datetime-local"
+                           :value="old('due', $ticket->due ? ($ticket->due instanceof \Carbon\Carbon ? $ticket->due->format('Y-m-d\\TH:i') : $ticket->due) : '')" />
         </div>
         <div class="col-12 col-lg-6">
             <x-forms.input name="folder_code" 

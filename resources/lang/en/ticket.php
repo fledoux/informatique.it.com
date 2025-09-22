@@ -1,86 +1,47 @@
 <?php
 
-return array (
-  'entity' => 'Ticket',
-  'id' => 'ID',
-  'List' => 'List',
-  'Edit' => 'Edit',
-  'Details' => 'Details',
-  'Actions' => 'Actions',
-  'New' => 'New',
-  'Save' => 'Save',
-  'Back' => 'Back',
-  'Delete' => 'Delete',
-  'Delete?' => 'Delete?',
-  'No data' => 'No data',
-  
-  // Column headers
-  'Id' => 'ID',
-  'Status' => 'Status',
-  'Priority' => 'Priority', 
-  'Subject' => 'Subject',
-  'Company' => 'Company',
-  'AssignedTo' => 'Assigned to',
-  'DueAt' => 'Due date',
-  'fields' => 
-  array (
-    'status' => 'Status',
-    'priority' => 'Priority',
-    'company_id' => 'Company Id',
-    'author_id' => 'Author Id',
-    'assigned_to' => 'Assigned To',
-    'assigned_at' => 'Assigned At',
-    'due' => 'Due',
-    'folder_code' => 'Folder Code',
-    'subject' => 'Subject',
-    'question' => 'Question',
-    'billable' => 'Billable',
-    'id' => 'ID',
-    'name' => 'Name',
-    'email' => 'Email',
-    'phone' => 'Phone',
-    'created_at' => 'Created at',
-    'updated_at' => 'Updated at',
-    'user_id' => 'User',
-    'notes' => 'Notes',
-    'website' => 'Website',
-    'address_line1' => 'Address line 1',
-    'address_line2' => 'Address line 2',
-    'zip' => 'Postal code',
-    'city' => 'City',
-    'country' => 'Country',
-    'siret' => 'SIRET number',
-    'vat_number' => 'VAT number',
-    'type' => 'Type',
-    'need' => 'Need',
-    'password' => 'Password',
-    'firstname' => 'First name',
-    'lastname' => 'Last name',
-    'last_login' => 'Last login',
-    'agree_terms' => 'I agree to the terms',
-    'channels' => 'Notification channels',
-    'note' => 'Note',
-    'channels_email' => 'Email notifications',
-    'channels_sms' => 'SMS notifications',
-  ),
-  'enum' => 
-  array (
-    'status' => 
-    array (
-      'new' => 'New',
-      'in_progress' => 'In_progress',
-      'waiting' => 'Waiting',
-      'resolved' => 'Resolved',
-      'closed' => 'Closed',
-      'canceled' => 'Canceled',
-    ),
-    'priority' => 
-    array (
-      'low' => 'Low',
-      'normal' => 'Normal',
-      'high' => 'High',
-      'urgent' => 'Urgent',
-    ),
-  ),
-  'YourList' => 'Your tickets',
-);
+return [
+        'entity' => 'Ticket',
+        'id' => 'ID',
+        'List' => 'List',
+        'Edit' => 'Edit',
+        'Details' => 'Details',
+        'Actions' => 'Actions',
+        'New' => 'New',
+        'Save' => 'Save',
+        'Back' => 'Back',
+        'Delete' => 'Delete',
+        'Delete?' => 'Delete?',
+        'No data' => 'No data',
+
+    'fields' => [
+            'status' => 'Status',
+            'priority' => 'Priority',
+            'company_id' => 'Company Id',
+            'author_id' => 'Author Id',
+            'assigned_to' => 'Assigned To',
+            'assigned_at' => 'Assigned At',
+            'due' => 'Due',
+            'folder_code' => 'Folder Code',
+            'subject' => 'Subject',
+            'question' => 'Question',
+            'billable' => 'Billable'
+    ],
+
+    'enum' => [
+            'status' => [
+                'new' => 'New',
+                'in_progress' => 'In_progress',
+                'waiting' => 'Waiting',
+                'resolved' => 'Resolved',
+                'closed' => 'Closed',
+                'canceled' => 'Canceled'
+            ],
+            'priority' => [
+                'low' => 'Low',
+                'normal' => 'Normal',
+                'high' => 'High',
+                'urgent' => 'Urgent'
+            ]
+    ]
+];

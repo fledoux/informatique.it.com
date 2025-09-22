@@ -20,6 +20,7 @@ class MakeCrudBootstrap extends Command
     protected array $foreignKeys;
     protected array $booleanEnumFields; // Nouveau tableau pour les booléens avec enum
     protected array $enumFields; // Nouveau tableau pour les champs enum
+    protected array $columnTypes; // NOUVEAU : Types de colonnes depuis les migrations
     protected array $allEntitiesProcessed = []; // NOUVEAU : Liste des entités traitées
 
     public function handle(): int
@@ -38,6 +39,9 @@ class MakeCrudBootstrap extends Command
         $modelInstance = new $modelClass();
         $this->table = $this->option('table') ?: $modelInstance->getTable();
         
+        // NOUVEAU : Analyser tous les types de colonnes depuis les migrations
+        $this->columnTypes = $this->getColumnTypesFromMigration($model);
+        
         // AJOUTER : Récupérer les champs enum AVANT les autres
         $this->enumFields = $this->getEnumFieldsFromMigration($model);
     
@@ -52,6 +56,7 @@ class MakeCrudBootstrap extends Command
         $this->foreignKeys = $this->getForeignKeysFromMigrations($this->table);
 
         // DEBUG : Afficher les détections
+        $this->info("Types de colonnes détectés pour {$this->table}: " . json_encode($this->columnTypes, JSON_PRETTY_PRINT));
         $this->info("Enum détectés pour {$this->table}: " . json_encode($this->enumFields, JSON_PRETTY_PRINT));
         $this->info("FK détectées pour {$this->table}: " . json_encode($this->foreignKeys, JSON_PRETTY_PRINT));
 
@@ -976,6 +981,55 @@ PHP
         return $meta;
     }
 
+    /**
+     * Analyser TOUS les types de colonnes depuis les migrations
+     */
+    private function getColumnTypesFromMigration(string $modelName): array
+    {
+        $migrationPath = database_path('migrations');
+        $columnTypes = [];
+        $tableName = $this->table;
+        
+        // Chercher le fichier de migration pour cette table spécifique
+        $migrationFiles = glob($migrationPath . '/*_create_' . $tableName . '_table.php');
+        
+        if (empty($migrationFiles)) {
+            return $columnTypes;
+        }
+        
+        $migrationFile = end($migrationFiles);
+        $content = file_get_contents($migrationFile);
+        
+        // Extraire seulement la partie inside Schema::create
+        $pattern = '/Schema::create\([\'"]' . preg_quote($tableName, '/') . '[\'"],\s*function\s*\([^)]*\)\s*\{(.*?)\}\);/s';
+        if (preg_match($pattern, $content, $schemaMatch)) {
+            $tableDefinition = $schemaMatch[1];
+            
+            // Pattern pour capturer les définitions de colonnes (pas les index)
+            $columnPattern = '/\$table\s*->\s*(\w+)\s*\(\s*[\'"](\w+)[\'"].*?\);/';
+            preg_match_all($columnPattern, $tableDefinition, $matches, PREG_SET_ORDER);
+            
+            foreach ($matches as $match) {
+                $columnType = $match[1];
+                $columnName = $match[2];
+                
+                // Types de colonnes valides de Laravel
+                $validColumnTypes = [
+                    'id', 'bigIncrements', 'increments', 'string', 'text', 'mediumText', 'longText',
+                    'integer', 'bigInteger', 'tinyInteger', 'smallInteger', 'unsignedInteger',
+                    'decimal', 'float', 'double', 'boolean', 'json', 'datetime', 'timestamp',
+                    'date', 'time', 'enum', 'foreignId', 'uuid', 'binary'
+                ];
+                
+                if (in_array($columnType, $validColumnTypes)) {
+                    $columnTypes[$columnName] = $columnType;
+                }
+            }
+        }
+        
+        return $columnTypes;
+    }
+
     private function getBooleanFieldsFromMigration(string $modelName): array
     {
         $migrationPath = database_path('migrations');
@@ -1187,14 +1241,18 @@ HTML;
 HTML;
         }
 
-        // Cas spécial : champs timestamp/datetime
-        if (Str::endsWith($lower, '_at') || in_array($lower, ['last_login', 'email_verified_at'])) {
+        // Cas spécial : champs timestamp/datetime/date (basé sur le type de colonne)
+        $columnType = $this->columnTypes[$column] ?? null;
+        if (in_array($columnType, ['datetime', 'timestamp', 'date']) || Str::endsWith($lower, '_at') || in_array($lower, ['last_login', 'email_verified_at'])) {
+            $inputType = ($columnType === 'date') ? 'date' : 'datetime-local';
+            $format = ($columnType === 'date') ? 'Y-m-d' : 'Y-m-d\\\\TH:i';
+            
             return <<<HTML
         <div class="col-12 col-lg-6">
             <x-forms.input name="{$name}" 
                            :label="{$labelExpr}" 
-                           type="datetime-local"
-                           :value="old('{$name}', {$varToken}->{$name} ? ({$varToken}->{$name} instanceof \\Carbon\\Carbon ? {$varToken}->{$name}->format('Y-m-d\\\\TH:i') : {$varToken}->{$name}) : '')" />
+                           type="{$inputType}"
+                           :value="old('{$name}', {$varToken}->{$name} ? ({$varToken}->{$name} instanceof \\Carbon\\Carbon ? {$varToken}->{$name}->format('{$format}') : {$varToken}->{$name}) : '')" />
         </div>
 HTML;
         }
@@ -1255,8 +1313,8 @@ HTML;
 HTML;
         }
 
-        // Champs booléans classiques (Oui/Non)
-        if (in_array($column, $this->booleanFields)) {
+        // Champs booléans (basé sur le type de colonne ou détection existante)
+        if ($columnType === 'boolean' || in_array($column, $this->booleanFields)) {
             return <<<HTML
         <div class="col-12 col-lg-4">
             <x-forms.select name="{$name}" 
@@ -1267,8 +1325,8 @@ HTML;
 HTML;
         }
 
-        // textarea pour les champs longText et text
-        if ($this->isLongTextField($tableName, $column) || $this->isTextField($tableName, $column)) {
+        // textarea pour les champs text/longText (basé sur le type de colonne)
+        if (in_array($columnType, ['text', 'longText', 'mediumText']) || $this->isLongTextField($tableName, $column) || $this->isTextField($tableName, $column)) {
             return <<<HTML
         <div class="col-12">
             <x-forms.input name="{$name}" 
@@ -1385,6 +1443,51 @@ HTML;
         $pattern = '/\$table\s*->\s*text\s*\(\s*[\'"]' . preg_quote($columnName, '/') . '[\'"].*?\)/';
         
         return preg_match($pattern, $content) === 1;
+    }
+
+    private function isDateTimeField(string $tableName, string $columnName): bool
+    {
+        // Obtenir les informations du schéma pour vérifier le type de colonne
+        try {
+            $columnType = DB::select("
+                SELECT DATA_TYPE 
+                FROM INFORMATION_SCHEMA.COLUMNS 
+                WHERE TABLE_SCHEMA = DATABASE() 
+                AND TABLE_NAME = ? 
+                AND COLUMN_NAME = ?
+            ", [$tableName, $columnName]);
+            
+            if (!empty($columnType)) {
+                $type = strtolower($columnType[0]->DATA_TYPE ?? '');
+                return in_array($type, ['datetime', 'timestamp', 'date']);
+            }
+        } catch (\Exception $e) {
+            // Fallback : chercher dans les migrations
+            $modelName = Str::studly(Str::singular($tableName));
+            $migrationFiles = glob(database_path('migrations/*_create_' . $tableName . '_table.php'));
+            
+            if (empty($migrationFiles)) {
+                return false;
+            }
+            
+            $migrationFile = end($migrationFiles);
+            $content = file_get_contents($migrationFile);
+            
+            // Chercher les déclarations datetime/timestamp/date
+            $patterns = [
+                '/\$table\s*->\s*datetime\s*\(\s*[\'"]' . preg_quote($columnName, '/') . '[\'"].*?\)/',
+                '/\$table\s*->\s*timestamp\s*\(\s*[\'"]' . preg_quote($columnName, '/') . '[\'"].*?\)/',
+                '/\$table\s*->\s*date\s*\(\s*[\'"]' . preg_quote($columnName, '/') . '[\'"].*?\)/',
+            ];
+            
+            foreach ($patterns as $pattern) {
+                if (preg_match($pattern, $content)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 
     private function stubIndex(string $entity, string $entitySlug, string $varSing, string $varPlur, array $columns): string
