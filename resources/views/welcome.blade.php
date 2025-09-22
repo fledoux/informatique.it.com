@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Mon Application')</title>
 
-    <!-- Bootstrap 5 depuis CDN -->
+    {{-- Bootstrap 5 depuis CDN --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Tes styles -->
+    {{-- Tes styles --}}
     <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    <!-- Barre de navigation -->
+    {{-- Barre de navigation --}}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">MonSite</a>
@@ -33,20 +33,20 @@
         </div>
     </nav>
 
-    <!-- Contenu principal -->
+    {{-- Contenu principal --}}
     <main class="container flex-grow-1">
         @yield('content')
     </main>
 
-    <!-- Pied de page -->
+    {{-- Pied de page --}}
     <footer class="bg-light text-center py-3 mt-4">
         <small>&copy; {{ date('Y') }} MonSite - Tous droits réservés.</small>
     </footer>
 
-    <!-- Bootstrap JS depuis CDN -->
+    {{-- Bootstrap JS depuis CDN --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Ton JS -->
+    {{-- Ton JS --}}
     <script src="{{ asset('assets/js/app.js') }}"></script>
 </body>
 </html>

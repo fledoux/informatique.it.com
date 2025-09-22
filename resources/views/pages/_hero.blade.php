@@ -90,7 +90,7 @@
                         <img src="{{ asset('assets/img/customer/neutrik.svg') }}" alt="Neutrik France" />
                         <img src="{{ asset('assets/img/customer/sagarmatha.svg') }}" alt="Sagarmatha" />
                         <img src="{{ asset('assets/img/customer/pwc.svg') }}" alt="PricewaterhouseCoopers" />
-                        <!-- duplicate for seamless scroll -->
+                        <{{-- duplicate for seamless scroll --}}
                         <img src="{{ asset('assets/img/customer/sanofi.svg') }}" alt="Sanofi" />
                         <img src="{{ asset('assets/img/customer/samsung.svg') }}" alt="Samsung" />
                         <img src="{{ asset('assets/img/customer/total.svg') }}" alt="TotalEnergies" />

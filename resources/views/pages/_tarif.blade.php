@@ -143,7 +143,7 @@
 
         <div
             class="row g-4 mt-1">
-            <!-- Col: Unités de 30 minutes -->
+            {{-- Col: Unités de 30 minutes --}}
             <div class="col-lg-6">
                 <div class="p-4 bg-light border rounded-4 shadow-soft h-100">
                     <div class="d-flex flex-column flex-sm-row align-items-start gap-3 mb-2">

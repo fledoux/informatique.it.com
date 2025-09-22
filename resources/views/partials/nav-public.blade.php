@@ -1,4 +1,4 @@
-<!-- NAVBAR -->
+{{-- NAVBAR --}}
 <nav class="navbar navbar-expand-lg bg-white sticky-top shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ route('home') }}">

@@ -6,7 +6,7 @@
 
         <div
             class="row g-4 mt-1">
-            <!-- Entrées -->
+            {{-- Entrées --}}
             <div class="col-lg-5">
                 <div class="p-4 bg-white border rounded-4 shadow-soft h-100">
                     <h5 class="fw-bold mb-3">
@@ -73,7 +73,7 @@
                 </div>
             </div>
 
-            <!-- Résultats -->
+            {{-- Résultats --}}
             <div class="col-lg-7">
                 <div class="p-4 bg-white border rounded-4 shadow-soft h-100">
                     <h5 class="fw-bold mb-3">
