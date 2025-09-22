@@ -16,4 +16,9 @@ return [
     'Language' => 'Langue',
     'French' => 'Français',
     'English' => 'English',
+    'Offers' => 'Offres',
+    'Pricing' => 'Tarifs',
+    'CaseStudies' => 'Cas clients',
+    'FAQ' => 'FAQ',
+    'FreeQuote' => 'Devis gratuit',
 ];
