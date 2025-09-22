@@ -50,13 +50,13 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.required' => __('Register.Email is required'),
-            'email.email' => __('Register.Email must be valid'),
-            'email.unique' => __('Register.Email already exists'),
-            'password.required' => __('Register.Password is required'),
-            'password.confirmed' => __('Register.Password confirmation does not match'),
-            'agree_terms.required' => __('Register.You must accept the terms'),
-            'agree_terms.accepted' => __('Register.You must accept the terms'),
+            'email.required' => __('register.Email is required'),
+            'email.email' => __('register.Email must be valid'),
+            'email.unique' => __('register.Email already exists'),
+            'password.required' => __('register.Password is required'),
+            'password.confirmed' => __('register.Password confirmation does not match'),
+            'agree_terms.required' => __('register.You must accept the terms'),
+            'agree_terms.accepted' => __('register.You must accept the terms'),
         ];
     }
 
@@ -68,9 +68,9 @@ class RegisterRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'email' => __('Register.Email'),
-            'password' => __('Register.Password'),
-            'agree_terms' => __('Register.Agree terms'),
+            'email' => __('register.Email'),
+            'password' => __('register.Password'),
+            'agree_terms' => __('register.Agree terms'),
         ];
     }
 }

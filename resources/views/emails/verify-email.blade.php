@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ __('Register.Confirm your email') }}</title>
+    <title>{{ __('register.Confirm your email') }}</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -51,29 +51,29 @@
 <body>
     <div class="email-container">
         <div class="header">
-            <h1>{{ __('Register.Confirm your email') }}</h1>
+            <h1>{{ __('register.Confirm your email') }}</h1>
         </div>
         
         <div class="content">
-            <h2>{{ __('Register.Hello') }}!</h2>
+            <h2>{{ __('register.Hello') }}!</h2>
             
-            <p>{{ __('Register.Please confirm your email address by clicking the following link') }}:</p>
+            <p>{{ __('register.Please confirm your email address by clicking the following link') }}:</p>
             
             <div style="text-align: center;">
                 <a href="{{ $verificationUrl }}" class="button">
-                    {{ __('Register.Confirm my email') }}
+                    {{ __('register.Confirm my email') }}
                 </a>
             </div>
             
-            <p>{{ __('Register.This link will expire in :minutes minutes', ['minutes' => $expires]) }}.</p>
+            <p>{{ __('register.This link will expire in :minutes minutes', ['minutes' => $expires]) }}.</p>
             
-            <p>{{ __('Register.If you did not create an account, no further action is required') }}.</p>
+            <p>{{ __('register.If you did not create an account, no further action is required') }}.</p>
             
-            <p>{{ __('Register.Cheers') }}!</p>
+            <p>{{ __('register.Cheers') }}!</p>
         </div>
         
         <div class="footer">
-            <p>© {{ date('Y') }} informatique.it.com - {{ __('Register.All rights reserved') }}</p>
+            <p>© {{ date('Y') }} informatique.it.com - {{ __('register.All rights reserved') }}</p>
         </div>
     </div>
 </body>

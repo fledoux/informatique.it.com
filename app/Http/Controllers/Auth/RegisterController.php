@@ -39,7 +39,7 @@ class RegisterController extends Controller
         
         if (!$registrationOpen) {
             return redirect()->route('register')
-                ->with('error', __('Register.Registration not open yet'));
+                ->with('error', __('register.Registration not open yet'));
         }
 
         // Create the user
@@ -56,7 +56,7 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         return redirect()->route('register.pending')
-            ->with('success', __('Register.Check your email'));
+            ->with('success', __('register.Check your email'));
     }
 
     /**
@@ -76,12 +76,12 @@ class RegisterController extends Controller
 
         if (!hash_equals(sha1($user->getEmailForVerification()), (string) $request->route('hash'))) {
             return redirect()->route('register')
-                ->with('verify_email_error', __('Register.Invalid verification link'));
+                ->with('verify_email_error', __('register.Invalid verification link'));
         }
 
         if ($user->hasVerifiedEmail()) {
             return redirect()->route('dashboard')
-                ->with('success', __('Register.Email already verified'));
+                ->with('success', __('register.Email already verified'));
         }
 
         if ($user->markEmailAsVerified()) {
@@ -92,6 +92,6 @@ class RegisterController extends Controller
         Auth::login($user);
 
         return redirect()->route('dashboard')
-            ->with('success', __('Register.Email verified successfully'));
+            ->with('success', __('register.Email verified successfully'));
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', __('Register.Register'))
+@section('title', __('register.Register'))
 
 @section('content')
 @if(session('verify_email_error'))
@@ -14,7 +14,7 @@
         <img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="Mon Support by Yellow Cactus" class="d-inline-block align-text-top mb-2 mx-3">
         <h5 class="card-title py-3">
             <i class="fa-regular fa-address-card"></i>
-            {{ __('Register.Create an account') }}
+            {{ __('register.Create an account') }}
         </h5>
 
         <form method="POST" action="{{ route('register') }}">
@@ -25,7 +25,7 @@
                 <x-forms.input 
                     name="email" 
                     type="email" 
-                    :label="__('Register.Email')"
+                    :label="__('register.Email')"
                     :value="old('email')"
                     :required="true"
                     :labelAfter="true"
@@ -37,7 +37,7 @@
                 <x-forms.input 
                     name="password" 
                     type="password" 
-                    :label="__('Register.Password')"
+                    :label="__('register.Password')"
                     :required="true"
                     :labelAfter="true" />
             </div>
@@ -47,7 +47,7 @@
                 <x-forms.input 
                     name="password_confirmation" 
                     type="password" 
-                    :label="__('Register.Confirm Password')"
+                    :label="__('register.Confirm Password')"
                     :required="true"
                     :labelAfter="true" />
             </div>
@@ -55,12 +55,12 @@
             {{-- Terms agreement checkbox --}}
             <x-forms.checkbox 
                 name="agree_terms" 
-                :label="__('Register.Agree terms')" 
+                :label="__('register.Agree terms')" 
                 :checked="false"
                 :required="true" />
 
             <button type="submit" class="btn btn-orange w-100 my-3">
-                {{ __('Register.Register') }}
+                {{ __('register.Register') }}
             </button>
         </form>
         
