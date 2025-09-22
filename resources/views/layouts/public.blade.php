@@ -15,7 +15,7 @@
     @include('partials.script')
 </head>
 <body class="body d-flex flex-column h-100 bg-body-tertiary">
-    @php($currentRoute = request()->route()->getName())
+    @php($currentRoute = request()->route() ? request()->route()->getName() : null)
     @include('partials.nav-public')
     <div class="container">
         <main class="flex-shrink-0">

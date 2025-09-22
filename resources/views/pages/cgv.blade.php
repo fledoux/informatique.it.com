@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Conditions Générales de Vente')
+@section('title', __('global.Terms and Conditions'))
 
 @section('content')
 

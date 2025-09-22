@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'Home' => 'Accueil',
+    'Dashboard' => 'Tableau de bord',
+    'Tickets' => 'Tickets',
     'Register' => 'S\'inscrire',
     'Connect' => 'Connexion',
     'Support' => 'Support',
@@ -10,5 +13,4 @@ return [
     'Contacts' => 'Contacts',
     'Login' => 'Connexion',
     'Logout' => 'Déconnexion',
-    'Register' => 'Inscription',
 ];

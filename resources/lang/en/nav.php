@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'Home' => 'Home',
+    'Dashboard' => 'Dashboard',
+    'Tickets' => 'Tickets',
     'Register' => 'Register',
     'Connect' => 'Login',
     'Support' => 'Support',
@@ -10,5 +13,4 @@ return [
     'Contacts' => 'Contacts',
     'Login' => 'Login',
     'Logout' => 'Logout',
-    'Register' => 'Register',
 ];

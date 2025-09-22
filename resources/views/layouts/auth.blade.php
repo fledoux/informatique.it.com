@@ -8,7 +8,7 @@
     <title>
         @yield('title', 'Bienvenue !')
     </title>
-    <link rel="icon" href="{{ asset('img/favicon/favicon.svg') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ asset('assets/img/favicon/favicon.svg') }}" type="image/svg+xml">
     @stack('stylesheets')
     @include('partials.style')
     <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
@@ -17,7 +17,7 @@
 </head>
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
     <main class="form-signin w-100 m-auto">
-        @php($currentRoute = request()->route()->getName())
+        @php($currentRoute = request()->route() ? request()->route()->getName() : null)
         @include('partials.flash')
         @yield('content')
     </main>

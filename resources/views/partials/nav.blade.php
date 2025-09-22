@@ -11,7 +11,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">
-                        <a class="ms-auto mb-2 btn w-100 {{ str_starts_with($currentRoute, 'ticket.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('ticket.index') }}">
+                        <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'ticket.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('ticket.index') }}">>
                             <i class="fa-regular fa-message-question"></i>
                             {{ __('nav.Support') }}
                         </a>
@@ -19,7 +19,7 @@
                 @endauth
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">
-                        <a class="ms-auto mb-2 btn w-100 {{ str_starts_with($currentRoute, 'user.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('user.index') }}">
+                        <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'user.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('user.index') }}">>
                             <i class="fa-regular fa-users"></i>
                             {{ __('nav.Users') }}
                         </a>
@@ -27,7 +27,7 @@
                 @endauth
                 @can('admin.access')
                     <li class="nav-item ms-lg-2 mb-2">
-                        <a class="ms-auto mb-2 btn w-100 {{ str_starts_with($currentRoute, 'company.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('company.index') }}">
+                        <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'company.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('company.index') }}">>
                             <i class="fa-regular fa-building"></i>
                             {{ __('nav.Companies') }}
                         </a>
@@ -35,7 +35,7 @@
                 @endcan
                 @can('admin.access')
                     <li class="nav-item ms-lg-2 mb-2">
-                        <a class="ms-auto mb-2 btn w-100 {{ str_starts_with($currentRoute, 'contact.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('contact.index') }}">
+                        <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'contact.') ? 'btn-orange' : 'btn-outline-secondary' }}" href="{{ route('contact.index') }}">>
                             <i class="fa-regular fa-address-book"></i>
                             {{ $contactsCount ?? 0 }}
                             @if(($contactsCount ?? 0) <= 1)
