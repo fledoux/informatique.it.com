@@ -1,7 +1,7 @@
 {{-- PUBLICITÉ YELLOW CACTUS --}}
 <section class="py-5">
     <div class="container">
-        <div class="hero border rounded-4 p-4">
+        <div class="hero border border-4 rounded-4 p-4">
             <div class="row align-items-center">
                 <div class="col-lg-8">
                     <h2 class="fw-bold mb-3">
