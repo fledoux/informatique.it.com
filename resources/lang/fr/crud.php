@@ -25,5 +25,6 @@ return [
         'edit_not_found' => 'Impossible de modifier : élément introuvable',
         'update_not_found' => 'Impossible de mettre à jour : élément introuvable',
         'delete_not_found' => 'Impossible de supprimer : élément introuvable',
+        'cannot_delete_self' => 'Vous ne pouvez pas supprimer votre propre compte',
     ],
 ];

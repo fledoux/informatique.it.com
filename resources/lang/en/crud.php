@@ -25,5 +25,6 @@ return [
         'edit_not_found' => 'Unable to edit: this record does not exist or has been deleted.',
         'update_not_found' => 'Unable to update: this record does not exist or has been deleted.',
         'delete_not_found' => 'Unable to delete: this record does not exist or has already been deleted.',
+        'cannot_delete_self' => 'You cannot delete your own account',
     ]
 ];

@@ -357,6 +357,7 @@ use {$modelClass};
 use App\\Http\\Requests\\{$entity}StoreRequest;
 use App\\Http\\Requests\\{$entity}UpdateRequest;
 use Illuminate\\Database\\Eloquent\\ModelNotFoundException;
+use Illuminate\\Support\\Facades\\Auth;
 
 class {$entity}Controller extends Controller
 {
@@ -429,7 +430,7 @@ class {$entity}Controller extends Controller
             \${$varSing} = {$entity}::findOrFail(\$id);
             
             // Empêcher l'auto-suppression
-            if (strtolower('{$entity}') === 'user' && auth()->check() && \${$varSing}->id === auth()->id()) {
+            if (strtolower('{$entity}') === 'user' && Auth::check() && \${$varSing}->id === Auth::id()) {
                 return redirect()->route('{$entitySlug}.index')
                     ->with('error', __('crud.messages.cannot_delete_self'));
             }

@@ -78,7 +78,8 @@ class UserController extends Controller
             $user = User::findOrFail($id);
             
             // Empêcher l'auto-suppression
-            if (strtolower('User') === 'user' && auth()->check() && $user->id === auth()->id()) {
+            if (strtolower('User') === 'user' && Auth::check() && $user->id === Auth::id()) {
+                if (Auth::check() && $ticket->author_id === Auth::id()) {
                 return redirect()->route('user.index')
                     ->with('error', __('crud.messages.cannot_delete_self'));
             }

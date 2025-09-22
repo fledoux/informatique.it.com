@@ -80,7 +80,7 @@ class ContactController extends Controller
             $contact = Contact::findOrFail($id);
             
             // Empêcher l'auto-suppression
-            if (strtolower('Contact') === 'user' && auth()->check() && $contact->id === auth()->id()) {
+            if (strtolower('Contact') === 'user' && Auth::check() && $contact->id === Auth::id()) {
                 return redirect()->route('contact.index')
                     ->with('error', __('crud.messages.cannot_delete_self'));
             }

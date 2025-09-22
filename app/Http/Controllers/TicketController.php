@@ -6,6 +6,7 @@ use \App\Models\Ticket;
 use App\Http\Requests\TicketStoreRequest;
 use App\Http\Requests\TicketUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -77,8 +78,8 @@ class TicketController extends Controller
         try {
             $ticket = Ticket::findOrFail($id);
             
-            // Empêcher l'auto-suppression
-            if (strtolower('Ticket') === 'user' && auth()->check() && $ticket->id === auth()->id()) {
+            // Empêcher la suppression d'un ticket par son auteur (optionnel selon vos règles métier)
+            if (Auth::check() && $ticket->author_id === Auth::id()) {
                 return redirect()->route('ticket.index')
                     ->with('error', __('crud.messages.cannot_delete_self'));
             }
