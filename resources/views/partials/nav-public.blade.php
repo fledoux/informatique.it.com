@@ -27,13 +27,13 @@
                         <i class="fa-solid fa-bolt me-1"></i>
                         {{ __('nav.FreeQuote') }}</a>
                 </li>
+                @include('partials._lang')
                 <li class="nav-item ms-lg-2 mb-2">
                     <a class="ms-auto btn btn-outline-orange w-100" href="{{ route('register') }}">
                         <i class="fa-regular fa-address-card"></i>
                         {{ __('nav.Register') }}
                     </a>
                 </li>
-                @include('partials._lang')
                 <li class="nav-item ms-lg-2 mb-2">
                     <a class="btn btn-outline-secondary w-100" href="{{ route('login') }}">
                         <i class="fa-regular fa-arrow-right-to-bracket"></i>
