@@ -109,25 +109,24 @@
             <div class="col-md-6 col-lg-3">
                 <div class="p-4 bg-info border border-info bg-opacity-50 rounded-4 shadow-soft h-100 position-relative">
                     <span class="ribbon">
-                        <i class="fa-regular fa-bolt me-1"></i>Meilleur prix</span>
-                    <h6 class="text-muted">Pack 400 tickets</h6>
+                        <i class="fa-regular fa-handshake me-1"></i>Sur mesure</span>
+                    <h6 class="text-muted">Solution adaptée</h6>
                     <h3 class="price mb-0">
-                        <span class="js-price" data-ht="13600">13 600</span>€
+                        <span class="text-uppercase">devis</span>
                     </h3>
-                    <p class="text-secondary" data-suffix="pack">/ pack H.T.</p>
+                    <p class="text-secondary">Une solution adaptée</p>
                     <ul class="list-unstyled small">
                         <li class="mb-2 fw-bold">
-                            <i class="fa-regular fa-check text-success me-2"></i>400 x 30 minutes
+                            <i class="fa-regular fa-check text-success me-2"></i>Volume personnalisé
                         </li>
                         <li class="mb-2">
-                            <i class="fa-regular fa-check text-success me-2"></i>
-                            <span class="js-per" data-ht="34">34</span>€ / ticket
+                            <i class="fa-regular fa-check text-success me-2"></i>Tarif préférentiel
                         </li>
                         <li class="mb-2">
-                            <i class="fa-regular fa-check text-success me-2"></i>Validité 3 ans
+                            <i class="fa-regular fa-check text-success me-2"></i>SLA personalisé
                         </li>
                     </ul>
-                    <a href="{{ route('dashboard') }}" class="btn btn-outline-dark w-100">Souscrire</a>
+                    <a href="#contact" class="btn btn-outline-dark w-100">Nous contacter</a>
                 </div>
             </div>
         </div>
