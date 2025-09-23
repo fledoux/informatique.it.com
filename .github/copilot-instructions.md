@@ -94,6 +94,8 @@ This runs: server, queue worker, pail logs, and Vite in parallel with concurrent
 - Base layout: `resources/views/layouts/app.blade.php`
 - All views extend `@extends('layouts.app')`
 - Flash message handling built into layout
+- Custom CSS: `public/assets/css/app.css` with responsive width utilities
+- Extended Bootstrap width classes: `w-sm-25`, `w-md-50`, `w-lg-75`, etc. (25, 50, 75, 100, auto for all breakpoints sm, md, lg, xl, xxl)
 
 ### Permission System
 Three roles defined in `PermissionSeeder`:
