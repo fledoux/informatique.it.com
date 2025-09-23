@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.public')
 
 @section('title', 'Scannez-moi - QR Code')
 @section('meta_description', 'Scannez ce QR code pour accéder facilement à informatique.it.com depuis votre téléphone')
@@ -31,7 +31,7 @@
                         <div class="row g-3 text-start">
                             <div class="col-12 col-md-6">
                                 <div class="d-flex align-items-start">
-                                    <div class="feature-icon me-3 mt-1">
+                                    <div class="feature-icon mx-auto mx-sm-0 me-3 mt-1">
                                         <i class="fa-brands fa-apple"></i>
                                     </div>
                                     <div>
@@ -44,7 +44,7 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="d-flex align-items-start">
-                                    <div class="feature-icon me-3 mt-1">
+                                    <div class="feature-icon mx-auto mx-sm-0 me-3 mt-1">
                                         <i class="fa-brands fa-android"></i>
                                     </div>
                                     <div>
