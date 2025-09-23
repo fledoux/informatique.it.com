@@ -10,5 +10,19 @@ class Company extends Model
 
     protected $casts = ['email_verified_at' => 'datetime','password' => 'hashed','created_at' => 'datetime','updated_at' => 'datetime','status' => 'string'];
 
-    //
+    /**
+     * Une société a plusieurs utilisateurs
+     */
+    public function users()
+    {
+        return $this->hasMany(\App\Models\User::class);
+    }
+
+    /**
+     * Une société a plusieurs tickets
+     */
+    public function tickets()
+    {
+        return $this->hasMany(\App\Models\Ticket::class);
+    }
 }

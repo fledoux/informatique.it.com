@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var list<string>
      */
-    protected $fillable = ['name','email','password','status','company_id','firstname','lastname','phone','last_login','agree_terms','channels','note'];
+    protected $fillable = ['name','email','password','status','company_id','firstname','lastname','initial','phone','last_login','agree_terms','channels','note'];
 
     protected $casts = ['email_verified_at' => 'datetime','password' => 'hashed','created_at' => 'datetime','updated_at' => 'datetime','status' => 'string','agree_terms' => 'string','channels' => 'array'];
 
@@ -67,6 +67,30 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getCompanyName(): ?string
     {
         return $this->company?->name;
+    }
+
+    /**
+     * Obtenir tous les rôles disponibles
+     */
+    public static function getAvailableRoles(): array
+    {
+        return \Spatie\Permission\Models\Role::orderBy('name')->pluck('name', 'name')->toArray();
+    }
+
+    /**
+     * Tickets créés par cet utilisateur (en tant qu'auteur)
+     */
+    public function authoredTickets()
+    {
+        return $this->hasMany(\App\Models\Ticket::class, 'author_id');
+    }
+
+    /**
+     * Tickets assignés à cet utilisateur
+     */
+    public function assignedTickets()
+    {
+        return $this->hasMany(\App\Models\Ticket::class, 'assigned_to');
     }
 
     /**

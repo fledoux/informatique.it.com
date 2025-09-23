@@ -21,7 +21,7 @@
                 @case('active') @php($badgeColor = 'success') @break
                 @case('inactive') @php($badgeColor = 'secondary') @break
             @endswitch
-            <span class="badge bg-{{ $badgeColor }}">{{ __('user.enums.status.' . $user->status) }}</span>
+            <span class="badge bg-{{ $badgeColor }}">{{ __('user.status.' . $user->status) }}</span>
         </dd>
         <dt class="col-sm-3">{{ __('user.fields.company_id') }}</dt>
         <dd class="col-sm-9">{{ $user->company_id ? \App\Models\Company::find($user->company_id)?->name : '—' }}</dd>
@@ -29,6 +29,8 @@
         <dd class="col-sm-9">{{ $user->firstname ?? '—' }}</dd>
         <dt class="col-sm-3">{{ __('user.fields.lastname') }}</dt>
         <dd class="col-sm-9">{{ $user->lastname ?? '—' }}</dd>
+        <dt class="col-sm-3">{{ __('user.fields.initial') }}</dt>
+        <dd class="col-sm-9">{{ $user->initial ?? '—' }}</dd>
         <dt class="col-sm-3">{{ __('user.fields.phone') }}</dt>
         <dd class="col-sm-9">{{ $user->phone ?? '—' }}</dd>
         <dt class="col-sm-3">{{ __('user.fields.last_login') }}</dt>
@@ -40,7 +42,7 @@
                 @case('oui') @php($badgeColor = 'primary') @break
                 @case('non') @php($badgeColor = 'primary') @break
             @endswitch
-            <span class="badge bg-{{ $badgeColor }}">{{ __('user.enums.agree_terms.' . $user->agree_terms) }}</span>
+            <span class="badge bg-{{ $badgeColor }}">{{ __('user.agree_terms.' . $user->agree_terms) }}</span>
         </dd>
         <dt class="col-sm-3">{{ __('user.fields.channels') }}</dt>
         <dd class="col-sm-9"><pre>{{ is_array($user->channels) ? json_encode($user->channels, JSON_PRETTY_PRINT) : ($user->channels ?? '—') }}</pre></dd>

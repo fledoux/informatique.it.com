@@ -25,6 +25,7 @@ return new class extends Migration
             // Profil
             $table->string('firstname', 120)->nullable();
             $table->string('lastname', 120)->nullable();
+            $table->string('initial', 5)->nullable();
             $table->string('phone', 50)->nullable();
 
             // Activité / consentement

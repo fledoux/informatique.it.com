@@ -23,7 +23,7 @@
         <div class="col-12 col-lg-4">
             <x-forms.select name="status" 
                             :label="__('user.fields.status')" 
-                            :options="['active' => __('user.enums.status.active'), 'inactive' => __('user.enums.status.inactive')]"
+                            :options="['active' => __('user.status.active'), 'inactive' => __('user.status.inactive')]"
                             :value="$user->status ?? 'active'" />
         </div>
         <div class="col-12 col-lg-6">
@@ -48,6 +48,13 @@
                            placeholder=""  />
         </div>
         <div class="col-12 col-lg-6">
+            <x-forms.input name="initial" 
+                           :label="__('user.fields.initial')" 
+                           type="text"
+                           :value="old('initial', $user->initial ?? null)"
+                           placeholder=""  />
+        </div>
+        <div class="col-12 col-lg-6">
             <x-forms.input name="phone" 
                            :label="__('user.fields.phone')" 
                            type="tel"
@@ -63,7 +70,7 @@
         <div class="col-12 col-lg-4">
             <x-forms.select name="agree_terms" 
                             :label="__('user.fields.agree_terms')" 
-                            :options="['oui' => __('user.enums.agree_terms.oui'), 'non' => __('user.enums.agree_terms.non')]"
+                            :options="['oui' => __('user.agree_terms.oui'), 'non' => __('user.agree_terms.non')]"
                             :value="$user->agree_terms ?? 'oui'" />
         </div>
         <div class="col-12 col-lg-6">
@@ -72,13 +79,22 @@
                                     :options="['email' => __('user.fields.channels_email'), 'sms' => __('user.fields.channels_sms')]"
                                     :values="old('channels', is_array($user->channels) ? $user->channels : (is_string($user->channels) ? json_decode($user->channels, true) : []))" />
         </div>
-        <div class="col-12">
+        <div class="col-12 col-lg-6">
             <x-forms.input name="note" 
                            :label="__('user.fields.note')" 
-                           type="textarea" 
-                           :rows="4"
-                           :value="old('note', $user->note ?? null)" />
+                           type="text"
+                           :value="old('note', $user->note ?? null)"
+                           placeholder=""  />
         </div>
+
+        @hasanyrole('super-admin|admin')
+        <div class="col-12">
+            <x-forms.roles-select name="roles" 
+                                  :label="__('user.fields.roles')" 
+                                  :options="collect(App\Models\User::getAvailableRoles())->mapWithKeys(function($role, $key) { return [$key => __('user.roles.'.$key)]; })->toArray()"
+                                  :values="old('roles', isset($user) ? $user->getRoleNames()->toArray() : [])" />
+        </div>
+        @endhasanyrole
 
 </div>
 <div class="btn-group mt-3" role="group" aria-label="Basic example">

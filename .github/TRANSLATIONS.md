@@ -166,8 +166,8 @@ php dev/fix-translations.php
     name="status" 
     label="{{ __('user.fields.status') }}" 
     :options="[
-        'active' => __('user.enums.status.active'),
-        'inactive' => __('user.enums.status.inactive'),
+        'active' => __('user.status.active'),
+        'inactive' => __('user.status.inactive'),
     ]"
 />
 ```

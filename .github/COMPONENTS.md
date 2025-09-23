@@ -43,8 +43,8 @@ Les composants x-forms fournissent une interface uniforme pour tous les formulai
     name="status" 
     label="Statut"
     :options="[
-        'active' => __('user.enums.status.active'),
-        'inactive' => __('user.enums.status.inactive')
+        'active' => __('user.status.active'),
+        'inactive' => __('user.status.inactive')
     ]"
     :value="old('status', $user->status ?? '')"
     required
@@ -189,8 +189,8 @@ Les composants x-forms fournissent une interface uniforme pour tous les formulai
         name="status" 
         label="{{ __('user.fields.status') }}"
         :options="[
-            'active' => __('user.enums.status.active'),
-            'inactive' => __('user.enums.status.inactive')
+            'active' => __('user.status.active'),
+            'inactive' => __('user.status.inactive')
         ]"
         :value="old('status', $user->status)"
         required

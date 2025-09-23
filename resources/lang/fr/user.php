@@ -1,66 +1,51 @@
 <?php
 
-return array(
-  'entity' => 'User',
-  'id' => 'ID',
-  'List' => 'Create',
-  'Edit' => 'Edit',
-  'Details' => 'Details',
-  'Actions' => 'Actions',
-  'New' => 'New',
-  'Save' => 'Save',
-  'Back' => 'Back',
-  'Delete' => 'Delete',
-  'Delete?' => 'Delete?',
-  'No data' => 'No data',
-  'fields' =>
-  array(
-    'name' => 'Name',
-    'email' => 'Email',
-    'password' => 'Password',
-    'status' => 'Status',
-    'company_id' => 'Company Id',
-    'firstname' => 'Firstname',
-    'lastname' => 'Lastname',
-    'phone' => 'Phone',
-    'last_login' => 'Last Login',
-    'agree_terms' => 'Agree Terms',
-    'channels' => 'Channels',
-    'channels_email' => 'Email',
-    'channels_sms' => 'Sms',
-    'note' => 'Note',
-    'id' => 'ID',
-    'created_at' => 'Créé le',
-    'updated_at' => 'Modifié le',
-    'user_id' => 'Utilisateur',
-    'author_id' => 'Auteur',
-    'assigned_to' => 'Assigné à',
-    'subject' => 'Sujet',
-    'question' => 'Question',
-    'notes' => 'Notes',
-    'website' => 'Site web',
-    'address_line1' => 'Adresse ligne 1',
-    'address_line2' => 'Adresse ligne 2',
-    'zip' => 'Code postal',
-    'city' => 'Ville',
-    'country' => 'Pays',
-    'siret' => 'Numéro SIRET',
-    'vat_number' => 'Numéro de TVA',
-    'priority' => 'Priorité',
-    'due' => 'Échéance',
-    'billable' => 'Facturable',
-    'type' => 'Type',
-    'need' => 'Besoin',
-    'folder_code' => 'Code dossier',
-    'assigned_at' => 'Assigné le',
-  ),
-  'status' => [
-    'active' => 'Actif',
-    'inactive' => 'Inactif',
-  ],
-  'agree_terms' => [
-    'oui' => 'Oui',
-    'non' => 'Non',
-  ],
-  'YourList' => 'Vos utilisateurs',
-);
+return [
+        'entity' => 'User',
+        'id' => 'ID',
+        'List' => 'Liste',
+        'Edit' => 'Modifier',
+        'Details' => 'Détails',
+        'Actions' => 'Actions',
+        'New' => 'Nouveau',
+        'Save' => 'Enregistrer',
+        'Back' => 'Retour',
+        'Delete' => 'Supprimer',
+        'Delete?' => 'Supprimer ?',
+        'No data' => 'Aucune donnée',
+
+    'fields' => [
+            'name' => 'Nom',
+            'email' => 'Email',
+            'password' => 'Mot de passe',
+            'status' => 'Statut',
+            'company_id' => 'Entreprise',
+            'firstname' => 'Firstname',
+            'lastname' => 'Lastname',
+            'initial' => 'Initial',
+            'phone' => 'Téléphone',
+            'last_login' => 'Last Login',
+            'agree_terms' => 'Agree Terms',
+            'channels' => 'Channels',
+            'channels_email' => 'Channels Email',
+            'channels_sms' => 'Channels Sms',
+            'note' => 'Note',
+            'roles' => 'Rôles'
+    ],
+
+    'status' => [
+            'active' => 'Actif',
+            'inactive' => 'Inactif'
+    ],
+    'agree_terms' => [
+            'oui' => 'Oui',
+            'non' => 'Non'
+    ],
+
+    'roles' => [
+        'super-admin' => 'Super Administrateur',
+        'admin' => 'Administrateur',
+        'manager' => 'Gestionnaire',
+        'user' => 'Utilisateur'
+    ]
+];

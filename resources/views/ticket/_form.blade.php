@@ -20,7 +20,7 @@
         </div>
 
         <div class="col-12 col-lg-6">
-            <x-forms.input name="assigned_to" :label="__('ticket.fields.assigned_to')" type="text" :value="old('assigned_to', $ticket->assigned_to ?? null)" placeholder="" />
+            <x-forms.select name="assigned_to" :label="__('ticket.fields.assigned_to')" :options="App\Models\Ticket::getAssignedToOptions()" :value="$ticket->assigned_to ?? null" />
         </div>
         <div class="col-12 col-lg-6">
             <x-forms.input name="assigned_at" :label="__('ticket.fields.assigned_at')" type="datetime-local" :value="old(
@@ -43,7 +43,11 @@
             )" />
         </div>
         <div class="col-12 col-lg-4">
-            <x-forms.select name="billable" :label="__('ticket.fields.billable')" :options="['0' => __('global.boolean.no'), '1' => __('global.boolean.yes')]" :value="old('billable', $ticket->billable ?? null)" defaultValue="1" />
+            <x-forms.switch 
+                name="billable" 
+                :label="__('ticket.fields.billable')" 
+                :checked="old('billable', $ticket->billable ?? true)"
+            />
         </div>
     </div>
 @endhasanyrole

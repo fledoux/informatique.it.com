@@ -23,6 +23,7 @@
 <th class="text-left">{{ __('user.fields.company_id') }}</th>
 <th class="text-left">{{ __('user.fields.firstname') }}</th>
 <th class="text-left">{{ __('user.fields.lastname') }}</th>
+<th class="text-left">{{ __('user.fields.initial') }}</th>
 <th class="text-left">{{ __('user.fields.phone') }}</th>
 <th class="text-left">{{ __('user.fields.last_login') }}</th>
 <th class="text-left">{{ __('user.fields.agree_terms') }}</th>
@@ -44,11 +45,12 @@
     @case('active') @php($badgeColor = 'success') @break
     @case('inactive') @php($badgeColor = 'secondary') @break
 @endswitch
-<span class="badge bg-{{ $badgeColor }}">{{ __('user.enums.status.' . $user->status) }}</span>
+<span class="badge bg-{{ $badgeColor }}">{{ __('user.status.' . $user->status) }}</span>
 </td>
-<td>{{ $user->company_id ? \App\Models\Company::find($user->company_id)?->name : '—' }}</td>
+<td>{{ $user->company?->name ?? '—' }}</td>
 <td>{{ $user->firstname }}</td>
 <td>{{ $user->lastname }}</td>
+<td>{{ $user->initial }}</td>
 <td>{{ $user->phone }}</td>
 <td>{{ $user->last_login ? ($user->last_login instanceof \Carbon\Carbon ? $user->last_login->format('d/m/Y H:i') : $user->last_login) : '—' }}</td>
 <td>
@@ -57,7 +59,7 @@
     @case('oui') @php($badgeColor = 'primary') @break
     @case('non') @php($badgeColor = 'primary') @break
 @endswitch
-<span class="badge bg-{{ $badgeColor }}">{{ __('user.enums.agree_terms.' . $user->agree_terms) }}</span>
+<span class="badge bg-{{ $badgeColor }}">{{ __('user.agree_terms.' . $user->agree_terms) }}</span>
 </td>
 <td>@php($selected = collect(["email","sms"])->filter(fn($key) => $user->channels[$key] ?? false)->map(fn($key) => __('user.fields.channels_' . $key))->join(', ')){{ $selected ?: '—' }}</td>
 <td>{{ $user->note }}</td>
@@ -73,7 +75,7 @@
 </tr>
 @empty
 <tr>
-<td colspan="14" class="text-center">
+<td colspan="15" class="text-center">
 {{ __('global.No data') }}
 </td>
 </tr>
@@ -83,6 +85,7 @@
 </div>
 
 <a href="{{ route('user.create') }}" class="btn btn-orange mt-3">
+    <i class="fa-regular fa-square-plus"></i>
 {{ __('global.New') }}
 </a>
 @endsection

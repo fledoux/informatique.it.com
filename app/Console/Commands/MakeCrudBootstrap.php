@@ -710,7 +710,7 @@ PHP;
             'No data'  => 'Aucune donnée',
         ];
 
-        // MODIFIÉ : Fonction d'export avec enum
+        // MODIFIÉ : Fonction d'export avec enum à la racine
         $exportArray = function (array $arr, array $fields, array $enums) {
             $fieldsLines = [];
             foreach ($fields as $k => $v) {
@@ -724,18 +724,18 @@ PHP;
             }
             $commonStr = implode(",\n", $lines);
 
-            // CORRIGÉ : Structure array moderne pour les enums
+            // CORRIGÉ : Enum directement à la racine
             $enumStr = '';
             if (!empty($enums)) {
                 $enumSections = [];
                 foreach ($enums as $enumField => $enumValues) {
                     $enumValueLines = [];
                     foreach ($enumValues as $key => $label) {
-                        $enumValueLines[] = "                '{$key}' => '" . addslashes($label) . "'";
+                        $enumValueLines[] = "            '{$key}' => '" . addslashes($label) . "'";
                     }
-                    $enumSections[] = "            '{$enumField}' => [\n" . implode(",\n", $enumValueLines) . "\n            ]";
+                    $enumSections[] = "    '{$enumField}' => [\n" . implode(",\n", $enumValueLines) . "\n    ]";
                 }
-                $enumStr = ",\n\n    'enum' => [\n" . implode(",\n", $enumSections) . "\n    ]";
+                $enumStr = ",\n\n" . implode(",\n", $enumSections);
             }
 
             return "<?php\n\nreturn [\n{$commonStr},\n\n    'fields' => [\n{$fieldsStr}\n    ]{$enumStr}\n];\n";

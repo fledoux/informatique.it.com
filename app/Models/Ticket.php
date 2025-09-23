@@ -136,4 +136,15 @@ class Ticket extends Model
             'overdue_count' => $stats->overdue_count ?? 0,
         ];
     }
+
+    /**
+     * Retourne un array des utilisateurs de la société 1 pour le select assigned_to
+     */
+    public static function getAssignedToOptions(): array
+    {
+        return \App\Models\User::where('company_id', 1)
+            ->orderBy('name')
+            ->pluck('name', 'id')
+            ->toArray();
+    }
 }

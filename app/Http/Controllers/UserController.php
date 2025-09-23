@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::query()->latest('id')->paginate(15);
+        $users = User::query()->with(['company'])->latest('id')->paginate(15);
         return view('user.index', compact('users'));
     }
 
@@ -29,14 +29,25 @@ class UserController extends Controller
         } else {
             unset($data['password']);
         }
+        
+        // Extraire les rôles des données
+        $roles = $data['roles'] ?? [];
+        unset($data['roles']);
+        
         $user = User::create($data);
+        
+        // Assigner les rôles si présents
+        if (!empty($roles)) {
+            $user->syncRoles($roles);
+        }
+        
         return redirect()->route('user.index')->with('success', __('global.messages.created'));
     }
 
     public function show($id)
     {
         try {
-            $user = User::findOrFail($id);
+            $user = User::query()->with(['company'])->findOrFail($id);
             return view('user.show', compact('user'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('user.index')
@@ -47,7 +58,7 @@ class UserController extends Controller
     public function edit($id)
     {
         try {
-            $user = User::findOrFail($id);
+            $user = User::query()->with(['company'])->findOrFail($id);
             return view('user.edit', compact('user'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('user.index')
@@ -65,7 +76,16 @@ class UserController extends Controller
             } else {
                 unset($data['password']);
             }
+            
+            // Extraire les rôles des données
+            $roles = $data['roles'] ?? [];
+            unset($data['roles']);
+            
             $user->update($data);
+            
+            // Synchroniser les rôles
+            $user->syncRoles($roles);
+            
             return redirect()->route('user.index')->with('success', __('global.messages.updated'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('user.index')

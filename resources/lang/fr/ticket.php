@@ -5,7 +5,7 @@ return [
     'Id' => 'N°',
     'Status' => 'Statut',
     'Priority' => 'Priorité',
-    'Company' => 'Entreprise', 
+    'Company' => 'Entreprise',
     'Subject' => 'Sujet',
     'AssignedTo' => 'Assigné à',
     'DueAt' => 'Échéance',

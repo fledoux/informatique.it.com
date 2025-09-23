@@ -1,7 +1,7 @@
 # Laravel Command
 php artisan migrate:fresh
 php artisan db:seed --class=PermissionSeeder
-php artisan make:crud-bootstrap Ticket --force
+php artisan make:crud-bootstrap User --force
 
 # User
 - status: string(20) — Utilisateur activé/désactivé (active|inactive)
