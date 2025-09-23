@@ -19,7 +19,7 @@
         
         @foreach($options as $optionValue => $optionLabel)
             <option value="{{ $optionValue }}" 
-                    @if(old($name, $value) == $optionValue) selected @endif>
+                    @if(old($name, $value ?? $defaultValue) == $optionValue) selected @endif>
                 {{ $optionLabel }}
             </option>
         @endforeach

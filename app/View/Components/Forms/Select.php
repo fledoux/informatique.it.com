@@ -14,7 +14,9 @@ class Select extends Component
         public array $options,
         public bool $required = false,
         public ?string $value = null,
-        public string $placeholder = '-- Choisissez --'
+        public string $placeholder = '-- Choisissez --',
+        public bool $disabled = false,
+        public ?string $defaultValue = null
     ) {}
 
     public function render(): View|Closure|string

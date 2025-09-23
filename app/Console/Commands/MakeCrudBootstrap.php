@@ -1319,7 +1319,7 @@ HTML;
         <div class="col-12 col-lg-4">
             <x-forms.select name="{$name}" 
                             :label="{$labelExpr}" 
-                            :options="['0' => 'Non', '1' => 'Oui']"
+                            :options="['0' => __('crud.boolean.no'), '1' => __('crud.boolean.yes')]"
                             :value="old('{$name}', {$varToken}->{$name} ?? false) ? '1' : '0'" />
         </div>
 HTML;
