@@ -62,7 +62,7 @@
                 <div class="p-4 bg-info border border-info bg-opacity-50 rounded-4 shadow-soft h-100">
                     <h6 class="text-muted">Pack 50 tickets</h6>
                     <h3 class="price mb-0">
-                        <span class="js-price" data-ht="2300">2 300</span>€
+                        <span class="js-price" data-ht="2600">2 600</span>€
                     </h3>
                     <p class="text-secondary" data-suffix="pack">/ pack H.T.</p>
                     <ul class="list-unstyled small">
@@ -71,7 +71,7 @@
                         </li>
                         <li class="mb-2">
                             <i class="fa-regular fa-check text-success me-2"></i>
-                            <span class="js-per" data-ht="46">46</span>€ / ticket
+                            <span class="js-per" data-ht="52">52</span>€ / ticket
                         </li>
                         <li class="mb-2">
                             <i class="fa-regular fa-check text-success me-2"></i>Validité 2 ans
@@ -87,7 +87,7 @@
                         <i class="fa-regular fa-star me-1"></i>Meilleur offre</span>
                     <h6 class="text-muted">Pack 100 tickets</h6>
                     <h3 class="price mb-0">
-                        <span class="js-price" data-ht="3700">3 700</span>€
+                        <span class="js-price" data-ht="4700">4 700</span>€
                     </h3>
                     <p class="text-secondary" data-suffix="pack">/ pack H.T.</p>
                     <ul class="list-unstyled small">
@@ -96,7 +96,7 @@
                         </li>
                         <li class="mb-2">
                             <i class="fa-regular fa-check text-success me-2"></i>
-                            <span class="js-per" data-ht="37">37</span>€ / ticket
+                            <span class="js-per" data-ht="47">47</span>€ / ticket
                         </li>
                         <li class="mb-2">
                             <i class="fa-regular fa-check text-success me-2"></i>Validité 2 ans

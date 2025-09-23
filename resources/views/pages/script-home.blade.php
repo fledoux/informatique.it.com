@@ -78,9 +78,9 @@ span.textContent = label;
 const PRICES = {
 unit: 68,
 p10: 57,
-p50: 46,
-p100: 37,
-p400: 34
+p50: 52,
+p100: 47,
+p400: 45
 };
 // HT par ticket
 // Majorations (tickets additionnels)

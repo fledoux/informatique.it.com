@@ -160,33 +160,34 @@
                                 <tr data-offre="p50">
                                     <td class="fw-bold">Pack 50</td>
                                     <td class="text-end bg-info bg-opacity-25">
-                                        <span id="t_ht_p50">46€</span>
+                                        <span id="t_ht_p50">52€</span>
                                     </td>
                                     <td class="text-end bg-info bg-opacity-25">
-                                        <span id="tot_ht_p50">46€</span>
+                                        <span id="tot_ht_p50">52€</span>
                                     </td>
                                     <td class="text-end bg-info bg-opacity-50">
-                                        <span id="t_ttc_p50">55,20€</span>
+                                        <span id="t_ttc_p50">62,40€</span>
                                     </td>
                                     <td class="text-end bg-info bg-opacity-50">
-                                        <span id="tot_ttc_p50">55,20€</span>
+                                        <span id="tot_ttc_p50">62,40€</span>
                                     </td>
                                 </tr>
                                 <tr data-offre="p100">
                                     <td class="fw-bold">Pack 100</td>
-                                    <td class="text-end bg-info bg-opacity-25">
-                                        <span id="t_ht_p100">37€</span>
+                                    <td class="text-end bg-success bg-opacity-25">
+                                        <span id="t_ht_p100">47€</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-25">
-                                        <span id="tot_ht_p100">37€</span>
+                                    <td class="text-end bg-success bg-opacity-25">
+                                        <span id="tot_ht_p100">47€</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-50">
-                                        <span id="t_ttc_p100">44,40€</span>
+                                    <td class="text-end bg-success bg-opacity-50">
+                                        <span id="t_ttc_p100">56,40€</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-50">
-                                        <span id="tot_ttc_p100">44,40€</span>
+                                    <td class="text-end bg-success bg-opacity-50">
+                                        <span id="tot_ttc_p100">56,40€</span>
                                     </td>
                                 </tr>
+                                <?php /* ?>
                                 <tr data-offre="p400">
                                     <td class="fw-bold">Pack 400</td>
                                     <td class="text-end bg-success bg-opacity-25">
@@ -202,6 +203,7 @@
                                         <span id="tot_ttc_p400">40,80€</span>
                                     </td>
                                 </tr>
+                                <?php */ ?>
                             </tbody>
                         </table>
                     </div>
