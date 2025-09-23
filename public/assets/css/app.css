@@ -76,7 +76,7 @@ footer a { text-decoration: none; }
 .form-check-lg .badge { font-size: .75em; font-weight: 700; line-height: 1; padding: .35em .65em; display: inline-flex; align-items: center; }
 
 /* Orange form-switch (Bootstrap 5) */
-.form-switch.form-switch-orange .form-check-input { background-color: var(--orange-light); border: 1px solid var(--orange-border-strong); }
+.form-switch.form-switch-orange .form-check-input { background-color: var(--orange-light); border: 2px solid var(--orange-border-strong); cursor: pointer; }
 .form-switch.form-switch-orange .form-check-input:focus { box-shadow: var(--focus-ring-size) var(--orange-shadow); border-color: var(--orange-border-strong); }
 .form-switch.form-switch-orange .form-check-input:checked { background-color: var(--orange); border-color: var(--orange); }
 .form-switch.form-switch-lg .form-check-input { width: 3rem; height: 1.5rem; }
