@@ -28,7 +28,7 @@
 <th class="text-left">{{ __('user.fields.agree_terms') }}</th>
 <th class="text-left">{{ __('user.fields.channels') }}</th>
 <th class="text-left">{{ __('user.fields.note') }}</th>
-<th>{{ __('crud.Actions') }}</th>
+<th>{{ __('global.Actions') }}</th>
 </tr>
 </thead>
 <tbody>
@@ -63,10 +63,10 @@
 <td>{{ $user->note }}</td>
 <td class="text-nowrap">
 <a href="{{ route('user.show', $user) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('crud.Details') }}
+{{ __('global.Details') }}
 </a>
 <a href="{{ route('user.edit', $user) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('crud.Edit') }}
+{{ __('global.Edit') }}
 </a>
 @include('user._delete_form', ['user' => $user])
 </td>
@@ -74,7 +74,7 @@
 @empty
 <tr>
 <td colspan="14" class="text-center">
-{{ __('crud.No data') }}
+{{ __('global.No data') }}
 </td>
 </tr>
 @endforelse
@@ -83,6 +83,6 @@
 </div>
 
 <a href="{{ route('user.create') }}" class="btn btn-orange mt-3">
-{{ __('crud.New') }}
+{{ __('global.New') }}
 </a>
 @endsection

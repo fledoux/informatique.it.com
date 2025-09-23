@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return array(
   'entity' => 'User',
   'id' => 'ID',
   'List' => 'Create',
@@ -13,8 +13,8 @@ return array (
   'Delete' => 'Delete',
   'Delete?' => 'Delete?',
   'No data' => 'No data',
-  'fields' => 
-  array (
+  'fields' =>
+  array(
     'name' => 'Name',
     'email' => 'Email',
     'password' => 'Password',
@@ -54,15 +54,13 @@ return array (
     'folder_code' => 'Code dossier',
     'assigned_at' => 'Assigné le',
   ),
-  'enums' => [
-    'status' => [
-      'active' => 'Actif',
-      'inactive' => 'Inactif',
-    ],
-    'agree_terms' => [
-      'oui' => 'Oui',
-      'non' => 'Non',
-    ],
+  'status' => [
+    'active' => 'Actif',
+    'inactive' => 'Inactif',
+  ],
+  'agree_terms' => [
+    'oui' => 'Oui',
+    'non' => 'Non',
   ],
   'YourList' => 'Vos utilisateurs',
 );

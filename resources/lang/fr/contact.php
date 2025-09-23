@@ -1,70 +1,36 @@
 <?php
 
-return array (
-  'entity' => 'Contact',
-  'id' => 'ID',
-  'List' => 'Create',
-  'Edit' => 'Edit',
-  'Details' => 'Details',
-  'Actions' => 'Actions',
-  'New' => 'New',
-  'Save' => 'Save',
-  'Back' => 'Back',
-  'Delete' => 'Delete',
-  'Delete?' => 'Delete?',
-  'No data' => 'No data',
-  'fields' => 
-  array (
-    'name' => 'Name',
-    'email' => 'Email',
-    'phone' => 'Phone',
-    'type' => 'Type',
-    'need' => 'Need',
-    'id' => 'ID',
-    'status' => 'Statut',
-    'created_at' => 'Créé le',
-    'updated_at' => 'Modifié le',
-    'company_id' => 'Société',
-    'user_id' => 'Utilisateur',
-    'author_id' => 'Auteur',
-    'assigned_to' => 'Assigné à',
-    'subject' => 'Sujet',
-    'question' => 'Question',
-    'notes' => 'Notes',
-    'website' => 'Site web',
-    'address_line1' => 'Adresse ligne 1',
-    'address_line2' => 'Adresse ligne 2',
-    'zip' => 'Code postal',
-    'city' => 'Ville',
-    'country' => 'Pays',
-    'siret' => 'Numéro SIRET',
-    'vat_number' => 'Numéro de TVA',
-    'priority' => 'Priorité',
-    'due' => 'Échéance',
-    'billable' => 'Facturable',
-    'password' => 'Mot de passe',
-    'firstname' => 'Prénom',
-    'lastname' => 'Nom de famille',
-    'last_login' => 'Dernière connexion',
-    'agree_terms' => 'J\'accepte les conditions',
-    'channels' => 'Canaux de notification',
-    'note' => 'Note',
-    'folder_code' => 'Code dossier',
-    'assigned_at' => 'Assigné le',
-    'channels_email' => 'Notifications par e-mail',
-    'channels_sms' => 'Notifications par SMS',
-  ),
-  'enum' => [
-    'type' => [
-      'active' => 'Actif',
-      'inactive' => 'Inactif',
-    ],
-  ],
-  'types' => [
-    'prospect' => 'Prospect',
-    'client' => 'Client',
-    'supplier' => 'Fournisseur',
-    'partner' => 'Partenaire',
-  ],
-  'YourList' => 'Vos contacts',
-);
+return [
+        'entity' => 'Contact',
+        'id' => 'ID',
+        'List' => 'Liste',
+        'Edit' => 'Modifier',
+        'Details' => 'Détails',
+        'Actions' => 'Actions',
+        'New' => 'Nouveau',
+        'Save' => 'Enregistrer',
+        'Back' => 'Retour',
+        'Delete' => 'Supprimer',
+        'Delete?' => 'Supprimer ?',
+        'No data' => 'Aucune donnée',
+
+        'fields' => [
+                'name' => 'Nom',
+                'email' => 'Email',
+                'phone' => 'Téléphone',
+                'type' => 'Vous êtes',
+                'need' => 'Votre besoin'
+        ],
+
+        'type' => [
+                'particulier' => 'Particulier',
+                'entreprise' => 'Entreprise',
+                'association' => 'Association',
+                'autre' => 'Autre'
+        ],
+
+        'status' => [
+                'active' => 'Actif',
+                'inactive' => 'Inactif'
+        ]
+];

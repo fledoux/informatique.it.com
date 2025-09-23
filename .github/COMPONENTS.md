@@ -163,10 +163,10 @@ Les composants x-forms fournissent une interface uniforme pour tous les formulai
     
     <div class="d-flex gap-2 mt-4">
         <button type="submit" class="btn btn-primary">
-            {{ __('crud.Save') }}
+            {{ __('global.Save') }}
         </button>
         <a href="{{ route('user.index') }}" class="btn btn-secondary">
-            {{ __('crud.Cancel') }}
+            {{ __('global.Cancel') }}
         </a>
     </div>
 </form>

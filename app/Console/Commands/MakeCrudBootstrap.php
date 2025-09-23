@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class MakeCrudBootstrap extends Command
 {
-    protected $signature = 'make:crud-bootstrap {model : Eloquent model name, e.g. Company} {--table=} {--force}';
+    protected $signature = 'make:crud-bootstrap {model : Eloquent model name, e.g. Company} {--table=} {--force : Force overwrite existing files}';
     protected $description = 'Génère des vues Blade Bootstrap 5 (index/create/edit/show + _form) pour un modèle';
     
     protected string $table;
@@ -27,6 +27,16 @@ class MakeCrudBootstrap extends Command
     {
         $model      = ltrim($this->argument('model'), '\\/');
         $modelClass = "\\App\\Models\\{$model}";
+        
+        // Message de confirmation TOUJOURS obligatoire (même avec --force)
+        if (!$this->confirm("Voulez-vous continuer pour créer \"{$model}\" ?", false)) {
+            $this->info('Opération annulée.');
+            return self::FAILURE;
+        }
+        
+        // Déduire le nom de table d'abord (avant de créer le modèle)
+        $this->table = $this->option('table') ?: Str::snake(Str::pluralStudly($model));
+        
         if (! class_exists($modelClass)) {
             // Génère le modèle manquant et continue (boilerplate inclus si supporté)
             $this->call('make:model', [
@@ -34,10 +44,6 @@ class MakeCrudBootstrap extends Command
                 '--all' => true,
             ]);
         }
-
-        // Déduire table (ou via option --table)
-        $modelInstance = new $modelClass();
-        $this->table = $this->option('table') ?: $modelInstance->getTable();
         
         // NOUVEAU : Analyser tous les types de colonnes depuis les migrations
         $this->columnTypes = $this->getColumnTypesFromMigration($model);
@@ -386,7 +392,7 @@ class {$entity}Controller extends Controller
             unset(\$data['password']);
         }
         \${$varSing} = {$entity}::create(\$data);
-        return redirect()->route('{$entitySlug}.index')->with('success', __('crud.messages.created'));
+        return redirect()->route('{$entitySlug}.index')->with('success', __('global.messages.created'));
     }
 
     public function show(\$id)
@@ -396,7 +402,7 @@ class {$entity}Controller extends Controller
             return view('{$entitySlug}.show', compact('{$varSing}'));
         } catch (ModelNotFoundException \$e) {
             return redirect()->route('{$entitySlug}.index')
-                ->with('error', __('crud.messages.not_found'));
+                ->with('error', __('global.messages.not_found'));
         }
     }
 
@@ -407,7 +413,7 @@ class {$entity}Controller extends Controller
             return view('{$entitySlug}.edit', compact('{$varSing}'));
         } catch (ModelNotFoundException \$e) {
             return redirect()->route('{$entitySlug}.index')
-                ->with('error', __('crud.messages.edit_not_found'));
+                ->with('error', __('global.messages.edit_not_found'));
         }
     }
 
@@ -422,10 +428,10 @@ class {$entity}Controller extends Controller
                 unset(\$data['password']);
             }
             \${$varSing}->update(\$data);
-            return redirect()->route('{$entitySlug}.index')->with('success', __('crud.messages.updated'));
+            return redirect()->route('{$entitySlug}.index')->with('success', __('global.messages.updated'));
         } catch (ModelNotFoundException \$e) {
             return redirect()->route('{$entitySlug}.index')
-                ->with('error', __('crud.messages.update_not_found'));
+                ->with('error', __('global.messages.update_not_found'));
         }
     }
 
@@ -437,14 +443,14 @@ class {$entity}Controller extends Controller
             // Empêcher l'auto-suppression
             if (strtolower('{$entity}') === 'user' && Auth::check() && \${$varSing}->id === Auth::id()) {
                 return redirect()->route('{$entitySlug}.index')
-                    ->with('error', __('crud.messages.cannot_delete_self'));
+                    ->with('error', __('global.messages.cannot_delete_self'));
             }
             
             \${$varSing}->delete();
-            return redirect()->route('{$entitySlug}.index')->with('success', __('crud.messages.deleted'));
+            return redirect()->route('{$entitySlug}.index')->with('success', __('global.messages.deleted'));
         } catch (ModelNotFoundException \$e) {
             return redirect()->route('{$entitySlug}.index')
-                ->with('error', __('crud.messages.delete_not_found'));
+                ->with('error', __('global.messages.delete_not_found'));
         }
     }
 }
@@ -1227,7 +1233,7 @@ HTML;
             $options = $this->enumFields[$column];
             $optionsArray = [];
             foreach ($options as $option) {
-                $optionsArray[] = "'{$option}' => __('{$entitySlug}.enum.{$column}.{$option}')";
+                $optionsArray[] = "'{$option}' => __('{$entitySlug}.{$column}.{$option}')";
             }
             $optionsStr = '[' . implode(', ', $optionsArray) . ']';
             
@@ -1319,7 +1325,7 @@ HTML;
         <div class="col-12 col-lg-4">
             <x-forms.select name="{$name}" 
                             :label="{$labelExpr}" 
-                            :options="['0' => __('crud.boolean.no'), '1' => __('crud.boolean.yes')]"
+                            :options="['0' => __('global.boolean.no'), '1' => __('global.boolean.yes')]"
                             :value="old('{$name}', {$varToken}->{$name} ?? false) ? '1' : '0'" />
         </div>
 HTML;
@@ -1529,7 +1535,7 @@ HTML;
                 $tds .= "\n@switch(\${$varSing}->{$column})";
                 $tds .= $switchCases;
                 $tds .= "\n@endswitch";
-                $tds .= "\n<span class=\"badge bg-{{ \$badgeColor }}\">{{ __('{$entitySlug}.enum.{$column}.' . \${$varSing}->{$column}) }}</span>";
+                $tds .= "\n<span class=\"badge bg-{{ \$badgeColor }}\">{{ __('{$entitySlug}.{$column}.' . \${$varSing}->{$column}) }}</span>";
                 $tds .= "\n</td>";
             }
             // Gestion spéciale pour les champs timestamp/datetime
@@ -1554,7 +1560,7 @@ HTML;
                 $tds .= "\n<td>{{ is_array(\${$varSing}->{$column}) ? json_encode(\${$varSing}->{$column}) : \${$varSing}->{$column} }}</td>";
             } elseif (in_array($column, $this->booleanFields)) {
                 // Pour les champs booléens classiques
-                $tds .= "\n<td>{{ \${$varSing}->{$column} ? __('crud.boolean.yes') : __('crud.boolean.no') }}</td>";
+                $tds .= "\n<td>{{ \${$varSing}->{$column} ? __('global.boolean.yes') : __('global.boolean.no') }}</td>";
             } elseif ($column === 'password') {
                 // Pour le password, afficher des étoiles
                 $tds .= "\n<td>••••••••</td>";
@@ -1587,7 +1593,7 @@ HTML;
 <thead>
 <tr>
 <th class="text-center">{{ __('{$entitySlug}.id') }}</th>{$ths}
-<th>{{ __('crud.Actions') }}</th>
+<th>{{ __('global.Actions') }}</th>
 </tr>
 </thead>
 <tbody>
@@ -1596,10 +1602,10 @@ HTML;
 <td class="text-center">{{ \${$varSing}->id }}</td>{$tds}
 <td class="text-nowrap">
 <a href="{{ route('{$entitySlug}.show', \${$varSing}) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('crud.Details') }}
+{{ __('global.Details') }}
 </a>
 <a href="{{ route('{$entitySlug}.edit', \${$varSing}) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('crud.Edit') }}
+{{ __('global.Edit') }}
 </a>
 @include('{$entitySlug}._delete_form', ['{$varSing}' => \${$varSing}])
 </td>
@@ -1607,7 +1613,7 @@ HTML;
 @empty
 <tr>
 <td colspan="{$totalColumns}" class="text-center">
-{{ __('crud.No data') }}
+{{ __('global.No data') }}
 </td>
 </tr>
 @endforelse
@@ -1617,7 +1623,7 @@ HTML;
 
 <a href="{{ route('{$entitySlug}.create') }}" class="btn btn-orange mt-3">
     <i class="fa-regular fa-square-plus"></i>
-{{ __('crud.New') }}
+{{ __('global.New') }}
 </a>
 @endsection
 BLADE;
@@ -1627,12 +1633,12 @@ BLADE;
     {
         return <<<BLADE
 <form method="POST" action="{{ route('{$entitySlug}.destroy', \${$varSing}) }}" 
-onsubmit="return confirm('{{ __('crud.Delete?') }}');" 
+onsubmit="return confirm('{{ __('global.Delete?') }}');" 
 style="display:inline">
 @csrf
 @method('DELETE')
 <button type="submit" class="btn btn-link text-decoration-none text-orange p-0">
-{{ __('crud.Delete') }}
+{{ __('global.Delete') }}
 </button>
 </form>
 BLADE;
@@ -1654,8 +1660,8 @@ BLADE;
 {$fields}
 </div>
 <div class="btn-group mt-3" role="group" aria-label="Basic example">
-<button type="submit" class="btn btn-primary">{{ __('crud.Save') }}</button>
-<a href="{{ route('{$entitySlug}.index') }}" class="btn btn-outline-primary">{{ __('crud.Back') }}</a>
+<button type="submit" class="btn btn-primary">{{ __('global.Save') }}</button>
+<a href="{{ route('{$entitySlug}.index') }}" class="btn btn-outline-primary">{{ __('global.Back') }}</a>
 </div>
 BLADE;
     }
@@ -1666,10 +1672,10 @@ BLADE;
         return <<<BLADE
 @extends('layouts.app')
 
-@section('title', __('crud.Create') . ' — ' . __('{$entitySlug}.entity'))
+@section('title', __('global.Create') . ' — ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{{ __('crud.Create') }} — {{ __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{{ __('global.Create') }} — {{ __('{$entitySlug}.entity') }}</h1>
 
     @php(\${$varSing} = new \\App\\Models\\{$entity}())
 
@@ -1686,10 +1692,10 @@ BLADE;
         return <<<BLADE
 @extends('layouts.app')
 
-@section('title', __('crud.Edit') . ' — ' . __('{$entitySlug}.entity'))
+@section('title', __('global.Edit') . ' — ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{{ __('crud.Edit') }} — {{ __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{{ __('global.Edit') }} — {{ __('{$entitySlug}.entity') }}</h1>
 
     <form method="POST" action="{{ route('{$entitySlug}.update', {$singToken}) }}" novalidate>
         @csrf @method('PUT')
@@ -1743,7 +1749,7 @@ BLADE;
             @php(\$badgeColor = 'secondary')
             @switch({$singToken}->{$c}){$switchCases}
             @endswitch
-            <span class="badge bg-{{ \$badgeColor }}">{{ __('{$entitySlug}.enum.{$c}.' . {$singToken}->{$c}) }}</span>
+            <span class="badge bg-{{ \$badgeColor }}">{{ __('{$entitySlug}.{$c}.' . {$singToken}->{$c}) }}</span>
         </dd>
 HTML;
             }
@@ -1753,7 +1759,7 @@ HTML;
                 $value = '        <dd class="col-sm-9"><pre>{{ is_array(' . $singToken . '->' . $c . ') ? json_encode(' . $singToken . '->' . $c . ', JSON_PRETTY_PRINT) : (' . $singToken . '->' . $c . " ?? '—') }}</pre></dd>";
             } elseif (in_array($c, $this->booleanFields)) {
                 // Pour les champs booléens classiques
-                $value = '        <dd class="col-sm-9">{{ ' . $singToken . '->' . $c . " ? __('crud.boolean.yes') : __('crud.boolean.no') }}</dd>";
+                $value = '        <dd class="col-sm-9">{{ ' . $singToken . '->' . $c . " ? __('global.boolean.yes') : __('global.boolean.no') }}</dd>";
             } elseif ($c === 'password') {
                 // Pour le password
                 $value = '        <dd class="col-sm-9">••••••••</dd>';
@@ -1771,18 +1777,18 @@ HTML;
         return <<<BLADE
 @extends('layouts.app')
 
-@section('title', __('crud.Details') . ' — ' . __('{$entitySlug}.entity'))
+@section('title', __('global.Details') . ' — ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{{ __('crud.Details') }} — {{ __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{{ __('global.Details') }} — {{ __('{$entitySlug}.entity') }}</h1>
 
     <dl class="row">
 {$allRows}
     </dl>
 
     <div class="btn-group mt-3" role="group" aria-label="Actions">
-        <a href="{{ route('{$entitySlug}.edit', {$singToken}) }}" class="btn btn-primary">{{ __('crud.Edit') }}</a>
-        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{{ __('crud.Back') }}</a>
+        <a href="{{ route('{$entitySlug}.edit', {$singToken}) }}" class="btn btn-primary">{{ __('global.Edit') }}</a>
+        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{{ __('global.Back') }}</a>
     </div>
 @endsection
 BLADE;

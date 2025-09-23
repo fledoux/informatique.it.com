@@ -137,7 +137,7 @@ php dev/fix-translations.php
 ### Clés Simples
 ```blade
 {{ __('user.entity') }}           # "Utilisateur"
-{{ __('crud.Save') }}             # "Enregistrer"
+{{ __('global.Save') }}             # "Enregistrer"
 {{ __('global.Actions') }}        # "Actions"
 ```
 

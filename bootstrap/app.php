@@ -26,5 +26,13 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        // Capturer les sessions expirées (CSRF Token mismatch)
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, \Illuminate\Http\Request $request) {
+            return redirect('/login')->with('error', 'Session expirée. Veuillez vous reconnecter.');
+        });
+        
+        // Capturer les exceptions Spatie Permission
+        $exceptions->render(function (\Spatie\Permission\Exceptions\UnauthorizedException $e, \Illuminate\Http\Request $request) {
+            return redirect('/login')->with('error', 'Accès refusé. Permissions insuffisantes.');
+        });
     })->create();

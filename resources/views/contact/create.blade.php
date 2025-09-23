@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', __('crud.Create') . ' — ' . __('contact.entity'))
+@section('title', __('global.Create') . ' — ' . __('contact.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{{ __('crud.Create') }} — {{ __('contact.entity') }}</h1>
+    <h1 class="h3 mb-3">{{ __('global.Create') }} — {{ __('contact.entity') }}</h1>
 
     @php($contact = new \App\Models\Contact())
 

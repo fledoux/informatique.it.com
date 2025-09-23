@@ -30,7 +30,7 @@ class TicketController extends Controller
             unset($data['password']);
         }
         $ticket = Ticket::create($data);
-        return redirect()->route('ticket.index')->with('success', __('crud.messages.created'));
+        return redirect()->route('ticket.index')->with('success', __('global.messages.created'));
     }
 
     public function show($id)
@@ -40,7 +40,7 @@ class TicketController extends Controller
             return view('ticket.show', compact('ticket'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('ticket.index')
-                ->with('error', __('crud.messages.not_found'));
+                ->with('error', __('global.messages.not_found'));
         }
     }
 
@@ -51,7 +51,7 @@ class TicketController extends Controller
             return view('ticket.edit', compact('ticket'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('ticket.index')
-                ->with('error', __('crud.messages.edit_not_found'));
+                ->with('error', __('global.messages.edit_not_found'));
         }
     }
 
@@ -66,10 +66,10 @@ class TicketController extends Controller
                 unset($data['password']);
             }
             $ticket->update($data);
-            return redirect()->route('ticket.index')->with('success', __('crud.messages.updated'));
+            return redirect()->route('ticket.index')->with('success', __('global.messages.updated'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('ticket.index')
-                ->with('error', __('crud.messages.update_not_found'));
+                ->with('error', __('global.messages.update_not_found'));
         }
     }
 
@@ -81,14 +81,14 @@ class TicketController extends Controller
             // Empêcher l'auto-suppression
             if (strtolower('Ticket') === 'user' && Auth::check() && $ticket->id === Auth::id()) {
                 return redirect()->route('ticket.index')
-                    ->with('error', __('crud.messages.cannot_delete_self'));
+                    ->with('error', __('global.messages.cannot_delete_self'));
             }
             
             $ticket->delete();
-            return redirect()->route('ticket.index')->with('success', __('crud.messages.deleted'));
+            return redirect()->route('ticket.index')->with('success', __('global.messages.deleted'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('ticket.index')
-                ->with('error', __('crud.messages.delete_not_found'));
+                ->with('error', __('global.messages.delete_not_found'));
         }
     }
 }

@@ -29,7 +29,7 @@
 <th class="text-left">{{ __('company.fields.city') }}</th>
 <th class="text-left">{{ __('company.fields.country') }}</th>
 <th class="text-left">{{ __('company.fields.notes') }}</th>
-<th>{{ __('crud.Actions') }}</th>
+<th>{{ __('global.Actions') }}</th>
 </tr>
 </thead>
 <tbody>
@@ -58,10 +58,10 @@
 <td>{{ $company->notes }}</td>
 <td class="text-nowrap">
 <a href="{{ route('company.show', $company) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('crud.Details') }}
+{{ __('global.Details') }}
 </a>
 <a href="{{ route('company.edit', $company) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('crud.Edit') }}
+{{ __('global.Edit') }}
 </a>
 @include('company._delete_form', ['company' => $company])
 </td>
@@ -69,7 +69,7 @@
 @empty
 <tr>
 <td colspan="15" class="text-center">
-{{ __('crud.No data') }}
+{{ __('global.No data') }}
 </td>
 </tr>
 @endforelse
@@ -78,6 +78,7 @@
 </div>
 
 <a href="{{ route('company.create') }}" class="btn btn-orange mt-3">
-{{ __('crud.New') }}
+    <i class="fa-regular fa-square-plus"></i>
+{{ __('global.New') }}
 </a>
 @endsection

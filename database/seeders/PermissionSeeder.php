@@ -43,6 +43,13 @@ class PermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'page.edit']);
         Permission::firstOrCreate(['name' => 'page.delete']);
 
+        // Permissions test
+        Permission::firstOrCreate(['name' => 'test.index']);
+        Permission::firstOrCreate(['name' => 'test.show']);
+        Permission::firstOrCreate(['name' => 'test.create']);
+        Permission::firstOrCreate(['name' => 'test.edit']);
+        Permission::firstOrCreate(['name' => 'test.delete']);
+
         // Permissions ticket
         Permission::firstOrCreate(['name' => 'ticket.index']);
         Permission::firstOrCreate(['name' => 'ticket.show']);
@@ -69,13 +76,13 @@ class PermissionSeeder extends Seeder
         // Admin : Gestion complète
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $admin->syncPermissions([
-            'admin.access', 'reports.access', 'company.index', 'company.show', 'company.create', 'company.edit', 'company.delete', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'contact.delete', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'locale.delete', 'page.index', 'page.show', 'page.create', 'page.edit', 'page.delete', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'ticket.delete', 'user.index', 'user.show', 'user.create', 'user.edit', 'user.delete'
+            'admin.access', 'reports.access', 'company.index', 'company.show', 'company.create', 'company.edit', 'company.delete', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'contact.delete', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'locale.delete', 'page.index', 'page.show', 'page.create', 'page.edit', 'page.delete', 'test.index', 'test.show', 'test.create', 'test.edit', 'test.delete', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'ticket.delete', 'user.index', 'user.show', 'user.create', 'user.edit', 'user.delete'
         ]);
         
         // Manager : Gestion limitée (pas de suppression)
         $manager = Role::firstOrCreate(['name' => 'manager']);
         $manager->syncPermissions([
-            'company.index', 'company.show', 'company.create', 'company.edit', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'page.index', 'page.show', 'page.create', 'page.edit', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'user.index', 'user.show', 'user.edit'
+            'company.index', 'company.show', 'company.create', 'company.edit', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'page.index', 'page.show', 'page.create', 'page.edit', 'test.index', 'test.show', 'test.create', 'test.edit', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'user.index', 'user.show', 'user.edit'
         ]);
         
         // User : Lecture seule sur profil et company

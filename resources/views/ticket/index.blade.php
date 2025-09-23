@@ -27,7 +27,7 @@
 <th class="text-left">{{ __('ticket.fields.subject') }}</th>
 <th class="text-left">{{ __('ticket.fields.question') }}</th>
 <th class="text-left">{{ __('ticket.fields.billable') }}</th>
-<th>{{ __('crud.Actions') }}</th>
+<th>{{ __('global.Actions') }}</th>
 </tr>
 </thead>
 <tbody>
@@ -44,7 +44,7 @@
     @case('closed') @php($badgeColor = 'secondary') @break
     @case('canceled') @php($badgeColor = 'primary') @break
 @endswitch
-<span class="badge bg-{{ $badgeColor }}">{{ __('ticket.enum.status.' . $ticket->status) }}</span>
+<span class="badge bg-{{ $badgeColor }}">{{ __('ticket.status.' . $ticket->status) }}</span>
 </td>
 <td>
 @php($badgeColor = 'secondary')
@@ -54,7 +54,7 @@
     @case('high') @php($badgeColor = 'danger') @break
     @case('urgent') @php($badgeColor = 'danger') @break
 @endswitch
-<span class="badge bg-{{ $badgeColor }}">{{ __('ticket.enum.priority.' . $ticket->priority) }}</span>
+<span class="badge bg-{{ $badgeColor }}">{{ __('ticket.priority.' . $ticket->priority) }}</span>
 </td>
 <td>{{ $ticket->company?->name ?? '—' }}</td>
 <td>{{ $ticket->author?->name ?? '—' }}</td>
@@ -64,13 +64,13 @@
 <td>{{ $ticket->folder_code }}</td>
 <td>{{ $ticket->subject }}</td>
 <td>{{ $ticket->question }}</td>
-<td>{{ $ticket->billable ? __('crud.boolean.yes') : __('crud.boolean.no') }}</td>
+<td>{{ $ticket->billable ? __('global.boolean.yes') : __('global.boolean.no') }}</td>
 <td class="text-nowrap">
 <a href="{{ route('ticket.show', $ticket) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('crud.Details') }}
+{{ __('global.Details') }}
 </a>
 <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('crud.Edit') }}
+{{ __('global.Edit') }}
 </a>
 @include('ticket._delete_form', ['ticket' => $ticket])
 </td>
@@ -78,7 +78,7 @@
 @empty
 <tr>
 <td colspan="13" class="text-center">
-{{ __('crud.No data') }}
+{{ __('global.No data') }}
 </td>
 </tr>
 @endforelse
@@ -88,6 +88,6 @@
 
 <a href="{{ route('ticket.create') }}" class="btn btn-orange mt-3">
     <i class="fa-regular fa-square-plus"></i>
-{{ __('crud.New') }}
+{{ __('global.New') }}
 </a>
 @endsection

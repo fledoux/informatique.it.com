@@ -243,7 +243,7 @@ try {
     $entity = Entity::findOrFail($id);
 } catch (ModelNotFoundException $e) {
     return redirect()->route('entity.index')
-        ->with('error', __('crud.messages.not_found'));
+        ->with('error', __('global.messages.not_found'));
 }
 ```
 
@@ -264,7 +264,7 @@ try {
     $entity->delete();
 } catch (QueryException $e) {
     if ($e->getCode() == 23000) { // Integrity constraint
-        return back()->with('error', __('crud.messages.delete_constraint'));
+        return back()->with('error', __('global.messages.delete_constraint'));
     }
     throw $e;
 }

@@ -30,7 +30,7 @@ class LocaleController extends Controller
         $response = response()->json([
             'success' => true,
             'locale' => $locale,
-            'message' => __('crud.messages.locale_updated')
+            'message' => __('global.messages.locale_updated')
         ]);
         
         // Définir le cookie (expire dans 1 an)

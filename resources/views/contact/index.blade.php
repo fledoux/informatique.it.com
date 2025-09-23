@@ -21,7 +21,7 @@
 <th class="text-left">{{ __('contact.fields.phone') }}</th>
 <th class="text-left">{{ __('contact.fields.type') }}</th>
 <th class="text-left">{{ __('contact.fields.need') }}</th>
-<th>{{ __('crud.Actions') }}</th>
+<th>{{ __('global.Actions') }}</th>
 </tr>
 </thead>
 <tbody>
@@ -37,15 +37,15 @@
     @case('active') @php($badgeColor = 'success') @break
     @case('inactive') @php($badgeColor = 'secondary') @break
 @endswitch
-<span class="badge bg-{{ $badgeColor }}">{{ __('contact.enum.type.' . $contact->type) }}</span>
+<span class="badge bg-{{ $badgeColor }}">{{ __('contact.type.' . $contact->type) }}</span>
 </td>
 <td>{{ $contact->need }}</td>
 <td class="text-nowrap">
 <a href="{{ route('contact.show', $contact) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('crud.Details') }}
+{{ __('global.Details') }}
 </a>
 <a href="{{ route('contact.edit', $contact) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('crud.Edit') }}
+{{ __('global.Edit') }}
 </a>
 @include('contact._delete_form', ['contact' => $contact])
 </td>
@@ -53,7 +53,7 @@
 @empty
 <tr>
 <td colspan="7" class="text-center">
-{{ __('crud.No data') }}
+{{ __('global.No data') }}
 </td>
 </tr>
 @endforelse
@@ -62,6 +62,7 @@
 </div>
 
 <a href="{{ route('contact.create') }}" class="btn btn-orange mt-3">
-{{ __('crud.New') }}
+    <i class="fa-regular fa-square-plus"></i>
+{{ __('global.New') }}
 </a>
 @endsection

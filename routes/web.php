@@ -8,6 +8,7 @@ use App\Http\Controllers\LocaleController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\ContactController;
 use \App\Http\Controllers\TicketController;
+use \App\Http\Controllers\CompanyController;
 
 // Locale routes (accessible sans authentification)
 Route::post('/locale/change', [LocaleController::class, 'change'])->name('locale.change');
@@ -37,8 +38,6 @@ Route::get('/email/verify/{id}/{hash}', [RegisterController::class, 'verify'])
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
 });
-
-Route::resource('company', \App\Http\Controllers\CompanyController::class);
 
 Route::prefix('user')->group(function () {
     Route::get('/', [UserController::class, 'index'])
@@ -110,4 +109,28 @@ Route::prefix('ticket')->group(function () {
     Route::delete('/{ticket}', [TicketController::class, 'destroy'])
         ->middleware('permission:ticket.delete')
         ->name('ticket.destroy');
+});
+
+Route::prefix('company')->group(function () {
+    Route::get('/', [CompanyController::class, 'index'])
+        ->middleware('permission:company.index')
+        ->name('company.index');
+    Route::get('/create', [CompanyController::class, 'create'])
+        ->middleware('permission:company.create')
+        ->name('company.create');
+    Route::post('/', [CompanyController::class, 'store'])
+        ->middleware('permission:company.create')
+        ->name('company.store');
+    Route::get('/{company}', [CompanyController::class, 'show'])
+        ->middleware('permission:company.show')
+        ->name('company.show');
+    Route::get('/{company}/edit', [CompanyController::class, 'edit'])
+        ->middleware('permission:company.edit')
+        ->name('company.edit');
+    Route::put('/{company}', [CompanyController::class, 'update'])
+        ->middleware('permission:company.edit')
+        ->name('company.update');
+    Route::delete('/{company}', [CompanyController::class, 'destroy'])
+        ->middleware('permission:company.delete')
+        ->name('company.destroy');
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use App\Models\Contact;
 use App\Models\Ticket;
 use App\Models\Company;
@@ -77,11 +78,12 @@ class PageController extends Controller
     #[ProtectAgainstSpam]
     public function contact(Request $request)
     {
+    
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:20'],
-            'type' => ['required', 'string', 'in:Individual,Association,Company,Collectivity'],
+            'type' => ['required', 'string', 'in:particulier,entreprise,association,autre'],
             'need' => ['required', 'string', 'max:5000'],
         ]);
 

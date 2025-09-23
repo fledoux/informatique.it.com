@@ -6,7 +6,7 @@ use \App\Models\Contact;
 use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Spatie\Honeypot\ProtectAgainstSpam;
+use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
@@ -21,7 +21,6 @@ class ContactController extends Controller
         return view('contact.create');
     }
 
-    #[ProtectAgainstSpam]
     public function store(ContactStoreRequest $request)
     {
         $data = $request->validated();
@@ -31,28 +30,28 @@ class ContactController extends Controller
             unset($data['password']);
         }
         $contact = Contact::create($data);
-        return redirect()->route('contact.index')->with('success', __('crud.messages.created'));
+        return redirect()->route('home')->with('success', __('global.messages.created'));
     }
 
     public function show($id)
     {
         try {
-            $contact = Contact::findOrFail($id);
+            $contact = Contact::query()->findOrFail($id);
             return view('contact.show', compact('contact'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('contact.index')
-                ->with('error', __('crud.messages.not_found'));
+                ->with('error', __('global.messages.not_found'));
         }
     }
 
     public function edit($id)
     {
         try {
-            $contact = Contact::findOrFail($id);
+            $contact = Contact::query()->findOrFail($id);
             return view('contact.edit', compact('contact'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('contact.index')
-                ->with('error', __('crud.messages.edit_not_found'));
+                ->with('error', __('global.messages.edit_not_found'));
         }
     }
 
@@ -67,10 +66,10 @@ class ContactController extends Controller
                 unset($data['password']);
             }
             $contact->update($data);
-            return redirect()->route('contact.index')->with('success', __('crud.messages.updated'));
+            return redirect()->route('contact.index')->with('success', __('global.messages.updated'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('contact.index')
-                ->with('error', __('crud.messages.update_not_found'));
+                ->with('error', __('global.messages.update_not_found'));
         }
     }
 
@@ -82,14 +81,14 @@ class ContactController extends Controller
             // Empêcher l'auto-suppression
             if (strtolower('Contact') === 'user' && Auth::check() && $contact->id === Auth::id()) {
                 return redirect()->route('contact.index')
-                    ->with('error', __('crud.messages.cannot_delete_self'));
+                    ->with('error', __('global.messages.cannot_delete_self'));
             }
             
             $contact->delete();
-            return redirect()->route('contact.index')->with('success', __('crud.messages.deleted'));
+            return redirect()->route('contact.index')->with('success', __('global.messages.deleted'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('contact.index')
-                ->with('error', __('crud.messages.delete_not_found'));
+                ->with('error', __('global.messages.delete_not_found'));
         }
     }
 }

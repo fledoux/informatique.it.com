@@ -33,12 +33,12 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended(route('dashboard'))->with('success', __('login.Welcome back!'));
         }
 
         return back()->withErrors([
             'email' => __('auth.failed'),
-        ])->onlyInput('email');
+        ])->onlyInput('email')->with('error', __('login.Your credentials are not recognized.'));
     }
 
     /**
@@ -51,6 +51,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', __('login.Logout successful'));
     }
 }

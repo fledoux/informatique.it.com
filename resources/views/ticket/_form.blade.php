@@ -4,12 +4,12 @@
     <div class="row g-3  bg-warning bg-opacity-10 rounded-3 p-3 my-3">
         <div class="col-12 col-lg-4">
             <x-forms.select name="status" :label="__('ticket.fields.status')" :options="[
-                'new' => __('ticket.enum.status.new'),
-                'in_progress' => __('ticket.enum.status.in_progress'),
-                'waiting' => __('ticket.enum.status.waiting'),
-                'resolved' => __('ticket.enum.status.resolved'),
-                'closed' => __('ticket.enum.status.closed'),
-                'canceled' => __('ticket.enum.status.canceled'),
+                'new' => __('ticket.status.new'),
+                'in_progress' => __('ticket.status.in_progress'),
+                'waiting' => __('ticket.status.waiting'),
+                'resolved' => __('ticket.status.resolved'),
+                'closed' => __('ticket.status.closed'),
+                'canceled' => __('ticket.status.canceled'),
             ]" :value="$ticket->status ?? 'new'" />
         </div>
         <div class="col-12 col-lg-8">
@@ -43,7 +43,7 @@
             )" />
         </div>
         <div class="col-12 col-lg-4">
-            <x-forms.select name="billable" :label="__('ticket.fields.billable')" :options="['0' => __('crud.boolean.no'), '1' => __('crud.boolean.yes')]" :value="old('billable', $ticket->billable ?? null)" defaultValue="1" />
+            <x-forms.select name="billable" :label="__('ticket.fields.billable')" :options="['0' => __('global.boolean.no'), '1' => __('global.boolean.yes')]" :value="old('billable', $ticket->billable ?? null)" defaultValue="1" />
         </div>
     </div>
 @endhasanyrole
@@ -51,10 +51,10 @@
 <div class="row g-3">
     <div class="col-12 col-lg-4">
         <x-forms.select name="priority" :label="__('ticket.fields.priority')" :options="[
-            'low' => __('ticket.enum.priority.low'),
-            'normal' => __('ticket.enum.priority.normal'),
-            'high' => __('ticket.enum.priority.high'),
-            'urgent' => __('ticket.enum.priority.urgent'),
+            'low' => __('ticket.priority.low'),
+            'normal' => __('ticket.priority.normal'),
+            'high' => __('ticket.priority.high'),
+            'urgent' => __('ticket.priority.urgent'),
         ]" :value="$ticket->priority ?? 'low'" />
     </div>
     <div class="col-12 col-lg-4">
@@ -70,6 +70,6 @@
 
 </div>
 <div class="btn-group mt-3" role="group" aria-label="Basic example">
-    <button type="submit" class="btn btn-primary">{{ __('crud.Save') }}</button>
-    <a href="{{ route('ticket.index') }}" class="btn btn-outline-primary">{{ __('crud.Back') }}</a>
+    <button type="submit" class="btn btn-primary">{{ __('global.Save') }}</button>
+    <a href="{{ route('ticket.index') }}" class="btn btn-outline-primary">{{ __('global.Back') }}</a>
 </div>

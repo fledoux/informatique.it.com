@@ -27,7 +27,7 @@ try {
     $company = Company::findOrFail($id);
 } catch (ModelNotFoundException $e) {
     return redirect()->route('company.index')
-        ->with('error', __('crud.messages.not_found'));
+        ->with('error', __('global.messages.not_found'));
 }
 ```
 
@@ -68,7 +68,7 @@ This runs: server, queue worker, pail logs, and Vite in parallel with concurrent
 ### Translation Keys
 - French is primary language (`resources/lang/fr/`)
 - CRUD operations use `crud.php` translation file
-- Flash messages: `__('crud.messages.created')`, `__('crud.messages.updated')`
+- Flash messages: `__('global.messages.created')`, `__('global.messages.updated')`
 
 ### View Architecture
 - Bootstrap 5 CDN (no local assets pipeline yet)

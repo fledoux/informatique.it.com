@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', __('crud.Details') . ' — ' . __('ticket.entity'))
+@section('title', __('global.Details') . ' — ' . __('ticket.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{{ __('crud.Details') }} — {{ __('ticket.entity') }}</h1>
+    <h1 class="h3 mb-3">{{ __('global.Details') }} — {{ __('ticket.entity') }}</h1>
 
     <dl class="row">
         <dt class="col-sm-3">{{ __('ticket.id') }}</dt>
@@ -19,7 +19,7 @@
                 @case('closed') @php($badgeColor = 'secondary') @break
                 @case('canceled') @php($badgeColor = 'primary') @break
             @endswitch
-            <span class="badge bg-{{ $badgeColor }}">{{ __('ticket.enum.status.' . $ticket->status) }}</span>
+            <span class="badge bg-{{ $badgeColor }}">{{ __('ticket.status.' . $ticket->status) }}</span>
         </dd>
         <dt class="col-sm-3">{{ __('ticket.fields.priority') }}</dt>
         <dd class="col-sm-9">
@@ -30,7 +30,7 @@
                 @case('high') @php($badgeColor = 'danger') @break
                 @case('urgent') @php($badgeColor = 'danger') @break
             @endswitch
-            <span class="badge bg-{{ $badgeColor }}">{{ __('ticket.enum.priority.' . $ticket->priority) }}</span>
+            <span class="badge bg-{{ $badgeColor }}">{{ __('ticket.priority.' . $ticket->priority) }}</span>
         </dd>
         <dt class="col-sm-3">{{ __('ticket.fields.company_id') }}</dt>
         <dd class="col-sm-9">{{ $ticket->company_id ? \App\Models\Company::find($ticket->company_id)?->name : '—' }}</dd>
@@ -49,11 +49,11 @@
         <dt class="col-sm-3">{{ __('ticket.fields.question') }}</dt>
         <dd class="col-sm-9">{{ $ticket->question ?? '—' }}</dd>
         <dt class="col-sm-3">{{ __('ticket.fields.billable') }}</dt>
-        <dd class="col-sm-9">{{ $ticket->billable ? __('crud.boolean.yes') : __('crud.boolean.no') }}</dd>
+        <dd class="col-sm-9">{{ $ticket->billable ? __('global.boolean.yes') : __('global.boolean.no') }}</dd>
     </dl>
 
     <div class="btn-group mt-3" role="group" aria-label="Actions">
-        <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-primary">{{ __('crud.Edit') }}</a>
-        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{{ __('crud.Back') }}</a>
+        <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-primary">{{ __('global.Edit') }}</a>
+        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{{ __('global.Back') }}</a>
     </div>
 @endsection

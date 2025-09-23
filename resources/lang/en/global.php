@@ -6,7 +6,7 @@ return [
     'Cancel' => 'Cancel',
     'Id' => 'ID',
     'Are you sure you want to delete this item' => 'Are you sure you want to delete this item?',
-    
+
     // Page 404
     'Page not found' => 'Page not found',
     'The page you are looking for does not exist or has been moved' => 'The page you are looking for does not exist or has been moved',
@@ -17,14 +17,41 @@ return [
     'You might be interested in' => 'You might be interested in',
     'Still having trouble?' => 'Still having trouble?',
     'Contact support' => 'Contact support',
-    
+
     // Page 500
     'Server error' => 'Server error',
     'Something went wrong on our servers' => 'Something went wrong on our servers',
     'Our team has been notified and is working to fix this issue' => 'Our team has been notified and is working to fix this issue',
     'Try again' => 'Try again',
     'If the problem persists, please' => 'If the problem persists, please',
-    
+
     // Pages publiques
     'Terms and Conditions' => 'Terms and Conditions',
+    'messages' => [
+        'created' => 'Created successfully',
+        'updated' => 'Updated successfully',
+        'deleted' => 'Deleted successfully',
+        'not_found' => 'Item not found',
+        'edit_not_found' => 'Cannot edit: item not found',
+        'update_not_found' => 'Cannot update: item not found',
+        'delete_not_found' => 'Cannot delete: item not found',
+        'cannot_delete_self' => 'You cannot delete your own account',
+        'locale_updated' => 'Language updated successfully',
+    ],
+    'List',
+    'Create' => 'Create',
+    'Edit' => 'Edit',
+    'Details' => 'Details',
+    'Actions' => 'Actions',
+    'New' => 'New',
+    'Save' => 'Save',
+    'Back' => 'Back',
+    'Delete' => 'Delete',
+    'Delete?' => 'Delete?',
+    'No data' => 'No data',
+
+    'boolean' => [
+        'yes' => 'Yes',
+        'no' => 'No',
+    ],
 ];

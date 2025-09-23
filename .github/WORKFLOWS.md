@@ -162,7 +162,7 @@ class EntityController extends Controller
         ));
         
         return redirect()->route('entity.index')
-            ->with('success', __('crud.messages.created'));
+            ->with('success', __('global.messages.created'));
     }
     
     public function show($id)
@@ -173,7 +173,7 @@ class EntityController extends Controller
             $entity = Entity::with(['company', 'user'])->findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return redirect()->route('entity.index')
-                ->with('error', __('crud.messages.not_found'));
+                ->with('error', __('global.messages.not_found'));
         }
         
         return view('entity.show', compact('entity'));
@@ -186,11 +186,11 @@ class EntityController extends Controller
             $entity->update($request->validated());
         } catch (ModelNotFoundException $e) {
             return redirect()->route('entity.index')
-                ->with('error', __('crud.messages.update_not_found'));
+                ->with('error', __('global.messages.update_not_found'));
         }
         
         return redirect()->route('entity.show', $entity)
-            ->with('success', __('crud.messages.updated'));
+            ->with('success', __('global.messages.updated'));
     }
 }
 ```
@@ -253,10 +253,10 @@ foreach ($entities as $entity) {
     
     <div class="d-flex gap-2 mt-4">
         <button type="submit" class="btn btn-primary">
-            {{ __('crud.Save') }}
+            {{ __('global.Save') }}
         </button>
         <a href="{{ route('entity.index') }}" class="btn btn-secondary">
-            {{ __('crud.Back') }}
+            {{ __('global.Back') }}
         </a>
     </div>
 </form>
@@ -323,7 +323,7 @@ try {
     $entity = Entity::findOrFail($id);
     $this->authorize('update', $entity); // Policy si nécessaire
 } catch (ModelNotFoundException $e) {
-    return redirect()->back()->with('error', __('crud.messages.not_found'));
+    return redirect()->back()->with('error', __('global.messages.not_found'));
 }
 ```
 
@@ -343,7 +343,7 @@ try {
                     <h5 class="card-title mb-0">{{ __('entity.List') }}</h5>
                     @can('entity.create')
                         <a href="{{ route('entity.create') }}" class="btn btn-primary">
-                            {{ __('crud.New') }}
+                            {{ __('global.New') }}
                         </a>
                     @endcan
                 </div>

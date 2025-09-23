@@ -1,74 +1,72 @@
-{{-- Flash messages --}}
-@php
-$types = ['success', 'info', 'warning', 'danger'];
-$icons = [
-    'success' => 'fa-check',
-    'info' => 'fa-circle-info',
-    'warning' => 'fa-triangle-exclamation',
-    'danger' => 'fa-circle-xmark'
-];
-@endphp
-
-<div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080;">
-    @foreach($types as $type)
-        @if(session()->has($type))
-            @php
-                $messages = session($type);
-                // Ensure $messages is always an array
-                if (!is_array($messages)) {
-                    $messages = [$messages];
-                }
-            @endphp
-            @foreach($messages as $message)
-                <div class="toast align-items-center text-bg-{{ $type }} border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
-                    <div class="d-flex">
-                        <div class="toast-body">
-                            <i class="toast-picto fa-solid fa-fw me-2 {{ $icons[$type] ?? 'fa-bell' }}"></i>
-                            <span class="toast-message">{{ $message }}</span>
-                        </div>
-                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                </div>
-            @endforeach
-        @endif
-    @endforeach
-</div>
-
-{{-- Template for JavaScript toasts --}}
-<div id="toast-template" style="display: none;">
-    <div class="toast align-items-center text-bg-primary border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
-        <div class="d-flex">
-            <div class="toast-body">
-                <i class="toast-picto fa-solid fa-fw me-2 fa-circle-info text-white"></i>
-                <span class="toast-message"></span>
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
+<div id="kt_docs_toast_stack_container" class="position-fixed top-0 start-0 p-2 w-50 mb-5" style="z-index: 1050;">
+    <div class="alert border-0 shadow-sm p-4 d-flex align-items-center" role="alert" aria-live="assertive"
+        aria-atomic="true" data-kt-docs-toast="stack">
+        <i class="toast-picto me-2"></i>
+        <span class="toast-message flex-grow-1 h6 mb-0"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
 
-<script>
-// Execute immediately: NO addEventListener
-(function () {
-    const toastElements = document.querySelectorAll('#toast-container .toast');
-    for (const el of toastElements) {
-        bootstrap.Toast.getOrCreateInstance(el).show();
+
+<style>
+    .alert[data-kt-docs-toast] {
+        animation: slideInDown 0.3s ease-out;
     }
 
-    // Define global function to trigger JS toast if needed
-    window.toastme = function (msg, color = 'info', picto = 'fa-circle-info') {
-        const container = document.getElementById('toast-container');
-        const template = document.getElementById('toast-template').firstElementChild;
-        const newToast = template.cloneNode(true);
+    @keyframes slideInDown {
+        from {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
 
-        newToast.classList.remove('text-bg-primary');
-        newToast.classList.add('text-bg-' + color);
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+</style>
 
-        newToast.querySelector('.toast-message').textContent = msg;
-        newToast.querySelector('.toast-picto').className = 'toast-picto fa-solid fa-fw me-2 ' + picto + ' text-white';
+<script>
+    const container = document.getElementById('kt_docs_toast_stack_container');
+    const targetElement = document.querySelector('[data-kt-docs-toast="stack"]');
+    targetElement.parentNode.removeChild(targetElement);
 
-        container.appendChild(newToast);
-        bootstrap.Toast.getOrCreateInstance(newToast).show();
-    };
-})();
+    function toastme(msg, color, picto) {
+        const newToast = targetElement.cloneNode(true);
+        container.append(newToast);
+        $(newToast).find('.toast-message').html(msg);
+        $(newToast).addClass('alert-' + color);
+        $(newToast).find('.toast-picto').addClass('fa-regular ' + picto + ' text-' + color);
+        
+        // Auto-hide après 5 secondes
+        setTimeout(() => {
+            $(newToast).fadeOut(300, function() {
+                $(this).remove();
+            });
+        }, 5000);
+    }
 </script>
+
+@if (session('error'))
+    <script>
+        toastme('{!! addslashes(session('error')) !!}', 'danger', 'fa-ban');
+    </script>
+@endif
+
+@if (session('warning'))
+    <script>
+        toastme('{!! addslashes(session('warning')) !!}', 'warning', 'fa-circle-exclamation');
+    </script>
+@endif
+
+@if (session('info'))
+    <script>
+        toastme('{!! addslashes(session('info')) !!}', 'info', 'fa-circle-info');
+    </script>
+@endif
+
+@if (session('success'))
+    <script>
+        toastme('{!! addslashes(session('success')) !!}', 'success', 'fa-circle-check');
+    </script>
+@endif

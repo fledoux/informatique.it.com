@@ -82,6 +82,6 @@
 
 </div>
 <div class="btn-group mt-3" role="group" aria-label="Basic example">
-<button type="submit" class="btn btn-primary">{{ __('crud.Save') }}</button>
-<a href="{{ route('user.index') }}" class="btn btn-outline-primary">{{ __('crud.Back') }}</a>
+<button type="submit" class="btn btn-primary">{{ __('global.Save') }}</button>
+<a href="{{ route('user.index') }}" class="btn btn-outline-primary">{{ __('global.Back') }}</a>
 </div>

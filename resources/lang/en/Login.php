@@ -7,5 +7,7 @@ return [
     'Password' => 'Password',
     'Remember me' => 'Remember me',
     'Your credentials are not recognized.' => 'Your credentials are not recognized.',
+    'Welcome back!' => 'Welcome back!',
+    'Logout successful' => 'Logout successful',
     'too_many_attempts' => 'Too many login attempts. Please try again in :seconds seconds.',
 ];

@@ -6,6 +6,7 @@ use \App\Models\Company;
 use App\Http\Requests\CompanyStoreRequest;
 use App\Http\Requests\CompanyUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
@@ -29,28 +30,28 @@ class CompanyController extends Controller
             unset($data['password']);
         }
         $company = Company::create($data);
-        return redirect()->route('company.index')->with('success', __('crud.messages.created'));
+        return redirect()->route('company.index')->with('success', __('global.messages.created'));
     }
 
     public function show($id)
     {
         try {
-            $company = Company::findOrFail($id);
+            $company = Company::query()->findOrFail($id);
             return view('company.show', compact('company'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('company.index')
-                ->with('error', __('crud.messages.not_found'));
+                ->with('error', __('global.messages.not_found'));
         }
     }
 
     public function edit($id)
     {
         try {
-            $company = Company::findOrFail($id);
+            $company = Company::query()->findOrFail($id);
             return view('company.edit', compact('company'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('company.index')
-                ->with('error', __('crud.messages.edit_not_found'));
+                ->with('error', __('global.messages.edit_not_found'));
         }
     }
 
@@ -65,10 +66,10 @@ class CompanyController extends Controller
                 unset($data['password']);
             }
             $company->update($data);
-            return redirect()->route('company.index')->with('success', __('crud.messages.updated'));
+            return redirect()->route('company.index')->with('success', __('global.messages.updated'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('company.index')
-                ->with('error', __('crud.messages.update_not_found'));
+                ->with('error', __('global.messages.update_not_found'));
         }
     }
 
@@ -76,11 +77,18 @@ class CompanyController extends Controller
     {
         try {
             $company = Company::findOrFail($id);
+            
+            // Empêcher l'auto-suppression
+            if (strtolower('Company') === 'user' && Auth::check() && $company->id === Auth::id()) {
+                return redirect()->route('company.index')
+                    ->with('error', __('global.messages.cannot_delete_self'));
+            }
+            
             $company->delete();
-            return redirect()->route('company.index')->with('success', __('crud.messages.deleted'));
+            return redirect()->route('company.index')->with('success', __('global.messages.deleted'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('company.index')
-                ->with('error', __('crud.messages.delete_not_found'));
+                ->with('error', __('global.messages.delete_not_found'));
         }
     }
 }

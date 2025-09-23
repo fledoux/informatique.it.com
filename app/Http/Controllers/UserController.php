@@ -30,7 +30,7 @@ class UserController extends Controller
             unset($data['password']);
         }
         $user = User::create($data);
-        return redirect()->route('user.index')->with('success', __('crud.messages.created'));
+        return redirect()->route('user.index')->with('success', __('global.messages.created'));
     }
 
     public function show($id)
@@ -40,7 +40,7 @@ class UserController extends Controller
             return view('user.show', compact('user'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('user.index')
-                ->with('error', __('crud.messages.not_found'));
+                ->with('error', __('global.messages.not_found'));
         }
     }
 
@@ -51,7 +51,7 @@ class UserController extends Controller
             return view('user.edit', compact('user'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('user.index')
-                ->with('error', __('crud.messages.edit_not_found'));
+                ->with('error', __('global.messages.edit_not_found'));
         }
     }
 
@@ -66,10 +66,10 @@ class UserController extends Controller
                 unset($data['password']);
             }
             $user->update($data);
-            return redirect()->route('user.index')->with('success', __('crud.messages.updated'));
+            return redirect()->route('user.index')->with('success', __('global.messages.updated'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('user.index')
-                ->with('error', __('crud.messages.update_not_found'));
+                ->with('error', __('global.messages.update_not_found'));
         }
     }
 
@@ -81,14 +81,14 @@ class UserController extends Controller
             // Empêcher l'auto-suppression
             if (strtolower('User') === 'user' && Auth::check() && $user->id === Auth::id()) {
                 return redirect()->route('user.index')
-                    ->with('error', __('crud.messages.cannot_delete_self'));
+                    ->with('error', __('global.messages.cannot_delete_self'));
             }
             
             $user->delete();
-            return redirect()->route('user.index')->with('success', __('crud.messages.deleted'));
+            return redirect()->route('user.index')->with('success', __('global.messages.deleted'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('user.index')
-                ->with('error', __('crud.messages.delete_not_found'));
+                ->with('error', __('global.messages.delete_not_found'));
         }
     }
 }
