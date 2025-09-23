@@ -151,3 +151,4 @@ footer a { text-decoration: none; }
 @media (min-width: 992px) { .w-lg-25 { width: 25% !important; } .w-lg-50 { width: 50% !important; } .w-lg-75 { width: 75% !important; } .w-lg-100 { width: 100% !important; } .w-lg-auto { width: auto !important; } }
 @media (min-width: 1200px) { .w-xl-25 { width: 25% !important; } .w-xl-50 { width: 50% !important; } .w-xl-75 { width: 75% !important; } .w-xl-100 { width: 100% !important; } .w-xl-auto { width: auto !important; } }
 @media (min-width: 1400px) { .w-xxl-25 { width: 25% !important; } .w-xxl-50 { width: 50% !important; } .w-xxl-75 { width: 75% !important; } .w-xxl-100 { width: 100% !important; } .w-xxl-auto { width: auto !important; } }
+.separator { height: 5px; background: rgba(255,76,0,1)!important; }

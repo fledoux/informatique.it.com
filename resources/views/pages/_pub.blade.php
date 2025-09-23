@@ -92,8 +92,9 @@
                                 <span class="badge badge-outline-secondary me-2">PHP 8.4</span>
                                 <span class="badge badge-outline-secondary me-2">Bootstrap 5</span>
                                 <span class="badge badge-outline-secondary me-2">MySQL</span>
-                                <span class="badge badge-outline-secondary me-2">JavaScript</span>
+                                <span class="badge badge-outline-secondary me-2">jQuery</span>
                                 <span class="badge badge-outline-secondary">Docker</span>
+                                <span class="badge badge-outline-secondary">NGINX</span>
                             </span>
                         </div>
 
