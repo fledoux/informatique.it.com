@@ -13,12 +13,12 @@
                     Scannez-moi
                 </h1>
                 <p class="lead text-muted">
-                    Scannez ce QR code pour <strong class="text-orange">nous retrouver sur votre portable</strong>
+                    Scannez ce QR code pour <strong class="text-orange">nous retrouver sur&nbsp;votre&nbsp;portable</strong>
                 </p>
             </div>
 
             <div class="card shadow-lg border-0">
-                <div class="card-body p-5 text-center">
+                <div class="card-body text-center">
                     <!-- QR Code généré côté serveur -->
                     @if(!empty($dataUri))
                         <img src="{{ $dataUri }}" alt="QR Code informatique.it.com" class="mb-4 w-100" />
