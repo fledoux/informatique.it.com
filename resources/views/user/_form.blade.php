@@ -48,13 +48,6 @@
                            placeholder=""  />
         </div>
         <div class="col-12 col-lg-6">
-            <x-forms.input name="initial" 
-                           :label="__('user.fields.initial')" 
-                           type="text"
-                           :value="old('initial', $user->initial ?? null)"
-                           placeholder=""  />
-        </div>
-        <div class="col-12 col-lg-6">
             <x-forms.input name="phone" 
                            :label="__('user.fields.phone')" 
                            type="tel"

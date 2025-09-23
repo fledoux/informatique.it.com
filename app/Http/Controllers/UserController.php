@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use \App\Models\User;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +13,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::query()->with(['company'])->latest('id')->paginate(15);
+        $users = User::query()->with(['company', 'roles'])->latest('id')->paginate(15);
         return view('user.index', compact('users'));
     }
 
@@ -29,18 +30,21 @@ class UserController extends Controller
         } else {
             unset($data['password']);
         }
-        
+
+        // Générer les initiales automatiquement
+        $data['initial'] = Helper::generateInitials($data['firstname'] ?? '', $data['lastname'] ?? '');
+
         // Extraire les rôles des données
         $roles = $data['roles'] ?? [];
         unset($data['roles']);
-        
+
         $user = User::create($data);
-        
+
         // Assigner les rôles si présents
         if (!empty($roles)) {
             $user->syncRoles($roles);
         }
-        
+
         return redirect()->route('user.index')->with('success', __('global.messages.created'));
     }
 
@@ -76,16 +80,19 @@ class UserController extends Controller
             } else {
                 unset($data['password']);
             }
-            
+
+            // Générer les initiales automatiquement
+            $data['initial'] = Helper::generateInitials($data['firstname'] ?? '', $data['lastname'] ?? '');
+
             // Extraire les rôles des données
             $roles = $data['roles'] ?? [];
             unset($data['roles']);
-            
+
             $user->update($data);
-            
+
             // Synchroniser les rôles
             $user->syncRoles($roles);
-            
+
             return redirect()->route('user.index')->with('success', __('global.messages.updated'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('user.index')
@@ -97,13 +104,13 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
-            
+
             // Empêcher l'auto-suppression
             if (strtolower('User') === 'user' && Auth::check() && $user->id === Auth::id()) {
                 return redirect()->route('user.index')
                     ->with('error', __('global.messages.cannot_delete_self'));
             }
-            
+
             $user->delete();
             return redirect()->route('user.index')->with('success', __('global.messages.deleted'));
         } catch (ModelNotFoundException $e) {

@@ -12,7 +12,7 @@ class TicketController extends Controller
 {
     public function index()
     {
-        $tickets = Ticket::query()->with(['company', 'author'])->latest('id')->paginate(15);
+        $tickets = Ticket::query()->with(['company', 'author', 'assignedTo'])->latest('id')->paginate(15);
         return view('ticket.index', compact('tickets'));
     }
 

@@ -21,7 +21,6 @@ class UserUpdateRequest extends FormRequest
             'company_id' => ['nullable','integer'],
             'firstname' => ['nullable','string','max:120'],
             'lastname' => ['nullable','string','max:120'],
-            'initial' => ['nullable','string','max:5'],
             'phone' => ['nullable','string','max:50'],
             'last_login' => ['nullable','date'],
             'agree_terms' => ['required','in:oui,non'],

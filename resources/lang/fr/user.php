@@ -44,7 +44,6 @@ return [
 
     'roles' => [
         'super-admin' => 'Super Administrateur',
-        'admin' => 'Administrateur',
         'manager' => 'Gestionnaire',
         'user' => 'Utilisateur'
     ]

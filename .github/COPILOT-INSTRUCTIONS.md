@@ -45,6 +45,25 @@ Route::get('/', [UserController::class, 'index'])
 ```
 Company routes use standard resource controller without explicit permissions.
 
+### Helper Classes
+Generic helper for common utilities in `app/Helpers/Helper.php`:
+```php
+// Generate initials from firstname + lastname
+Helper::generateInitials('Jean', 'Dupont'); // → 'JD'
+
+// Format full name with fallback
+Helper::getFullName($firstname, $lastname, $name); // → 'Jean Dupont' or fallback to $name
+
+// Format French phone numbers
+Helper::formatPhone('0123456789'); // → '01 23 45 67 89'
+
+// Get badge color for status
+Helper::getStatusBadgeColor('active'); // → 'success'
+```
+- Use static methods for reusability across controllers and views
+- Prefer helper over duplicate logic in controllers
+- User initials are auto-generated from firstname/lastname fields
+
 ## Development Workflow
 
 ### Local Development
@@ -87,3 +106,4 @@ Three roles defined in `PermissionSeeder`:
 - Permission setup: `database/seeders/PermissionSeeder.php`
 - Form validation patterns: `app/Http/Requests/`
 - Route authorization: `routes/web.php`
+- Generic utilities: `app/Helpers/Helper.php`

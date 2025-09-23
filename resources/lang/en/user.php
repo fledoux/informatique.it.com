@@ -29,7 +29,8 @@ return [
             'channels' => 'Channels',
             'channels_email' => 'Channels Email',
             'channels_sms' => 'Channels Sms',
-            'note' => 'Note'
+            'note' => 'Note',
+            'roles' => 'Roles'
     ],
 
     'status' => [
@@ -37,7 +38,13 @@ return [
             'inactive' => 'Inactive'
     ],
     'agree_terms' => [
-            'oui' => 'Oui',
-            'non' => 'Non'
+            'oui' => 'Yes',
+            'non' => 'No'
+    ],
+
+    'roles' => [
+        'super-admin' => 'Super Administrator',
+        'manager' => 'Manager',
+        'user' => 'User'
     ]
 ];
