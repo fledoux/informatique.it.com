@@ -1,8 +1,8 @@
 <style>
     html,
     body {
-		margin: 0;
-		padding: 20px;
+        margin: 0;
+        padding: 20px;
         background-color: #f8f9fa;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     }
@@ -12,7 +12,7 @@
     <img src="{{ $message->embed(public_path('assets/img/logo/logo-horizontal.svg')) }}" alt="informatique.it.com"
         style="width:240px; margin-bottom: 40px !important;">
     <h1 style="color: #212529; font-size: 2rem; font-weight: bold; margin-bottom: 1rem; margin-top: 0;">
-        Hello {{ $title ?? 'John Doe' }}
+        {{ $title ?? 'Hello' }}
     </h1>
     <p style="color: #6c757d; font-size: 1rem; line-height: 1.5; margin-bottom: 0;">
         Votre message : {{ $content ?? 'Aucun message fourni.' }}
