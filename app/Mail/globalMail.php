@@ -21,6 +21,7 @@ class globalMail extends Mailable
     /**
      * Create a new message instance.
      */
+    
     public function __construct($title, $content)
     {
         $this->title = $title;

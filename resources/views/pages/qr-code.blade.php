@@ -18,10 +18,10 @@
             </div>
 
             <div class="card shadow-lg border-0">
-                <div class="card-body text-center">
+                <div class="card-body text-center p-5">
                     <!-- QR Code généré côté serveur -->
                     @if(!empty($dataUri))
-                        <img src="{{ $dataUri }}" alt="QR Code informatique.it.com" class="mb-4 w-100" />
+                        <img src="{{ $dataUri }}" alt="QR Code informatique.it.com" class="mb-4 w-50" />
                     @else
                         <div class="alert alert-danger">Impossible de générer le QR code</div>
                     @endif

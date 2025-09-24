@@ -10,12 +10,10 @@ use App\Models\Contact;
 use App\Models\Ticket;
 use App\Models\Company;
 use Spatie\Honeypot\ProtectAgainstSpam;
+use Illuminate\Support\Facades\Mail;
 
 class PageController extends Controller
 {
-    /**
-     * Show the home page
-     */
     public function home()
     {
         // If user is authenticated, redirect to dashboard
@@ -26,9 +24,6 @@ class PageController extends Controller
         return view('pages.home');
     }
 
-    /**
-     * Show the dashboard (requires authentication)
-     */
     public function dashboard()
     {
         // Get all dashboard statistics in optimized queries
@@ -49,40 +44,34 @@ class PageController extends Controller
         ));
     }
 
-    /**
-     * Show the legal page
-     */
     public function legal()
     {
         return view('pages.legal');
     }
 
-    /**
-     * Show the RGPD/privacy policy page
-     */
     public function rgpd()
     {
         return view('pages.rgpd');
     }
 
-    /**
-     * Show the terms of service page
-     */
     public function cgv()
     {
         return view('pages.cgv');
     }
 
-    /**
-     * Show the QR Code page for mobile access
-     */
+    public function qr(Request $request)
+    {
+        Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan QR Code', $request->ip() ));
+        return redirect()->route('dashboard');
+    }
+
     public function qrCode()
     {
         // Send Pushover notification when the page is accessed
         $this->sendPushoverNotification();
 
         // Génère le QR code pour l'URL https://informatique.it.com
-        $url = 'https://informatique.it.com';
+        $url = 'https://informatique.it.com/qr';
         $dataUri = null;
         try {
             $options = new \chillerlan\QRCode\QROptions([
@@ -104,9 +93,6 @@ class PageController extends Controller
         return view('pages.qr-code', compact('dataUri'));
     }
 
-    /**
-     * Send Pushover notification
-     */
     private function sendPushoverNotification()
     {
         // Configuration Pushover - vous devez définir ces valeurs dans votre .env
@@ -148,9 +134,6 @@ class PageController extends Controller
         }
     }
 
-    /**
-     * Handle contact form submission
-     */
     #[ProtectAgainstSpam]
     public function contact(Request $request)
     {
