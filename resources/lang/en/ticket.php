@@ -1,19 +1,19 @@
 <?php
 
 return [
-    'entity' => 'Ticket',
-    'Id' => 'N°',
-    'Status' => 'Statut',
-    'Priority' => 'Priorité',
-    'Company' => 'Entreprise',
-    'Subject' => 'Sujet',
-    'AssignedTo' => 'Assigné à',
-    'DueAt' => 'Échéance',
-    'FolderCode' => 'Code dossier',
-    'Question' => 'Description',
-    'Billable' => 'Facturable',
-    'Author' => 'Auteur',
-    'AssignedAt' => 'Date d\'assignation',
+        'entity' => 'Ticket',
+        'Id' => 'No.',
+        'Status' => 'Status',
+        'Priority' => 'Priority',
+        'Company' => 'Company',
+        'Subject' => 'Subject',
+        'AssignedTo' => 'Assigned to',
+        'DueAt' => 'Due date',
+        'FolderCode' => 'Folder code',
+        'Question' => 'Description',
+        'Billable' => 'Billable',
+        'Author' => 'Author',
+        'AssignedAt' => 'Assignment date',
 
     'fields' => [
         'status' => 'Status',
