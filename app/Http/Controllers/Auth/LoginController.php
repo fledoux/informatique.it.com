@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
@@ -16,6 +17,8 @@ class LoginController extends Controller
      */
     public function showLoginForm(Request $request): View
     {
+        Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Titre', 'Contenu du message'));
+
         Log::info('1/3 Login page', [
             'ip' => $request->ip()
         ]);
