@@ -14,7 +14,7 @@
         @endif
     </label>
     
-    <div class="border rounded p-3">
+    <div class="border form-control rounded p-3">
         @foreach($options as $key => $optionLabel)
             <div class="form-check">
                 <input type="checkbox" 

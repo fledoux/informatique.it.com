@@ -52,10 +52,10 @@
             </div>
             <div class="col-12 col-md-4 col-xl-2">
                 <div
-                    class="card shadow-sm h-100 {{ $ticketStats['open_tickets_count'] > 0 ? 'bg-danger text-white' : '' }}">
+                    class="card shadow-sm h-100 {{ $ticketStats['open_tickets_count'] > 0 ? 'bg-warning' : '' }}">
                     <div class="card-body d-flex align-items-center gap-3">
                         <i
-                            class="fa-light fa-clipboard-list-check fs-3 {{ $ticketStats['open_tickets_count'] > 0 ? 'text-white' : 'text-orange' }}"></i>
+                            class="fa-light fa-clipboard-list-check fs-3 {{ $ticketStats['open_tickets_count'] > 0 ? '' : 'text-orange' }}"></i>
                         <div>
                             <div class="small">{{ __('dashboard.KPI.Open') }}</div>
                             <div class="fs-4 fw-semibold">{{ $ticketStats['open_tickets_count'] }}</div>
@@ -137,7 +137,7 @@
                                 <th>{{ __('ticket.Company') }}</th>
                                 <th>{{ __('ticket.AssignedTo') }}</th>
                                 <th>{{ __('ticket.DueAt') }}</th>
-                                <th class="text-end">{{ __('global.Actions') }}</th>
+                                <th class="text-end">{{ __('global.Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -165,15 +165,11 @@
                                     <td class="text-truncate" style="max-width:320px">{{ $ticket->subject }}</td>
                                     <td>{{ $ticket->company?->name ?? '—' }}</td>
                                     <td>{{ $ticket->assignedTo?->email ?? '—' }}</td>
-                                    <td>{{ $ticket->due ? $ticket->due->format('d/m/Y H:i') : '—' }}</td>
+                                    <td>{{ $ticket->due ? $ticket->due->format('d/m H:i') : '—' }}</td>
                                     <td class="text-end">
                                         <a href="{{ route('ticket.show', $ticket) }}"
                                             class="btn btn-sm btn-outline-primary">
                                             <i class="fa-regular fa-eye"></i>
-                                        </a>
-                                        <a href="{{ route('ticket.edit', $ticket) }}"
-                                            class="btn btn-sm btn-outline-secondary">
-                                            <i class="fa-regular fa-pen-to-square"></i>
                                         </a>
                                     </td>
                                 </tr>

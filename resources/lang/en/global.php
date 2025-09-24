@@ -2,6 +2,7 @@
 
 return [
     'Actions' => 'Actions',
+    'Action' => 'Action',
     'Back' => 'Back',
     'Cancel' => 'Cancel',
     'Id' => 'ID',

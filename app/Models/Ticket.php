@@ -33,7 +33,7 @@ class Ticket extends Model
 {
     protected $fillable = ['status','priority','company_id','author_id','assigned_to','assigned_at','due','folder_code','subject','question','billable'];
 
-    protected $casts = ['email_verified_at' => 'datetime','password' => 'hashed','created_at' => 'datetime','updated_at' => 'datetime','status' => 'string','priority' => 'string','assigned_at' => 'datetime','billable' => 'boolean'];
+    protected $casts = ['email_verified_at' => 'datetime','password' => 'hashed','created_at' => 'datetime','updated_at' => 'datetime','status' => 'string','priority' => 'string','assigned_at' => 'datetime','due' => 'datetime','billable' => 'boolean'];
 
     /**
      * Relation vers la société
