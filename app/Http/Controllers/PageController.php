@@ -62,7 +62,7 @@ class PageController extends Controller
     public function qr(Request $request)
     {
         Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan QR Code', $request->ip() ));
-        return redirect()->route('dashboard');
+        return redirect()->route('home');
     }
 
     public function qrCode()
