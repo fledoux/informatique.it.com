@@ -20,6 +20,7 @@ Route::post('/', [PageController::class, 'contact'])->name('contact.submit');
 Route::get('/legal', [PageController::class, 'legal'])->name('legal');
 Route::get('/rgpd', [PageController::class, 'rgpd'])->name('rgpd');
 Route::get('/cgv', [PageController::class, 'cgv'])->name('cgv');
+Route::get('/qr', [PageController::class, 'qr'])->name('qr');
 Route::get('/scannez-moi', [PageController::class, 'qrCode'])->name('qr-code');
 
 // Auth routes
