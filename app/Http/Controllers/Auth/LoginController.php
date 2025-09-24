@@ -17,8 +17,6 @@ class LoginController extends Controller
      */
     public function showLoginForm(Request $request): View
     {
-        Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Titre', 'Contenu du message'));
-
         Log::info('1/3 Login page', [
             'ip' => $request->ip()
         ]);
@@ -52,6 +50,10 @@ class LoginController extends Controller
 
             return redirect()->intended(route('dashboard'))->with('success', __('login.Welcome back!'));
         } else {
+
+            // Envoyer une alerte par email en cas de tentative de connexion échouée
+            Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Failed login', $request->ip() . ' - ' . $request->input('email')));
+
             Log::info('Failed login', [
                 'ip' => $request->ip(),
                 'email' => $request->input('email'),
