@@ -61,8 +61,8 @@ class PageController extends Controller
 
     public function qr(Request $request)
     {
-        Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan QR Code', $request->ip() ));
-        return redirect()->route('home');
+        Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan QR Code', $request->ip()));
+        return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
     }
 
     public function qrCode()
@@ -75,7 +75,7 @@ class PageController extends Controller
         $dataUri = null;
         try {
             $options = new \chillerlan\QRCode\QROptions([
-                'version'      => 5,
+                'version'      => 4,
                 'outputType'   => \chillerlan\QRCode\QRCode::OUTPUT_IMAGE_PNG,
                 'eccLevel'     => \chillerlan\QRCode\QRCode::ECC_M,
                 'scale'        => 8,
