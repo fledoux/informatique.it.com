@@ -7,14 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
     /**
      * Show the login form
      */
-    public function showLoginForm(): View
+    public function showLoginForm(Request $request): View
     {
+        Log::info('1/3 Login page', [
+            'ip' => $request->ip()
+        ]);
         return view('auth.login');
     }
 
@@ -23,6 +27,11 @@ class LoginController extends Controller
      */
     public function login(Request $request): RedirectResponse
     {
+        Log::info('2/3 Tentative login', [
+            'ip' => $request->ip(),
+            'email' => $request->input('email'),
+        ]);
+
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -33,7 +42,17 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
+            Log::info('3/3 Successful login', [
+                'ip' => $request->ip(),
+                'email' => $request->input('email'),
+            ]);
+
             return redirect()->intended(route('dashboard'))->with('success', __('login.Welcome back!'));
+        } else {
+            Log::info('Failed login', [
+                'ip' => $request->ip(),
+                'email' => $request->input('email'),
+            ]);
         }
 
         return back()->withErrors([
