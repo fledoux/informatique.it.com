@@ -70,6 +70,10 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        Log::info('Logout', [
+            'ip' => $request->ip()
+        ]);
+
         return redirect()->route('home')->with('success', __('login.Logout successful'));
     }
 }
