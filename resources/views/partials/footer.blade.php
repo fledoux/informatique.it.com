@@ -1,15 +1,17 @@
 {{-- Footer --}}
 @env('local')
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <p>
-                    <b>Groupe :</b> {{ auth()->user()->getRoleNames()->implode(', ') }}<br>
-                    <b>Société :</b> {{ auth()->user()->company?->id ?? 'Aucune société' }}
-                </p>
+    @auth
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <p>
+                        <b>Groupe :</b> {{ auth()->user()->getRoleNames()->implode(', ') }}<br>
+                        <b>Société :</b> {{ auth()->user()->company?->id ?? 'Aucune société' }}
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
+    @endauth
 @endenv
 <footer class="mt-5 px-5 bg-white footer mt-auto">
     <div
