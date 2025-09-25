@@ -1,4 +1,4 @@
-@extends('layouts.app-fluid')
+@extends('layouts.app')
 
 @section('title')
     @if (auth()->check() && auth()->user()->hasRole('manager'))
@@ -28,7 +28,6 @@
                     <th class="text-left">{{ __('company.fields.zip') }}</th>
                     <th class="text-left">{{ __('company.fields.city') }}</th>
                     <th class="text-left">{{ __('company.fields.country') }}</th>
-                    <th class="text-left">{{ __('company.fields.notes') }}</th>
                     <th>{{ __('global.Actions') }}</th>
                 </tr>
             </thead>
@@ -61,7 +60,6 @@
                         <td>{{ $company->zip }}</td>
                         <td>{{ $company->city }}</td>
                         <td>{{ $company->country }}</td>
-                        <td>{{ $company->notes }}</td>
                         <td class="text-nowrap">
                             <a href="{{ route('company.show', $company) }}"
                                 class="btn btn-link text-decoration-none p-0 me-2">

@@ -12,7 +12,7 @@ class CompanyController extends Controller
 {
     public function index()
     {
-        $companies = Company::query()->latest('id')->paginate(15);
+        $companies = Company::all()->sortBy('name');
         return view('company.index', compact('companies'));
     }
 

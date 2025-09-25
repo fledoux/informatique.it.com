@@ -27,8 +27,8 @@ return [
                 'last_login' => 'Last Login',
                 'agree_terms' => 'Agree Terms',
                 'channels' => 'Channels',
-                'channels_email' => 'Channels Email',
-                'channels_sms' => 'Channels Sms',
+                'channels_email' => 'Email',
+                'channels_sms' => 'Sms',
                 'note' => 'Note',
                 'roles' => 'Rôles'
         ],
@@ -47,8 +47,13 @@ return [
         ],
 
         'roles' => [
-                'super-admin' => 'Super Administrateur',
+                'super-admin' => 'Super Admin',
                 'manager' => 'Gestionnaire',
                 'user' => 'Utilisateur'
+        ],
+        'badgeRolesColor' => [
+                'super-admin' => 'bg-warning text-dark',
+                'manager' => 'bg-primary',
+                'user' => 'bg-info'
         ]
 ];

@@ -21,10 +21,10 @@ class CompanyUpdateRequest extends FormRequest
             'email' => ['nullable','email','max:190'],
             'phone' => ['nullable','string','max:50'],
             'website' => ['nullable','url','max:190'],
-            'address_line1' => ['nullable','string','max:190'],
+            'address_line1' => ['required','string','max:190'],
             'address_line2' => ['nullable','string','max:190'],
-            'zip' => ['nullable','string','max:20'],
-            'city' => ['nullable','string','max:120'],
+            'zip' => ['required','string','max:20'],
+            'city' => ['required','string','max:120'],
             'country' => ['nullable','string','size:2'],
             'notes' => ['nullable','string']
         ];

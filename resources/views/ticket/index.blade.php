@@ -53,7 +53,7 @@
                         @role('super-admin')
                             <td>{{ $ticket->assignedTo?->initial ?? '—' }}</td>
                         @endrole
-                        <td>{{ $ticket->due }}</td>
+                        <td>{{ $ticket->due ? $ticket->due->format('d/m H:i') : '—' }}</td>
                         <td>{{ $ticket->folder_code }}</td>
                         <td>{{ $ticket->billable ? __('global.boolean.yes') : __('global.boolean.no') }}</td>
                         <td class="text-nowrap">

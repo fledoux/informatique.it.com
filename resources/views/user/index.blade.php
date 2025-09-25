@@ -58,7 +58,8 @@
                         <td>
                             @if ($user->getRoleNames()->isNotEmpty())
                                 @foreach ($user->getRoleNames() as $role)
-                                    <span class="badge bg-info me-1">{{ __('user.roles.' . $role) }}</span>
+                                    <span
+                                        class="badge {{ __('user.badgeRolesColor.' . $role) }} me-1">{{ __('user.roles.' . $role) }}</span>
                                 @endforeach
                             @else
                                 <span class="text-secondary">—</span>

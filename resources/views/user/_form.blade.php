@@ -35,7 +35,7 @@
     </div>
     @hasanyrole('super-admin|admin')
         <div class="col-4">
-            <x-forms.roles-select name="roles" :label="__('user.fields.roles')" :options="collect(App\Models\User::getAvailableRoles())
+            <x-forms.roles-radio name="roles" :label="__('user.fields.roles')" :options="collect(App\Models\User::getAvailableRoles())
                 ->mapWithKeys(function ($role, $key) {
                     return [$key => __('user.roles.' . $key)];
                 })

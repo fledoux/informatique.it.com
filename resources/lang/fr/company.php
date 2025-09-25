@@ -22,9 +22,9 @@ return [
             'email' => 'Email',
             'phone' => 'Téléphone',
             'website' => 'Site web',
-            'address_line1' => 'Address Line1',
-            'address_line2' => 'Address Line2',
-            'zip' => 'Code postal',
+            'address_line1' => 'Adresse',
+            'address_line2' => 'Suite',
+            'zip' => 'CP',
             'city' => 'Ville',
             'country' => 'Pays',
             'notes' => 'Notes'
