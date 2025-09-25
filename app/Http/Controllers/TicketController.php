@@ -12,7 +12,7 @@ class TicketController extends Controller
 {
     public function index()
     {
-        $tickets = Ticket::query()->with(['company', 'author', 'assignedTo'])->latest('id')->paginate(15);
+        $tickets = Ticket::getAllForUser();
         return view('ticket.index', compact('tickets'));
     }
 
@@ -24,11 +24,27 @@ class TicketController extends Controller
     public function store(TicketStoreRequest $request)
     {
         $data = $request->validated();
+        $user = Auth::user();
+        
+        // Si l'utilisateur est manager ou user, on force certains champs
+        if ($user->hasRole(['manager', 'user'])) {
+            // Valeurs par défaut pour manager/user
+            $data['status'] = 'new';
+            $data['company_id'] = $user->company_id;
+            $data['author_id'] = $user->id;
+            $data['assigned_to'] = null;
+            $data['assigned_at'] = null;
+            $data['due'] = null;
+            $data['billable'] = true;
+        }
+        
+        // Supprimer le champ password s'il existe (copié-collé d'un autre controller)
         if (!empty($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         } else {
             unset($data['password']);
         }
+        
         $ticket = Ticket::create($data);
         return redirect()->route('ticket.index')->with('success', __('global.messages.created'));
     }

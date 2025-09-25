@@ -23,7 +23,7 @@ return [
         'assigned_to' => 'Assigned To',
         'assigned_at' => 'Assigned At',
         'due' => 'Due',
-        'folder_code' => 'Folder Code',
+        'folder_code' => 'Folder #',
         'subject' => 'Subject',
         'question' => 'Question',
         'billable' => 'Billable'

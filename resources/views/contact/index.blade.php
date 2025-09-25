@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-@if(auth()->check() && auth()->user()->hasRole('admin'))
+@if(auth()->check() && auth()->user()->hasRole('manager'))
 {{ __('contact.List') }}
 @else  
 {{ __('contact.YourList') }}
@@ -42,10 +42,10 @@
 <td>{{ $contact->need }}</td>
 <td class="text-nowrap">
 <a href="{{ route('contact.show', $contact) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('global.Details') }}
+{!! __('global.Details') !!}
 </a>
 <a href="{{ route('contact.edit', $contact) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{{ __('global.Edit') }}
+{!! __('global.Edit') !!}
 </a>
 @include('contact._delete_form', ['contact' => $contact])
 </td>

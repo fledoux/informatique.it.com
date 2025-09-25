@@ -113,7 +113,7 @@ php artisan make:crud-bootstrap User --force
 use Illuminate\Support\Facades\Auth;
 
 // Vérifier si l'utilisateur a un rôle spécifique
-if (Auth::user()->hasRole('admin')) {
+if (Auth::user()->hasRole('manager')) {
     // L'utilisateur est admin
 }
 
@@ -134,7 +134,7 @@ $roles = Auth::user()->getRoleNames(); // Collection des noms de rôles
     <p>Contenu visible seulement aux admins</p>
 @endrole
 
-@hasrole('admin')
+@hasRole('manager')
     <p>Autre façon de vérifier un rôle</p>
 @endhasrole
 

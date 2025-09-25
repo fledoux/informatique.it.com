@@ -19,7 +19,7 @@
                         </a>
                     </li>
                 @endauth
-                @auth
+                @role('super-admin|manager')
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'user.') ? 'btn-orange' : 'btn-outline-secondary' }}"
                             href="{{ route('user.index') }}">
@@ -27,8 +27,8 @@
                             {{ __('nav.Users') }}
                         </a>
                     </li>
-                @endauth
-                @can('admin.access')
+                @endrole
+                @role('super-admin')
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'company.') ? 'btn-orange' : 'btn-outline-secondary' }}"
                             href="{{ route('company.index') }}">
@@ -36,8 +36,8 @@
                             {{ __('nav.Companies') }}
                         </a>
                     </li>
-                @endcan
-                @can('admin.access')
+                @endrole
+                @role('super-admin')
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'contact.') ? 'btn-orange' : 'btn-outline-secondary' }}"
                             href="{{ route('contact.index') }}">
@@ -50,7 +50,7 @@
                             @endif
                         </a>
                     </li>
-                @endcan
+                @endrole
                 @include('partials._lang')
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">

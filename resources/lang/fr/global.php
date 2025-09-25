@@ -31,13 +31,12 @@ return [
 
     'List' => 'Liste',
     'Create' => 'Créer',
-    'Edit' => 'Éditer',
-    'Details' => 'Détails',
-    'Actions' => 'Actions',
+    'Edit' => '<i class="fa-regular fa-pencil"></i> Éditer',
+    'Details' => '<i class="fa-regular fa-eye"></i> Détails',
     'New' => 'Nouveau',
     'Save' => 'Enregistrer',
-    'Back' => 'Retour',
-    'Delete' => 'Supprimer',
+    'Back' => '<i class="fa-regular fa-rotate-left"></i> Retour',
+    'Delete' => '<i class="fa-regular fa-trash-can"></i>',
     'Delete?' => 'Supprimer ?',
     'No data' => 'Aucune donnée',
 

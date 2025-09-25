@@ -73,7 +73,7 @@
                         </div>
 
                         <div class="mt-3 pt-3 border-top">
-                            <small class="text-muted">
+                            <small class="text-secondary">
                                 <i class="fa-regular fa-phone me-1"></i>
                                 (+33) 1 49 66 21 77
                             </small>

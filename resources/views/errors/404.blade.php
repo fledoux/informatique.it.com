@@ -14,15 +14,15 @@
                 
                 <!-- Code d'erreur -->
                 <h1 class="display-1 fw-bold text-primary mb-0">404</h1>
-                <h2 class="h4 fw-normal text-muted mb-4">{{ __('global.Page not found') }}</h2>
+                <h2 class="h4 fw-normal text-secondary mb-4">{{ __('global.Page not found') }}</h2>
                 
                 <!-- Message d'explication -->
                 <div class="row justify-content-center mb-5">
                     <div class="col-lg-6">
-                        <p class="text-muted">
+                        <p class="text-secondary">
                             {{ __('global.The page you are looking for does not exist or has been moved') }}
                         </p>
-                        <p class="text-muted small">
+                        <p class="text-secondary small">
                             {{ __('global.Please check the URL or use the navigation to find what you are looking for') }}
                         </p>
                     </div>
@@ -105,7 +105,7 @@
                 
                 <!-- Contact support -->
                 <div class="mt-5 pt-4 border-top">
-                    <p class="text-muted small">
+                    <p class="text-secondary small">
                         {{ __('global.Still having trouble?') }}
                         <a href="mailto:support@informatique.it" class="text-decoration-none">
                             <i class="fa-regular fa-envelope me-1"></i>
@@ -123,7 +123,7 @@
 <script>
 // Animation d'entrée
 document.addEventListener('DOMContentLoaded', function() {
-    const elements = document.querySelectorAll('.fa-face-sad-tear, .display-1, .h4, .text-muted, .btn, .card');
+    const elements = document.querySelectorAll('.fa-face-sad-tear, .display-1, .h4, .text-secondary, .btn, .card');
     elements.forEach((el, index) => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';

@@ -4,6 +4,6 @@ style="display:inline">
 @csrf
 @method('DELETE')
 <button type="submit" class="btn btn-link text-decoration-none text-orange p-0">
-{{ __('global.Delete') }}
+{!! __('global.Delete') !!}
 </button>
 </form>

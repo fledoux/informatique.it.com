@@ -10,7 +10,7 @@
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/abhaye_g.jpg') }}" alt="Abhaye G.">
                         <div>
                             <strong>Abhaye G.</strong><br>
-                            <small class="text-muted">CEO and Partner, Industriel</small>
+                            <small class="text-secondary">CEO and Partner, Industriel</small>
                         </div>
                     </div>
                     <p class="mb-0">“Exceptionally responsive and truly supportive — we now benefit from clear procedures and rock-solid backups.”</p>
@@ -22,7 +22,7 @@
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/man.jpg') }}" alt="Marc D.">
                         <div>
                             <strong>Marc D.</strong><br>
-                            <small class="text-muted">Commerçant</small>
+                            <small class="text-secondary">Commerçant</small>
                         </div>
                     </div>
                     <p class="mb-0">“Notre réseau ne tombe plus. Le support comprend nos heures de pointe. Zéro stress.”</p>
@@ -34,7 +34,7 @@
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/emilie_p.jpg') }}" alt="Emilie P.">
                         <div>
                             <strong>Emilie P.</strong><br>
-                            <small class="text-muted">Gérante, TPE</small>
+                            <small class="text-secondary">Gérante, TPE</small>
                         </div>
                     </div>
                     <p class="mb-0">“Télémaintenance + petites formations : j’utilise mieux mon Mac et mes données sont en sécurité.”</p>
@@ -46,7 +46,7 @@
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/sabine_l.jpg') }}" alt="Sabine L.">
                         <div>
                             <strong>Sabine L.</strong><br>
-                            <small class="text-muted">Event Manager, grand groupe industriel</small>
+                            <small class="text-secondary">Event Manager, grand groupe industriel</small>
                         </div>
                     </div>
                     <p class="mb-0">“Runbook clair, astreinte efficace, et surtout un vrai suivi des correctifs. On dort mieux.”</p>
@@ -58,7 +58,7 @@
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/francois_g.jpg') }}" alt="François G.">
                         <div>
                             <strong>François G.</strong><br>
-                            <small class="text-muted">Directeur général associé</small>
+                            <small class="text-secondary">Directeur général associé</small>
                         </div>
                     </div>
                     <p class="mb-0">“Onboarding des nouveaux en 15 min, accès prêts, checklist au cordeau. Gain de temps énorme.”</p>
@@ -70,7 +70,7 @@
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/man.jpg') }}" alt="Jérôme K.">
                         <div>
                             <strong>Jérôme K.</strong><br>
-                            <small class="text-muted">Gérant, agence événementielle</small>
+                            <small class="text-secondary">Gérant, agence événementielle</small>
                         </div>
                     </div>
                     <p class="mb-0">“Support réactif et pédago. On a retrouvé de la fluidité au quotidien dans un domaine où nous devons être très réactifs.”</p>
@@ -83,7 +83,7 @@
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/elie_e.jpg') }}" alt="Elie E.">
                         <div>
                             <strong>Elie E.</strong><br>
-                            <small class="text-muted">CEO and Co-Owner</small>
+                            <small class="text-secondary">CEO and Co-Owner</small>
                         </div>
                     </div>
                     <p class="mb-0">“Migration M365 sans coupure et sécurisation MFA en 48h. Équipe carrée et dispo.”</p>
@@ -96,7 +96,7 @@
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/remi_f.jpg') }}" alt="Rémi F.">
                         <div>
                             <strong>Rémi F.</strong><br>
-                            <small class="text-muted">Fondateur, E-commerce</small>
+                            <small class="text-secondary">Fondateur, E-commerce</small>
                         </div>
                     </div>
                     <p class="mb-0">“Ils ont trouvé la panne réseau qui bloquait nos commandes. Depuis, tout roule.”</p>
@@ -109,7 +109,7 @@
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/man.jpg') }}" alt="Laurent P.">
                         <div>
                             <strong>Laurent P.</strong><br>
-                            <small class="text-muted">Artisan</small>
+                            <small class="text-secondary">Artisan</small>
                         </div>
                     </div>
                     <p class="mb-0">“Intervention à distance en 30 min, sauvegardes mises en place : on est sereins.”</p>

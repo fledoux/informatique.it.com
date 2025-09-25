@@ -83,12 +83,12 @@
                     </h5>
                     <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
                         <div class="p-2 px-3 border border-2 rounded-4 text-center text-uppercase fw-bold w-100 w-sm-auto">
-                            <small class="text-muted">Base :
+                            <small class="text-secondary">Base :
                                 <span class="fw-bold" id="outBase">0</span>
                                 <i class="fa-regular fa-ticket ms-1"></i>
                             </small>
                         </div>
-                        <div class="p-2 px-3 border border-2 rounded-4 text-center text-uppercase fw-bold text-muted w-100 w-sm-auto">
+                        <div class="p-2 px-3 border border-2 rounded-4 text-center text-uppercase fw-bold text-secondary w-100 w-sm-auto">
                             <small>+ Majoration :
                                 <span class="fw-bold" id="outExtra">0</span>
                                 <i class="fa-regular fa-ticket ms-1"></i>
@@ -207,7 +207,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-3 small text-muted">Les montants ci-dessus sont calculés selon vos paramètres (HT et TTC affichés).</div>
+                    <div class="mt-3 small text-secondary">Les montants ci-dessus sont calculés selon vos paramètres (HT et TTC affichés).</div>
                 </div>
             </div>
         </div>

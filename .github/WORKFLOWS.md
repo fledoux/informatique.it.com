@@ -256,7 +256,7 @@ foreach ($entities as $entity) {
             {{ __('global.Save') }}
         </button>
         <a href="{{ route('entity.index') }}" class="btn btn-secondary">
-            {{ __('global.Back') }}
+            {!! __('global.Back') !!}
         </a>
     </div>
 </form>

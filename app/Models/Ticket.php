@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Enum pour les statuts de ticket
@@ -31,9 +32,9 @@ enum TicketPriority: string
 
 class Ticket extends Model
 {
-    protected $fillable = ['status','priority','company_id','author_id','assigned_to','assigned_at','due','folder_code','subject','question','billable'];
+    protected $fillable = ['status', 'priority', 'company_id', 'author_id', 'assigned_to', 'assigned_at', 'due', 'folder_code', 'subject', 'question', 'billable'];
 
-    protected $casts = ['email_verified_at' => 'datetime','password' => 'hashed','created_at' => 'datetime','updated_at' => 'datetime','status' => 'string','priority' => 'string','assigned_at' => 'datetime','due' => 'datetime','billable' => 'boolean'];
+    protected $casts = ['email_verified_at' => 'datetime', 'password' => 'hashed', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'status' => 'string', 'priority' => 'string', 'assigned_at' => 'datetime', 'due' => 'datetime', 'billable' => 'boolean'];
 
     /**
      * Relation vers la société
@@ -98,36 +99,68 @@ class Ticket extends Model
     /**
      * Récupère les tickets récents avec leurs relations
      */
-    public static function recent(int $limit = 20)
+    public static function getMyLastTickets(int $limit = 20)
     {
-        return self::with(['company', 'assignedTo'])
+               $user = Auth::user();
+
+        if (!$user) {
+            return collect();
+        }
+
+        return self::with(['company', 'author', 'assignedTo'])
+            ->where('author_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->limit($limit)
             ->get();
     }
 
     /**
-     * Calcule toutes les statistiques du dashboard en une seule requête
+     * Calcule toutes les statistiques du dashboard selon les permissions de l'utilisateur connecté
      */
     public static function dashboardStats()
     {
+        $user = Auth::user();
         $now = now();
-        
-        $stats = self::selectRaw('
+
+        if (!$user) {
+            return [
+                'tickets_count' => 0,
+                'open_tickets_count' => 0,
+                'waiting_count' => 0,
+                'overdue_count' => 0,
+            ];
+        }
+
+        // Construire la requête de base
+        $query = self::selectRaw('
             COUNT(*) as tickets_count,
             COUNT(CASE WHEN status IN (?, ?, ?) THEN 1 END) as open_tickets_count,
             COUNT(CASE WHEN status = ? THEN 1 END) as waiting_count,
             COUNT(CASE WHEN due < ? AND status NOT IN (?, ?, ?) THEN 1 END) as overdue_count
         ', [
             TicketStatus::NEW->value,
-            TicketStatus::IN_PROGRESS->value, 
+            TicketStatus::IN_PROGRESS->value,
             TicketStatus::WAITING->value,
             TicketStatus::WAITING->value,
             $now,
             TicketStatus::RESOLVED->value,
             TicketStatus::CLOSED->value,
             TicketStatus::CANCELED->value
-        ])->first();
+        ]);
+
+        // Appliquer les filtres selon le rôle
+        if ($user->hasRole('super-admin')) {
+            // Super Admin voit tous les tickets - pas de filtre
+        } elseif ($user->hasRole('manager')) {
+            // Manager voit seulement les tickets de sa société
+            $query->where('company_id', $user->company_id);
+        } else {
+            // Utilisateur normal voit seulement ses tickets
+            $query->where('company_id', $user->company_id)
+                  ->where('author_id', $user->id);
+        }
+
+        $stats = $query->first();
 
         return [
             'tickets_count' => $stats->tickets_count ?? 0,
@@ -146,5 +179,55 @@ class Ticket extends Model
             ->orderBy('name')
             ->pluck('name', 'id')
             ->toArray();
+    }
+
+    /**
+     * Retourne un array des utilisateurs de la société de l'utilisateur connecté pour les selects
+     */
+    public static function selectAllByCompany(): array
+    {
+        $user = Auth::user();
+
+        if (!$user || !$user->company_id) {
+            return [];
+        }
+
+        return \App\Models\User::where('company_id', $user->company_id)
+            ->where('status', 'active')
+            ->orderBy('name')
+            ->pluck('name', 'id')
+            ->toArray();
+    }
+
+    /**
+     * Retourne les tickets selon les permissions de l'utilisateur connecté
+     */
+    public static function getAllForUser()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return collect();
+        }
+
+        if ($user->hasRole('super-admin')) {
+            // Super Admin voit tous les tickets
+            return self::with(['company', 'author', 'assignedTo'])
+                ->orderBy('created_at', 'desc')
+                ->get();
+        } elseif ($user->hasRole('manager')) {
+            // Utilisateur normal voit seulement les tickets de sa société
+            return self::with(['company', 'author', 'assignedTo'])
+                ->where('company_id', $user->company_id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        } else {
+            // Utilisateur normal voit seulement ses tickets
+            return self::with(['company', 'author', 'assignedTo'])
+                ->where('company_id', $user->company_id)
+                ->where('author_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
     }
 }

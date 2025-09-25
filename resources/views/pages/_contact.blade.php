@@ -43,7 +43,7 @@
                                 </a>
                             </div>
                             <div class="col-12">
-                                <small class="text-muted">
+                                <small class="text-secondary">
                                     <i class="fa-regular fa-lock me-1"></i>Vos données ne sont ni revendues ni
                                     partagées.
                                 </small>

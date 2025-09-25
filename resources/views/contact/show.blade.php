@@ -3,7 +3,7 @@
 @section('title', __('global.Details') . ' — ' . __('contact.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{{ __('global.Details') }} — {{ __('contact.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('global.Details') !!} — {{ __('contact.entity') }}</h1>
 
     <dl class="row">
         <dt class="col-sm-3">{{ __('contact.id') }}</dt>
@@ -28,7 +28,7 @@
     </dl>
 
     <div class="btn-group mt-3" role="group" aria-label="Actions">
-        <a href="{{ route('contact.edit', $contact) }}" class="btn btn-primary">{{ __('global.Edit') }}</a>
-        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{{ __('global.Back') }}</a>
+        <a href="{{ route('contact.edit', $contact) }}" class="btn btn-primary">{!! __('global.Edit') !!}</a>
+        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{!! __('global.Back') !!}</a>
     </div>
 @endsection

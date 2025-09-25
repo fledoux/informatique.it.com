@@ -136,3 +136,11 @@ Route::prefix('company')->group(function () {
         ->middleware('permission:company.delete')
         ->name('company.destroy');
 });
+
+// Permission management routes (super-admin only)
+Route::prefix('permissions')->middleware(['auth', 'role:super-admin'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\PermissionController::class, 'index'])
+        ->name('permissions.index');
+    Route::post('/update', [\App\Http\Controllers\PermissionController::class, 'update'])
+        ->name('permissions.update');
+});

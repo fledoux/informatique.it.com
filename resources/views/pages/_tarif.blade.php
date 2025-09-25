@@ -8,7 +8,7 @@
             <div class="col-md-12 col-lg-6">
                 <div class="p-4 bg-info border border-info bg-opacity-50 rounded-4 shadow-soft h-100 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
                     <div class="me-md-3">
-                        <h6 class="text-muted mb-1">Achat de Ticket unitaire</h6>
+                        <h6 class="text-secondary mb-1">Achat de Ticket unitaire</h6>
                         <div class="d-flex align-items-baseline gap-2">
                             <h3 class="price mb-0">
                                 <span class="js-price" data-ht="68">68</span>€
@@ -37,7 +37,7 @@
         <div class="row g-4 mt-1">
             <div class="col-md-6 col-lg-3">
                 <div class="p-4 bg-info border border-info bg-opacity-50 rounded-4 shadow-soft h-100">
-                    <h6 class="text-muted">Pack 10 tickets</h6>
+                    <h6 class="text-secondary">Pack 10 tickets</h6>
                     <h3 class="price mb-0">
                         <span class="js-price" data-ht="570">570</span>€
                     </h3>
@@ -60,7 +60,7 @@
 
             <div class="col-md-6 col-lg-3">
                 <div class="p-4 bg-info border border-info bg-opacity-50 rounded-4 shadow-soft h-100">
-                    <h6 class="text-muted">Pack 50 tickets</h6>
+                    <h6 class="text-secondary">Pack 50 tickets</h6>
                     <h3 class="price mb-0">
                         <span class="js-price" data-ht="2600">2 600</span>€
                     </h3>
@@ -85,7 +85,7 @@
                 <div class="p-4 bg-info border border-info bg-opacity-50 rounded-4 shadow-soft h-100 position-relative">
                     <span class="ribbon">
                         <i class="fa-regular fa-star me-1"></i>Meilleur offre</span>
-                    <h6 class="text-muted">Pack 100 tickets</h6>
+                    <h6 class="text-secondary">Pack 100 tickets</h6>
                     <h3 class="price mb-0">
                         <span class="js-price" data-ht="4700">4 700</span>€
                     </h3>
@@ -110,7 +110,7 @@
                 <div class="p-4 bg-info border border-info bg-opacity-50 rounded-4 shadow-soft h-100 position-relative">
                     <span class="ribbon">
                         <i class="fa-regular fa-handshake me-1"></i>Sur mesure</span>
-                    <h6 class="text-muted">Solution adaptée</h6>
+                    <h6 class="text-secondary">Solution adaptée</h6>
                     <h3 class="price mb-0">
                         <span class="text-uppercase">devis</span>
                     </h3>

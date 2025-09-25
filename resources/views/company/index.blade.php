@@ -1,7 +1,7 @@
 @extends('layouts.app-fluid')
 
 @section('title')
-    @if (auth()->check() && auth()->user()->hasRole('admin'))
+    @if (auth()->check() && auth()->user()->hasRole('manager'))
         {{ __('company.List') }}
     @else
         {{ __('company.YourList') }}
@@ -65,11 +65,11 @@
                         <td class="text-nowrap">
                             <a href="{{ route('company.show', $company) }}"
                                 class="btn btn-link text-decoration-none p-0 me-2">
-                                {{ __('global.Details') }}
+                                {!! __('global.Details') !!}
                             </a>
                             <a href="{{ route('company.edit', $company) }}"
                                 class="btn btn-link text-decoration-none p-0 me-2">
-                                {{ __('global.Edit') }}
+                                {!! __('global.Edit') !!}
                             </a>
                             @include('company._delete_form', ['company' => $company])
                         </td>

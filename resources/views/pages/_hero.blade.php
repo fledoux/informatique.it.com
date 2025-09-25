@@ -35,7 +35,7 @@
                         <i class="fa-solid fa-star text-warning"></i>
                         <i class="fa-solid fa-star-half-stroke text-warning"></i>
                     </div>
-                    <small class="text-muted">4.8/5 — 370+ interventions notées</small>
+                    <small class="text-secondary">4.8/5 — 370+ interventions notées</small>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -59,7 +59,7 @@
                     </ul>
                     <a href="{{ route('dashboard') }}" class="btn btn-orange w-100">
                         <i class="fa-solid fa-headset me-2"></i>Parler à un technicien</a>
-                    <div class="small text-muted mt-2 mb-0">
+                    <div class="small text-secondary mt-2 mb-0">
                         <p class="mb-1">
                             <i class="fa-regular fa-clock me-1 text-orange"></i>
                             Intervention sous 24h ouvrées

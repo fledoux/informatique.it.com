@@ -33,7 +33,7 @@ class PageController extends Controller
         $lastXTickets = 20;
         
         // Get the 20 most recent tickets
-        $recentTickets = Ticket::recent($lastXTickets);
+        $recentTickets = Ticket::getMyLastTickets($lastXTickets);
 
         return view('pages.dashboard', compact(
             'ticketStats',

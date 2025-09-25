@@ -4,9 +4,6 @@
 
 @section('content')
 
-    {{ auth()->user()->getRoleNames()->implode(', ') }}
-    <p>Société: {{ auth()->user()->company?->id ?? 'Aucune société' }}</p>
-
     <div class="container-xxl py-4">
 
         {{-- Titre + actions rapides --}}
@@ -22,18 +19,24 @@
                         {{ __('btn.NewTicket') }}
                     </a>
                 @endauth
-                @can('admin.access')
+                @role('super-admin|manager')
                     <a href="{{ route('user.create') }}" class="btn btn-outline-secondary w-100 w-sm-auto">
                         <i class="fa-regular fa-user-plus"></i>
                         {{ __('btn.NewUser') }}
                     </a>
-                @endcan
-                @can('admin.access')
-                    <a href="{{ route('company.create') }}" class="btn btn-outline-secondary w-100 w-sm-auto">
+                @endrole
+                @role('super-admin')
+                    <a href="{{ route('company.create') }}" class="btn btn-outline-danger w-100 w-sm-auto">
                         <i class="fa-regular fa-building"></i>
                         {{ __('btn.NewCompany') }}
                     </a>
-                @endcan
+                @endrole
+                @role('super-admin')
+                    <a href="{{ route('permissions.index') }}" class="btn btn-outline-danger w-100 w-sm-auto">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Permissions
+                    </a>
+                @endrole
             </div>
         </div>
 
@@ -44,15 +47,14 @@
                     <div class="card-body d-flex align-items-center gap-3">
                         <i class="fa-light fa-message-question fs-3 text-orange"></i>
                         <div>
-                            <div class="text-muted small">{{ __('dashboard.KPI.Tickets') }}</div>
+                            <div class="text-secondary small">{{ __('dashboard.KPI.Tickets') }}</div>
                             <div class="fs-4 fw-semibold">{{ $ticketStats['tickets_count'] }}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-4 col-xl-2">
-                <div
-                    class="card shadow-sm h-100 {{ $ticketStats['open_tickets_count'] > 0 ? 'bg-warning' : '' }}">
+                <div class="card shadow-sm h-100 {{ $ticketStats['open_tickets_count'] > 0 ? 'bg-warning' : '' }}">
                     <div class="card-body d-flex align-items-center gap-3">
                         <i
                             class="fa-light fa-clipboard-list-check fs-3 {{ $ticketStats['open_tickets_count'] > 0 ? '' : 'text-orange' }}"></i>
@@ -68,7 +70,7 @@
                     <div class="card-body d-flex align-items-center gap-3">
                         <i class="fa-light fa-clock fs-3 {{ $ticketStats['waiting_count'] > 0 ? '' : 'text-orange' }}"></i>
                         <div>
-                            <div class="text-muted small">{{ __('dashboard.KPI.Waiting') }}</div>
+                            <div class="text-secondary small">{{ __('dashboard.KPI.Waiting') }}</div>
                             <div class="fs-4 fw-semibold">{{ $ticketStats['waiting_count'] }}</div>
                         </div>
                     </div>
@@ -86,32 +88,32 @@
                     </div>
                 </div>
             </div>
-            @can('admin.access')
+            @role('super-admin')
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="card shadow-sm h-100">
                         <div class="card-body d-flex align-items-center gap-3">
                             <i class="fa-light fa-address-book fs-3 text-orange"></i>
                             <div>
-                                <div class="text-muted small">{{ __('dashboard.KPI.Contacts') }}</div>
+                                <div class="text-secondary small">{{ __('dashboard.KPI.Contacts') }}</div>
                                 <div class="fs-4 fw-semibold">{{ $contactsCount }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endcan
-            @can('admin.access')
+            @endrole
+            @role('super-admin')
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="card shadow-sm h-100">
                         <div class="card-body d-flex align-items-center gap-3">
                             <i class="fa-light fa-buildings fs-3 text-orange"></i>
                             <div>
-                                <div class="text-muted small">{{ __('dashboard.KPI.Companies') }}</div>
+                                <div class="text-secondary small">{{ __('dashboard.KPI.Companies') }}</div>
                                 <div class="fs-4 fw-semibold">{{ $companiesCount }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endcan
+            @endrole
         </div>
 
         {{-- Derniers tickets --}}
@@ -143,10 +145,10 @@
                         <tbody>
                             @forelse($recentTickets as $ticket)
                                 <tr>
-                                    <td class="text-muted text-center">{{ $ticket->id }}</td>
+                                    <td class="text-secondary text-center">{{ $ticket->id }}</td>
                                     <td>
                                         @if ($ticket->status)
-                                            <span class="badge bg-{{ __('ticket.statusClass.' . $ticket->status) }}">
+                                            <span class="badge {{ __('ticket.statusBadgeColor.' . $ticket->status) }}">
                                                 {{ __('ticket.status.' . $ticket->status) }}
                                             </span>
                                         @else
@@ -155,7 +157,7 @@
                                     </td>
                                     <td>
                                         @if ($ticket->priority)
-                                            <span class="badge bg-light text-dark">
+                                            <span class="badge {{ __('ticket.priorityBadgeColor.' . $ticket->priority) }}">
                                                 {{ __('ticket.priority.' . $ticket->priority) }}
                                             </span>
                                         @else
@@ -175,7 +177,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-muted py-4">
+                                    <td colspan="8" class="text-center text-secondary py-4">
                                         {{ __('dashboard.NoTicketsYet') }}</td>
                                 </tr>
                             @endforelse

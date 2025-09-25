@@ -12,7 +12,7 @@
                     <i class="fa-solid fa-qrcode text-orange me-3"></i>
                     Scannez-moi
                 </h1>
-                <p class="lead text-muted">
+                <p class="lead text-secondary">
                     Scannez ce QR code pour <strong class="text-orange">nous retrouver sur&nbsp;votre&nbsp;portable</strong>
                 </p>
             </div>
@@ -36,7 +36,7 @@
                                     </div>
                                     <div @class(['p-2'])>
                                         <h6 class="fw-bold">iPhone/iPad</h6>
-                                        <p class="small text-muted mb-0">
+                                        <p class="small text-secondary mb-0">
                                             Ouvrez l'appareil photo et pointez vers le QR code
                                         </p>
                                     </div>
@@ -49,7 +49,7 @@
                                     </div>
                                     <div @class(['p-2'])>
                                         <h6 class="fw-bold">Android</h6>
-                                        <p class="small text-muted mb-0">
+                                        <p class="small text-secondary mb-0">
                                             Google Lens ou appareil photo natif
                                         </p>
                                     </div>
@@ -73,7 +73,7 @@
             </div>
 
             <div class="text-center mt-4">
-                <p class="small text-muted">
+                <p class="small text-secondary">
                     <i class="fa-regular fa-mobile-screen-button me-1"></i>
                     Optimisé pour tous les appareils mobiles
                 </p>
