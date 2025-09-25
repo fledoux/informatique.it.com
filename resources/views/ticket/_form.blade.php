@@ -1,4 +1,3 @@
-<form>
     @csrf
     @hasanyrole('super-admin')
         <div class="row g-3  bg-warning bg-opacity-10 rounded-3 p-3 my-3">
@@ -69,4 +68,3 @@
         <button type="submit" class="btn btn-primary">{{ __('global.Save') }}</button>
         <a href="{{ route('ticket.index') }}" class="btn btn-outline-primary">{!! __('global.Back') !!}</a>
     </div>
-</form>

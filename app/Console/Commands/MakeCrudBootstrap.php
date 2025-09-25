@@ -1655,7 +1655,6 @@ BLADE;
         }
 
         return <<<BLADE
-@csrf
 <div class="row g-3">
 {$fields}
 </div>
@@ -1680,6 +1679,7 @@ BLADE;
     @php(\${$varSing} = new \\App\\Models\\{$entity}())
 
     <form method="POST" action="{{ route('{$entitySlug}.store') }}" novalidate>
+        @csrf
         @include('{$entitySlug}._form')
     </form>
 @endsection
@@ -1698,7 +1698,8 @@ BLADE;
     <h1 class="h3 mb-3">{!! __('global.Edit') !!} — {{ __('{$entitySlug}.entity') }}</h1>
 
     <form method="POST" action="{{ route('{$entitySlug}.update', {$singToken}) }}" novalidate>
-        @csrf @method('PUT')
+        @csrf
+        @method('PUT')
         @include('{$entitySlug}._form')
     </form>
 @endsection
