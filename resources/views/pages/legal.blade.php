@@ -38,7 +38,7 @@ $hebergeur_site = 'https://aws.amazon.com';
                 <strong>{{ $soc_tva }}</strong>.<br>
                 Siège social : {{ $soc_adresse }}<br>
                 Contact : <a href="mailto:{{ $soc_email }}" class="text-orange">{{ $soc_email }}</a> — {{ $soc_tel }}<br>
-                Directeur·rice de la publication : <strong>{{ $dir_publication }}</strong>.
+                Directeur de la publication : <strong>{{ $dir_publication }}</strong>.
             </p>
         </div>
 
