@@ -88,13 +88,15 @@
                                 Technologies utilisées :
                             </span>
                             <span>
-                                <span class="badge badge-outline-secondary me-2">Laravel 12</span>
-                                <span class="badge badge-outline-secondary me-2">PHP 8.4</span>
-                                <span class="badge badge-outline-secondary me-2">Bootstrap 5</span>
-                                <span class="badge badge-outline-secondary me-2">MySQL</span>
-                                <span class="badge badge-outline-secondary me-2">jQuery</span>
-                                <span class="badge badge-outline-secondary">Docker</span>
-                                <span class="badge badge-outline-secondary">NGINX</span>
+                                <span class="badge badge-outline-secondary me-1">Laravel 12</span>
+                                <span class="badge badge-outline-secondary me-1">PHP 8.4</span>
+                                <span class="badge badge-outline-secondary me-1">Bootstrap 5</span>
+                                <span class="badge badge-outline-secondary me-1">MySQL</span>
+                                <span class="badge badge-outline-secondary me-1">jQuery</span>
+                                <span class="badge badge-outline-secondary me-1">Docker</span>
+                                <span class="badge badge-outline-secondary me-1">NGINX</span>
+                                <span class="badge badge-outline-secondary me-1">Pushover</span>
+                                <span class="badge badge-outline-secondary">AWS</span>
                             </span>
                         </div>
 
