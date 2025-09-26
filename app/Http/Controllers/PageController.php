@@ -61,14 +61,16 @@ class PageController extends Controller
 
     public function qr(Request $request)
     {
+        // Send Pushover notification when the page is accessed
+        $this->sendPushoverNotification();
+        
         Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan QR Code', $request->ip()));
         return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
     }
 
     public function qrCode()
     {
-        // Send Pushover notification when the page is accessed
-        $this->sendPushoverNotification();
+        
 
         // Génère le QR code pour l'URL https://informatique.it.com
         $url = 'https://informatique.it.com/qr';
