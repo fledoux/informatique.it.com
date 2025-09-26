@@ -11,7 +11,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Binding pour le service Pushover
+        $this->app->when(\NotificationChannels\Pushover\Pushover::class)
+            ->needs('$token')
+            ->give(function () {
+                return config('services.pushover.token');
+            });
     }
 
     /**

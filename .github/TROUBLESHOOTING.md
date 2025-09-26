@@ -170,8 +170,17 @@ chmod -R 775 storage/
 # Vérifier la config queue
 php artisan queue:work --verbose
 
+# Vérifier les jobs en attente
+php artisan tinker --execute="echo 'Jobs en attente: ' . DB::table('jobs')->count();"
+
+# Traiter un job manuellement
+php artisan queue:work --once
+
 # Redémarrer après changement de code
 php artisan queue:restart
+
+# Pour production avec batch cron (toutes les minutes)
+* * * * * cd /path/to/project && php artisan queue:work --once --timeout=60
 ```
 
 #### Vite/npm erreurs

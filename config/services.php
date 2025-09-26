@@ -40,4 +40,8 @@ return [
         'user' => env('PUSHOVER_USER_KEY'),
     ],
 
+    // Configuration alternative pour le binding du service Pushover
+    'pushover_token' => env('PUSHOVER_APP_TOKEN'),
+    'pushover_user' => env('PUSHOVER_USER_KEY'),
+
 ];
