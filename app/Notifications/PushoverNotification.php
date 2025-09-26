@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use NotificationChannels\Pushover\PushoverChannel;
 use NotificationChannels\Pushover\PushoverMessage;
 
-class PushoverNotification extends Notification implements ShouldQueue
+class PushoverNotification extends Notification
 {
     use Queueable;
 

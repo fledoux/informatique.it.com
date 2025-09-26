@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Notifications\PushoverNotification;
+use App\Services\PushoverNotifiable;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Log;
 
@@ -23,19 +24,11 @@ class PushoverService
                 return false;
             }
 
-            // Créer un objet anonyme notifiable avec les credentials Pushover
-            $notifiable = new class {
-                public function routeNotificationForPushover(): array
-                {
-                    return [
-                        'token' => config('services.pushover.token'),
-                        'user' => config('services.pushover.user'),
-                    ];
-                }
-            };
+            // Créer un objet notifiable avec les credentials Pushover
+            $notifiable = new PushoverNotifiable();
 
             // Envoyer la notification
-            Notification::send($notifiable, new PushoverNotification($title, $message, $priority));
+            $notifiable->notify(new PushoverNotification($title, $message, $priority));
             
             Log::info('Pushover notification sent successfully', [
                 'title' => $title
