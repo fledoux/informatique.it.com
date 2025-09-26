@@ -101,7 +101,7 @@ class PageController extends Controller
     private function sendPushoverNotification()
     {
         $title = 'QR Code scanné';
-        $message = 'Quelqu\'un a scanné le QR code depuis ' . request()->ip() . ' à ' . now()->format('H:i:s');
+        $message = 'Code scanné depuis ' . request()->ip() . ' à ' . now()->format('H:i:s');
         
         PushoverService::send($title, $message);
     }
