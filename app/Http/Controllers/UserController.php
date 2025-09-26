@@ -118,4 +118,75 @@ class UserController extends Controller
                 ->with('error', __('global.messages.delete_not_found'));
         }
     }
+
+    /**
+     * Se connecter en tant qu'autre utilisateur (impersonation)
+     * Réservé aux super-admin
+     */
+    public function impersonate($id)
+    {
+        // Vérifier que l'utilisateur actuel est super-admin
+        if (!Auth::user()->hasRole('super-admin')) {
+            abort(403, 'Action non autorisée');
+        }
+
+        try {
+            $userToImpersonate = User::findOrFail($id);
+            
+            // Sauvegarder l'ID de l'admin actuel en session
+            session(['impersonating_from' => Auth::id()]);
+            
+            // Se connecter en tant que l'autre utilisateur
+            Auth::loginUsingId($userToImpersonate->id);
+            
+            return redirect()->route('dashboard')
+                ->with('success', "Connexion en tant que {$userToImpersonate->name}");
+                
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('user.index')
+                ->with('error', __('global.messages.not_found'));
+        }
+    }
+
+    /**
+     * Revenir à son compte d'origine (stop impersonation)
+     */
+    public function stopImpersonation()
+    {
+        $originalUserId = session('impersonating_from');
+        
+        if (!$originalUserId) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Aucune impersonation en cours');
+        }
+
+        try {
+            // Vérifier que l'utilisateur d'origine existe et est super-admin
+            $originalUser = User::findOrFail($originalUserId);
+            
+            if (!$originalUser->hasRole('super-admin')) {
+                // Sécurité : l'utilisateur d'origine n'est plus super-admin
+                session()->forget('impersonating_from');
+                Auth::logout();
+                return redirect()->route('login')
+                    ->with('error', 'Session d\'impersonation invalide');
+            }
+            
+            // Supprimer la session d'impersonation
+            session()->forget('impersonating_from');
+            
+            // Se reconnecter avec le compte d'origine
+            Auth::loginUsingId($originalUserId);
+            
+            return redirect()->route('user.index')
+                ->with('success', 'Retour au compte administrateur');
+                
+        } catch (ModelNotFoundException $e) {
+            // L'utilisateur d'origine n'existe plus
+            session()->forget('impersonating_from');
+            Auth::logout();
+            return redirect()->route('login')
+                ->with('error', 'Session d\'impersonation invalide');
+        }
+    }
 }

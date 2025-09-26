@@ -45,4 +45,16 @@ class PushoverService
             return false;
         }
     }
+
+    /**
+     * Envoie une notification de scan QR code
+     */
+    public static function sendQrScanNotification(string $ip = null): bool
+    {
+        $ip = $ip ?: request()->ip();
+        $title = 'QR Code scanné';
+        $message = 'Depuis ' . $ip . ' à ' . now()->format('H:i:s');
+        
+        return self::send($title, $message);
+    }
 }

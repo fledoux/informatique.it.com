@@ -18,6 +18,21 @@
 <body class="d-flex flex-column h-100 bg-body-tertiary">
     @php($currentRoute = request()->route() ? request()->route()->getName() : null)
     @include('partials.nav')
+    
+    {{-- Indicateur d'impersonation --}}
+    @if(session('impersonating_from'))
+        <div class="alert alert-warning mb-0 text-center border-0 rounded-0">
+            <i class="fa-regular fa-user-gear me-2"></i>
+            Vous êtes connecté en tant que <strong>{{ auth()->user()->name }}</strong>
+            <form method="POST" action="{{ route('user.stop-impersonation') }}" class="d-inline ms-3">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-outline-warning">
+                    <i class="fa-regular fa-sign-out me-1"></i> Retour admin
+                </button>
+            </form>
+        </div>
+    @endif
+    
     <div class="container pb-5">
         <main class="flex-shrink-0">
             @include('partials.flash')

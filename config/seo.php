@@ -4,7 +4,7 @@ return [
     'site' => [
         'name' => 'informatique.it.com',
         'tagline' => 'Support informatique professionnel depuis +25 ans',
-        'description' => 'Expert en support informatique, assistance PC/Mac, infogérance et cybersécurité pour entreprises. Intervention rapide, devis gratuit 24h. +25 ans d\'expérience, 9999+ interventions réussies.',
+        'description' => 'Expert en support informatique, assistance Mac/PC, infogérance et cybersécurité pour entreprises. Intervention rapide, devis gratuit 24h. +25 ans d\'expérience, 9999+ interventions réussies.',
         'keywords' => 'support informatique, assistance informatique, infogérance, cybersécurité, maintenance informatique, assistance PC Mac, expert informatique France, assistance rapide, support technique',
         'author' => 'informatique.it.com',
         'email' => 'hello@informatique.it.com',

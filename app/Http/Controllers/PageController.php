@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Contact;
 use App\Models\Ticket;
 use App\Models\Company;
-use App\Services\PushoverService;
+use App\Models\Page;
 use Spatie\Honeypot\ProtectAgainstSpam;
 use Illuminate\Support\Facades\Mail;
 
@@ -69,7 +69,7 @@ class PageController extends Controller
 
         try {
             // Send Pushover notification when the page is accessed
-            $this->sendPushoverNotification();
+            Page::sendQrScanNotification();
             Log::info('Pushover notification sent successfully for QR scan');
         } catch (\Exception $e) {
             Log::error('Pushover notification failed for QR scan', ['error' => $e->getMessage()]);
@@ -117,13 +117,7 @@ class PageController extends Controller
         return view('pages.qr-code', compact('dataUri'));
     }
 
-    private function sendPushoverNotification()
-    {
-        $title = 'QR Code scanné';
-        $message = 'Depuis ' . request()->ip() . ' à ' . now()->format('H:i:s');
-        
-        PushoverService::send($title, $message);
-    }
+
 
     #[ProtectAgainstSpam]
     public function contact(Request $request)

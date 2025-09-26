@@ -38,14 +38,8 @@ class TicketController extends Controller
             $data['billable'] = true;
         }
         
-        // Supprimer le champ password s'il existe (copié-collé d'un autre controller)
-        if (!empty($data['password'])) {
-            $data['password'] = bcrypt($data['password']);
-        } else {
-            unset($data['password']);
-        }
-        
         $ticket = Ticket::create($data);
+        Ticket::sendNotification();
         return redirect()->route('ticket.index')->with('success', __('global.messages.created'));
     }
 

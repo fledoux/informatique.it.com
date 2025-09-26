@@ -63,6 +63,14 @@ Route::prefix('user')->group(function () {
     Route::delete('/{user}', [UserController::class, 'destroy'])
         ->middleware('permission:user.delete')
         ->name('user.destroy');
+    
+    // Impersonation routes (super-admin only)
+    Route::post('/{user}/impersonate', [UserController::class, 'impersonate'])
+        ->middleware(['auth', 'role:super-admin'])
+        ->name('user.impersonate');
+    Route::post('/stop-impersonation', [UserController::class, 'stopImpersonation'])
+        ->middleware('auth')
+        ->name('user.stop-impersonation');
 });
 
 Route::prefix('contact')->group(function () {

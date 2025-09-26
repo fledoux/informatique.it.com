@@ -17,25 +17,25 @@
                     <div class="row g-3 mb-4">
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center">
-                                <i class="fa-regular fa-check-circle text-success me-2 fs-5"></i>
+                                <i class="fa-regular fa-check-circle text-warning me-2 fs-5"></i>
                                 <span>Développement Laravel expert</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center">
-                                <i class="fa-regular fa-check-circle text-success me-2 fs-5"></i>
+                                <i class="fa-regular fa-check-circle text-warning me-2 fs-5"></i>
                                 <span>Solutions web sur mesure</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center">
-                                <i class="fa-regular fa-check-circle text-success me-2 fs-5"></i>
+                                <i class="fa-regular fa-check-circle text-warning me-2 fs-5"></i>
                                 <span>Maintenance & évolutions</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center">
-                                <i class="fa-regular fa-check-circle text-success me-2 fs-5"></i>
+                                <i class="fa-regular fa-check-circle text-warning me-2 fs-5"></i>
                                 <span>Support technique inclus</span>
                             </div>
                         </div>
@@ -96,6 +96,7 @@
                                 <span class="badge badge-outline-secondary me-1">Docker</span>
                                 <span class="badge badge-outline-secondary me-1">NGINX</span>
                                 <span class="badge badge-outline-secondary me-1">Pushover</span>
+                                <span class="badge badge-outline-secondary me-1">Pusher</span>
                                 <span class="badge badge-outline-secondary">AWS</span>
                             </span>
                         </div>

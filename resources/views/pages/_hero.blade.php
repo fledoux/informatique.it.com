@@ -45,7 +45,7 @@
                     </h3>
                     <ul class="list-unstyled mb-4">
                         <li class="mb-2">
-                            <i class="fa-solid fa-circle-check check me-2"></i>PC/Mac lents, virus, écran noir
+                            <i class="fa-solid fa-circle-check check me-2"></i>Mac/PC lents, virus, écran noir
                         </li>
                         <li class="mb-2">
                             <i class="fa-solid fa-circle-check check me-2"></i>Messagerie, imprimantes, Wi-Fi, réseaux

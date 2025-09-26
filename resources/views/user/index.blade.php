@@ -105,6 +105,17 @@
                             <a href="{{ route('user.edit', $user) }}" class="btn btn-link text-decoration-none p-0 me-2">
                                 {!! __('global.Edit') !!}
                             </a>
+                            @role('super-admin')
+                                @if($user->id !== auth()->id())
+                                    <form method="POST" action="{{ route('user.impersonate', $user) }}" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-link text-decoration-none p-0 me-2 text-warning"
+                                                onclick="return confirm('{{ __('nav.Login') }} en tant que {{ $user->name }} ?')">
+                                            <i class="fa-regular fa-user-gear"></i> {{ __('nav.Login') }}
+                                        </button>
+                                    </form>
+                                @endif
+                            @endrole
                             @include('user._delete_form', ['user' => $user])
                         </td>
                     </tr>

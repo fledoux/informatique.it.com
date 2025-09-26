@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
+use App\Services\PushoverService;
 
 /**
  * Enum pour les statuts de ticket
@@ -229,5 +230,16 @@ class Ticket extends Model
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
+    }
+
+    /**
+     * Envoie une notification lors de la création d'un message
+     */
+    public static function sendNotification(TicketId $id, string $title, string $message): void
+    {
+        $title = '#' . $id->value . ' Question';
+        $message = 'Text' . now()->format('H:i:s');
+        
+        PushoverService::send($title, $message);
     }
 }

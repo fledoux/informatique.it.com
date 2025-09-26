@@ -93,13 +93,13 @@
             <div class="col-md-4">
                 <div class="p-4 bg-white border rounded-4 shadow-soft h-100">
                     <div class="d-flex align-items-center mb-2">
-                        <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/remi_f.jpg') }}" alt="Rémi F.">
+                        <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/amedee_p.jpg') }}" alt="Rémi F.">
                         <div>
-                            <strong>Rémi F.</strong><br>
-                            <small class="text-secondary">Fondateur, E-commerce</small>
+                            <strong>Amedee P.</strong><br>
+                            <small class="text-secondary">CTO & Co-founder, Ingéniérie</small>
                         </div>
                     </div>
-                    <p class="mb-0">“Ils ont trouvé la panne réseau qui bloquait nos commandes. Depuis, tout roule.”</p>
+                    <p class="mb-0">“Réseau industriel sécurisé, accès distants chiffrés et redondance opérationnelle. Nos ingénieurs travaillent en toute sérénité.”</p>
                 </div>
             </div>
 
