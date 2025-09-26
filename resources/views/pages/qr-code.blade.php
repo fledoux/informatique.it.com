@@ -21,7 +21,11 @@
                 <div class="card-body text-center p-5">
                     <!-- QR Code généré côté serveur -->
                     @if(!empty($dataUri))
-                        <img src="{{ $dataUri }}" alt="QR Code informatique.it.com" class="mb-4 w-50" />
+                        <div class="mb-4 d-flex justify-content-center">
+                            <div class="qr-code-container" style="max-width: 300px; width: 100%;">
+                                <img src="{{ $dataUri }}" alt="QR Code informatique.it.com" class="w-100" style="border: 2px solid #dee2e6; border-radius: 0.5rem; background: white; padding: 1rem;" />
+                            </div>
+                        </div>
                     @else
                         <div class="alert alert-danger">Impossible de générer le QR code</div>
                     @endif
@@ -83,27 +87,4 @@
 </div>
 @endsection
 
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Génère le QR code avec l'URL actuelle du site
-    const currentUrl = window.location.origin;
-    
-    QRCode.toCanvas(document.getElementById('qrcode'), currentUrl, {
-        width: 256,
-        height: 256,
-        colorDark: '#ff6600', // Couleur orange de votre thème
-        colorLight: '#ffffff',
-        margin: 2,
-        errorCorrectionLevel: 'M'
-    }, function (error) {
-        if (error) {
-            console.error('Erreur lors de la génération du QR code:', error);
-            document.getElementById('qrcode').innerHTML = 
-                '<div class="alert alert-danger">Impossible de générer le QR code</div>';
-        }
-    });
-});
-</script>
-@endpush
+{{-- QR code généré côté serveur en SVG via data URI --}}

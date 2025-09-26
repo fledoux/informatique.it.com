@@ -11,7 +11,7 @@
 {{-- Open Graph --}}
 <meta property="og:type" content="website">
 <meta property="og:title" content="Support Informatique Professionnel - Expert depuis +25 ans">
-<meta property="og:description" content="Expert en support informatique, dépannage PC/Mac, infogérance et cybersécurité. Intervention rapide, devis gratuit 24h.">
+<meta property="og:description" content="Expert en support informatique, assistance PC/Mac, infogérance et cybersécurité. Intervention rapide, devis gratuit 24h.">
 <meta property="og:url" content="{{ url()->current() }}">
 <meta property="og:site_name" content="{{ config('seo.site.name') }}">
 <meta property="og:locale" content="fr_FR">
@@ -23,7 +23,7 @@
 {{-- Twitter Cards --}}
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Support Informatique Professionnel - Expert depuis +25 ans">
-<meta name="twitter:description" content="Expert en support informatique, dépannage PC/Mac, infogérance et cybersécurité. Intervention rapide, devis gratuit 24h.">
+<meta name="twitter:description" content="Expert en support informatique, assistance PC/Mac, infogérance et cybersécurité. Intervention rapide, devis gratuit 24h.">
 <meta name="twitter:image" content="{{ asset('favicon.ico') }}">
 <meta name="twitter:site" content="{{ config('seo.social.twitter.handle') }}">
 <meta name="twitter:creator" content="{{ config('seo.social.twitter.handle') }}">

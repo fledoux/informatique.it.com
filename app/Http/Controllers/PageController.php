@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Contact;
 use App\Models\Ticket;
 use App\Models\Company;
+use App\Services\PushoverService;
 use Spatie\Honeypot\ProtectAgainstSpam;
 use Illuminate\Support\Facades\Mail;
 
@@ -75,16 +76,21 @@ class PageController extends Controller
         $dataUri = null;
         try {
             $options = new \chillerlan\QRCode\QROptions([
-                'version'      => 4,
-                'outputType'   => \chillerlan\QRCode\QRCode::OUTPUT_IMAGE_PNG,
-                'eccLevel'     => \chillerlan\QRCode\QRCode::ECC_M,
-                'scale'        => 8,
-                'imageBase64'  => true,
-                'addQuietzone' => true,
-                'quietzoneSize'=> 2,
+                'version'         => 4,
+                'outputInterface' => \chillerlan\QRCode\Output\QRMarkupSVG::class,
+                'eccLevel'        => \chillerlan\QRCode\Common\EccLevel::M,
+                'addQuietzone'    => true,
+                'quietzoneSize'   => 2,
+                'svgViewBoxSize'  => 512,
+                'markupDark'      => '#000000',
+                'markupLight'     => '#ffffff',
+                'svgOpacity'      => 1.0,
             ]);
             $qrcode = new \chillerlan\QRCode\QRCode($options);
-            $dataUri = $qrcode->render($url);
+            $svgContent = $qrcode->render($url);
+            
+            // Nettoyer le SVG pour l'affichage direct
+            $dataUri = $svgContent;
         } catch (\Exception $e) {
             $dataUri = null;
             Log::error('QR code generation error: ' . $e->getMessage());
@@ -95,43 +101,10 @@ class PageController extends Controller
 
     private function sendPushoverNotification()
     {
-        // Configuration Pushover - vous devez définir ces valeurs dans votre .env
-        $token = config('services.pushover.token'); // APP_TOKEN
-        $user = config('services.pushover.user');   // USER_KEY
+        $title = 'QR Code scanné';
+        $message = 'Quelqu\'un a scanné le QR code depuis ' . request()->ip() . ' à ' . now()->format('H:i:s');
         
-        if (!$token || !$user) {
-            Log::info('Pushover not configured - QR code page accessed');
-            return;
-        }
-
-        $data = [
-            'token' => $token,
-            'user' => $user,
-            'title' => 'QR Code scanné',
-            'message' => 'Quelqu\'un a scanné le QR code depuis ' . request()->ip() . ' à ' . now()->format('H:i:s'),
-            'priority' => 0,
-        ];
-
-        try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://api.pushover.net/1/messages.json');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-            
-            $result = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-            
-            if ($httpCode === 200) {
-                Log::info('Pushover notification sent successfully');
-            } else {
-                Log::warning('Pushover notification failed', ['http_code' => $httpCode, 'response' => $result]);
-            }
-        } catch (\Exception $e) {
-            Log::error('Pushover notification error: ' . $e->getMessage());
-        }
+        PushoverService::send($title, $message);
     }
 
     #[ProtectAgainstSpam]

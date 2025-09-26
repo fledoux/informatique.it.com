@@ -13,7 +13,7 @@
                     <br class="d-none d-lg-inline">entreprises et particuliers
                 </h1>
                 <p class="lead text-secondary mb-4">
-                    Dépannage express, maintenance proactive, cybersécurité et infogérance. Nous prenons en charge vos incidents et prévenons les suivants.
+                    Assistance express, maintenance proactive, cybersécurité et infogérance. Nous prenons en charge vos incidents et prévenons les suivants.
                     <u>Plus de
                         <span class="support">9999</span>
                         demandes traitées</u>
