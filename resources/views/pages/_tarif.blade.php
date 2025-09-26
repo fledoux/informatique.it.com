@@ -110,7 +110,7 @@
                 <div class="p-4 bg-info border border-info bg-opacity-50 rounded-4 shadow-soft h-100 position-relative">
                     <span class="ribbon">
                         <i class="fa-regular fa-handshake me-1"></i>Sur mesure</span>
-                    <h6 class="text-secondary">Solution adaptée</h6>
+                    <h6 class="text-secondary">À la carte</h6>
                     <h3 class="price mb-0">
                         <span class="text-uppercase">devis</span>
                     </h3>
