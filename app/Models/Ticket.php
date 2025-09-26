@@ -235,9 +235,9 @@ class Ticket extends Model
     /**
      * Envoie une notification lors de la création d'un message
      */
-    public static function sendNotification(TicketId $id, string $title, string $message): void
+    public static function sendNotification(int $id, string $title, string $message): void
     {
-        $title = '#' . $id->value . ' Question';
+        $title = '#' . $id . ' Question';
         $message = 'Text' . now()->format('H:i:s');
         
         PushoverService::send($title, $message);
