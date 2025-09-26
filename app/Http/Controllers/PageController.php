@@ -76,7 +76,7 @@ class PageController extends Controller
         }
 
         try {
-            //Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan QR Code', $request->ip()));
+            Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan QR Code', $request->ip()));
             Log::info('Email sent successfully for QR scan');
         } catch (\Exception $e) {
             Log::error('Email failed for QR scan', ['error' => $e->getMessage()]);
