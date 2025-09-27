@@ -13,8 +13,14 @@ return [
     'Question' => 'Description',
     'Billable' => 'Facturable',
     'Author' => 'Auteur',
-    'AssignedAt' => 'Date d\'assignation',
+    'AssignedAt' => 'Assigné le',
     'List' => 'Liste des tickets',
+    'Answer' => '<i class="fa-regular fa-square-plus"></i> Répondre',
+    'cgv' => 'a accepté(e) les Conditions générales d\'utilisation.',
+    'yes' => 'Oui',
+    'no' => 'Non',
+    'ticket' => 'ticket',
+    'tickets' => 'tickets',
 
     'fields' => [
         'status' => 'Statut',
@@ -22,7 +28,7 @@ return [
         'company_id' => 'Entreprise',
         'author_id' => 'Auteur',
         'assigned_to' => 'Assigné à',
-        'assigned_at' => 'Date d\'assignation',
+        'assigned_at' => 'Assigné le',
         'due' => 'Échéance',
         'folder_code' => 'N° Dossier',
         'subject' => 'Sujet',
@@ -52,10 +58,20 @@ return [
         'high' => 'Élevée',
         'urgent' => 'Urgent'
     ],
+    'priorityFull' => [
+        'low' => 'Priorité Faible',
+        'normal' => 'Priorité Normale',
+        'high' => 'Priorité Élevée',
+        'urgent' => 'Priorité Urgente'
+    ],
     'priorityBadgeColor' => [
         'low' => 'bg-success',
         'normal' => 'bg-primary',
         'high' => 'bg-warning',
         'urgent' => 'bg-danger'
-    ]
+    ],
+    'billable' => [
+        'yes' => '<i class="fa-regular fa-square-check text-success"></i>',
+        'no' => '<i class="fa-regular fa-square-xmark text-danger"></i>'
+    ],
 ];

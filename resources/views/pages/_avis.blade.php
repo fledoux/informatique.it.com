@@ -13,7 +13,7 @@
                             <small class="text-secondary">CEO and Partner, Industriel</small>
                         </div>
                     </div>
-                    <p class="mb-0">“Exceptionally responsive and truly supportive — we now benefit from clear procedures and rock-solid backups.”</p>
+                    <p class="mb-0">“Exceptionally responsive and truly supportive  we now benefit from clear procedures and rock-solid backups.”</p>
                 </div>
             </div>
             <div class="col-md-4">

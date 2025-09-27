@@ -39,8 +39,8 @@ class TicketController extends Controller
         }
         
         $ticket = Ticket::create($data);
-        Ticket::sendNotification();
-        return redirect()->route('ticket.index')->with('success', __('global.messages.created'));
+        Ticket::sendNotification($ticket->id, 'Création de Ticket', 'Message de notification');
+        return redirect()->route('ticket.show', $ticket->id)->with('success', __('global.messages.created'));
     }
 
     public function show($id)
@@ -76,7 +76,7 @@ class TicketController extends Controller
                 unset($data['password']);
             }
             $ticket->update($data);
-            return redirect()->route('ticket.index')->with('success', __('global.messages.updated'));
+            return redirect()->route('ticket.show', $ticket->id)->with('success', __('global.messages.updated'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('ticket.index')
                 ->with('error', __('global.messages.update_not_found'));

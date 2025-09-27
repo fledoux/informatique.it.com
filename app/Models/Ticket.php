@@ -33,9 +33,9 @@ enum TicketPriority: string
 
 class Ticket extends Model
 {
-    protected $fillable = ['status', 'priority', 'company_id', 'author_id', 'assigned_to', 'assigned_at', 'due', 'folder_code', 'subject', 'question', 'billable'];
+    protected $fillable = ['status', 'priority', 'company_id', 'author_id', 'assigned_to', 'assigned_at', 'due', 'folder_code', 'subject', 'question', 'billable', 'public_uuid', 'public_uuid_expires'];
 
-    protected $casts = ['email_verified_at' => 'datetime', 'password' => 'hashed', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'status' => 'string', 'priority' => 'string', 'assigned_at' => 'datetime', 'due' => 'datetime', 'billable' => 'boolean'];
+    protected $casts = ['email_verified_at' => 'datetime', 'password' => 'hashed', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'status' => 'string', 'priority' => 'string', 'assigned_at' => 'datetime', 'due' => 'datetime', 'billable' => 'boolean', 'public_uuid_expires' => 'datetime'];
 
     /**
      * Relation vers la société
@@ -95,6 +95,20 @@ class Ticket extends Model
     public function scopeForCompany($query, int $companyId)
     {
         return $query->where('company_id', $companyId);
+    }
+
+    /**
+     * Récupère les managers de la société du ticket
+     */
+    public function getManagers()
+    {
+        if (!$this->company_id) {
+            return collect();
+        }
+        
+        return User::where('company_id', $this->company_id)
+            ->role('manager')
+            ->get();
     }
 
     /**
@@ -241,5 +255,45 @@ class Ticket extends Model
         $message = 'Text' . now()->format('H:i:s');
         
         PushoverService::send($title, $message);
+    }
+
+    /**
+     * Génère ou récupère le lien public pour ce ticket
+     */
+    public function getPublicLink(): string
+    {
+        // Si pas d'UUID ou expiré, en créer un nouveau
+        if (!$this->public_uuid || ($this->public_uuid_expires && $this->public_uuid_expires < now())) {
+            $this->update([
+                'public_uuid' => \Illuminate\Support\Str::uuid(),
+                'public_uuid_expires' => now()->addDays(7)
+            ]);
+        }
+
+        return route('ticket.public', $this->public_uuid);
+    }
+
+    /**
+     * Envoie un SMS avec le lien public vers le ticket
+     */
+    public function sendSmsWithLink(string $phoneNumber, string $message): bool
+    {
+        $publicLink = $this->getPublicLink();
+        $smsContent = "Ticket #{$this->id}: {$message}\n\nRépondre: {$publicLink}";
+        
+        return \App\Services\SmsService::send($phoneNumber, $smsContent);
+    }
+
+    /**
+     * Trouve un ticket par son UUID public
+     */
+    public static function findByPublicUuid(string $uuid): ?self
+    {
+        return self::where('public_uuid', $uuid)
+            ->where(function($query) {
+                $query->whereNull('public_uuid_expires')
+                    ->orWhere('public_uuid_expires', '>', now());
+            })
+            ->first();
     }
 }

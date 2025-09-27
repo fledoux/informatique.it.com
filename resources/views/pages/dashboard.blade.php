@@ -152,7 +152,7 @@
                                                 {{ __('ticket.status.' . $ticket->status) }}
                                             </span>
                                         @else
-                                            —
+                                            
                                         @endif
                                     </td>
                                     <td>
@@ -161,13 +161,13 @@
                                                 {{ __('ticket.priority.' . $ticket->priority) }}
                                             </span>
                                         @else
-                                            —
+                                            
                                         @endif
                                     </td>
                                     <td class="text-truncate" style="max-width:320px">{{ $ticket->subject }}</td>
-                                    <td>{{ $ticket->company?->name ?? '—' }}</td>
-                                    <td>{{ $ticket->assignedTo?->email ?? '—' }}</td>
-                                    <td>{{ $ticket->due ? $ticket->due->format('d/m H:i') : '—' }}</td>
+                                    <td>{{ $ticket->company?->name ?? '' }}</td>
+                                    <td>{{ $ticket->assignedTo?->email ?? '' }}</td>
+                                    <td>{{ $ticket->due ? $ticket->due->format('d/m H:i') : '' }}</td>
                                     <td class="text-end">
                                         <a href="{{ route('ticket.show', $ticket) }}"
                                             class="btn btn-sm btn-outline-primary">

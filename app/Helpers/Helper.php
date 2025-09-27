@@ -83,4 +83,119 @@ class Helper
 
 		return $colors[$status] ?? 'secondary';
 	}
+
+	/**
+	 * Génère un lien mailto (équivalent Html::mail_to de FuelPHP)
+	 */
+	public static function mailTo(string $email, ?string $name = null, array $attributes = ['class' => 'text-orange text-decoration-none']): string
+	{
+		$name = $name ?: $email;
+		$href = 'mailto:' . $email;
+		
+		// Ajouter des attributs HTML si fournis
+		$attrString = '';
+		foreach ($attributes as $key => $value) {
+			$attrString .= ' ' . $key . '="' . htmlspecialchars($value) . '"';
+		}
+		
+		return '<a href="' . $href . '"' . $attrString . '>' . htmlspecialchars($name) . '</a>';
+	}
+
+	public static function asLetters($number = null, $masculin = 'm')
+	{
+		if (!is_null($number)) {
+			switch ($masculin) {
+				case 'f':
+					$adde = 'e';
+					break;
+
+				default:
+					$adde = '';
+					break;
+			}
+
+			$convert = explode('.', $number);
+
+			$num[17] = array(
+				'zéro',
+				'un' . $adde,
+				'deux',
+				'trois',
+				'quatre',
+				'cinq',
+				'six',
+				'sept',
+				'huit',
+				'neuf',
+				'dix',
+				'onze',
+				'douze',
+				'treize',
+				'quatorze',
+				'quinze',
+				'seize'
+			);
+
+			$num[100] = array(
+				20 => 'vingt',
+				30 => 'trente',
+				40 => 'quarante',
+				50 => 'cinquante',
+				60 => 'soixante',
+				70 => 'soixante-dix',
+				80 => 'quatre-vingt',
+				90 => 'quatre-vingt-dix'
+			);
+
+			if (isset($convert[1]) && $convert[1] != '') {
+				return Self::asLetters($convert[0]) . ' et ' . Self::asLetters($convert[1]);
+			}
+			if ($number < 0) return 'moins ' . Self::asLetters(-$number);
+			if ($number < 17) {
+				return $num[17][$number];
+			} elseif ($number < 20) {
+				return 'dix-' . Self::asLetters($number - 10);
+			} elseif ($number < 100) {
+				if ($number % 10 == 0) {
+					return $num[100][$number];
+				} elseif (substr($number, -1) == 1) {
+					if (((int) ($number / 10) * 10) < 70) {
+						return Self::asLetters((int) ($number / 10) * 10) . '-et-un' . $adde;
+					} elseif ($number == 71) {
+						return 'soixante-et-onze';
+					} elseif ($number == 81) {
+						return 'quatre-vingt-un' . $adde;
+					} elseif ($number == 91) {
+						return 'quatre-vingt-onze';
+					}
+				} elseif ($number < 70) {
+					return Self::asLetters($number - $number % 10) . '-' . Self::asLetters($number % 10);
+				} elseif ($number < 80) {
+					return Self::asLetters(60) . '-' . Self::asLetters($number % 20);
+				} else {
+					return Self::asLetters(80) . '-' . Self::asLetters($number % 20);
+				}
+			} elseif ($number == 100) {
+				return 'cent';
+			} elseif ($number < 200) {
+				return Self::asLetters(100) . ' ' . Self::asLetters($number % 100);
+			} elseif ($number < 1000) {
+				return Self::asLetters((int) ($number / 100)) . ' ' . Self::asLetters(100) . ($number % 100 > 0 ? ' ' . Self::asLetters($number % 100) : '');
+			} elseif ($number == 1000) {
+				return 'mille';
+			} elseif ($number < 2000) {
+				return Self::asLetters(1000) . ' ' . Self::asLetters($number % 1000) . ' ';
+			} elseif ($number < 1000000) {
+				return Self::asLetters((int) ($number / 1000)) . ' ' . Self::asLetters(1000) . ($number % 1000 > 0 ? ' ' . Self::asLetters($number % 1000) : '');
+			} elseif ($number == 1000000) {
+				return 'millions';
+			} elseif ($number < 2000000) {
+				return Self::asLetters(1000000) . ' ' . Self::asLetters($number % 1000000);
+			} elseif ($number < 1000000000) {
+				return Self::asLetters((int) ($number / 1000000)) . ' ' . Self::asLetters(1000000) . ($number % 1000000 > 0 ? ' ' . Self::asLetters($number % 1000000) : '');
+			}
+		} else {
+			return false;
+		}
+	}
 }

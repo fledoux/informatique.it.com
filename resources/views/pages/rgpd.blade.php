@@ -23,7 +23,7 @@ $rgpd_email = 'rgpd@informatique.it.com';
                 <strong>informatique.it.com</strong>, marque de <strong>Yellow Cactus</strong> (ci-après « nous »),
                 est responsable du traitement de vos données personnelles collectées via ce site.
                 Contact : <a href="mailto:{{ $rgpd_email }}" class="text-orange">{{ $rgpd_email }}</a>
-                — Tél. 01&nbsp;49&nbsp;66&nbsp;21&nbsp;77.
+                 Tél. 01&nbsp;49&nbsp;66&nbsp;21&nbsp;77.
             </p>
         </div>
 
@@ -43,7 +43,7 @@ $rgpd_email = 'rgpd@informatique.it.com';
                 <li class="mb-1"><strong>Traitement des demandes et support</strong> (exécution d'un contrat ou mesures précontractuelles).</li>
                 <li class="mb-1"><strong>Gestion client et facturation</strong> (obligation légale & exécution du contrat).</li>
                 <li class="mb-1"><strong>Sécurité du site et prévention de la fraude</strong> (intérêt légitime).</li>
-                <li class="mb-1"><strong>Prospection B2B raisonnable</strong> (intérêt légitime) — avec droit d'opposition.</li>
+                <li class="mb-1"><strong>Prospection B2B raisonnable</strong> (intérêt légitime)  avec droit d'opposition.</li>
             </ul>
         </div>
 

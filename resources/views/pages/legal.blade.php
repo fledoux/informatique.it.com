@@ -37,7 +37,7 @@ $hebergeur_site = 'https://aws.amazon.com';
                 sous le n° <strong>{{ $soc_siren }}</strong>, n° de TVA intracommunautaire
                 <strong>{{ $soc_tva }}</strong>.<br>
                 Siège social : {{ $soc_adresse }}<br>
-                Contact : <a href="mailto:{{ $soc_email }}" class="text-orange">{{ $soc_email }}</a> — {{ $soc_tel }}<br>
+                Contact : <a href="mailto:{{ $soc_email }}" class="text-orange">{{ $soc_email }}</a>  {{ $soc_tel }}<br>
                 Directeur de la publication : <strong>{{ $dir_publication }}</strong>.
             </p>
         </div>
@@ -45,7 +45,7 @@ $hebergeur_site = 'https://aws.amazon.com';
         <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft">
             <h2 class="h4 fw-bold mb-3">2. Hébergement</h2>
             <p class="mb-0 text-secondary">
-                Hébergeur : <strong>{{ $hebergeur_nom }}</strong> — {{ $hebergeur_ad }} —
+                Hébergeur : <strong>{{ $hebergeur_nom }}</strong>  {{ $hebergeur_ad }} 
                 <a href="{{ $hebergeur_site }}" class="text-orange" target="_blank" rel="noopener">Site web</a>.
             </p>
         </div>

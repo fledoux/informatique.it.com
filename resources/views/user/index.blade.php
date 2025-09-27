@@ -53,7 +53,7 @@
                                 class="badge {{ __('user.statusBadgeColor.' . $user->status) }}">{{ __('user.status.' . $user->status) }}</span>
                         </td>
                         @role('super-admin')
-                            <td>{{ $user->company?->name ?? '—' }}</td>
+                            <td>{{ $user->company?->name ?? '' }}</td>
                         @endrole
                         <td>
                             @if ($user->getRoleNames()->isNotEmpty())
@@ -62,7 +62,7 @@
                                         class="badge {{ __('user.badgeRolesColor.' . $role) }} me-1">{{ __('user.roles.' . $role) }}</span>
                                 @endforeach
                             @else
-                                <span class="text-secondary">—</span>
+                                <span class="text-secondary"></span>
                             @endif
                         </td>
                         <td>{{ $user->firstname }}</td>
@@ -72,7 +72,7 @@
                         @endrole
                         <td>{{ $user->phone }}</td>
                         @role('super-admin')
-                            <td>{{ $user->last_login ? ($user->last_login instanceof \Carbon\Carbon ? $user->last_login->format('d/m/Y H:i') : $user->last_login) : '—' }}
+                            <td>{{ $user->last_login ? ($user->last_login instanceof \Carbon\Carbon ? $user->last_login->format('d/m/Y H:i') : $user->last_login) : '' }}
                             </td>
                         @endrole
                         @role('super-admin')
@@ -93,7 +93,7 @@
                         @endrole
                         <td>
                             {{ collect(['email', 'sms'])->filter(fn($key) => $user->channels[$key] ?? false)->map(fn($key) => __('user.fields.channels_' . $key))->join(', ') ?:
-                                '—' }}
+                                '' }}
                         </td>
                         @role('super-admin')
                             <td>{{ $user->note }}</td>

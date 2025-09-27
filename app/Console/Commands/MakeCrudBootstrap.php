@@ -1517,7 +1517,7 @@ HTML;
                 $displayField = $this->getDisplayFieldForTable($fk['table']);
                 // Utiliser la relation au lieu de find() pour éviter le problème N+1
                 $relationName = $this->getRelationNameFromColumn($column);
-                $tds .= "\n<td>{{ \${$varSing}->{$relationName}?->{$displayField} ?? '—' }}</td>";
+                $tds .= "\n<td>{{ \${$varSing}->{$relationName}?->{$displayField} ?? '' }}</td>";
             }
             // CORRIGÉ : Gestion des champs enum Laravel avec traductions et couleurs dynamiques
             elseif (isset($this->enumFields[$column])) {
@@ -1540,12 +1540,12 @@ HTML;
             }
             // Gestion spéciale pour les champs timestamp/datetime
             elseif (Str::endsWith($lower, '_at') || in_array($lower, ['last_login', 'email_verified_at'])) {
-                $tds .= "\n<td>{{ \${$varSing}->{$column} ? (\${$varSing}->{$column} instanceof \\Carbon\\Carbon ? \${$varSing}->{$column}->format('d/m/Y H:i') : \${$varSing}->{$column}) : '—' }}</td>";
+                $tds .= "\n<td>{{ \${$varSing}->{$column} ? (\${$varSing}->{$column} instanceof \\Carbon\\Carbon ? \${$varSing}->{$column}->format('d/m/Y H:i') : \${$varSing}->{$column}) : '' }}</td>";
             }
             // Gestion spéciale pour les champs JSON avec structure booléenne
             elseif (isset($this->jsonBooleanFields[$column])) {
                 $keys = json_encode($this->jsonBooleanFields[$column]);
-                $tds .= "\n<td>@php(\$selected = collect({$keys})->filter(fn(\$key) => \${$varSing}->{$column}[\$key] ?? false)->map(fn(\$key) => __('{$entitySlug}.fields.{$column}_' . \$key))->join(', ')){{ \$selected ?: '—' }}</td>";
+                $tds .= "\n<td>@php(\$selected = collect({$keys})->filter(fn(\$key) => \${$varSing}->{$column}[\$key] ?? false)->map(fn(\$key) => __('{$entitySlug}.fields.{$column}_' . \$key))->join(', ')){{ \$selected ?: '' }}</td>";
             }
             // NOUVEAU : Gestion des booléens avec enum
             elseif (isset($this->booleanEnumFields[$column])) {
@@ -1671,10 +1671,10 @@ BLADE;
         return <<<BLADE
 @extends('layouts.app')
 
-@section('title', __('global.Create') . ' — ' . __('{$entitySlug}.entity'))
+@section('title', __('global.Create') . '  ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{{ __('global.Create') }} — {{ __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{{ __('global.Create') }}  {{ __('{$entitySlug}.entity') }}</h1>
 
     @php(\${$varSing} = new \\App\\Models\\{$entity}())
 
@@ -1692,10 +1692,10 @@ BLADE;
         return <<<BLADE
 @extends('layouts.app')
 
-@section('title', __('global.Edit') . ' — ' . __('{$entitySlug}.entity'))
+@section('title', __('global.Edit') . '  ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('global.Edit') !!} — {{ __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('global.Edit') !!}  {{ __('{$entitySlug}.entity') }}</h1>
 
     <form method="POST" action="{{ route('{$entitySlug}.update', {$singToken}) }}" novalidate>
         @csrf
@@ -1728,11 +1728,11 @@ BLADE;
                 $fk = $this->foreignKeys[$c];
                 $modelName = $fk['model'];
                 $displayField = $this->getDisplayFieldForTable($fk['table']);
-                $value = '        <dd class="col-sm-9">{{ ' . $singToken . '->' . $c . ' ? \\App\\Models\\' . $modelName . '::find(' . $singToken . '->' . $c . ')?->' . $displayField . " : '—' }}</dd>";
+                $value = '        <dd class="col-sm-9">{{ ' . $singToken . '->' . $c . ' ? \\App\\Models\\' . $modelName . '::find(' . $singToken . '->' . $c . ')?->' . $displayField . " : '' }}</dd>";
             }
             // Gestion spéciale pour les champs timestamp/datetime
             elseif (Str::endsWith($lower, '_at') || in_array($lower, ['last_login', 'email_verified_at'])) {
-                $value = '        <dd class="col-sm-9">{{ ' . $singToken . '->' . $c . ' ? (' . $singToken . '->' . $c . ' instanceof \\Carbon\\Carbon ? ' . $singToken . '->' . $c . "->format('d/m/Y à H:i') : " . $singToken . '->' . $c . ") : '—' }}</dd>";
+                $value = '        <dd class="col-sm-9">{{ ' . $singToken . '->' . $c . ' ? (' . $singToken . '->' . $c . ' instanceof \\Carbon\\Carbon ? ' . $singToken . '->' . $c . "->format('d/m/Y à H:i') : " . $singToken . '->' . $c . ") : '' }}</dd>";
             }
             // CORRIGÉ : Gestion des champs enum Laravel avec traductions et couleurs dynamiques
             elseif (isset($this->enumFields[$c])) {
@@ -1757,7 +1757,7 @@ HTML;
             // Autres champs JSON
             elseif (in_array($c, $this->jsonFields)) {
                 // Pour les champs JSON, affichage formaté
-                $value = '        <dd class="col-sm-9"><pre>{{ is_array(' . $singToken . '->' . $c . ') ? json_encode(' . $singToken . '->' . $c . ', JSON_PRETTY_PRINT) : (' . $singToken . '->' . $c . " ?? '—') }}</pre></dd>";
+                $value = '        <dd class="col-sm-9"><pre>{{ is_array(' . $singToken . '->' . $c . ') ? json_encode(' . $singToken . '->' . $c . ', JSON_PRETTY_PRINT) : (' . $singToken . '->' . $c . " ?? '') }}</pre></dd>";
             } elseif (in_array($c, $this->booleanFields)) {
                 // Pour les champs booléens classiques
                 $value = '        <dd class="col-sm-9">{{ ' . $singToken . '->' . $c . " ? __('global.boolean.yes') : __('global.boolean.no') }}</dd>";
@@ -1766,7 +1766,7 @@ HTML;
                 $value = '        <dd class="col-sm-9">••••••••</dd>';
             } else {
                 // Pour les autres champs
-                $value = '        <dd class="col-sm-9">{{ ' . $singToken . '->' . $c . " ?? '—' }}</dd>";
+                $value = '        <dd class="col-sm-9">{{ ' . $singToken . '->' . $c . " ?? '' }}</dd>";
             }
             
             return $label . "\n" . $value;
@@ -1778,10 +1778,10 @@ HTML;
         return <<<BLADE
 @extends('layouts.app')
 
-@section('title', __('global.Details') . ' — ' . __('{$entitySlug}.entity'))
+@section('title', __('global.Details') . '  ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('global.Details') !!} — {{ __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('global.Details') !!}  {{ __('{$entitySlug}.entity') }}</h1>
 
     <dl class="row">
 {$allRows}

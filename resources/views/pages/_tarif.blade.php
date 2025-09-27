@@ -163,7 +163,7 @@
                                 <strong>5 tickets</strong>. Les tickets s’achètent à l’unité ou par pack et sont consommés par tranches de 30&nbsp;min. Les interventions sont réalisées en priorité à distance ; le sur site est possible selon la zone et le planning. Des majorations peuvent s’appliquer en dehors des horaires standards (nuit, week-end, jour férié) ainsi que pour l’<strong>urgence</strong>
                                 ou un
                                 <strong>déplacement Paris/RP</strong>
-                                — voir grille ci-contre et simulateur ci-dessous.
+                                 voir grille ci-contre et simulateur ci-dessous.
                             </p>
                         </div>
                     </div>

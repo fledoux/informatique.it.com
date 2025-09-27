@@ -45,15 +45,15 @@
                                 class="badge {{ __('ticket.priorityBadgeColor.' . $ticket->priority) }}">{{ __('ticket.priority.' . $ticket->priority) }}</span>
                         </td>
                         @role('super-admin')
-                            <td>{{ $ticket->company?->name ?? '—' }}</td>
+                            <td>{{ $ticket->company?->name ?? '' }}</td>
                         @endrole
-                        <td>{{ $ticket->author ? \App\Helpers\Helper::getFullName($ticket->author->firstname, $ticket->author->lastname, $ticket->author->name) : '—' }}
+                        <td>{{ $ticket->author ? \App\Helpers\Helper::getFullName($ticket->author->firstname, $ticket->author->lastname, $ticket->author->name) : '' }}
                         </td>
                         <td>{{ $ticket->subject }}</td>
                         @role('super-admin')
-                            <td>{{ $ticket->assignedTo?->initial ?? '—' }}</td>
+                            <td>{{ $ticket->assignedTo?->initial ?? '' }}</td>
                         @endrole
-                        <td>{{ $ticket->due ? $ticket->due->format('d/m H:i') : '—' }}</td>
+                        <td>{{ $ticket->due ? $ticket->due->format('d/m H:i') : '' }}</td>
                         <td>{{ $ticket->folder_code }}</td>
                         <td>{{ $ticket->billable ? __('global.boolean.yes') : __('global.boolean.no') }}</td>
                         <td class="text-nowrap">

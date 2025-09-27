@@ -1,59 +1,149 @@
 @extends('layouts.app')
 
-@section('title', __('global.Details') . ' — ' . __('ticket.entity'))
+@section('title', __('global.Details') . ' ' . __('ticket.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('global.Details') !!} — {{ __('ticket.entity') }}</h1>
+    <h4 class="mb-3">
+        <i class="fa-regular fa-comments me-2"></i>
+        Conversation
+    </h4>
 
-    <dl class="row">
-        <dt class="col-sm-3">{{ __('ticket.id') }}</dt>
-        <dd class="col-sm-9">{{ $ticket->id }}</dd>
-        <dt class="col-sm-3">{{ __('ticket.fields.status') }}</dt>
-        <dd class="col-sm-9">
-            @php($badgeColor = 'secondary')
-            @switch($ticket->status)
-                @case('new') @php($badgeColor = 'info') @break
-                @case('in_progress') @php($badgeColor = 'primary') @break
-                @case('waiting') @php($badgeColor = 'warning') @break
-                @case('resolved') @php($badgeColor = 'primary') @break
-                @case('closed') @php($badgeColor = 'secondary') @break
-                @case('canceled') @php($badgeColor = 'primary') @break
-            @endswitch
-            <span class="badge bg-{{ $badgeColor }}">{{ __('ticket.status.' . $ticket->status) }}</span>
-        </dd>
-        <dt class="col-sm-3">{{ __('ticket.fields.priority') }}</dt>
-        <dd class="col-sm-9">
-            @php($badgeColor = 'secondary')
-            @switch($ticket->priority)
-                @case('low') @php($badgeColor = 'info') @break
-                @case('normal') @php($badgeColor = 'primary') @break
-                @case('high') @php($badgeColor = 'danger') @break
-                @case('urgent') @php($badgeColor = 'danger') @break
-            @endswitch
-            <span class="badge bg-{{ $badgeColor }}">{{ __('ticket.priority.' . $ticket->priority) }}</span>
-        </dd>
-        <dt class="col-sm-3">{{ __('ticket.fields.company_id') }}</dt>
-        <dd class="col-sm-9">{{ $ticket->company_id ? \App\Models\Company::find($ticket->company_id)?->name : '—' }}</dd>
-        <dt class="col-sm-3">{{ __('ticket.fields.author_id') }}</dt>
-        <dd class="col-sm-9">{{ $ticket->author_id ? \App\Models\User::find($ticket->author_id)?->name : '—' }}</dd>
-        <dt class="col-sm-3">{{ __('ticket.fields.assigned_to') }}</dt>
-        <dd class="col-sm-9">{{ $ticket->assigned_to ?? '—' }}</dd>
-        <dt class="col-sm-3">{{ __('ticket.fields.assigned_at') }}</dt>
-        <dd class="col-sm-9">{{ $ticket->assigned_at ? ($ticket->assigned_at instanceof \Carbon\Carbon ? $ticket->assigned_at->format('d/m/Y à H:i') : $ticket->assigned_at) : '—' }}</dd>
-        <dt class="col-sm-3">{{ __('ticket.fields.due') }}</dt>
-        <dd class="col-sm-9">{{ $ticket->due ?? '—' }}</dd>
-        <dt class="col-sm-3">{{ __('ticket.fields.folder_code') }}</dt>
-        <dd class="col-sm-9">{{ $ticket->folder_code ?? '—' }}</dd>
-        <dt class="col-sm-3">{{ __('ticket.fields.subject') }}</dt>
-        <dd class="col-sm-9">{{ $ticket->subject ?? '—' }}</dd>
-        <dt class="col-sm-3">{{ __('ticket.fields.question') }}</dt>
-        <dd class="col-sm-9">{{ $ticket->question ?? '—' }}</dd>
-        <dt class="col-sm-3">{{ __('ticket.fields.billable') }}</dt>
-        <dd class="col-sm-9">{{ $ticket->billable ? __('global.boolean.yes') : __('global.boolean.no') }}</dd>
-    </dl>
+    <div class="d-block d-sm-none">
+        @include('ticket._addTicket')
+    </div>
 
-    <div class="btn-group mt-3" role="group" aria-label="Actions">
-        <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-primary">{!! __('global.Edit') !!}</a>
-        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{!! __('global.Back') !!}</a>
+    <div class="row">
+        <div class="col-12 col-lg-9">
+            <div class="mt-5">
+
+                {{-- Message support --}}
+                <div class="row">
+                    <div class="col-2 mb-3 text-end text-warning-emphasis">
+                        <span class="fw-bold">Votre support</span><br>
+                        <small class="text-muted">14:30</small>
+                    </div>
+                    <div class="col-12 col-lg-10 mb-3">
+                        <div class="card border border-warning border-2">
+                            <div class="card-body bg-warning bg-opacity-10">
+                                <p class="mb-1">Bonjour, nous avons bien reçu votre demande concernant le problème réseau.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Message client --}}
+                <div class="row">
+                    <div class="col-12, col-lg-2 mb-3 text-end">
+                        <span class="text-secondary fw-bold">{{ $ticket->author->name ?? '' }}</span><br>
+                        <small
+                            class="text-muted">{{ $ticket->created_at->format('d/m/Y') ?? '' }}<br>{{ $ticket->created_at->format('H\hi') ?? '' }}</small>
+                    </div>
+                    <div class="col-12 col-lg-10 mb-3 ms-auto">
+                        <div class="card border  border-2">
+                            <div class="card-body">
+                                <strong>{{ $ticket->subject }}</strong><br>
+                                {{ $ticket->question }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-3">
+            <div class="card border border-secondary mb-4">
+                <div class="card-header bg-secondary text-white">
+                    <h3 class="h6 mb-0 fw-bold"><i class="fa-regular fa-ticket"></i> Ticket #{{ $ticket->id }}</h3>
+                </div>
+                <div class="card-body">
+                    <p><small class="text-muted">{{ $ticket->created_at->format('l, d F Y à H\hi') ?? '' }}</small></p>
+                    <p><i class="fa-regular fa-square-check text-success"></i> {!! __('ticket.yes') !!},
+                        {{ $ticket->author_id ? \App\Models\User::find($ticket->author_id)?->name : '' }}
+                        {!! __('ticket.cgv') !!}</p>
+                    <span
+                        class="badge mb-3 {{ __('ticket.statusBadgeColor.' . $ticket->status) }}">{{ __('ticket.status.' . $ticket->status) }}</span>
+                    <span
+                        class="badge mb-3 {{ __('ticket.priorityBadgeColor.' . $ticket->priority) }}">{{ __('ticket.priorityFull.' . $ticket->priority) }}</span>
+
+                    <p>
+                        <span
+                            class="fw-bold">{{ $ticket->company_id ? \App\Models\Company::find($ticket->company_id)?->name : '' }}</span><br>
+                        {{ $ticket->author_id ? \App\Models\User::find($ticket->author_id)?->name : '' }}<br>
+                        {!! \App\Helpers\Helper::mailTo(\App\Models\User::find($ticket->author_id)->email) !!}<br>
+                        {{ $ticket->author_id ? \App\Models\User::find($ticket->author_id)?->phone : '' }}
+                    </p>
+                    <p>
+                        <span class="text-muted">{{ __('ticket.fields.folder_code') }} :
+                        </span>{{ $ticket->folder_code ?? '' }}<br>
+                        <span class="text-muted">{{ __('ticket.fields.due') }} :
+                        </span>{{ $ticket->due ? ($ticket->due instanceof \Carbon\Carbon ? $ticket->due->format('d/m/y à H\hi') : $ticket->due) : '' }}<br>
+                        <span class="text-muted">{{ __('ticket.fields.assigned_to') }} :
+                        </span>{{ $ticket->assignedTo?->name ?? '—' }}<br>
+                        <span class="text-muted">{{ __('ticket.fields.assigned_at') }} :
+                        </span>{{ $ticket->assigned_at ? ($ticket->assigned_at instanceof \Carbon\Carbon ? $ticket->assigned_at->format('d/m/y à H\hi') : $ticket->assigned_at) : '' }}<br>
+
+                        <span class="text-muted">{{ __('ticket.fields.billable') }} : </span>{!! $ticket->billable ? __('ticket.billable.yes') : __('ticket.billable.no') !!}
+                    </p>
+                    <div class="d-none d-sm-flex mt-3">
+                        @include('ticket._addTicket')
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border mb-4">
+                <div class="card-header bg-secondary text-white">
+                    <h3 class="h6 mb-0"><i class="fa-regular fa-money-bill-1"></i> Facturation</h3>
+                </div>
+                <div class="card-body pb-0">
+                    <p>
+                        Estimation : <span class="float-end">2 tickets</span><br>
+                        Facturation : <span class="float-end">1 ticket</span><br>
+                        Majoration : <span class="float-end">0 ticket</span>
+                    </p>
+                </div>
+                <div class="card-footer bg-success bg-opacity-10">
+                    <span class="text-success fw-bold">Solde : <span class="float-end">12
+                            {{ abs(12) > 1 ? __('ticket.tickets') : __('ticket.ticket') }}</span></span><br>
+                </div>
+            </div>
+
+            <div class="card border mb-4">
+                <div class="card-header bg-secondary text-white">
+                    <h3 class="h6 mb-0"><i class="fa-regular fa-money-bill-1"></i> Fichiers joints</h3>
+                </div>
+                <div class="card-body pb-0">
+                    <p claass="p-0">ici2</p>
+                </div>
+            </div>
+            <div class="card border mb-4">
+                <div class="card-header bg-secondary text-white">
+                    <h3 class="h6 mb-0"><i class="fa-regular fa-money-bill-1"></i> Demande d'Approbation</h3>
+                </div>
+                <div class="card-body pb-0">
+                    @php
+                        $managers = $ticket->getManagers();
+                    @endphp
+                    
+                    @if($managers->count() > 0)
+                            Votre demande inclut actuellement {!! \App\Helpers\Helper::asLetters($managers->count()) !!} approbateur{{ $managers->count() > 1 ? 's' : '' }}, uniquement si elle concerne la sécurité :
+                        </p>
+                        <ul class="small fa-ul">
+                            @foreach($managers as $manager)
+                                <li class="mb-2">
+                                    <span class="fa-li"><i class="fa-solid fa-dash"></i></span>
+                                    <div class="">{!! $manager->name !!}</div>
+                                    <div class="">{!! \App\Helpers\Helper::mailTo($manager->email) !!}</div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-muted">
+                            <i class="fa-solid fa-info-circle me-2"></i>
+                            Aucun Manager assigné à cette société et/ou compte pour approbation.
+                        </p>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

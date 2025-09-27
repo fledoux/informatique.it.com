@@ -5,7 +5,7 @@
             <div class="col-lg-6">
                 <span class="badge badge-soft rounded-pill mb-3">
                     <i class="fa-solid fa-shield-halved me-1"></i>
-                    Assistance rapide — Distant & Sur site</span>
+                    Assistance rapide  Distant & Sur site</span>
                 <h1 class="display-5 fw-bold mb-3">
                     Support informatique
                     <span class="text-orange">depuis plus de {{ date('Y') - 2000 }} ans</span>
@@ -35,7 +35,7 @@
                         <i class="fa-solid fa-star text-warning"></i>
                         <i class="fa-solid fa-star-half-stroke text-warning"></i>
                     </div>
-                    <small class="text-secondary">4.8/5 — 370+ interventions notées</small>
+                    <small class="text-secondary">4.8/5  370+ interventions notées</small>
                 </div>
             </div>
             <div class="col-lg-6">
