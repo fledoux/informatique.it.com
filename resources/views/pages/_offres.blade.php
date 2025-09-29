@@ -15,7 +15,7 @@
 							<li class="mb-2">
 								<i class="fa-regular fa-check text-success me-2"></i>Forfait diagnostic</li>
 							<li class="mb-2">
-								<i class="fa-regular fa-check text-success me-2"></i>Mise en service Mac/PC/box</li>
+								<i class="fa-regular fa-check text-success me-2"></i>Mise en service Mac / PC / box</li>
 							<li class="mb-2">
 								<i class="fa-regular fa-check text-success me-2"></i>Formation courte sur vos outils</li>
 						</ul>
