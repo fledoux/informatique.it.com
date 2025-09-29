@@ -24,12 +24,9 @@ class ContactController extends Controller
     public function store(ContactStoreRequest $request)
     {
         $data = $request->validated();
-        if (!empty($data['password'])) {
-            $data['password'] = bcrypt($data['password']);
-        } else {
-            unset($data['password']);
-        }
         $contact = Contact::create($data);
+
+        Contact::sendNotification('Nouveau Contact', $data);
         return redirect()->route('home')->with('success', __('global.messages.created'));
     }
 

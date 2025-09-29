@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Services\PushoverService;
 
 class Contact extends Model
 {
@@ -43,5 +44,12 @@ class Contact extends Model
     public function getTypeLabel(): string
     {
         return self::getTypes()[$this->type] ?? $this->type;
+    }
+
+    public static function sendNotification(string $title, array $message): void
+    {
+        $msg = $message['name'] . "\n" . $message['email'] . "\n" . $message['phone'] . "\n" . $message['type'] . "\n" . $message['need'];
+
+        PushoverService::send($title, $msg);
     }
 }

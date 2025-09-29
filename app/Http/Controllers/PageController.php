@@ -140,6 +140,8 @@ class PageController extends Controller
             'need' => $validated['need'],
         ]);
 
+        Contact::sendNotification('Nouveau Contact', $validated);
+
         // Redirect back with success message
         return redirect()->route('home')
             ->with('success', 'Votre message a été envoyé avec succès. Nous vous répondrons rapidement.');
