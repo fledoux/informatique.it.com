@@ -24,7 +24,7 @@
                             </div>
                             <div class="col-md-6">
                                 <x-forms.select name="type" label="Vous êtes" :required="true"
-                                    placeholder="-- Choisissez --" :options="__('contact.types')" />
+                                    placeholder="-- Choisissez --" :options="__('contact.type')" />
                             </div>
                             <div class="col-12">
                                 <x-forms.input name="need" label="Votre besoin"
