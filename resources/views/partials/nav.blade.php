@@ -51,7 +51,7 @@
                         </a>
                     </li>
                 @endrole
-                {{ config('app.env') }}
+                ici : {{ config('app.env') }}
                 @if (config('app.env') === 'local')
                     @include('partials._lang')
                 @endif
