@@ -22,6 +22,7 @@ Route::get('/rgpd', [PageController::class, 'rgpd'])->name('rgpd');
 Route::get('/cgv', [PageController::class, 'cgv'])->name('cgv');
 Route::get('/qr', [PageController::class, 'qr'])->name('qr');
 Route::get('/belair', [PageController::class, 'belair'])->name('belair');
+Route::get('/car', [PageController::class, 'car'])->name('car');
 Route::get('/scannez-moi', [PageController::class, 'qrCode'])->name('qr-code');
 
 // Auth routes

@@ -111,12 +111,38 @@ class PageController extends Controller
         return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
     }
 
+    public function car(Request $request)
+    {
+        Log::info('QR Route accessed', [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'method' => $request->method()
+        ]);
+
+        try {
+            // Send Pushover notification when the page is accessed
+            Page::sendQrScanNotification('SCAN CAR');
+            Log::info('Pushover notification sent successfully for QR scan');
+        } catch (\Exception $e) {
+            Log::error('Pushover notification failed for QR scan', ['error' => $e->getMessage()]);
+        }
+
+        try {
+            Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan BELAIR', $request->ip()));
+            Log::info('Email sent successfully for QR scan');
+        } catch (\Exception $e) {
+            Log::error('Email failed for QR scan', ['error' => $e->getMessage()]);
+        }
+
+        return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
+    }
+
     public function qrCode()
     {
         
 
         // Génère le QR code pour l'URL https://informatique.it.com
-        $url = 'https://informatique.it.com/qr';
+        $url = 'https://informatique.it.com/car';
         $dataUri = null;
         try {
             $options = new \chillerlan\QRCode\QROptions([
