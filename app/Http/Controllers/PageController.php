@@ -10,7 +10,6 @@ use App\Models\Ticket;
 use App\Models\Company;
 use App\Models\Page;
 use Spatie\Honeypot\ProtectAgainstSpam;
-use Illuminate\Support\Facades\Mail;
 
 class PageController extends Controller
 {
@@ -20,7 +19,7 @@ class PageController extends Controller
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
-        
+
         return view('pages.home');
     }
 
@@ -31,13 +30,13 @@ class PageController extends Controller
         $companiesCount = Company::count();
         $contactsCount = Contact::count();
         $lastXTickets = 20;
-        
+
         // Get the 20 most recent tickets
         $recentTickets = Ticket::getMyLastTickets($lastXTickets);
 
         return view('pages.dashboard', compact(
             'ticketStats',
-            'companiesCount', 
+            'companiesCount',
             'contactsCount',
             'recentTickets',
             'lastXTickets'
@@ -61,111 +60,31 @@ class PageController extends Controller
 
     public function qr(Request $request)
     {
-        Log::info('QR Route accessed', [
-            'ip' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-            'method' => $request->method()
-        ]);
+        Page::scan($request, 'FLYER');
+        return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
+    }
 
-        try {
-            // Send Pushover notification when the page is accessed
-            Page::sendQrScanNotification('SCAN FLYER');
-            Log::info('Pushover notification sent successfully for QR scan');
-        } catch (\Exception $e) {
-            Log::error('Pushover notification failed for QR scan', ['error' => $e->getMessage()]);
-        }
-
-        try {
-            Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan QR CODE', $request->ip()));
-            Log::info('Email sent successfully for QR scan');
-        } catch (\Exception $e) {
-            Log::error('Email failed for QR scan', ['error' => $e->getMessage()]);
-        }
-
+    public function web(Request $request)
+    {
+        Page::scan($request, 'WEB');
         return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
     }
 
     public function belair(Request $request)
     {
-        Log::info('QR Route accessed', [
-            'ip' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-            'method' => $request->method()
-        ]);
-
-        try {
-            // Send Pushover notification when the page is accessed
-            Page::sendQrScanNotification('SCAN BELAIR');
-            Log::info('Pushover notification sent successfully for QR scan');
-        } catch (\Exception $e) {
-            Log::error('Pushover notification failed for QR scan', ['error' => $e->getMessage()]);
-        }
-
-        try {
-            Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan BELAIR', $request->ip()));
-            Log::info('Email sent successfully for QR scan');
-        } catch (\Exception $e) {
-            Log::error('Email failed for QR scan', ['error' => $e->getMessage()]);
-        }
-
+        Page::scan($request, 'BELAIR');
         return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
     }
 
     public function car(Request $request)
     {
-        Log::info('QR Route accessed', [
-            'ip' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-            'method' => $request->method()
-        ]);
-
-        try {
-            // Send Pushover notification when the page is accessed
-            Page::sendQrScanNotification('SCAN CAR');
-            Log::info('Pushover notification sent successfully for QR scan');
-        } catch (\Exception $e) {
-            Log::error('Pushover notification failed for QR scan', ['error' => $e->getMessage()]);
-        }
-
-        try {
-            Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan BELAIR', $request->ip()));
-            Log::info('Email sent successfully for QR scan');
-        } catch (\Exception $e) {
-            Log::error('Email failed for QR scan', ['error' => $e->getMessage()]);
-        }
-
+        Page::scan($request, 'CAR');
         return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
     }
 
     public function qrCode()
     {
-        
-
-        // Génère le QR code pour l'URL https://informatique.it.com
-        $url = 'https://informatique.it.com/car';
-        $dataUri = null;
-        try {
-            $options = new \chillerlan\QRCode\QROptions([
-                'version'         => 4,
-                'outputInterface' => \chillerlan\QRCode\Output\QRMarkupSVG::class,
-                'eccLevel'        => \chillerlan\QRCode\Common\EccLevel::M,
-                'addQuietzone'    => true,
-                'quietzoneSize'   => 2,
-                'svgViewBoxSize'  => 512,
-                'markupDark'      => '#000000',
-                'markupLight'     => '#ffffff',
-                'svgOpacity'      => 1.0,
-            ]);
-            $qrcode = new \chillerlan\QRCode\QRCode($options);
-            $svgContent = $qrcode->render($url);
-            
-            // Nettoyer le SVG pour l'affichage direct
-            $dataUri = $svgContent;
-        } catch (\Exception $e) {
-            $dataUri = null;
-            Log::error('QR code generation error: ' . $e->getMessage());
-        }
-
+        $dataUri = Page::generateQrCode('https://informatique.it.com/web');
         return view('pages.qr-code', compact('dataUri'));
     }
 
@@ -174,7 +93,7 @@ class PageController extends Controller
     #[ProtectAgainstSpam]
     public function contact(Request $request)
     {
-    
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
