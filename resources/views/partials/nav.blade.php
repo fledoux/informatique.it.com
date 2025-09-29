@@ -51,7 +51,10 @@
                         </a>
                     </li>
                 @endrole
-                @include('partials._lang')
+                @if (app()->environment('local'))
+                    @include('partials._lang')
+                @endif
+
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">
