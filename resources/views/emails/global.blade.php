@@ -17,4 +17,5 @@
     <p style="color: #6c757d; font-size: 1rem; line-height: 1.5; margin-bottom: 0;">
         Votre message : {{ $content ?? 'Aucun message fourni.' }}
     </p>
+    @include('emails._baseline')
 </div>

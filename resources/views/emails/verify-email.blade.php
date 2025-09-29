@@ -74,6 +74,7 @@
         
         <div class="footer">
             <p>© {{ date('Y') }} informatique.it.com - {{ __('register.All rights reserved') }}</p>
+            @include('emails._baseline')
         </div>
     </div>
 </body>
