@@ -18,7 +18,7 @@
             </div>
 
             <div class="card shadow-lg border-0">
-                <div class="card-body text-center p-5">
+                <div class="card-body text-center p-2 p-md-5">
                     <!-- QR Code généré côté serveur -->
                     @if(!empty($dataUri))
                         <div class="mb-4 d-flex justify-content-center">
