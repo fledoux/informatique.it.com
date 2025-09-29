@@ -17,40 +17,32 @@
                     @csrf
 
                     <div class="form-floating">
-                        <x-forms.input 
-                            name="email" 
-                            type="email" 
-                            :label="__('login.Email')"
-                            :value="old('email')"
-                            :required="true"
-                            :labelAfter="true"
-                            autofocus />
+                        <x-forms.input name="email" type="email" :label="__('login.Email')" :value="old('email')" :required="true"
+                            :labelAfter="true" autofocus />
                     </div>
 
                     <div class="form-floating">
-                        <x-forms.input 
-                            name="password" 
-                            type="password"
-                            :label="__('login.Password')"
-                            :required="true"
+                        <x-forms.input name="password" type="password" :label="__('login.Password')" :required="true"
                             :labelAfter="true" />
                     </div>
 
-                    <x-forms.checkbox 
-                        name="remember" 
-                        :label="__('login.Remember me')" 
-                        :checked="false" />
+                    <x-forms.checkbox name="remember" :label="__('login.Remember me')" :checked="false" />
 
                     <button type="submit" class="btn btn-orange w-100 my-3">
                         {{ __('login.Connect') }}
                     </button>
                 </form>
+                <span>
 
-                <p>
-                    <a href="{{ route('home') }}" class="btn btn-link p-0 float-end text-secondary">
+                    <a href="{{ route('register') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
+                        <i class="fa-regular fa-user-plus me-1"></i>
+                        {{ __('global.Register') }}
+                    </a>
+                    <a href="{{ route('home') }}" class="btn btn-link p-0 float-end text-secondary text-decoration-none">
+                        <i class="fa-regular fa-rotate-left me-1"></i>
                         {{ __('global.Cancel') }}
                     </a>
-                </p>
+                </span>
             </div>
         </div>
     </main>

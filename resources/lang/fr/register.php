@@ -14,7 +14,7 @@ return [
     'Site in test' => 'Le site est pour le moment en test.',
     'If you need support now' => 'Si vous souhaitez du support dès aujourd\'hui,',
     'Contact us at' => 'Contactez-nous au',
-    'Or visit' => 'Ou allez sur',
+    'Or visit' => 'Si vous avez déjà un compte, allez sur :',
     'Registration not open yet' => 'Les inscriptions ne sont pas encore ouvertes',
     'Email is required' => 'L\'e-mail est requis',
     'Email must be valid' => 'L\'e-mail doit être valide',

@@ -2,6 +2,7 @@
 
 return [
     'Actions' => 'Actions',
+    'Register' => 'S\'inscrire',
     'Action' => 'Action',
     'Back' => 'Retour',
     'Cancel' => 'Annuler',

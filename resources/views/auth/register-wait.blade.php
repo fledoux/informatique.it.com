@@ -20,7 +20,7 @@
         </p>
 
         <p>
-            <a href="{{ route('home') }}" class="btn btn-link p-0 float-end text-secondary">
+            <a href="{{ route('home') }}" class="btn btn-link p-0 float-end text-secondary text-decoration-none">
                 {!! __('global.Back') !!}
             </a>
         </p>
