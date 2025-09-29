@@ -51,7 +51,7 @@
                         </a>
                     </li>
                 @endrole
-                @if (app()->environment('local'))
+                @if (app()->isLocal())
                     @include('partials._lang')
                 @endif
 
