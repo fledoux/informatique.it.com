@@ -69,7 +69,7 @@ class PageController extends Controller
 
         try {
             // Send Pushover notification when the page is accessed
-            Page::sendQrScanNotification('QR CODE');
+            Page::sendQrScanNotification('SCAN FLYER');
             Log::info('Pushover notification sent successfully for QR scan');
         } catch (\Exception $e) {
             Log::error('Pushover notification failed for QR scan', ['error' => $e->getMessage()]);
@@ -95,7 +95,7 @@ class PageController extends Controller
 
         try {
             // Send Pushover notification when the page is accessed
-            Page::sendQrScanNotification('BELAIR');
+            Page::sendQrScanNotification('SCAN BELAIR');
             Log::info('Pushover notification sent successfully for QR scan');
         } catch (\Exception $e) {
             Log::error('Pushover notification failed for QR scan', ['error' => $e->getMessage()]);
