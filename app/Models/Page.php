@@ -10,11 +10,9 @@ class Page extends Model
     /**
      * Envoie une notification Pushover pour le scan QR
      */
-    public static function sendQrScanNotification(): void
+    public static function sendQrScanNotification(string $title = 'QR Code scanné'): void
     {
-        $title = 'QR Code scanné';
-        $message = 'Depuis ' . request()->ip() . ' à ' . now()->format('H:i:s');
-        
+        $message = 'IP : ' . request()->ip() . "\n" . 'Date : ' . now()->format('d/m/Y') . "\n" . 'Heure : ' . now()->format('H:i:s');
         PushoverService::send($title, $message);
     }
 }

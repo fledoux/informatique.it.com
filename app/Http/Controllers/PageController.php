@@ -69,14 +69,40 @@ class PageController extends Controller
 
         try {
             // Send Pushover notification when the page is accessed
-            Page::sendQrScanNotification();
+            Page::sendQrScanNotification('QR CODE');
             Log::info('Pushover notification sent successfully for QR scan');
         } catch (\Exception $e) {
             Log::error('Pushover notification failed for QR scan', ['error' => $e->getMessage()]);
         }
 
         try {
-            Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan QR Code', $request->ip()));
+            Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan QR CODE', $request->ip()));
+            Log::info('Email sent successfully for QR scan');
+        } catch (\Exception $e) {
+            Log::error('Email failed for QR scan', ['error' => $e->getMessage()]);
+        }
+
+        return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
+    }
+
+    public function belair(Request $request)
+    {
+        Log::info('QR Route accessed', [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'method' => $request->method()
+        ]);
+
+        try {
+            // Send Pushover notification when the page is accessed
+            Page::sendQrScanNotification('BELAIR');
+            Log::info('Pushover notification sent successfully for QR scan');
+        } catch (\Exception $e) {
+            Log::error('Pushover notification failed for QR scan', ['error' => $e->getMessage()]);
+        }
+
+        try {
+            Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Scan BELAIR', $request->ip()));
             Log::info('Email sent successfully for QR scan');
         } catch (\Exception $e) {
             Log::error('Email failed for QR scan', ['error' => $e->getMessage()]);
