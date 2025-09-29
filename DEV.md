@@ -2,6 +2,7 @@
 php artisan migrate:fresh
 php artisan db:seed --class=PermissionSeeder
 php artisan make:crud-bootstrap User --force
+php artisan optimize:clear
 
 # User
 - status: string(20)  Utilisateur activé/désactivé (active|inactive)
