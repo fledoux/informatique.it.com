@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +12,7 @@
             margin: 0;
             padding: 20px;
         }
+
         .email-container {
             max-width: 600px;
             margin: 0 auto;
@@ -19,15 +21,18 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
+
         .header {
             background-color: #ff6b35;
             color: white;
             padding: 30px;
             text-align: center;
         }
+
         .content {
             padding: 30px;
         }
+
         .button {
             display: inline-block;
             background-color: #ff6b35;
@@ -39,6 +44,7 @@
             text-align: center;
             margin: 20px 0;
         }
+
         .footer {
             background-color: #f8f9fa;
             padding: 20px;
@@ -48,34 +54,39 @@
         }
     </style>
 </head>
+
 <body>
     <div class="email-container">
         <div class="header">
             <h1>{{ __('register.Confirm your email') }}</h1>
         </div>
-        
+
         <div class="content">
             <h2>{{ __('register.Hello') }}!</h2>
-            
+
             <p>{{ __('register.Please confirm your email address by clicking the following link') }}:</p>
-            
+
             <div style="text-align: center;">
                 <a href="{{ $verificationUrl }}" class="button">
                     {{ __('register.Confirm my email') }}
                 </a>
             </div>
-            
+
             <p>{{ __('register.This link will expire in :minutes minutes', ['minutes' => $expires]) }}.</p>
-            
+
             <p>{{ __('register.If you did not create an account, no further action is required') }}.</p>
-            
+
             <p>{{ __('register.Cheers') }}!</p>
         </div>
-        
+
         <div class="footer">
             <p>© {{ date('Y') }} informatique.it.com - {{ __('register.All rights reserved') }}</p>
-            @include('emails._baseline')
         </div>
     </div>
+    <div
+        style="max-width: 600px; margin: 0 auto; padding: 1.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        @include('emails._baseline')
+    </div>
 </body>
+
 </html>
