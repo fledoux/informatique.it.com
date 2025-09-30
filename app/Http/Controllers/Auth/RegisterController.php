@@ -21,12 +21,14 @@ class RegisterController extends Controller
     {
         // Check if registration is open (based on the wait template logic)
         $registrationOpen = now()->gte('2025-11-14'); // Ouverture: 14 novembre 2025
-        //$registrationOpen =true;
-        
+        if (env('APP_ENV') == 'local') {
+            $registrationOpen = true;
+        }
+
         if (!$registrationOpen) {
             return view('auth.register-wait');
         }
-        
+
         return view('auth.register');
     }
 
@@ -37,8 +39,10 @@ class RegisterController extends Controller
     {
         // Check if registration is open
         $registrationOpen = now()->gte('2025-11-14'); // Ouverture: 14 novembre 2025
-        //$registrationOpen =true;
-        
+        if (env('APP_ENV') == 'local') {
+            $registrationOpen = true;
+        }
+
         if (!$registrationOpen) {
             return redirect()->route('register')
                 ->with('error', __('register.Registration not open yet'));
