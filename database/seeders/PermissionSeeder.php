@@ -15,7 +15,14 @@ class PermissionSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // === PERMISSIONS AUTOMATIQUES ===
-                // Permissions company
+                // Permissions allow-domain-registration
+        Permission::firstOrCreate(['name' => 'allow-domain-registration.index']);
+        Permission::firstOrCreate(['name' => 'allow-domain-registration.show']);
+        Permission::firstOrCreate(['name' => 'allow-domain-registration.create']);
+        Permission::firstOrCreate(['name' => 'allow-domain-registration.edit']);
+        Permission::firstOrCreate(['name' => 'allow-domain-registration.delete']);
+
+        // Permissions company
         Permission::firstOrCreate(['name' => 'company.index']);
         Permission::firstOrCreate(['name' => 'company.show']);
         Permission::firstOrCreate(['name' => 'company.create']);
@@ -42,6 +49,13 @@ class PermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'page.create']);
         Permission::firstOrCreate(['name' => 'page.edit']);
         Permission::firstOrCreate(['name' => 'page.delete']);
+
+        // Permissions permission
+        Permission::firstOrCreate(['name' => 'permission.index']);
+        Permission::firstOrCreate(['name' => 'permission.show']);
+        Permission::firstOrCreate(['name' => 'permission.create']);
+        Permission::firstOrCreate(['name' => 'permission.edit']);
+        Permission::firstOrCreate(['name' => 'permission.delete']);
 
         // Permissions test
         Permission::firstOrCreate(['name' => 'test.index']);
@@ -76,16 +90,16 @@ class PermissionSeeder extends Seeder
         // Admin : Gestion complète
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $admin->syncPermissions([
-            'admin.access', 'reports.access', 'company.index', 'company.show', 'company.create', 'company.edit', 'company.delete', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'contact.delete', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'locale.delete', 'page.index', 'page.show', 'page.create', 'page.edit', 'page.delete', 'test.index', 'test.show', 'test.create', 'test.edit', 'test.delete', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'ticket.delete', 'user.index', 'user.show', 'user.create', 'user.edit', 'user.delete'
+            'admin.access', 'reports.access', 'allow-domain-registration.index', 'allow-domain-registration.show', 'allow-domain-registration.create', 'allow-domain-registration.edit', 'allow-domain-registration.delete', 'company.index', 'company.show', 'company.create', 'company.edit', 'company.delete', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'contact.delete', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'locale.delete', 'page.index', 'page.show', 'page.create', 'page.edit', 'page.delete', 'permission.index', 'permission.show', 'permission.create', 'permission.edit', 'permission.delete', 'test.index', 'test.show', 'test.create', 'test.edit', 'test.delete', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'ticket.delete', 'user.index', 'user.show', 'user.create', 'user.edit', 'user.delete'
         ]);
         
         // Manager : Gestion limitée (pas de suppression)
         $manager = Role::firstOrCreate(['name' => 'manager']);
         $manager->syncPermissions([
-            'company.index', 'company.show', 'company.create', 'company.edit', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'page.index', 'page.show', 'page.create', 'page.edit', 'test.index', 'test.show', 'test.create', 'test.edit', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'user.index', 'user.show', 'user.edit'
+            'allow-domain-registration.index', 'allow-domain-registration.show', 'allow-domain-registration.create', 'allow-domain-registration.edit', 'company.index', 'company.show', 'company.create', 'company.edit', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'page.index', 'page.show', 'page.create', 'page.edit', 'permission.index', 'permission.show', 'permission.create', 'permission.edit', 'test.index', 'test.show', 'test.create', 'test.edit', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'user.index', 'user.show', 'user.edit'
         ]);
         
-        // User : Lecture seule sur profil et company
+        // User : Lecture seule sur profil et company (PAS D'ACCÈS aux domaines)
         $user = Role::firstOrCreate(['name' => 'user']);
         $user->syncPermissions([
             'company.show', 'user.show'

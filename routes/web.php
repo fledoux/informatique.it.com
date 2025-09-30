@@ -9,6 +9,7 @@ use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\ContactController;
 use \App\Http\Controllers\TicketController;
 use \App\Http\Controllers\CompanyController;
+use \App\Http\Controllers\AllowDomainRegistrationController;
 
 // Locale routes (accessible sans authentification)
 Route::post('/locale/change', [LocaleController::class, 'change'])->name('locale.change');
@@ -154,4 +155,28 @@ Route::prefix('permissions')->middleware(['auth', 'role:super-admin'])->group(fu
         ->name('permissions.index');
     Route::post('/update', [\App\Http\Controllers\PermissionController::class, 'update'])
         ->name('permissions.update');
+});
+
+Route::prefix('allow-domain-registration')->group(function () {
+    Route::get('/', [AllowDomainRegistrationController::class, 'index'])
+        ->middleware('permission:allow-domain-registration.index')
+        ->name('allow-domain-registration.index');
+    Route::get('/create', [AllowDomainRegistrationController::class, 'create'])
+        ->middleware('permission:allow-domain-registration.create')
+        ->name('allow-domain-registration.create');
+    Route::post('/', [AllowDomainRegistrationController::class, 'store'])
+        ->middleware('permission:allow-domain-registration.create')
+        ->name('allow-domain-registration.store');
+    Route::get('/{allow-domain-registration}', [AllowDomainRegistrationController::class, 'show'])
+        ->middleware('permission:allow-domain-registration.show')
+        ->name('allow-domain-registration.show');
+    Route::get('/{allow-domain-registration}/edit', [AllowDomainRegistrationController::class, 'edit'])
+        ->middleware('permission:allow-domain-registration.edit')
+        ->name('allow-domain-registration.edit');
+    Route::put('/{allow-domain-registration}', [AllowDomainRegistrationController::class, 'update'])
+        ->middleware('permission:allow-domain-registration.edit')
+        ->name('allow-domain-registration.update');
+    Route::delete('/{allow-domain-registration}', [AllowDomainRegistrationController::class, 'destroy'])
+        ->middleware('permission:allow-domain-registration.delete')
+        ->name('allow-domain-registration.destroy');
 });

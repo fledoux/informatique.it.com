@@ -878,8 +878,8 @@ PHP
 
         $this->info("Traductions générées : lang/en/{$entitySlug}.php et lang/fr/{$entitySlug}.php");
 
-        // NOUVEAU : Ajouter à la liste des entités traitées
-        $this->allEntitiesProcessed[] = strtolower($entity);
+        // NOUVEAU : Ajouter à la liste des entités traitées (en kebab-case)
+        $this->allEntitiesProcessed[] = Str::kebab($entity);
 
         // NOUVEAU : Générer/Mettre à jour automatiquement le PermissionSeeder
         $this->updatePermissionSeeder();
@@ -2023,12 +2023,14 @@ PHP;
         $code = [];
         
         foreach ($entities as $entity) {
-            $code[] = "        // Permissions {$entity}";
-            $code[] = "        Permission::firstOrCreate(['name' => '{$entity}.index']);";
-            $code[] = "        Permission::firstOrCreate(['name' => '{$entity}.show']);";
-            $code[] = "        Permission::firstOrCreate(['name' => '{$entity}.create']);";
-            $code[] = "        Permission::firstOrCreate(['name' => '{$entity}.edit']);";
-            $code[] = "        Permission::firstOrCreate(['name' => '{$entity}.delete']);";
+            // Convertir en kebab-case pour les permissions
+            $entitySlug = Str::kebab($entity);
+            $code[] = "        // Permissions {$entitySlug}";
+            $code[] = "        Permission::firstOrCreate(['name' => '{$entitySlug}.index']);";
+            $code[] = "        Permission::firstOrCreate(['name' => '{$entitySlug}.show']);";
+            $code[] = "        Permission::firstOrCreate(['name' => '{$entitySlug}.create']);";
+            $code[] = "        Permission::firstOrCreate(['name' => '{$entitySlug}.edit']);";
+            $code[] = "        Permission::firstOrCreate(['name' => '{$entitySlug}.delete']);";
             $code[] = "";
         }
         
@@ -2051,24 +2053,27 @@ PHP;
         $userPermissions = [];
         
         foreach ($entities as $entity) {
+            // Convertir en kebab-case pour les permissions
+            $entitySlug = Str::kebab($entity);
+            
             // Admin : toutes les permissions
-            $adminPermissions[] = "{$entity}.index";
-            $adminPermissions[] = "{$entity}.show";
-            $adminPermissions[] = "{$entity}.create";
-            $adminPermissions[] = "{$entity}.edit";
-            $adminPermissions[] = "{$entity}.delete";
+            $adminPermissions[] = "{$entitySlug}.index";
+            $adminPermissions[] = "{$entitySlug}.show";
+            $adminPermissions[] = "{$entitySlug}.create";
+            $adminPermissions[] = "{$entitySlug}.edit";
+            $adminPermissions[] = "{$entitySlug}.delete";
             
             // Manager : pas de suppression
-            $managerPermissions[] = "{$entity}.index";
-            $managerPermissions[] = "{$entity}.show";
-            if (!in_array($entity, ['user'])) { // Manager ne peut pas créer d'users
-                $managerPermissions[] = "{$entity}.create";
+            $managerPermissions[] = "{$entitySlug}.index";
+            $managerPermissions[] = "{$entitySlug}.show";
+            if (!in_array($entitySlug, ['user'])) { // Manager ne peut pas créer d'users
+                $managerPermissions[] = "{$entitySlug}.create";
             }
-            $managerPermissions[] = "{$entity}.edit";
+            $managerPermissions[] = "{$entitySlug}.edit";
             
             // User : seulement lecture sur user et company
-            if (in_array($entity, ['user', 'company'])) {
-                $userPermissions[] = "{$entity}.show";
+            if (in_array($entitySlug, ['user', 'company'])) {
+                $userPermissions[] = "{$entitySlug}.show";
             }
         }
         

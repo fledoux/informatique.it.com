@@ -8,7 +8,6 @@
             {{ session('verify_email_error') }}
         </div>
     @endif
-
     <div class="card rounded-4 shadow m-3">
         <div class="card-body">
             <img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="Mon Support by Yellow Cactus"
@@ -17,69 +16,52 @@
                 <i class="fa-regular fa-address-card"></i>
                 {{ __('register.Create an account') }}
             </h5>
-
             <form method="POST" action="{{ route('register') }}">
                 @csrf
-
-                {{-- Email field with floating label --}}
                 <div class="form-floating form-field-start">
                     <x-forms.input name="email" type="email" :label="__('register.Email')" :value="old('email')" :required="true"
                         :labelAfter="true" autofocus />
                 </div>
-
                 <div class="form-floating form-field-middle">
                     <x-forms.input name="company" type="text" :label="__('register.CompanyName')" :value="old('company')" :required="true"
                         :labelAfter="true" />
                 </div>
-
                 <div class="form-floating form-field-middle">
                     <x-forms.input name="firstname" type="text" :label="__('register.FirstName')" :value="old('firstname')" :required="true"
                         :labelAfter="true" />
                 </div>
-
                 <div class="form-floating form-field-middle">
                     <x-forms.input name="lastname" type="text" :label="__('register.LastName')" :value="old('lastname')" :required="true"
                         :labelAfter="true" />
                 </div>
-
                 <div class="form-floating form-field-middle">
                     <x-forms.input name="address_line1" type="text" :label="__('register.AddressLine1')" :value="old('address_line1')"
                         :required="true" :labelAfter="true" />
                 </div>
-
                 <div class="form-floating form-field-middle">
                     <x-forms.input name="address_line2" type="text" :label="__('register.AddressLine2')" :value="old('address_line2')"
-                        :required="true" :labelAfter="true" />
+                        :labelAfter="true" />
                 </div>
-
                 <div class="form-floating form-field-middle">
                     <x-forms.input name="zip" type="text" :label="__('register.Zip')" :value="old('zip')" :required="true"
                         :labelAfter="true" />
                 </div>
-
                 <div class="form-floating form-field-middle">
                     <x-forms.input name="city" type="text" :label="__('register.City')" :value="old('city')" :required="true"
                         :labelAfter="true" />
                 </div>
-
                 <div class="form-floating form-field-middle">
                     <x-forms.input name="phone" type="text" :label="__('register.Phone')" :value="old('phone')" :required="true"
                         :labelAfter="true" />
                 </div>
-
-                {{-- Password field with floating label --}}
                 <div class="form-floating form-field-middle">
                     <x-forms.input name="password" type="password" :label="__('register.Password')" :required="true" :labelAfter="true"
                         id="password" />
                 </div>
-
-                {{-- Password confirmation field with floating label --}}
                 <div class="form-floating mb-3 form-field-end">
                     <x-forms.input name="password_confirmation" type="password" :label="__('register.Confirm Password')" :required="true"
                         :labelAfter="true" />
                 </div>
-
-                {{-- Password strength indicator --}}
                 <div class="mb-3 px-3">
                     <div class="progress mb-2" style="height: 5px;">
                         <div id="password-strength-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
@@ -105,17 +87,11 @@
                     <p class="small text-danger py-3"><i class="fa-regular fa-fish"></i> Merci de ne pas mettre le nom de
                         votre poisson rouge. Pensez sécurité !</p>
                 </div>
-
-
-
-                {{-- Terms agreement checkbox --}}
                 <x-forms.checkbox name="agree_terms" :label="__('register.Agree terms')" :checked="false" :required="true" />
-
                 <button type="submit" class="btn btn-orange w-100 my-3">
                     {{ __('register.Register') }}
                 </button>
             </form>
-
             <p>
                 <a href="{{ route('home') }}" class="btn btn-link p-0 float-end text-secondary">
                     {{ __('global.Cancel') }}

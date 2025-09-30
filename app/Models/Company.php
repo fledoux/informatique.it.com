@@ -25,4 +25,28 @@ class Company extends Model
     {
         return $this->hasMany(\App\Models\Ticket::class);
     }
+
+    /**
+     * Une société peut avoir plusieurs domaines autorisés pour l'inscription
+     */
+    public function allowedDomains()
+    {
+        return $this->hasMany(\App\Models\AllowDomainRegistration::class);
+    }
+
+    /**
+     * Ajoute un domaine autorisé pour l'inscription automatique
+     */
+    public function addAllowedDomain(string $domain): \App\Models\AllowDomainRegistration
+    {
+        return $this->allowedDomains()->create(['domain' => $domain]);
+    }
+
+    /**
+     * Vérifie si un domaine est autorisé pour cette société
+     */
+    public function isDomainAllowed(string $domain): bool
+    {
+        return $this->allowedDomains()->where('domain', $domain)->exists();
+    }
 }

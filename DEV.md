@@ -45,7 +45,9 @@ php artisan optimize:clear
 
 # AllowDomainRegistration
 - companyId: relation ManyToOne → Company  Société concernée
-- domain: string(255)
+- domain: string(255)  Domaine email autorisé (ex: "example.com")
+
+*Table permettant l'inscription automatique d'utilisateurs basée sur le domaine email. Si un utilisateur s'inscrit avec un email `user@example.com` et que le domaine `example.com` est dans cette table, l'utilisateur sera automatiquement rattaché à la société correspondante.*
 
 # TicketMessage
 - status: string(20)  Message activé/désactivé (active|inactive)
