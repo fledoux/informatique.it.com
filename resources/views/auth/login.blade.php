@@ -16,12 +16,12 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
 
-                    <div class="form-floating">
+                    <div class="form-floating form-field-start">
                         <x-forms.input name="email" type="email" :label="__('login.Email')" :value="old('email')" :required="true"
                             :labelAfter="true" autofocus />
                     </div>
 
-                    <div class="form-floating">
+                    <div class="form-floating form-field-end">
                         <x-forms.input name="password" type="password" :label="__('login.Password')" :required="true"
                             :labelAfter="true" />
                     </div>

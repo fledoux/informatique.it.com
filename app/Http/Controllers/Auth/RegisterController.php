@@ -21,6 +21,7 @@ class RegisterController extends Controller
     {
         // Check if registration is open (based on the wait template logic)
         $registrationOpen = now()->gte('2025-11-14'); // Ouverture: 14 novembre 2025
+        $registrationOpen =true;
         
         if (!$registrationOpen) {
             return view('auth.register-wait');
@@ -35,7 +36,8 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request): RedirectResponse
     {
         // Check if registration is open
-        $registrationOpen = now()->gte('2025-11-14');
+        $registrationOpen = now()->gte('2025-11-14'); // Ouverture: 14 novembre 2025
+        $registrationOpen =true;
         
         if (!$registrationOpen) {
             return redirect()->route('register')

@@ -43,6 +43,10 @@ php artisan optimize:clear
 - due: datetime_immutable, nullable  Livraison au plus tard
 - billable: boolean (default true)  Ticket facturable
 
+# AllowDomainRegistration
+- companyId: relation ManyToOne → Company  Société concernée
+- domain: string(255)
+
 # TicketMessage
 - status: string(20)  Message activé/désactivé (active|inactive)
 - companyId: relation ManyToOne → Company  Société concernée

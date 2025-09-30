@@ -33,4 +33,13 @@ return [
     'If you did not create an account, no further action is required' => 'Si vous n\'avez pas créé de compte, aucune action supplémentaire n\'est requise',
     'Cheers' => 'Cordialement',
     'All rights reserved' => 'Tous droits réservés',
+    'FirstName' => 'Prénom',
+    'LastName' => 'Nom de famille',
+    'FullName' => 'Nom complet',
+    'Phone' => 'Téléphone',
+    'CompanyName' => 'Nom / Entreprise',
+    'AddressLine1' => 'Adresse (ligne 1)',
+    'AddressLine2' => 'Adresse (ligne 2)',
+    'Zip' => 'Code postal',
+    'City' => 'Ville',
 ];
