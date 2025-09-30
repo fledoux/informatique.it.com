@@ -8,6 +8,8 @@ Laravel 12.x helpdesk application with multi-tenant architecture. Key business d
 - **File attachments**: Per-ticket and per-message attachments
 - **Approval workflows**: Message approval via email/SMS tokens
 - **Conversation sharing**: UUID-based public ticket access
+- **SMS notifications**: AWS SNS integration for ticket updates
+- **Email helpers**: FuelPHP-style helpers in `Helper::mailTo()`
 
 ## Architecture Patterns
 
@@ -59,10 +61,31 @@ Helper::formatPhone('0123456789'); // → '01 23 45 67 89'
 
 // Get badge color for status
 Helper::getStatusBadgeColor('active'); // → 'success'
+
+// FuelPHP-style email helper
+Helper::mailTo('email@example.com', 'Name', ['class' => 'link']) // → '<a href="mailto:..." class="link">Name</a>'
+
+// Convert numbers to letters (for UI display)
+Helper::asLetters(2) // → 'deux'
 ```
 - Use static methods for reusability across controllers and views
 - Prefer helper over duplicate logic in controllers
 - User initials are auto-generated from firstname/lastname fields
+
+### Model Patterns
+```php
+// Always encapsulate business logic in models, never in views
+public function getManagers() {
+    return User::where('company_id', $this->company_id)->role('manager')->get();
+}
+
+// Use relations consistently
+public function assignedTo(): BelongsTo {
+    return $this->belongsTo(User::class, 'assigned_to');
+}
+```
+- **CRITICAL**: Never put database queries directly in views - always use model methods
+- Service classes for external integrations (e.g., `SmsService` for AWS SNS)
 
 ## Development Workflow
 
@@ -91,11 +114,19 @@ This runs: server, queue worker, pail logs, and Vite in parallel with concurrent
 
 ### View Architecture
 - Bootstrap 5 CDN (no local assets pipeline yet)
-- Base layout: `resources/views/layouts/app.blade.php`
+- Base layout: `resources/views/layouts/app.blade.php` (authenticated), `layouts/public.blade.php` (public)
 - All views extend `@extends('layouts.app')`
 - Flash message handling built into layout
 - Custom CSS: `public/assets/css/app.css` with responsive width utilities
 - Extended Bootstrap width classes: `w-sm-25`, `w-md-50`, `w-lg-75`, etc. (25, 50, 75, 100, auto for all breakpoints sm, md, lg, xl, xxl)
+- Auto dark theme: `data-bs-theme="auto"` with system preference detection
+- Responsive design: Use `d-none d-sm-flex` for desktop-only elements, `d-block d-sm-none` for mobile-only
+
+### Component Patterns
+- Partial views for reusable UI: `@include('ticket._addTicket')` for action menus
+- Dropdown menus with `d-grid` for full-width buttons
+- FontAwesome icons consistently: `<i class="fa-solid fa-chevron-up"></i>`
+- Date formatting: Always use `d/m/y à H\hi` for French locale (2-digit year, escaped 'h')
 
 ### Permission System
 Three roles defined in `PermissionSeeder`:
@@ -103,9 +134,25 @@ Three roles defined in `PermissionSeeder`:
 - `admin`: Full CRUD + admin/reports access
 - `manager`: No delete permissions, limited to CRUD operations
 
+### External Integrations
+- **AWS SDK**: Same credentials for SES (email) and SNS (SMS) - `config/services.php`
+- **SMS Service**: `app/Services/SmsService.php` with static `send()` method for AWS SNS
+- **Public ticket access**: UUID-based sharing with expiration (`public_uuid`, `public_uuid_expires`)
+- **QR codes**: Chillerlan library for generating ticket QR codes
+
+### UI/UX Patterns
+- **Scroll to top**: Automatic button in `layouts/public.blade.php` (appears at 300px scroll)
+- **Language switcher**: Only in local environment via `@if (app()->isLocal())`
+- **Dropdown actions**: Replace button groups with `dropdown` + `d-grid` for mobile-friendly menus
+- **Text truncation**: Use `\Illuminate\Support\Str::limit($text, 20)` for long text
+- **Pluralization**: Dynamic plurals `{{ $count > 1 ? 's' : '' }}` with `Helper::asLetters()` for numbers
+
 ## Key Files Reference
 - Data model specification: `DEV.md`
 - Permission setup: `database/seeders/PermissionSeeder.php`
 - Form validation patterns: `app/Http/Requests/`
 - Route authorization: `routes/web.php`
 - Generic utilities: `app/Helpers/Helper.php`
+- SMS integration: `app/Services/SmsService.php`
+- Ticket model methods: `app/Models/Ticket.php` (getManagers, getPublicLink, sendSmsWithLink)
+- Troubleshooting guide: `.github/TROUBLESHOOTING.md`

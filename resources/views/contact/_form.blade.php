@@ -11,7 +11,7 @@
     </div>
     <div class="col-12 col-lg-4">
         <x-forms.select name="type" :label="__('contact.fields.type')" :required="true" placeholder="-- Choisissez --"
-            :options="__('contact.types')" />
+            :options="__('contact.type')" />
     </div>
     <div class="col-12">
         <x-forms.input name="need" :label="__('contact.fields.need')" :required="true" type="textarea" :rows="4" :value="old('need', $contact->need ?? null)" />

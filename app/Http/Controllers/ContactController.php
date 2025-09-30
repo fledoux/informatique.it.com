@@ -23,10 +23,24 @@ class ContactController extends Controller
 
     public function store(ContactStoreRequest $request)
     {
-        $data = $request->validated();
-        $contact = Contact::create($data);
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['required', 'string', 'max:20'],
+            'type' => ['required', 'string', 'in:particulier,entreprise,association,autre'],
+            'need' => ['required', 'string', 'max:5000'],
+        ]);
 
-        Contact::sendNotification('Nouveau Contact', $data);
+        // Create the contact record
+        Contact::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'type' => $validated['type'],
+            'need' => $validated['need'],
+        ]);
+
+        Contact::sendNotification('Nouveau Contact', $validated);
         return redirect()->route('home')->with('success', __('global.messages.created'));
     }
 
