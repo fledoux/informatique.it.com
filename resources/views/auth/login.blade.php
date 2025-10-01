@@ -28,15 +28,19 @@
                         {{ __('login.Connect') }}
                     </button>
                 </form>
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div class="mb-2">
                     <a href="{{ route('register') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
                         <i class="fa-regular fa-user-plus me-1"></i>
                         {{ __('global.Register') }}
                     </a>
+                </div>
+                <div class="mb-2">
                     <a href="{{ route('password.request') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
                         <i class="fa-regular fa-key me-1"></i>
                         {{ __('login.Forgot password') }}
                     </a>
+                </div>
+                <div>
                     <a href="{{ route('home') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
                         <i class="fa-regular fa-rotate-left me-1"></i>
                         {{ __('global.Cancel') }}

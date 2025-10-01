@@ -52,7 +52,7 @@
     </style>
 </head>
 
-<body style="background-color: #f8f9fa !important; margin: 0; padding: 0; color-scheme: light only !important;" bgcolor="#f8f9fa">
+<body style="font-size: 14px; background-color: #f8f9fa !important; margin: 0; padding: 0; color-scheme: light only !important;" bgcolor="#f8f9fa">
     <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f8f9fa !important;" bgcolor="#f8f9fa">
         <tr>
             <td style="background-color: #f8f9fa !important; padding: 20px;" bgcolor="#f8f9fa">
@@ -63,9 +63,9 @@
                     <h1 style="color: #212529 !important; font-size: 18px; font-weight: bold; margin-bottom: 1rem; margin-top: 20px;">
                         {{ $title ?? 'Hello' }}
                     </h1>
-                    <p style="color: #6c757d !important; font-size: 1rem; line-height: 1.5; margin-bottom: 0;">
-                        Votre message : {!! $content ?? 'Aucun message fourni.' !!}
-                    </p>
+                    <span style="color: #6c757d !important; font-size: 14px; line-height: 1.5; margin-bottom: 0;">
+                        {!! $content ?? 'Aucun message fourni.' !!}
+                    </span>
                 </div>
 
                 <!-- Footer en dehors du conteneur principal -->

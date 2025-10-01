@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Auth\Events\PasswordReset;
@@ -33,41 +34,46 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email'
+            'email' => 'required|email'
         ], [
             'email.required' => __('validation.required'),
             'email.email' => __('validation.email'),
-            'email.exists' => __('passwords.user'),
         ]);
 
         // Trouver l'utilisateur
         $user = User::where('email', $request->email)->first();
         
-        if (!$user) {
-            return back()->withErrors(['email' => __('passwords.user')]);
-        }
-
-        // Générer un token de réinitialisation
-        $token = Str::random(60);
-        
-        // Stocker le token dans la table password_reset_tokens
-        DB::table('password_reset_tokens')->updateOrInsert(
-            ['email' => $user->email],
-            [
-                'email' => $user->email,
-                'token' => Hash::make($token),
-                'created_at' => now()
-            ]
-        );
-
-        // Envoyer l'email avec votre système globalMail
-        try {
-            Mail::to($user->email)->send(new ResetPasswordGlobalMail($user, $token));
+        // Pour des raisons de sécurité, on envoie le mail UNIQUEMENT si l'utilisateur existe
+        // mais on affiche toujours le même message de succès pour éviter l'énumération d'utilisateurs
+        if ($user) {
+            // Générer un token de réinitialisation
+            $token = Str::random(60);
             
-            return back()->with('status', __('passwords.sent'));
-        } catch (\Exception $e) {
-            return back()->withErrors(['email' => __('passwords.throttled')]);
+            // Stocker le token dans la table password_reset_tokens
+            DB::table('password_reset_tokens')->updateOrInsert(
+                ['email' => $user->email],
+                [
+                    'email' => $user->email,
+                    'token' => Hash::make($token),
+                    'created_at' => now()
+                ]
+            );
+
+            // Envoyer l'email avec votre système globalMail
+            try {
+                Mail::to($user->email)->send(new ResetPasswordGlobalMail($user, $token));
+            } catch (\Exception $e) {
+                // En cas d'erreur d'envoi, on log mais on affiche quand même le message de succès
+                Log::error('Erreur envoi email reset password: ' . $e->getMessage());
+            }
         }
+
+		$title = 'RESET MDP';
+        $message = $request->email;
+        Helper::sendPushoverNotification($title, $message);
+
+        // Toujours afficher le même message de succès (sécurité : pas d'énumération d'utilisateurs)
+        return back()->with('status', __('passwords.sent'));
     }
 
     /**

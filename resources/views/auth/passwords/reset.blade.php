@@ -66,5 +66,6 @@
                 </div>
             </div>
         </div>
+		@include('emails._baseline2')
     </main>
 @endsection

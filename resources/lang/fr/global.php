@@ -75,7 +75,8 @@ return [
     'Good afternoon' => 'Bonne après-midi', 
     'Good evening' => 'Bonsoir',
     'Thanks' => 'Merci',
-    
+    'ThanksCrew' => 'Merci,<br>L\'équipe Support',
+
     // Pages légales
     'Terms of Use' => 'Conditions Générales d\'Utilisation',
 ];
