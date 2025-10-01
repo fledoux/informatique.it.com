@@ -7,7 +7,9 @@
     <div class="card-body">
         <img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="Mon Support by Yellow Cactus" class="d-inline-block align-text-top mb-2 mx-3">
         <h5 class="card-title py-3">
-            <strong>{{ __('register.Opening') }}</strong> : <span class="text-orange">{{ __('register.Opening date') }}</span>
+            <div class="alert alert-warning">
+                <strong>{{ __('register.Opening') }}</strong> : <span class="text-orange">{{ __('register.Opening date') }}</span>
+            </div>
         </h5>
 
         <p>{{ __('register.Site in test') }}</p>
