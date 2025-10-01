@@ -18,14 +18,14 @@
                     <th class="text-center">{{ __('ticket.Id') }}</th>
                     <th class="text-left">{{ __('ticket.fields.status') }}</th>
                     <th class="text-left">{{ __('ticket.fields.priority') }}</th>
-                    @role('super-admin')
+                    @can('company.show')
                         <th class="text-left">{{ __('ticket.fields.company_id') }}</th>
-                    @endrole
+                    @endcan
                     <th class="text-left">{{ __('ticket.fields.author_id') }}</th>
                     <th class="text-left">{{ __('ticket.fields.subject') }}</th>
-                    @role('super-admin')
+                    @can('ticket.edit')
                         <th class="text-left">{{ __('ticket.fields.assigned_to') }}</th>
-                    @endrole
+                    @endcan
                     <th class="text-left">{{ __('ticket.fields.due') }}</th>
                     <th class="text-left">{{ __('ticket.fields.folder_code') }}</th>
                     <th class="text-left">{{ __('ticket.fields.billable') }}</th>
@@ -44,15 +44,15 @@
                             <span
                                 class="badge {{ __('ticket.priorityBadgeColor.' . $ticket->priority) }}">{{ __('ticket.priority.' . $ticket->priority) }}</span>
                         </td>
-                        @role('super-admin')
+                        @can('company.show')
                             <td>{{ $ticket->company?->name ?? '' }}</td>
-                        @endrole
+                        @endcan
                         <td>{{ $ticket->author ? \App\Helpers\Helper::getFullName($ticket->author->firstname, $ticket->author->lastname, $ticket->author->name) : '' }}
                         </td>
                         <td>{{ $ticket->subject }}</td>
-                        @role('super-admin')
+                        @can('ticket.edit')
                             <td>{{ $ticket->assignedTo?->initial ?? '' }}</td>
-                        @endrole
+                        @endcan
                         <td>{{ $ticket->due ? $ticket->due->format('d/m H:i') : '' }}</td>
                         <td>{{ $ticket->folder_code }}</td>
                         <td>{{ $ticket->billable ? __('global.boolean.yes') : __('global.boolean.no') }}</td>
@@ -61,15 +61,15 @@
                                 class="btn btn-link text-decoration-none p-0 me-2">
                                 {!! __('global.Details') !!}
                             </a>
-                            @role('super-admin')
+                            @can('ticket.edit')
                                 <a href="{{ route('ticket.edit', $ticket) }}"
                                     class="btn btn-link text-decoration-none p-0 me-2">
                                     {!! __('global.Edit') !!}
                                 </a>
-                            @endrole
-                            @role('super-admin')
+                            @endcan
+                            @can('ticket.delete')
                                 @include('ticket._delete_form', ['ticket' => $ticket])
-                            @endrole
+                            @endcan
                         </td>
                     </tr>
                 @empty

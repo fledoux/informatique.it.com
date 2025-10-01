@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-12 col-lg-10 mb-3">
                         <div class="card border border-warning border-2">
-                            <div class="card-body bg-warning bg-opacity-10">
+                            <div class="card-body bg-warning-subtle">
                                 <p class="mb-1">Bonjour, nous avons bien reçu votre demande concernant le problème réseau.
                                 </p>
                             </div>
@@ -101,7 +101,7 @@
                         Majoration : <span class="float-end">0 ticket</span>
                     </p>
                 </div>
-                <div class="card-footer bg-success bg-opacity-10">
+                <div class="card-footer bg-success-subtle">
                     <span class="text-success fw-bold">Solde : <span class="float-end">12
                             {{ abs(12) > 1 ? __('ticket.tickets') : __('ticket.ticket') }}</span></span><br>
                 </div>

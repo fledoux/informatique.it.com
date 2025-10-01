@@ -19,26 +19,26 @@
                     <th class="text-left">{{ __('user.fields.name') }}</th>
                     <th class="text-left">{{ __('user.fields.email') }}</th>
                     <th class="text-left">{{ __('user.fields.status') }}</th>
-                    @role('super-admin')
+                    @can('company.show')
                         <th class="text-left">{{ __('user.fields.company_id') }}</th>
-                    @endrole
+                    @endcan
                     <th class="text-left">{{ __('user.fields.roles') }}</th>
                     <th class="text-left">{{ __('user.fields.firstname') }}</th>
                     <th class="text-left">{{ __('user.fields.lastname') }}</th>
-                    @role('super-admin')
+                    @can('user.edit')
                         <th class="text-left">{{ __('user.fields.initial') }}</th>
-                    @endrole
+                    @endcan
                     <th class="text-left">{{ __('user.fields.phone') }}</th>
-                    @role('super-admin')
+                    @can('user.edit')
                         <th class="text-left">{{ __('user.fields.last_login') }}</th>
-                    @endrole
-                    @role('super-admin')
+                    @endcan
+                    @can('user.edit')
                         <th class="text-left">{{ __('user.fields.agree_terms') }}</th>
-                    @endrole
+                    @endcan
                     <th class="text-left">{{ __('user.fields.channels') }}</th>
-                    @role('super-admin')
+                    @can('user.edit')
                         <th class="text-left">{{ __('user.fields.note') }}</th>
-                    @endrole
+                    @endcan
                     <th>{{ __('global.Actions') }}</th>
                 </tr>
             </thead>
@@ -52,9 +52,9 @@
                             <span
                                 class="badge {{ __('user.statusBadgeColor.' . $user->status) }}">{{ __('user.status.' . $user->status) }}</span>
                         </td>
-                        @role('super-admin')
+                        @can('company.show')
                             <td>{{ $user->company?->name ?? '' }}</td>
-                        @endrole
+                        @endcan
                         <td>
                             @if ($user->getRoleNames()->isNotEmpty())
                                 @foreach ($user->getRoleNames() as $role)
@@ -67,15 +67,15 @@
                         </td>
                         <td>{{ $user->firstname }}</td>
                         <td>{{ $user->lastname }}</td>
-                        @role('super-admin')
+                        @can('user.edit')
                             <td>{{ $user->initial }}</td>
-                        @endrole
+                        @endcan
                         <td>{{ $user->phone }}</td>
-                        @role('super-admin')
+                        @can('user.edit')
                             <td>{{ $user->last_login ? ($user->last_login instanceof \Carbon\Carbon ? $user->last_login->format('d/m/Y H:i') : $user->last_login) : '' }}
                             </td>
-                        @endrole
-                        @role('super-admin')
+                        @endcan
+                        @can('user.edit')
                             <td>
                                 @php($badgeColor = 'secondary')
                                 @switch($user->agree_terms)
@@ -90,14 +90,14 @@
                                 <span
                                     class="badge bg-{{ $badgeColor }}">{{ __('user.agree_terms.' . $user->agree_terms) }}</span>
                             </td>
-                        @endrole
+                        @endcan
                         <td>
                             {{ collect(['email', 'sms'])->filter(fn($key) => $user->channels[$key] ?? false)->map(fn($key) => __('user.fields.channels_' . $key))->join(', ') ?:
                                 '' }}
                         </td>
-                        @role('super-admin')
+                        @can('user.edit')
                             <td>{{ $user->note }}</td>
-                        @endrole
+                        @endcan
                         <td class="text-nowrap">
                             <a href="{{ route('user.show', $user) }}" class="btn btn-link text-decoration-none p-0 me-2">
                                 {!! __('global.Details') !!}
@@ -105,7 +105,7 @@
                             <a href="{{ route('user.edit', $user) }}" class="btn btn-link text-decoration-none p-0 me-2">
                                 {!! __('global.Edit') !!}
                             </a>
-                            @role('super-admin')
+                            @can('user.edit')
                                 @if($user->id !== auth()->id())
                                     <form method="POST" action="{{ route('user.impersonate', $user) }}" class="d-inline">
                                         @csrf
@@ -115,7 +115,7 @@
                                         </button>
                                     </form>
                                 @endif
-                            @endrole
+                            @endcan
                             @include('user._delete_form', ['user' => $user])
                         </td>
                     </tr>

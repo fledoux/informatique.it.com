@@ -6,12 +6,12 @@
         <li><a class="dropdown-item" href="{{ route('ticket.edit', $ticket) }}">
             {!! __('ticket.Answer') !!}
         </a></li>
-        @role('super-admin')
+        @can('ticket.edit')
         <li><a class="dropdown-item" href="{{ route('ticket.edit', $ticket) }}">
             {!! __('global.Edit') !!}
         </a></li>
         <li><hr class="dropdown-divider"></li>
-        @endrole
+        @endcan
         <li><a class="dropdown-item" href="{{ route('ticket.index') }}">
             {!! __('global.Back') !!}
         </a></li>

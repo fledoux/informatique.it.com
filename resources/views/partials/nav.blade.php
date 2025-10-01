@@ -10,7 +10,7 @@
         </button>
         <div id="navMain" class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                @auth
+                @can('ticket.index')
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'ticket.') ? 'btn-orange' : 'btn-outline-secondary' }}"
                             href="{{ route('ticket.index') }}">
@@ -18,8 +18,8 @@
                             {{ __('nav.Support') }}
                         </a>
                     </li>
-                @endauth
-                @role('super-admin|manager')
+                @endcan
+                @can('user.index')
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'user.') ? 'btn-orange' : 'btn-outline-secondary' }}"
                             href="{{ route('user.index') }}">
@@ -27,8 +27,8 @@
                             {{ __('nav.Users') }}
                         </a>
                     </li>
-                @endrole
-                @role('super-admin')
+                @endcan
+                @can('company.index')
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'company.') ? 'btn-orange' : 'btn-outline-secondary' }}"
                             href="{{ route('company.index') }}">
@@ -36,8 +36,8 @@
                             {{ __('nav.Companies') }}
                         </a>
                     </li>
-                @endrole
-                @role('super-admin')
+                @endcan
+                @can('contact.index')
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'contact.') ? 'btn-orange' : 'btn-outline-secondary' }}"
                             href="{{ route('contact.index') }}">
@@ -50,7 +50,7 @@
                             @endif
                         </a>
                     </li>
-                @endrole
+                @endcan
                 @include('partials._lang')
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">

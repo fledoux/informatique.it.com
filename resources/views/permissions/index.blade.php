@@ -4,148 +4,137 @@
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Gestion des Permissions</h1>
-        <a href="{{ route('dashboard') }}" class="btn btn-secondary">
-            <i class="fa-solid fa-arrow-left me-2"></i>
-            Retour au Dashboard
-        </a>
+        <h1 class="mb-0">
+            <i class="fa-regular fa-shield-halved"></i>
+            Gestion des Permissions
+        </h1>
+        <div>
+            @can('permission.edit')
+                <a href="{{ route('permissions.matrix') }}" class="btn btn-outline-primary">
+                    <i class="fa-regular fa-table-cells"></i>
+                    Matrice Permissions/Rôles
+                </a>
+            @endcan
+            @can('permission.create')
+                <a href="{{ route('permissions.create') }}" class="btn btn-orange">
+                    <i class="fa-regular fa-square-plus"></i>
+                    Nouvelle Permission Custom
+                </a>
+            @endcan
+        </div>
     </div>
 
-    <div class="card">
-        <div class="card-header">
-            <h5 class="card-title mb-0">
-                <i class="fa-solid fa-shield-halved me-2"></i>
-                Matrice des Permissions par Rôle
-            </h5>
-        </div>
-        <div class="card-body">
-            <form method="POST" action="{{ route('permissions.update') }}">
-                @csrf
-                
+    <div class="alert alert-info">
+        <i class="fa-regular fa-circle-info"></i>
+        <strong>Permissions Système</strong> : Utilisées dans le code, protégées contre la modification/suppression.<br>
+        <strong>Permissions Custom</strong> : Créées par vous, modifiables et supprimables.
+    </div>
+
+    @foreach($grouped as $group => $groupPermissions)
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">
+                    <i class="fa-regular fa-folder-open"></i>
+                    {{ ucfirst($group) }}
+                    <span class="badge bg-primary bg-opacity-75">{{ count($groupPermissions) }}</span>
+                </h5>
+            </div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle">
-                        <thead class="table-dark">
+                    <table class="table table-hover table-sm">
+                        <thead>
                             <tr>
-                                <th class="text-start" style="min-width: 200px;">Permission</th>
-                                @foreach ($roles as $role)
-                                    <th class="text-center" style="width: 120px;">
-                                        <div class="d-flex flex-column align-items-center">
-                                            <span class="fw-bold">{{ ucfirst($role->name) }}</span>
-                                        </div>
-                                    </th>
-                                @endforeach
+                                <th class="align-middle" style="width: 40%">Permission</th>
+                                <th class="text-center align-middle" style="width: 15%">Type</th>
+                                <th class="text-center align-middle" style="width: 15%">Rôles</th>
+                                <th class="text-center align-middle" style="width: 15%">Utilisateurs</th>
+                                <th class="align-middle" style="width: 15%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                                $currentGroup = '';
-                            @endphp
-                            
-                            @foreach ($permissions as $permission)
+                            @foreach($groupPermissions as $permission)
                                 @php
-                                    $permissionGroup = explode('.', $permission->name)[0];
+                                    $isSystem = \App\Helpers\PermissionHelper::isSystemPermission($permission->name);
                                 @endphp
-                                
-                                @if ($currentGroup !== $permissionGroup)
-                                    @if ($currentGroup !== '')
-                                        <tr class="table-light">
-                                            <td colspan="{{ count($roles) + 1 }}" class="py-1"></td>
-                                        </tr>
-                                    @endif
-                                    <tr class="table-secondary">
-                                        <td colspan="{{ count($roles) + 1 }}" class="fw-bold text-uppercase py-2">
-                                            <i class="fa-solid fa-folder me-2"></i>
-                                            {{ ucfirst($permissionGroup) }}
-                                        </td>
-                                    </tr>
-                                    @php $currentGroup = $permissionGroup; @endphp
-                                @endif
-                                
-                                <tr>
-                                    <td class="fw-medium">
-                                        <span class="text-muted me-2">{{ explode('.', $permission->name)[0] }}.</span>{{ explode('.', $permission->name)[1] }}
+                                <tr class="{{ !$isSystem ? 'table-success' : '' }}">
+                                    <td>
+                                        <code class="text-dark">{{ $permission->name }}</code>
                                     </td>
-                                    @foreach ($roles as $role)
-                                        <td class="text-center">
-                                            <div class="form-check d-flex justify-content-center">
-                                                <input type="checkbox" 
-                                                       class="form-check-input permission-checkbox" 
-                                                       name="permissions[{{ $permission->name }}_{{ $role->name }}]" 
-                                                       value="1"
-                                                       data-role="{{ $role->name }}"
-                                                       data-permission="{{ $permission->name }}"
-                                                       {{ $matrix[$permission->name][$role->name] ? 'checked' : '' }}>
-                                            </div>
-                                        </td>
-                                    @endforeach
+                                    <td class="text-center">
+                                        @if($isSystem)
+                                            <span class="badge bg-primary bg-opacity-75">
+                                                <i class="fa-regular fa-lock"></i>
+                                                Système
+                                            </span>
+                                        @else
+                                            <span class="badge bg-success">
+                                                <i class="fa-regular fa-pencil"></i>
+                                                Custom
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-primary bg-opacity-75">{{ $permission->roles()->count() }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-primary bg-opacity-75">{{ $permission->users()->count() }}</span>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        @can('permission.show')
+                                            <a href="{{ route('permissions.show', $permission) }}" 
+                                               class="btn btn-link text-decoration-none p-0 me-2"
+                                               title="Détails">
+                                                <i class="fa-regular fa-eye"></i>
+                                            </a>
+                                        @endcan
+                                        
+                                        @if(!$isSystem)
+                                            @can('permission.edit')
+                                                <a href="{{ route('permissions.edit', $permission) }}" 
+                                                   class="btn btn-link text-decoration-none p-0 me-2"
+                                                   title="Modifier">
+                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                </a>
+                                            @endcan
+                                            
+                                            @can('permission.delete')
+                                                @if($permission->roles()->count() == 0 && $permission->users()->count() == 0)
+                                                    <form method="POST" 
+                                                          action="{{ route('permissions.destroy', $permission) }}" 
+                                                          class="d-inline"
+                                                          onsubmit="return confirm('Supprimer cette permission ?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" 
+                                                                class="btn btn-link text-decoration-none text-danger p-0"
+                                                                title="Supprimer">
+                                                            <i class="fa-regular fa-trash-can"></i>
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <span class="text-muted" title="Permission assignée, suppression impossible">
+                                                        <i class="fa-regular fa-trash-can"></i>
+                                                    </span>
+                                                @endif
+                                            @endcan
+                                        @else
+                                            <span class="text-muted small">Protégée</span>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <div class="text-muted">
-                        <small>
-                            <i class="fa-solid fa-info-circle me-1"></i>
-                            Cliquez sur les cases en en-tête de colonne pour tout cocher/décocher un rôle
-                        </small>
-                    </div>
-                    <div>
-                        <button type="button" class="btn btn-outline-secondary me-2" onclick="window.location.reload()">
-                            <i class="fa-solid fa-rotate me-2"></i>
-                            Annuler
-                        </button>
-                        <button type="submit" class="btn btn-success">
-                            <i class="fa-solid fa-save me-2"></i>
-                            Enregistrer les Modifications
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="card-title mb-0">Légende des Rôles</h6>
-                </div>
-                <div class="card-body">
-                    @foreach ($roles as $role)
-                        <div class="d-flex align-items-center mb-2">
-                            <span class="badge bg-primary me-2">{{ ucfirst($role->name) }}</span>
-                            <small class="text-muted">
-                                {{ $role->permissions->count() }} permission(s) assignée(s)
-                            </small>
-                        </div>
-                    @endforeach
-                </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="card-title mb-0">Statistiques</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row text-center">
-                        <div class="col-4">
-                            <h4 class="text-primary">{{ $roles->count() }}</h4>
-                            <small class="text-muted">Rôles</small>
-                        </div>
-                        <div class="col-4">
-                            <h4 class="text-success">{{ $permissions->count() }}</h4>
-                            <small class="text-muted">Permissions</small>
-                        </div>
-                        <div class="col-4">
-                            <h4 class="text-info">{{ collect($matrix)->flatten()->filter()->count() }}</h4>
-                            <small class="text-muted">Assignations</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    @endforeach
+
+    <div class="mt-4">
+        <p class="text-muted">
+            <i class="fa-regular fa-lightbulb"></i>
+            <strong>Astuce :</strong> Utilisez la <a href="{{ route('permissions.matrix') }}">matrice permissions/rôles</a> 
+            pour gérer rapidement les accès de chaque rôle.
+        </p>
     </div>
 @endsection

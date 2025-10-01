@@ -19,24 +19,24 @@
                         {{ __('btn.NewTicket') }}
                     </a>
                 @endauth
-                @role('super-admin|manager')
+                @can('user.create')
                     <a href="{{ route('user.create') }}" class="btn btn-outline-secondary w-100 w-sm-auto">
                         <i class="fa-regular fa-user-plus"></i>
                         {{ __('btn.NewUser') }}
                     </a>
-                @endrole
-                @role('super-admin')
+                @endcan
+                @can('company.create')
                     <a href="{{ route('company.create') }}" class="btn btn-outline-danger w-100 w-sm-auto">
                         <i class="fa-regular fa-building"></i>
                         {{ __('btn.NewCompany') }}
                     </a>
-                @endrole
-                @role('super-admin')
+                @endcan
+                @can('permission.index')
                     <a href="{{ route('permissions.index') }}" class="btn btn-outline-danger w-100 w-sm-auto">
                         <i class="fa-solid fa-shield-halved"></i>
                         Permissions
                     </a>
-                @endrole
+                @endcan
             </div>
         </div>
 
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            @role('super-admin')
+            @can('contact.index')
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="card shadow-sm h-100">
                         <div class="card-body d-flex align-items-center gap-3">
@@ -100,8 +100,8 @@
                         </div>
                     </div>
                 </div>
-            @endrole
-            @role('super-admin')
+            @endcan
+            @can('company.index')
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="card shadow-sm h-100">
                         <div class="card-body d-flex align-items-center gap-3">
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-            @endrole
+            @endcan
         </div>
 
         {{-- Derniers tickets --}}

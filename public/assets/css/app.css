@@ -154,3 +154,4 @@ footer a { text-decoration: none; }
 .separator { height: 5px; background: rgba(255,76,0,1)!important; }
 
 .text-muted { color: #cccccc !important; }
+.badge {font-weight: normal !important;}

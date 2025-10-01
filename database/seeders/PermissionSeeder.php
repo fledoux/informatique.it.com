@@ -99,10 +99,10 @@ class PermissionSeeder extends Seeder
             'allow-domain-registration.index', 'allow-domain-registration.show', 'allow-domain-registration.create', 'allow-domain-registration.edit', 'company.index', 'company.show', 'company.create', 'company.edit', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'page.index', 'page.show', 'page.create', 'page.edit', 'permission.index', 'permission.show', 'permission.create', 'permission.edit', 'test.index', 'test.show', 'test.create', 'test.edit', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'user.index', 'user.show', 'user.edit'
         ]);
         
-        // User : Lecture seule sur profil et company (PAS D'ACCÈS aux domaines)
+        // User : Accès aux tickets et lecture seule sur profil et company (PAS D'ACCÈS aux domaines)
         $user = Role::firstOrCreate(['name' => 'user']);
         $user->syncPermissions([
-            'company.show', 'user.show'
+            'company.show', 'user.show', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit'
         ]);
 
         // === UTILISATEUR SUPER ADMIN PAR DÉFAUT ===

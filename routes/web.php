@@ -105,12 +105,17 @@ Route::prefix('company')->group(function () {
     Route::delete('/{company}', [CompanyController::class, 'destroy'])->name('company.destroy');
 });
 
-// Permission management routes (super-admin only)
-Route::prefix('permissions')->middleware(['auth', 'role:super-admin'])->group(function () {
-    Route::get('/', [\App\Http\Controllers\PermissionController::class, 'index'])
-        ->name('permissions.index');
-    Route::post('/update', [\App\Http\Controllers\PermissionController::class, 'update'])
-        ->name('permissions.update');
+// Permission management routes - Permissions gérées dans PermissionController::__construct()
+Route::prefix('permissions')->middleware(['auth'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\PermissionController::class, 'index'])->name('permissions.index');
+    Route::get('/create', [\App\Http\Controllers\PermissionController::class, 'create'])->name('permissions.create');
+    Route::post('/', [\App\Http\Controllers\PermissionController::class, 'store'])->name('permissions.store');
+    Route::get('/matrix', [\App\Http\Controllers\PermissionController::class, 'matrix'])->name('permissions.matrix');
+    Route::post('/matrix', [\App\Http\Controllers\PermissionController::class, 'updateMatrix'])->name('permissions.matrix.update');
+    Route::get('/{permission}', [\App\Http\Controllers\PermissionController::class, 'show'])->name('permissions.show');
+    Route::get('/{permission}/edit', [\App\Http\Controllers\PermissionController::class, 'edit'])->name('permissions.edit');
+    Route::put('/{permission}', [\App\Http\Controllers\PermissionController::class, 'update'])->name('permissions.update');
+    Route::delete('/{permission}', [\App\Http\Controllers\PermissionController::class, 'destroy'])->name('permissions.destroy');
 });
 
 Route::prefix('allow-domain-registration')->group(function () {
