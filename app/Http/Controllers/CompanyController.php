@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
+    /**
+     * Apply permission middleware to controller methods.
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:company.index')->only('index');
+        $this->middleware('permission:company.create')->only(['create', 'store']);
+        $this->middleware('permission:company.show')->only('show');
+        $this->middleware('permission:company.edit')->only(['edit', 'update']);
+        $this->middleware('permission:company.delete')->only('destroy');
+    }
+
     public function index()
     {
         $companies = Company::all()->sortBy('name');

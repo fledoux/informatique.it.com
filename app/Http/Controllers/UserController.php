@@ -11,6 +11,22 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    /**
+     * Apply permission middleware to controller methods.
+     */
+    public function __construct()
+    {
+        // Permissions standard pour les opérations CRUD
+        $this->middleware('permission:user.index')->only('index');
+        $this->middleware('permission:user.create')->only(['create', 'store']);
+        $this->middleware('permission:user.show')->only('show');
+        $this->middleware('permission:user.edit')->only(['edit', 'update']);
+        $this->middleware('permission:user.delete')->only('destroy');
+        
+        // Permissions spéciales pour l'impersonation
+        $this->middleware('role:super-admin')->only('impersonate');
+    }
+
     public function index()
     {
         $users = User::query()->with(['company', 'roles'])->latest('id')->paginate(15);

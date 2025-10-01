@@ -11,6 +11,18 @@ use App\Helpers\Helper;
 
 class ContactController extends Controller
 {
+    /**
+     * Apply permission middleware to controller methods.
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:contact.index')->only('index');
+        $this->middleware('permission:contact.show')->only('show');
+        $this->middleware('permission:contact.edit')->only(['edit', 'update']);
+        $this->middleware('permission:contact.delete')->only('destroy');
+        // Note: contact.create est commenté dans les routes, donc pas de middleware ici
+    }
+
     public function index()
     {
         $contacts = Contact::query()->latest('id')->paginate(15);
@@ -44,7 +56,7 @@ class ContactController extends Controller
         $title = 'Nouveau Contact';
         $message = $validated['name'] . "\n" . $validated['email'] . "\n" . $validated['phone'] . "\n" . $validated['type'] . "\n" . $validated['need'];
         Helper::sendPushoverNotification($title, $message);
-        
+
         return redirect()->route('home')->with('success', __('global.messages.created'));
     }
 

@@ -370,8 +370,23 @@ use App\\Http\\Requests\\{$entity}UpdateRequest;
 use Illuminate\\Database\\Eloquent\\ModelNotFoundException;
 use Illuminate\\Support\\Facades\\Auth;
 
+/**
+ * @method \\Illuminate\\Routing\\ControllerMiddlewareOptions middleware(string \$middleware)
+ */
 class {$entity}Controller extends Controller
 {
+    /**
+     * Apply permission middleware to controller methods.
+     */
+    public function __construct()
+    {
+        \$this->middleware('permission:{$entitySlug}.index')->only('index');
+        \$this->middleware('permission:{$entitySlug}.create')->only(['create', 'store']);
+        \$this->middleware('permission:{$entitySlug}.show')->only('show');
+        \$this->middleware('permission:{$entitySlug}.edit')->only(['edit', 'update']);
+        \$this->middleware('permission:{$entitySlug}.delete')->only('destroy');
+    }
+
     public function index()
     {
         \${$varPlur} = {$entity}::query(){$withClause}->latest('id')->paginate(15);
@@ -463,28 +478,15 @@ PHP;
         // Ajouter la Route::resource si absente
         $routesFile = base_path('routes/web.php');
         $resourceLines = <<<PHP
+// Routes {$entity} - Permissions gérées dans {$entity}Controller::__construct()
 Route::prefix('{$entitySlug}')->group(function () {
-    Route::get('/', [{$entity}Controller::class, 'index'])
-        ->middleware('permission:{$entitySlug}.index')
-        ->name('{$entitySlug}.index');
-    Route::get('/create', [{$entity}Controller::class, 'create'])
-        ->middleware('permission:{$entitySlug}.create')
-        ->name('{$entitySlug}.create');
-    Route::post('/', [{$entity}Controller::class, 'store'])
-        ->middleware('permission:{$entitySlug}.create')
-        ->name('{$entitySlug}.store');
-    Route::get('/{{$entitySlug}}', [{$entity}Controller::class, 'show'])
-        ->middleware('permission:{$entitySlug}.show')
-        ->name('{$entitySlug}.show');
-    Route::get('/{{$entitySlug}}/edit', [{$entity}Controller::class, 'edit'])
-        ->middleware('permission:{$entitySlug}.edit')
-        ->name('{$entitySlug}.edit');
-    Route::put('/{{$entitySlug}}', [{$entity}Controller::class, 'update'])
-        ->middleware('permission:{$entitySlug}.edit')
-        ->name('{$entitySlug}.update');
-    Route::delete('/{{$entitySlug}}', [{$entity}Controller::class, 'destroy'])
-        ->middleware('permission:{$entitySlug}.delete')
-        ->name('{$entitySlug}.destroy');
+    Route::get('/', [{$entity}Controller::class, 'index'])->name('{$entitySlug}.index');
+    Route::get('/create', [{$entity}Controller::class, 'create'])->name('{$entitySlug}.create');
+    Route::post('/', [{$entity}Controller::class, 'store'])->name('{$entitySlug}.store');
+    Route::get('/{{$entitySlug}}', [{$entity}Controller::class, 'show'])->name('{$entitySlug}.show');
+    Route::get('/{{$entitySlug}}/edit', [{$entity}Controller::class, 'edit'])->name('{$entitySlug}.edit');
+    Route::put('/{{$entitySlug}}', [{$entity}Controller::class, 'update'])->name('{$entitySlug}.update');
+    Route::delete('/{{$entitySlug}}', [{$entity}Controller::class, 'destroy'])->name('{$entitySlug}.destroy');
 });
 PHP;
 
@@ -528,7 +530,7 @@ PHP;
                 
                 // Ajouter les routes
                 $fs->append($routesFile, PHP_EOL . $resourceLines . PHP_EOL);
-                $this->info("Routes avec middlewares de permission ajoutées dans routes/web.php");
+                $this->info("Routes ajoutées dans routes/web.php (permissions gérées dans le contrôleur)");
             }
         }
 

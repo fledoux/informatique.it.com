@@ -11,6 +11,18 @@ use App\Helpers\Helper;
 
 class TicketController extends Controller
 {
+    /**
+     * Apply permission middleware to controller methods.
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:ticket.index')->only('index');
+        $this->middleware('permission:ticket.create')->only(['create', 'store']);
+        $this->middleware('permission:ticket.show')->only('show');
+        $this->middleware('permission:ticket.edit')->only(['edit', 'update']);
+        $this->middleware('permission:ticket.delete')->only('destroy');
+    }
+
     public function index()
     {
         $tickets = Ticket::getAllForUser();

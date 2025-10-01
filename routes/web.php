@@ -57,108 +57,52 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
 });
 
+// Routes User - Permissions gérées dans UserController::__construct()
 Route::prefix('user')->group(function () {
-    Route::get('/', [UserController::class, 'index'])
-        ->middleware('permission:user.index')
-        ->name('user.index');
-    Route::get('/create', [UserController::class, 'create'])
-        ->middleware('permission:user.create')
-        ->name('user.create');
-    Route::post('/', [UserController::class, 'store'])
-        ->middleware('permission:user.create')
-        ->name('user.store');
-    Route::get('/{user}', [UserController::class, 'show'])
-        ->middleware('permission:user.show')
-        ->name('user.show');
-    Route::get('/{user}/edit', [UserController::class, 'edit'])
-        ->middleware('permission:user.edit')
-        ->name('user.edit');
-    Route::put('/{user}', [UserController::class, 'update'])
-        ->middleware('permission:user.edit')
-        ->name('user.update');
-    Route::delete('/{user}', [UserController::class, 'destroy'])
-        ->middleware('permission:user.delete')
-        ->name('user.destroy');
+    Route::get('/', [UserController::class, 'index'])->name('user.index');
+    Route::get('/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/', [UserController::class, 'store'])->name('user.store');
+    Route::get('/{user}', [UserController::class, 'show'])->name('user.show');
+    Route::get('/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/{user}', [UserController::class, 'destroy'])->name('user.destroy');
     
-    // Impersonation routes (super-admin only)
-    Route::post('/{user}/impersonate', [UserController::class, 'impersonate'])
-        ->middleware(['auth', 'role:super-admin'])
-        ->name('user.impersonate');
-    Route::post('/stop-impersonation', [UserController::class, 'stopImpersonation'])
-        ->middleware('auth')
-        ->name('user.stop-impersonation');
+    // Impersonation routes (super-admin only - permission gérée dans le controller)
+    Route::post('/{user}/impersonate', [UserController::class, 'impersonate'])->name('user.impersonate');
+    Route::post('/stop-impersonation', [UserController::class, 'stopImpersonation'])->name('user.stop-impersonation');
 });
 
+// Routes Contact - Permissions gérées dans ContactController::__construct()
 Route::prefix('contact')->group(function () {
-    Route::get('/', [ContactController::class, 'index'])
-        ->middleware('permission:contact.index')
-        ->name('contact.index');
-    Route::get('/create', [ContactController::class, 'create'])
-        //->middleware('permission:contact.create')
-        ->name('contact.create');
-    Route::post('/', [ContactController::class, 'store'])
-        //->middleware('permission:contact.create')
-        ->name('contact.store');
-    Route::get('/{contact}', [ContactController::class, 'show'])
-        ->middleware('permission:contact.show')
-        ->name('contact.show');
-    Route::get('/{contact}/edit', [ContactController::class, 'edit'])
-        ->middleware('permission:contact.edit')
-        ->name('contact.edit');
-    Route::put('/{contact}', [ContactController::class, 'update'])
-        ->middleware('permission:contact.edit')
-        ->name('contact.update');
-    Route::delete('/{contact}', [ContactController::class, 'destroy'])
-        ->middleware('permission:contact.delete')
-        ->name('contact.destroy');
+    Route::get('/', [ContactController::class, 'index'])->name('contact.index');
+    Route::get('/create', [ContactController::class, 'create'])->name('contact.create');
+    Route::post('/', [ContactController::class, 'store'])->name('contact.store');
+    Route::get('/{contact}', [ContactController::class, 'show'])->name('contact.show');
+    Route::get('/{contact}/edit', [ContactController::class, 'edit'])->name('contact.edit');
+    Route::put('/{contact}', [ContactController::class, 'update'])->name('contact.update');
+    Route::delete('/{contact}', [ContactController::class, 'destroy'])->name('contact.destroy');
 });
 
+// Routes Ticket - Permissions gérées dans TicketController::__construct()
 Route::prefix('ticket')->group(function () {
-    Route::get('/', [TicketController::class, 'index'])
-        ->middleware('permission:ticket.index')
-        ->name('ticket.index');
-    Route::get('/create', [TicketController::class, 'create'])
-        ->middleware('permission:ticket.create')
-        ->name('ticket.create');
-    Route::post('/', [TicketController::class, 'store'])
-        ->middleware('permission:ticket.create')
-        ->name('ticket.store');
-    Route::get('/{ticket}', [TicketController::class, 'show'])
-        ->middleware('permission:ticket.show')
-        ->name('ticket.show');
-    Route::get('/{ticket}/edit', [TicketController::class, 'edit'])
-        ->middleware('permission:ticket.edit')
-        ->name('ticket.edit');
-    Route::put('/{ticket}', [TicketController::class, 'update'])
-        ->middleware('permission:ticket.edit')
-        ->name('ticket.update');
-    Route::delete('/{ticket}', [TicketController::class, 'destroy'])
-        ->middleware('permission:ticket.delete')
-        ->name('ticket.destroy');
+    Route::get('/', [TicketController::class, 'index'])->name('ticket.index');
+    Route::get('/create', [TicketController::class, 'create'])->name('ticket.create');
+    Route::post('/', [TicketController::class, 'store'])->name('ticket.store');
+    Route::get('/{ticket}', [TicketController::class, 'show'])->name('ticket.show');
+    Route::get('/{ticket}/edit', [TicketController::class, 'edit'])->name('ticket.edit');
+    Route::put('/{ticket}', [TicketController::class, 'update'])->name('ticket.update');
+    Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('ticket.destroy');
 });
 
+// Routes Company - Permissions gérées dans CompanyController::__construct()
 Route::prefix('company')->group(function () {
-    Route::get('/', [CompanyController::class, 'index'])
-        ->middleware('permission:company.index')
-        ->name('company.index');
-    Route::get('/create', [CompanyController::class, 'create'])
-        ->middleware('permission:company.create')
-        ->name('company.create');
-    Route::post('/', [CompanyController::class, 'store'])
-        ->middleware('permission:company.create')
-        ->name('company.store');
-    Route::get('/{company}', [CompanyController::class, 'show'])
-        ->middleware('permission:company.show')
-        ->name('company.show');
-    Route::get('/{company}/edit', [CompanyController::class, 'edit'])
-        ->middleware('permission:company.edit')
-        ->name('company.edit');
-    Route::put('/{company}', [CompanyController::class, 'update'])
-        ->middleware('permission:company.edit')
-        ->name('company.update');
-    Route::delete('/{company}', [CompanyController::class, 'destroy'])
-        ->middleware('permission:company.delete')
-        ->name('company.destroy');
+    Route::get('/', [CompanyController::class, 'index'])->name('company.index');
+    Route::get('/create', [CompanyController::class, 'create'])->name('company.create');
+    Route::post('/', [CompanyController::class, 'store'])->name('company.store');
+    Route::get('/{company}', [CompanyController::class, 'show'])->name('company.show');
+    Route::get('/{company}/edit', [CompanyController::class, 'edit'])->name('company.edit');
+    Route::put('/{company}', [CompanyController::class, 'update'])->name('company.update');
+    Route::delete('/{company}', [CompanyController::class, 'destroy'])->name('company.destroy');
 });
 
 // Permission management routes (super-admin only)
