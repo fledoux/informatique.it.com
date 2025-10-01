@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', __('login.Connect'))
+@section('title', __('passwords.Reset Password'))
 
 @section('content')
     <main class="form-signin w-100 m-auto">
@@ -9,34 +9,45 @@
                 <img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="Mon Support by Yellow Cactus"
                     class="d-inline-block align-text-top mb-2 mx-3">
                 <h5 class="card-title py-3">
-                    <i class="fa-regular fa-shield-keyhole"></i>
-                    {{ __('login.Please log in') }}
+                    <i class="fa-regular fa-key"></i>
+                    {{ __('passwords.Reset Password') }}
                 </h5>
-                <form method="POST" action="{{ route('login') }}">
+
+                <p class="text-secondary small mb-4">
+                    {{ __('passwords.Enter your email address and we will send you a link to reset your password') }}
+                </p>
+
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('password.email') }}">
                     @csrf
-                    <div class="form-floating form-field-start">
+                    <div class="form-floating">
                         <x-forms.input name="email" type="email" :label="__('login.Email')" :value="old('email')" :required="true"
                             :labelAfter="true" autofocus />
                     </div>
-                    <div class="form-floating form-field-end">
-                        <x-forms.input name="password" type="password" :label="__('login.Password')" :required="true"
-                            :labelAfter="true" />
-                    </div>
-                    <x-forms.checkbox name="remember" :label="__('login.Remember me')" :checked="false" />
 
                     <button type="submit" class="btn btn-orange w-100 my-3">
-                        {{ __('login.Connect') }}
+                        {{ __('passwords.Send Password Reset Link') }}
                     </button>
                 </form>
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+                <div class="mb-2">
+                    <a href="{{ route('login') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
+                        <i class="fa-regular fa-arrow-left me-1"></i>
+                        {{ __('passwords.Back to Login') }}
+                    </a>
+                </div>
+                <div class="mb-2">
                     <a href="{{ route('register') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
                         <i class="fa-regular fa-user-plus me-1"></i>
                         {{ __('global.Register') }}
                     </a>
-                    <a href="{{ route('password.request') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
-                        <i class="fa-regular fa-key me-1"></i>
-                        {{ __('login.Forgot password') }}
-                    </a>
+                </div>
+                <div>
                     <a href="{{ route('home') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
                         <i class="fa-regular fa-rotate-left me-1"></i>
                         {{ __('global.Cancel') }}
@@ -44,6 +55,5 @@
                 </div>
             </div>
         </div>
-        @include('emails._baseline2')
     </main>
 @endsection

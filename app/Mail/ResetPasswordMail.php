@@ -3,28 +3,26 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-// class globalMail extends Mailable implements ShouldQueue
-
-class globalMail extends Mailable
+class ResetPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $title;
-    public $content;
+    public $token;
+    public $user;
 
     /**
      * Create a new message instance.
      */
-    
-    public function __construct($title, $content)
+    public function __construct($token, $user)
     {
-        $this->title = $title;
-        $this->content = $content;
+        $this->token = $token;
+        $this->user = $user;
     }
 
     /**
@@ -33,7 +31,7 @@ class globalMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Global Mail',
+            subject: __('passwords.Reset Password'),
         );
     }
 
@@ -43,11 +41,7 @@ class globalMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.global',
-            with: [
-                'title' => $this->title,
-                'content' => $this->content,
-            ]
+            markdown: 'emails.reset-password',
         );
     }
 

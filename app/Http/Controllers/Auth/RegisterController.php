@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
+use App\Models\AllowDomainRegistration;
+use App\Helpers\Helper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,18 +49,45 @@ class RegisterController extends Controller
                 ->with('error', __('register.Registration not open yet'));
         }
 
+        // Valider la force du mot de passe
+        $passwordValidation = Helper::validatePasswordStrength($request->password);
+        if (!$passwordValidation['valid']) {
+            return redirect()->back()
+                ->withInput($request->except('password', 'password_confirmation'))
+                ->withErrors(['password' => $passwordValidation['errors']]);
+        }
+
+        // Construire le name automatiquement si vide
+        $name = $request->name;
+        if (empty($name)) {
+            $name = trim(($request->firstname ?? '') . ' ' . ($request->lastname ?? ''));
+            // Si firstname et lastname sont aussi vides, utiliser la partie avant @ de l'email
+            if (empty($name)) {
+                $name = explode('@', $request->email)[0];
+            }
+        }
+
+        // Vérifier si le domaine email permet une inscription automatique
+        $company = AllowDomainRegistration::findCompanyByEmailDomain($request->email);
+        
         // Create the user
         $user = User::create([
+            'name' => $name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'phone' => $request->phone,
+            'agree_terms' => $request->agree_terms,
+            'company_id' => $company?->id, // Rattacher automatiquement si domaine autorisé
             'email_verified_at' => null, // Will be set when email is verified
         ]);
 
         // Assign default role
-        $user->assignRole('manager'); // Default role based on PermissionSeeder
+        $user->assignRole('user'); // Default role based on PermissionSeeder
 
-        // Send verification email
-        event(new Registered($user));
+        // Send verification email manually
+        $user->sendEmailVerificationNotification();
 
         return redirect()->route('register.pending')
             ->with('success', __('register.Check your email'));
@@ -99,5 +127,29 @@ class RegisterController extends Controller
 
         return redirect()->route('dashboard')
             ->with('success', __('register.Email verified successfully'));
+    }
+
+    /**
+     * Resend email verification.
+     */
+    public function resend(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        
+        if (!$user) {
+            return back()->with('error', __('register.User not found'));
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return back()->with('info', __('register.Email already verified'));
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return back()->with('success', __('register.Verification email sent'));
     }
 }

@@ -84,10 +84,26 @@
                             (!@#$%^&*)
                         </div>
                     </div>
-                    <p class="small text-danger py-3"><i class="fa-regular fa-fish"></i> Merci de ne pas mettre le nom de
-                        votre poisson rouge. Pensez sécurité !</p>
                 </div>
-                <x-forms.checkbox name="agree_terms" :label="__('register.Agree terms')" :checked="false" :required="true" />
+                <div class="form-check">
+                    <input type="checkbox" 
+                           class="form-check-input @error('agree_terms') is-invalid @enderror" 
+                           id="agree_terms" 
+                           name="agree_terms" 
+                           value="1"
+                           @if(old('agree_terms')) checked @endif
+                           required>
+                    <label class="form-check-label" for="agree_terms">
+                        {!! __('register.AgreeTerms', ['cgu_link' => '<a href="' . route('cgu') . '" class="text-orange text-decoration-none" target="_blank">' . __('register.Terms of Use') . '</a>']) !!}
+                        <span class="text-danger">*</span>
+                    </label>
+                    
+                    @error('agree_terms')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
                 <button type="submit" class="btn btn-orange w-100 my-3">
                     {{ __('register.Register') }}
                 </button>
@@ -99,6 +115,7 @@
             </p>
         </div>
     </div>
+    @include('emails._baseline2')
 
     <script>
         $(document).ready(function() {

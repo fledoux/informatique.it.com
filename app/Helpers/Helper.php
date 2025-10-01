@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Helpers;
+use App\Services\PushoverService;
 
 class Helper
 {
@@ -22,6 +23,14 @@ class Helper
 
 		return $firstInitial . $lastInitials;
 	}
+
+	/**
+     * Envoie une notification lors de la création d'un message
+     */
+    public static function sendPushoverNotification(string $title, string $message): void
+    {        
+        PushoverService::send($title, $message);
+    }
 
 	/**
 	 * Formate le nom complet d'une personne
@@ -197,5 +206,78 @@ class Helper
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Retourne une salutation contextuelle selon l'heure (traduite)
+	 */
+	public static function getGreeting(): string
+	{
+		$hour = now()->hour;
+
+		if ($hour >= 5 && $hour < 12) {
+			return __('global.Good morning');
+		} elseif ($hour >= 12 && $hour < 19) {
+			return __('global.Good afternoon');
+		} else {
+			return __('global.Good evening');
+		}
+	}
+
+	/**
+	 * Valide la force d'un mot de passe selon nos critères
+	 * 
+	 * @param string $password
+	 * @return array ['valid' => bool, 'errors' => array]
+	 */
+	public static function validatePasswordStrength(string $password): array
+	{
+		$errors = [];
+		
+		// Au moins 8 caractères
+		if (strlen($password) < 8) {
+			$errors[] = __('validation.password_min_length', ['min' => 8]);
+		}
+		
+		// Au moins une minuscule
+		if (!preg_match('/[a-z]/', $password)) {
+			$errors[] = __('validation.password_lowercase');
+		}
+		
+		// Au moins une majuscule
+		if (!preg_match('/[A-Z]/', $password)) {
+			$errors[] = __('validation.password_uppercase');
+		}
+		
+		// Au moins un chiffre
+		if (!preg_match('/[0-9]/', $password)) {
+			$errors[] = __('validation.password_number');
+		}
+		
+		// Au moins un caractère spécial
+		if (!preg_match('/[!@#$%^&*]/', $password)) {
+			$errors[] = __('validation.password_special', ['chars' => '!@#$%^&*']);
+		}
+		
+		return [
+			'valid' => empty($errors),
+			'errors' => $errors
+		];
+	}
+
+	/**
+	 * Retourne les règles de validation pour un mot de passe fort
+	 * 
+	 * @return array
+	 */
+	public static function getPasswordRules(): array
+	{
+		return [
+			__('validation.password_min_length', ['min' => 8]),
+			__('validation.password_lowercase'),
+			__('validation.password_uppercase'),
+			__('validation.password_number'),
+			__('validation.password_special', ['chars' => '!@#$%^&*']),
+		];
 	}
 }

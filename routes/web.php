@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\LocaleController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\ContactController;
@@ -21,6 +22,7 @@ Route::post('/', [PageController::class, 'contact'])->name('contact.submit');
 Route::get('/legal', [PageController::class, 'legal'])->name('legal');
 Route::get('/rgpd', [PageController::class, 'rgpd'])->name('rgpd');
 Route::get('/cgv', [PageController::class, 'cgv'])->name('cgv');
+Route::get('/cgu', [PageController::class, 'cgu'])->name('cgu');
 Route::get('/qr', [PageController::class, 'qr'])->name('qr');
 Route::get('/web', [PageController::class, 'web'])->name('web');
 Route::get('/belair', [PageController::class, 'belair'])->name('belair');
@@ -39,6 +41,16 @@ Route::get('/register/pending', [RegisterController::class, 'pending'])->name('r
 Route::get('/email/verify/{id}/{hash}', [RegisterController::class, 'verify'])
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
+
+Route::post('/email/resend', [RegisterController::class, 'resend'])
+    ->middleware(['throttle:6,1'])
+    ->name('verification.resend');
+
+// Password reset routes
+Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.update');
 
 // Protected routes (dashboard requires authentication)
 Route::middleware(['auth'])->group(function () {

@@ -94,12 +94,24 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Send the email verification notification.
+     * Send the email verification notification with globalMail.
      *
      * @return void
      */
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new \App\Notifications\VerifyEmailNotification());
+        // Générer l'URL de vérification
+        $verificationUrl = \Illuminate\Support\Facades\URL::temporarySignedRoute(
+            'verification.verify',
+            \Carbon\Carbon::now()->addMinutes(60), // Expire dans 60 minutes
+            [
+                'id' => $this->id,
+                'hash' => sha1($this->getEmailForVerification()),
+            ]
+        );
+
+        // Envoyer l'email directement avec globalMail (pas de queue)
+        \Illuminate\Support\Facades\Mail::to($this->email)
+            ->send(new \App\Mail\VerifyEmailMail($this, $verificationUrl));
     }
 }

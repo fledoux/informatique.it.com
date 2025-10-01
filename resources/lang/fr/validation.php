@@ -149,6 +149,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Custom Password Validation Messages
+    |--------------------------------------------------------------------------
+    */
+    
+    'password_min_length' => 'Le mot de passe doit contenir au moins :min caractères',
+    'password_lowercase' => 'Le mot de passe doit contenir au moins une lettre minuscule',
+    'password_uppercase' => 'Le mot de passe doit contenir au moins une lettre majuscule',
+    'password_number' => 'Le mot de passe doit contenir au moins un chiffre',
+    'password_special' => 'Le mot de passe doit contenir au moins un caractère spécial (:chars)',
+
+    /*
+    |--------------------------------------------------------------------------
     | Custom Validation Attributes
     |--------------------------------------------------------------------------
     |

@@ -1,6 +1,12 @@
 @extends('layouts.public')
 
-@section('title', __('global.Server error'))
+@section('title')
+    @if(isset($exception) && $exception->getMessage())
+        {{ __('error.' . $exception->getMessage()) }}
+    @else
+        {{ __('error.500.title') }}
+    @endif
+@endsection
 
 @section('content')
 <div class="container-fluid">
@@ -14,16 +20,22 @@
                 
                 <!-- Code d'erreur -->
                 <h1 class="display-1 fw-bold text-danger mb-0">500</h1>
-                <h2 class="h4 fw-normal text-secondary mb-4">{{ __('global.Server error') }}</h2>
+                <h2 class="h4 fw-normal text-secondary mb-4">
+                    @if(isset($exception) && $exception->getMessage())
+                        {{ __('error.' . $exception->getMessage()) }}
+                    @else
+                        {{ __('error.500.title') }}
+                    @endif
+                </h2>
                 
                 <!-- Message d'explication -->
                 <div class="row justify-content-center mb-5">
                     <div class="col-lg-6">
                         <p class="text-secondary">
-                            {{ __('global.Something went wrong on our servers') }}
+                            {{ __('error.500.message') }}
                         </p>
                         <p class="text-secondary small">
-                            {{ __('global.Our team has been notified and is working to fix this issue') }}
+                            {{ __('error.500.help') }}
                         </p>
                     </div>
                 </div>

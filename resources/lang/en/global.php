@@ -55,4 +55,9 @@ return [
         'yes' => 'Yes',
         'no' => 'No',
     ],
+
+    // Salutations contextuelles
+    'Good morning' => 'Good morning',
+    'Good afternoon' => 'Good afternoon', 
+    'Good evening' => 'Good evening',
 ];

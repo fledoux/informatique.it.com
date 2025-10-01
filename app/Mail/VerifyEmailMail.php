@@ -7,24 +7,22 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 
-// class globalMail extends Mailable implements ShouldQueue
-
-class globalMail extends Mailable
+class VerifyEmailMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $title;
-    public $content;
+    public User $user;
+    public string $verificationUrl;
 
     /**
      * Create a new message instance.
      */
-    
-    public function __construct($title, $content)
+    public function __construct(User $user, string $verificationUrl)
     {
-        $this->title = $title;
-        $this->content = $content;
+        $this->user = $user;
+        $this->verificationUrl = $verificationUrl;
     }
 
     /**
@@ -33,7 +31,7 @@ class globalMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Global Mail',
+            subject: __('register.Confirm your email'),
         );
     }
 
@@ -43,10 +41,11 @@ class globalMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.global',
+            view: 'emails.verify-email',
             with: [
-                'title' => $this->title,
-                'content' => $this->content,
+                'user' => $this->user,
+                'verificationUrl' => $this->verificationUrl,
+                'expires' => 60, // 60 minutes d'expiration
             ]
         );
     }

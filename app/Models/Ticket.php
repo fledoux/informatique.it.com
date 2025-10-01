@@ -247,17 +247,6 @@ class Ticket extends Model
     }
 
     /**
-     * Envoie une notification lors de la création d'un message
-     */
-    public static function sendNotification(int $id, string $title, string $message): void
-    {
-        $title = '#' . $id . ' Question';
-        $message = 'Text' . now()->format('H:i:s');
-        
-        PushoverService::send($title, $message);
-    }
-
-    /**
      * Génère ou récupère le lien public pour ce ticket
      */
     public function getPublicLink(): string

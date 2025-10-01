@@ -7,6 +7,7 @@ use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\Helper;
 
 class ContactController extends Controller
 {
@@ -40,7 +41,10 @@ class ContactController extends Controller
             'need' => $validated['need'],
         ]);
 
-        Contact::sendNotification('Nouveau Contact', $validated);
+        $title = 'Nouveau Contact';
+        $message = $validated['name'] . "\n" . $validated['email'] . "\n" . $validated['phone'] . "\n" . $validated['type'] . "\n" . $validated['need'];
+        Helper::sendPushoverNotification($title, $message);
+        
         return redirect()->route('home')->with('success', __('global.messages.created'));
     }
 

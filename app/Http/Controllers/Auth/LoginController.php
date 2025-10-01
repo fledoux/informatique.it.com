@@ -38,6 +38,18 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
+        // Vérifier d'abord si l'utilisateur existe et a un email vérifié
+        $user = \App\Models\User::where('email', $credentials['email'])
+                                ->whereNotNull('email_verified_at')
+                                ->first();
+
+        if (!$user) {
+            // L'utilisateur n'existe pas ou email non vérifié
+            return back()->withErrors([
+                'email' => __('auth.email_not_verified'),
+            ])->onlyInput('email');
+        }
+
         $remember = $request->boolean('remember');
 
         if (Auth::attempt($credentials, $remember)) {

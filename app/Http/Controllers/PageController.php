@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use App\Models\Contact;
 use App\Models\Ticket;
 use App\Models\Company;
 use App\Models\Page;
 use Spatie\Honeypot\ProtectAgainstSpam;
+use App\Helpers\Helper;
 
 class PageController extends Controller
 {
@@ -56,6 +56,11 @@ class PageController extends Controller
     public function cgv()
     {
         return view('pages.cgv');
+    }
+
+    public function cgu()
+    {
+        return view('pages.cgu');
     }
 
     public function qr(Request $request)
@@ -111,7 +116,9 @@ class PageController extends Controller
             'need' => $validated['need'],
         ]);
 
-        Contact::sendNotification('Nouveau Contact', $validated);
+        $title = 'Nouveau Contact';
+        $message = $validated['name'] . "\n" . $validated['email'] . "\n" . $validated['phone'] . "\n" . $validated['type'] . "\n" . $validated['need'];
+        Helper::sendPushoverNotification($title, $message);
 
         // Redirect back with success message
         return redirect()->route('home')

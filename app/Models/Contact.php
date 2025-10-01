@@ -45,11 +45,4 @@ class Contact extends Model
     {
         return self::getTypes()[$this->type] ?? $this->type;
     }
-
-    public static function sendNotification(string $title, array $message): void
-    {
-        $msg = $message['name'] . "\n" . $message['email'] . "\n" . $message['phone'] . "\n" . $message['type'] . "\n" . $message['need'];
-
-        PushoverService::send($title, $msg);
-    }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\TicketStoreRequest;
 use App\Http\Requests\TicketUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\Helper;
 
 class TicketController extends Controller
 {
@@ -25,7 +26,7 @@ class TicketController extends Controller
     {
         $data = $request->validated();
         $user = Auth::user();
-        
+
         // Si l'utilisateur est manager ou user, on force certains champs
         if ($user->hasRole(['manager', 'user'])) {
             // Valeurs par défaut pour manager/user
@@ -37,9 +38,13 @@ class TicketController extends Controller
             $data['due'] = null;
             $data['billable'] = true;
         }
-        
+
         $ticket = Ticket::create($data);
-        Ticket::sendNotification($ticket->id, 'Création de Ticket', 'Message de notification');
+
+        $title = '#' . $ticket->id . ' Question';
+        $message = 'Création de Ticket';
+        Helper::sendPushoverNotification($title, $message);
+
         return redirect()->route('ticket.show', $ticket->id)->with('success', __('global.messages.created'));
     }
 
@@ -87,13 +92,13 @@ class TicketController extends Controller
     {
         try {
             $ticket = Ticket::findOrFail($id);
-            
+
             // Empêcher l'auto-suppression
             if (strtolower('Ticket') === 'user' && Auth::check() && $ticket->id === Auth::id()) {
                 return redirect()->route('ticket.index')
                     ->with('error', __('global.messages.cannot_delete_self'));
             }
-            
+
             $ticket->delete();
             return redirect()->route('ticket.index')->with('success', __('global.messages.deleted'));
         } catch (ModelNotFoundException $e) {

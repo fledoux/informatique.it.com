@@ -20,6 +20,16 @@ return [
     'Still having trouble?' => 'Encore des difficultés ?',
     'Contact support' => 'Contacter le support',
 
+    // Page 403
+    'Access denied' => 'Accès refusé',
+    'You do not have permission to access this resource' => 'Vous n\'avez pas l\'autorisation d\'accéder à cette ressource',
+    'Please contact your administrator if you think this is an error' => 'Veuillez contacter votre administrateur si vous pensez qu\'il s\'agit d\'une erreur',
+    'About permissions' => 'À propos des permissions',
+    'This resource requires specific permissions to access' => 'Cette ressource nécessite des permissions spécifiques pour y accéder',
+    'Contact your team administrator to request access' => 'Contactez l\'administrateur de votre équipe pour demander l\'accès',
+    'For technical support' => 'Envoyez un email à l\'équipe de développement ',
+    'Login' => 'Se connecter',
+
     // Page 500
     'Server error' => 'Erreur serveur',
     'Something went wrong on our servers' => 'Un problème est survenu sur nos serveurs',
@@ -59,4 +69,13 @@ return [
         'access_denied' => 'Accès refusé. Veuillez vous connecter.',
         'unauthorized' => 'Vous devez être connecté pour accéder à cette page.',
     ],
+
+    // Salutations contextuelles
+    'Good morning' => 'Bonjour',
+    'Good afternoon' => 'Bonne après-midi', 
+    'Good evening' => 'Bonsoir',
+    'Thanks' => 'Merci',
+    
+    // Pages légales
+    'Terms of Use' => 'Conditions Générales d\'Utilisation',
 ];
