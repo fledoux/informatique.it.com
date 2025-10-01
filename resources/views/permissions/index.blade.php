@@ -46,9 +46,9 @@
                             <tr>
                                 <th class="align-middle" style="width: 40%">Permission</th>
                                 <th class="text-center align-middle" style="width: 15%">Type</th>
-                                <th class="text-center align-middle" style="width: 15%">Rôles</th>
+                                <th class="text-center align-middle" style="width: 15%">Pages avec Rôle</th>
                                 <th class="text-center align-middle" style="width: 15%">Utilisateurs</th>
-                                <th class="align-middle" style="width: 15%">Actions</th>
+                                <th class="text-center align-middle" style="width: 15%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,7 +79,7 @@
                                     <td class="text-center">
                                         <span class="badge bg-primary bg-opacity-75">{{ $permission->users()->count() }}</span>
                                     </td>
-                                    <td class="text-nowrap">
+                                    <td class="text-center text-nowrap">
                                         @can('permission.show')
                                             <a href="{{ route('permissions.show', $permission) }}" 
                                                class="btn btn-link text-decoration-none p-0 me-2"
@@ -118,7 +118,7 @@
                                                 @endif
                                             @endcan
                                         @else
-                                            <span class="text-muted small">Protégée</span>
+                                            <span class="text-muted small"><i class="fa-regular fa-lock"></i></span>
                                         @endif
                                     </td>
                                 </tr>
