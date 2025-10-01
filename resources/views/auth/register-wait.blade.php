@@ -11,9 +11,6 @@
                 <strong>{{ __('register.Opening') }}</strong> : <span class="text-orange">{{ __('register.Opening date') }}</span>
             </div>
         </h5>
-
-        <p>{{ __('register.Site in test') }}</p>
-
         <p>{{ __('register.If you need support now') }}</p>
         <p class="text-center">{{ __('register.Contact us at') }}&nbsp;<strong>01&nbsp;49&nbsp;66&nbsp;21&nbsp;77</strong></p>
         <p class="text-center">{{ __('register.Or visit') }}</p>
