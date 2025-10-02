@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Auth;
 
 class AllowDomainRegistrationController extends Controller
 {
+    /**
+     * Apply permission middleware to controller methods.
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:allow-domain-registration.index')->only(['index']);
+        $this->middleware('permission:allow-domain-registration.create')->only(['create', 'store']);
+        $this->middleware('permission:allow-domain-registration.show')->only(['show']);
+        $this->middleware('permission:allow-domain-registration.edit')->only(['edit', 'update']);
+        $this->middleware('permission:allow-domain-registration.delete')->only(['destroy']);
+    }
+
     public function index()
     {
         $allowDomainRegistrations = AllowDomainRegistration::query()->with(['company'])->latest('id')->paginate(15);

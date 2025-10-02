@@ -54,11 +54,13 @@
                     </button>
                 </form>
                 
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div class="mb-2">
                     <a href="{{ route('login') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
                         <i class="fa-regular fa-arrow-left me-1"></i>
                         {{ __('passwords.Back to Login') }}
                     </a>
+                </div>
+                <div class="mb-2">
                     <a href="{{ route('home') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
                         <i class="fa-regular fa-rotate-left me-1"></i>
                         {{ __('global.Cancel') }}

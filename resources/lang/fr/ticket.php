@@ -74,4 +74,9 @@ return [
         'yes' => '<i class="fa-regular fa-square-check text-success"></i>',
         'no' => '<i class="fa-regular fa-square-xmark text-danger"></i>'
     ],
+    
+    'empty_state' => [
+        'title' => 'Créez votre première demande de support',
+        'create_button' => 'Créer le premier ticket'
+    ],
 ];

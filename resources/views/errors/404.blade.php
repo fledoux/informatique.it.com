@@ -121,7 +121,7 @@
 
 @section('scripts')
 <script>
-// Animation d'entrée
+{{-- Animation d'entrée --}}
 document.addEventListener('DOMContentLoaded', function() {
     const elements = document.querySelectorAll('.fa-face-sad-tear, .display-1, .h4, .text-secondary, .btn, .card');
     elements.forEach((el, index) => {

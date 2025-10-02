@@ -73,43 +73,15 @@
                 </tbody>
             </table>
         </div>
-    @else
-        @php
-            $funnyMessages = [
-                '🦗 Crickets... Pas de tickets ici ! (C\'est une bonne nouvelle, non ?)',
-                '🌴 Profitez de ce moment de calme avant la tempête !',
-                '🎉 Félicitations ! Vous avez atteint le nirvana du support : zéro ticket !',
-                '🕵️ Nos détectives n\'ont rien trouvé... Pas même une miette de ticket !',
-                '🏖️ Zone de tickets vide détectée. Permission d\'aller à la plage ?',
-                '👻 Ici repose la liste des tickets... R.I.P. (Rien Ici Present)',
-                '🎭 Le spectacle est annulé : aucun ticket disponible !',
-                '🌟 C\'est tellement vide qu\'on pourrait y faire de l\'écho... écho... écho...',
-                '🦄 Aussi rare qu\'une licorne : une liste de tickets vide !',
-                '🎪 Le cirque est fermé, pas de tickets aujourd\'hui !',
-                '🌴 Notre tableau de tickets a pris sa retraite anticipée !',
-                '🚀 Houston, nous avons... absolument rien à signaler !',
-                '🧘 Respirez... Aucun ticket ne viendra troubler votre zen aujourd\'hui.',
-                '🎯 Objectif atteint : inbox vide ! Maintenant, que faire de tout ce temps libre ?',
-                '🌈 Quelque part au bout de cet arc-en-ciel... toujours aucun ticket !',
-                '⚡ Flash info : La productivité atteint des sommets grâce à zéro ticket !',
-                '🎮 Game Over ! Vous avez vaincu tous les tickets ! Score final : 0 restant.',
-                '🍕 Tant de temps libre qu\'on pourrait commander une pizza !',
-                '🎵 Le silence est d\'or... surtout quand il n\'y a pas de ticket !',
-                '🏆 Champion du monde de la gestion de tickets : catégorie "Liste vide" !',
-            ];
-        @endphp
-        
+    @else        
         <div class="card border-0 shadow-sm">
             <div class="card-body text-center py-5">
                 <i class="fa-light fa-message-smile text-orange mb-4" style="font-size: 5rem;"></i>
-                <h3 class="text-muted mb-3">{{ $funnyMessages[array_rand($funnyMessages)] }}</h3>
-                <p class="text-muted mb-4">
-                    <small>Rechargez la page pour découvrir un nouveau message !</small>
-                </p>
+                <h3 class="text-muted mb-3">{{ __('ticket.empty_state.title') }}</h3>
                 @can('ticket.create')
                     <a href="{{ route('ticket.create') }}" class="btn btn-orange">
                         <i class="fa-regular fa-square-plus"></i>
-                        Créer le premier ticket
+                        {{ __('ticket.empty_state.create_button') }}
                     </a>
                 @endcan
             </div>

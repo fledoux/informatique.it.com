@@ -280,4 +280,6 @@ class Helper
 			__('validation.password_special', ['chars' => '!@#$%^&*']),
 		];
 	}
+
+
 }

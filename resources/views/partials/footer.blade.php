@@ -6,7 +6,8 @@
                 <div class="col-12">
                     <p>
                         <b>Groupe :</b> {{ auth()->user()->getRoleNames()->implode(', ') }}<br>
-                        <b>Société :</b> {{ auth()->user()->company?->id ?? 'Aucune société' }}
+                        <b>Société :</b> {{ auth()->user()->company?->id ?? 'Aucune société' }} {{ auth()->user()->company?->name ?? 'Aucune société' }}<br>
+                        <b>Middleware :</b> {{ collect(request()->route()?->gatherMiddleware() ?? [])->implode(', ') }}
                     </p>
                 </div>
             </div>

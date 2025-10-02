@@ -23,7 +23,7 @@
                         :labelAfter="true" autofocus />
                 </div>
                 <div class="form-floating form-field-middle">
-                    <x-forms.input name="company" type="text" :label="__('register.CompanyName')" :value="old('company')" :required="true"
+                    <x-forms.input name="phone" type="text" :label="__('register.Phone')" :value="old('phone')" :required="true"
                         :labelAfter="true" />
                 </div>
                 <div class="form-floating form-field-middle">
@@ -34,26 +34,28 @@
                     <x-forms.input name="lastname" type="text" :label="__('register.LastName')" :value="old('lastname')" :required="true"
                         :labelAfter="true" />
                 </div>
-                <div class="form-floating form-field-middle">
+                {{-- Début du masquage --}}
+                <div class="form-floating form-field-middle company-fields">
+                    <x-forms.input name="company" type="text" :label="__('register.CompanyName')" :value="old('company')" :required="true"
+                        :labelAfter="true" />
+                </div>
+                <div class="form-floating form-field-middle company-fields">
                     <x-forms.input name="address_line1" type="text" :label="__('register.AddressLine1')" :value="old('address_line1')"
                         :required="true" :labelAfter="true" />
                 </div>
-                <div class="form-floating form-field-middle">
+                <div class="form-floating form-field-middle company-fields">
                     <x-forms.input name="address_line2" type="text" :label="__('register.AddressLine2')" :value="old('address_line2')"
                         :labelAfter="true" />
                 </div>
-                <div class="form-floating form-field-middle">
+                <div class="form-floating form-field-middle company-fields">
                     <x-forms.input name="zip" type="text" :label="__('register.Zip')" :value="old('zip')" :required="true"
                         :labelAfter="true" />
                 </div>
-                <div class="form-floating form-field-middle">
+                <div class="form-floating form-field-middle company-fields">
                     <x-forms.input name="city" type="text" :label="__('register.City')" :value="old('city')" :required="true"
                         :labelAfter="true" />
                 </div>
-                <div class="form-floating form-field-middle">
-                    <x-forms.input name="phone" type="text" :label="__('register.Phone')" :value="old('phone')" :required="true"
-                        :labelAfter="true" />
-                </div>
+                {{-- Fin du masquage --}}
                 <div class="form-floating form-field-middle">
                     <x-forms.input name="password" type="password" :label="__('register.Password')" :required="true" :labelAfter="true"
                         id="password" />
@@ -86,18 +88,21 @@
                     </div>
                 </div>
                 <div class="form-check">
-                    <input type="checkbox" 
-                           class="form-check-input @error('agree_terms') is-invalid @enderror" 
-                           id="agree_terms" 
-                           name="agree_terms" 
-                           value="1"
-                           @if(old('agree_terms')) checked @endif
-                           required>
+                    <input type="checkbox" class="form-check-input @error('agree_terms') is-invalid @enderror"
+                        id="agree_terms" name="agree_terms" value="1" @if (old('agree_terms')) checked @endif
+                        required>
                     <label class="form-check-label" for="agree_terms">
-                        {!! __('register.AgreeTerms', ['cgu_link' => '<a href="' . route('cgu') . '" class="text-orange text-decoration-none" target="_blank">' . __('register.Terms of Use') . '</a>']) !!}
+                        {!! __('register.AgreeTerms', [
+                            'cgu_link' =>
+                                '<a href="' .
+                                route('cgu') .
+                                '" class="text-orange text-decoration-none" target="_blank">' .
+                                __('register.Terms of Use') .
+                                '</a>',
+                        ]) !!}
                         <span class="text-danger">*</span>
                     </label>
-                    
+
                     @error('agree_terms')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -108,17 +113,83 @@
                     {{ __('register.Register') }}
                 </button>
             </form>
-            <p>
-                <a href="{{ route('home') }}" class="btn btn-link p-0 float-end text-secondary">
+            <div class="mb-2">
+                <a href="{{ route('login') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
+                    <i class="fa-regular fa-arrow-left me-1"></i>
+                    {{ __('passwords.Back to Login') }}
+                </a>
+            </div>
+            <div>
+                <a href="{{ route('home') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
+                    <i class="fa-regular fa-rotate-left me-1"></i>
                     {{ __('global.Cancel') }}
                 </a>
-            </p>
+            </div>
         </div>
     </div>
     @include('emails._baseline2')
 
     <script>
+        {{-- Vérification du domaine email pour masquer/afficher les champs société --}}
+        $("#email").change(function() {
+            var email = $(this).val();
+
+            if (!email || !email.includes('@')) {
+                {{-- Email vide ou invalide : afficher les champs et réactiver la validation --}}
+                $(".company-fields").show();
+                $(".company-fields input[name='company']").attr('required', 'required');
+                $(".company-fields input[name='firstname']").attr('required', 'required');
+                $(".company-fields input[name='lastname']").attr('required', 'required');
+                $(".company-fields input[name='address_line1']").attr('required', 'required');
+                $(".company-fields input[name='zip']").attr('required', 'required');
+                $(".company-fields input[name='city']").attr('required', 'required');
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/register/check-domain",
+                dataType: "json",
+                data: {
+                    email: email,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.found) {
+                        {{-- Domaine trouvé : masquer les champs et désactiver la validation --}}
+                        $(".company-fields").hide();
+                        $(".company-fields input").val('').removeAttr('required');
+                    } else {
+                        {{-- Domaine non trouvé : afficher les champs et réactiver la validation --}}
+                        $(".company-fields").show();
+                        $(".company-fields input[name='company']").attr('required', 'required');
+                        $(".company-fields input[name='firstname']").attr('required', 'required');
+                        $(".company-fields input[name='lastname']").attr('required', 'required');
+                        $(".company-fields input[name='address_line1']").attr('required', 'required');
+                        $(".company-fields input[name='zip']").attr('required', 'required');
+                        $(".company-fields input[name='city']").attr('required', 'required');
+                    }
+                },
+                error: function() {
+                    {{-- Erreur AJAX : afficher les champs par sécurité et réactiver la validation --}}
+                    $(".company-fields").show();
+                    $(".company-fields input[name='company']").attr('required', 'required');
+                    $(".company-fields input[name='firstname']").attr('required', 'required');
+                    $(".company-fields input[name='lastname']").attr('required', 'required');
+                    $(".company-fields input[name='address_line1']").attr('required', 'required');
+                    $(".company-fields input[name='zip']").attr('required', 'required');
+                    $(".company-fields input[name='city']").attr('required', 'required');
+                }
+            });
+        });
+
         $(document).ready(function() {
+            {{-- Vérifier le domaine au chargement si l'email est pré-rempli (cas d'erreur de validation) --}}
+            var initialEmail = $("#email").val();
+            if (initialEmail && initialEmail.includes('@')) {
+                $("#email").trigger('change');
+            }
+
             const $passwordInput = $('input[name="password"]');
             const $strengthBar = $('#password-strength-bar');
 
@@ -127,12 +198,12 @@
                 const $element = $('#' + elementId);
 
                 if (met) {
-                    // Condition OK : check vert
+                    {{-- Condition OK : check vert --}}
                     $icon.removeClass('fa-regular fa-circle text-muted')
                         .addClass('fa-solid fa-circle-check text-success me-2');
                     $element.removeClass('text-muted').addClass('text-success');
                 } else {
-                    // Condition pas OK : circle gris
+                    {{-- Condition pas OK : circle gris --}}
                     $icon.removeClass('fa-solid fa-circle-check text-success')
                         .addClass('fa-regular fa-circle text-muted me-2');
                     $element.removeClass('text-success').addClass('text-muted');
@@ -173,7 +244,7 @@
                 }
             }
 
-            // Event listener pour le champ password
+            {{-- Event listener pour le champ password --}}
             $passwordInput.on('input', function() {
                 const password = $(this).val();
                 const {
@@ -181,10 +252,10 @@
                     checks
                 } = calculateStrength(password);
 
-                // Mettre à jour la barre de progression
+                {{-- Mettre à jour la barre de progression --}}
                 updateStrengthBar(strength);
 
-                // Mettre à jour chaque requirement
+                {{-- Mettre à jour chaque requirement --}}
                 updateRequirement('icon-length', 'req-length', checks.length);
                 updateRequirement('icon-lowercase', 'req-lowercase', checks.lowercase);
                 updateRequirement('icon-uppercase', 'req-uppercase', checks.uppercase);
@@ -192,7 +263,7 @@
                 updateRequirement('icon-special', 'req-special', checks.special);
             });
 
-            // Validation lors de la soumission
+            {{-- Validation lors de la soumission --}}
             $('form').on('submit', function(e) {
                 const password = $passwordInput.val();
                 const {

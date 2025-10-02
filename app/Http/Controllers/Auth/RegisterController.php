@@ -69,6 +69,23 @@ class RegisterController extends Controller
 
         // Vérifier si le domaine email permet une inscription automatique
         $company = AllowDomainRegistration::findCompanyByEmailDomain($request->email);
+        $isNewCompany = false;
+        
+        // Si pas de société trouvée ET si les champs société sont renseignés, créer une nouvelle société
+        // MAIS on n'ajoute PAS automatiquement le domaine pour éviter les problèmes de sécurité
+        if (!$company && $request->filled('company')) {
+            $company = \App\Models\Company::create([
+                'name' => $request->company,
+                'status' => 'active',
+                'address_line1' => $request->address_line1,
+                'address_line2' => $request->address_line2,
+                'zip' => $request->zip,
+                'city' => $request->city,
+            ]);
+            $isNewCompany = true; // Marquer qu'on vient de créer cette société
+            // Note: On ne crée pas automatiquement l'AllowDomainRegistration
+            // L'admin pourra l'ajouter manuellement après validation
+        }
         
         // Create the user
         $user = User::create([
@@ -79,12 +96,18 @@ class RegisterController extends Controller
             'lastname' => $request->lastname,
             'phone' => $request->phone,
             'agree_terms' => $request->agree_terms,
-            'company_id' => $company?->id, // Rattacher automatiquement si domaine autorisé
+            'company_id' => $company?->id, // Rattacher automatiquement
             'email_verified_at' => null, // Will be set when email is verified
         ]);
 
-        // Assign default role
-        $user->assignRole('user'); // Default role based on PermissionSeeder
+        // Assign role based on company situation
+        if ($isNewCompany) {
+            // Nouvelle société créée = premier utilisateur = admin de sa société
+            $user->assignRole('admin');
+        } else {
+            // Société existante (domaine reconnu) = utilisateur standard qui rejoint
+            $user->assignRole('user');
+        }
 
         // Send verification email manually
         $user->sendEmailVerificationNotification();

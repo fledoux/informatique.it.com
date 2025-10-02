@@ -105,14 +105,17 @@ class PermissionSeeder extends Seeder
             'company.show', 'user.show', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit'
         ]);
 
-        // === UTILISATEUR SUPER ADMIN PAR DÉFAUT ===
+        // === UTILISATEURS PAR DÉFAUT ===
+        
+        // Super Admin
         $superAdminUser = User::firstOrCreate([
             'email' => 'a@a.com'
         ], [
-            'name' => 'Super Admin',           // AJOUTER
-            'password' => bcrypt('azerty'),  // AJOUTER
+            'name' => 'Super Admin',
+            'password' => bcrypt('azerty'),
             'status' => 'active',
-            'agree_terms' => 'oui'
+            'agree_terms' => 'oui',
+            'email_verified_at' => now()
         ]);
         $superAdminUser->assignRole('super-admin');
 

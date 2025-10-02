@@ -29,24 +29,24 @@
     {{-- Language Switcher Script --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Gérer le changement de langue
+            {{-- Gérer le changement de langue --}}
             document.querySelectorAll('.language-switch').forEach(button => {
                 button.addEventListener('click', function() {
                     const locale = this.dataset.locale;
                     const currentLocale = '{{ app()->getLocale() }}';
 
-                    // Ne rien faire si c'est déjà la langue courante
+                    {{-- Ne rien faire si c'est déjà la langue courante --}}
                     if (locale === currentLocale) {
                         return;
                     }
 
-                    // Afficher un indicateur de chargement
+                    {{-- Afficher un indicateur de chargement --}}
                     const originalText = this.innerHTML;
                     this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> ' + originalText
                         .replace(/🇫🇷|🇬🇧/, '');
                     this.disabled = true;
 
-                    // Envoyer la requête
+                    {{-- Envoyer la requête --}}
                     fetch('{{ route('locale.change') }}', {
                             method: 'POST',
                             headers: {
@@ -62,19 +62,19 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                // Recharger la page pour appliquer la nouvelle langue
+                                {{-- Recharger la page pour appliquer la nouvelle langue --}}
                                 window.location.reload();
                             } else {
                                 console.error('Erreur lors du changement de langue:', data
                                     .message);
-                                // Restaurer le texte original
+                                {{-- Restaurer le texte original --}}
                                 this.innerHTML = originalText;
                                 this.disabled = false;
                             }
                         })
                         .catch(error => {
                             console.error('Erreur réseau:', error);
-                            // Restaurer le texte original
+                            {{-- Restaurer le texte original --}}
                             this.innerHTML = originalText;
                             this.disabled = false;
                         });

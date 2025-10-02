@@ -12,17 +12,14 @@
                     <i class="fa-regular fa-key"></i>
                     {{ __('passwords.Reset Password') }}
                 </h5>
-
                 <p class="text-secondary small mb-4">
                     {{ __('passwords.Enter your email address and we will send you a link to reset your password') }}
                 </p>
-
                 @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {!! session('status') !!}
                     </div>
                 @endif
-
                 <form method="POST" action="{{ route('password.email') }}">
                     @csrf
                     <div class="form-floating">
@@ -34,7 +31,6 @@
                         {{ __('passwords.Send Password Reset Link') }}
                     </button>
                 </form>
-
                 <div class="mb-2">
                     <a href="{{ route('login') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
                         <i class="fa-regular fa-arrow-left me-1"></i>

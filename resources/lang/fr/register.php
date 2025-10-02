@@ -9,7 +9,7 @@ return [
     'AgreeTerms' => 'J\'accepte les :cgu_link',
     'Terms of Use' => 'conditions d\'utilisation',
     'Check your email' => 'Vérifiez votre e-mail',
-    'We have just sent you a link to complete your registration.' => 'Nous venons de vous envoyer un lien pour finaliser votre inscription.',
+    'We have just sent you a link to complete your registration.' => 'Nous venons de vous envoyer un lien<br>pour finaliser votre inscription.',
     'Opening' => 'Ouverture',
     'Opening date' => '14 novembre 2025',
     'Site in test' => 'Le site est pour le moment en test.',

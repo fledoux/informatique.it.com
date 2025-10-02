@@ -38,7 +38,7 @@
         $(newToast).addClass('alert-' + color);
         $(newToast).find('.toast-picto').addClass('fa-regular ' + picto + ' text-' + color);
         
-        // Auto-hide après 5 secondes
+        {{-- Auto-hide après 5 secondes --}}
         setTimeout(() => {
             $(newToast).fadeOut(300, function() {
                 $(this).remove();

@@ -21,4 +21,5 @@ return [
     'CaseStudies' => 'Cas clients',
     'FAQ' => 'FAQ',
     'FreeQuote' => 'Devis gratuit',
+    'Domains' => 'Domaines',
 ];

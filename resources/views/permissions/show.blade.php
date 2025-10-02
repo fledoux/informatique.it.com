@@ -233,7 +233,7 @@
 
                 <p class="mt-3"><strong>Dans le code PHP :</strong></p>
                 <pre><code>if (auth()->user()->can('{{ $permission->name }}')) {
-    // Code exécuté si l'utilisateur a la permission
+    {{-- Code exécuté si l'utilisateur a la permission --}}
 }</code></pre>
             </div>
         </div>

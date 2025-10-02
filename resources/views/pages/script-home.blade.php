@@ -1,6 +1,6 @@
 {{-- Home page JavaScript --}}
 <script>
-	// Toggle HT/TTC (TTC = HT * 1.20)
+	{{-- Toggle HT/TTC (TTC = HT * 1.20) --}}
 (function () {
 const toggle = document.getElementById('toggleTTC');
 const prices = () => document.querySelectorAll('#tarifs .js-price');
@@ -47,7 +47,7 @@ toggle.addEventListener('change', refresh);
 }
 refresh();
 
-// --- Simulateur ---
+{{-- --- Simulateur --- --}}
 const $ = (sel) => document.querySelector(sel);
 const fmt = (n) => new Intl.NumberFormat('fr-FR', {
 minimumFractionDigits: (Math.abs(n - Math.round(n)) < 1e-9) ? 0 : 2,
@@ -82,14 +82,14 @@ p50: 52,
 p100: 47,
 p400: 45
 };
-// HT par ticket
-// Majorations (tickets additionnels)
+{{-- HT par ticket --}}
+{{-- Majorations (tickets additionnels) --}}
 const EXTRA = {
-night: 1, // Nuit → +1 ticket
-weekend: 1, // Week-end → +1 ticket
-holiday: 2, // Jour férié → +2 tickets
-urgent: 3, // Urgence → +3 tickets
-travel: 3 // Déplacement Paris/RP → +3 tickets
+night: 1, {{-- Nuit → +1 ticket --}}
+weekend: 1, {{-- Week-end → +1 ticket --}}
+holiday: 2, {{-- Jour férié → +2 tickets --}}
+urgent: 3, {{-- Urgence → +3 tickets --}}
+travel: 3 {{-- Déplacement Paris/RP → +3 tickets --}}
 };
 
 function setExtrasUI() { // Met à jour les badges visuels d’après la config
@@ -103,25 +103,25 @@ badge.textContent = '+' + label;
 });
 }
 const ids = {
-// Totaux HT
+{{-- Totaux HT --}}
 tot_ht_unit: '#tot_ht_unit',
 tot_ht_p10: '#tot_ht_p10',
 tot_ht_p50: '#tot_ht_p50',
 tot_ht_p100: '#tot_ht_p100',
 tot_ht_p400: '#tot_ht_p400',
-// Totaux TTC
+{{-- Totaux TTC --}}
 tot_ttc_unit: '#tot_ttc_unit',
 tot_ttc_p10: '#tot_ttc_p10',
 tot_ttc_p50: '#tot_ttc_p50',
 tot_ttc_p100: '#tot_ttc_p100',
 tot_ttc_p400: '#tot_ttc_p400',
-// Prix unitaire HT
+{{-- Prix unitaire HT --}}
 t_ht_unit: '#t_ht_unit',
 t_ht_p10: '#t_ht_p10',
 t_ht_p50: '#t_ht_p50',
 t_ht_p100: '#t_ht_p100',
 t_ht_p400: '#t_ht_p400',
-// Prix unitaire TTC
+{{-- Prix unitaire TTC --}}
 t_ttc_unit: '#t_ttc_unit',
 t_ttc_p10: '#t_ttc_p10',
 t_ttc_p50: '#t_ttc_p50',
@@ -163,7 +163,7 @@ return {base, extra, total};
 function refreshSimulator() {
 const {total} = computeTickets();
 refreshHeure();
-// Remplir prix unitaires HT/TTC
+{{-- Remplir prix unitaires HT/TTC --}}
 Object.entries(PRICES).forEach(([key, priceHT]) => {
 const uHT = priceHT;
 const uTTC = priceHT * 1.2;
@@ -178,7 +178,7 @@ t_ttc.textContent = fmt(uTTC);
 
 
 });
-// Totaux par offre (HT & TTC)
+{{-- Totaux par offre (HT & TTC) --}}
 Object.entries(PRICES).forEach(([key, priceHT]) => {
 const totalHT = total * priceHT;
 const totalTTC = totalHT * 1.2;
@@ -193,7 +193,7 @@ tt.textContent = fmt(totalTTC);
 
 
 });
-// Surligner la meilleure offre (HT)
+{{-- Surligner la meilleure offre (HT) --}}
 let bestKey = null,
 bestVal = Infinity;
 Object.entries(PRICES).forEach(([key, priceHT]) => {
@@ -259,7 +259,7 @@ refreshHeure();
 setExtrasUI();
 refreshSimulator();
 })();
-// Validation Bootstrap
+{{-- Validation Bootstrap --}}
 (() => {
 const forms = document.querySelectorAll('.needs-validation');
 Array.from(forms).forEach(form => {

@@ -26,9 +26,8 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-light">
                     <h5 class="mb-0">
-                        <i class="fa-regular fa-folder-open"></i>
-                        {{ ucfirst($group) }}
                         <span class="badge bg-primary bg-opacity-75">{{ count($groupPermissions) }}</span>
+                        {{ ucfirst($group) }}
                     </h5>
                 </div>
                 <div class="card-body">
@@ -36,7 +35,7 @@
                         <table class="table table-hover table-sm">
                             <thead>
                                 <tr>
-                                    <th class="text-start align-middle" style="min-width: 250px;">Permission</th>
+                                    <th class="text-start align-middle" style="min-width: 250px;">Rôle</th>
                                     <th class="text-center align-middle" style="width: 120px;">Type</th>
                                     @foreach ($roles as $role)
                                         <th class="text-center align-middle" style="width: 150px;">

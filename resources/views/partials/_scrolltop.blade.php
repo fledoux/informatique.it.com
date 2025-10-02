@@ -5,11 +5,11 @@
 </button>
 
 <script>
-    // Script pour le bouton scroll to top
+    {{-- Script pour le bouton scroll to top --}}
     document.addEventListener('DOMContentLoaded', function() {
         const scrollToTopBtn = document.getElementById('scrollToTop');
 
-        // Afficher/masquer le bouton selon le scroll
+        {{-- Afficher/masquer le bouton selon le scroll --}}
         window.addEventListener('scroll', function() {
             if (window.pageYOffset > 300) {
                 scrollToTopBtn.style.display = 'block';
@@ -18,7 +18,7 @@
             }
         });
 
-        // Action au clic : retour en haut avec animation
+        {{-- Action au clic : retour en haut avec animation --}}
         scrollToTopBtn.addEventListener('click', function() {
             window.scrollTo({
                 top: 0,

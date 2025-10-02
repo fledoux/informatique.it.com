@@ -34,9 +34,8 @@
         <div class="card shadow-sm mb-4">
             <div class="card-header bg-light">
                 <h5 class="mb-0">
-                    <i class="fa-regular fa-folder-open"></i>
-                    {{ ucfirst($group) }}
                     <span class="badge bg-primary bg-opacity-75">{{ count($groupPermissions) }}</span>
+                    {{ ucfirst($group) }}
                 </h5>
             </div>
             <div class="card-body">
@@ -44,7 +43,7 @@
                     <table class="table table-hover table-sm">
                         <thead>
                             <tr>
-                                <th class="align-middle" style="width: 40%">Permission</th>
+                                <th class="align-middle" style="width: 40%">Rôles</th>
                                 <th class="text-center align-middle" style="width: 15%">Type</th>
                                 <th class="text-center align-middle" style="width: 15%">Pages avec Rôle</th>
                                 <th class="text-center align-middle" style="width: 15%">Utilisateurs</th>
@@ -74,10 +73,19 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge bg-primary bg-opacity-75">{{ $permission->roles()->count() }}</span>
+                                        @php
+                                            $rolesCount = $permission->roles()->count();
+                                            $badgeClass = $rolesCount == 0 ? 'bg-secondary bg-opacity-75' : ($rolesCount == 1 ? 'bg-success bg-opacity-75' : 'bg-danger bg-opacity-75');
+                                        @endphp
+                                        <span class="badge {{ $badgeClass }}">{{ $rolesCount }}</span>
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge bg-primary bg-opacity-75">{{ $permission->users()->count() }}</span>
+                                        @php
+                                            // Compter les utilisateurs via leurs rôles qui ont cette permission
+                                            $usersCount = $permission->roles()->with('users')->get()->pluck('users')->flatten()->unique('id')->count();
+                                            $usersBadgeClass = $usersCount == 0 ? 'bg-secondary bg-opacity-75' : ($usersCount == 1 ? 'bg-success bg-opacity-75' : 'bg-danger bg-opacity-75');
+                                        @endphp
+                                        <span class="badge {{ $usersBadgeClass }}">{{ $usersCount }}</span>
                                     </td>
                                     <td class="text-center text-nowrap">
                                         @can('permission.show')
@@ -98,7 +106,10 @@
                                             @endcan
                                             
                                             @can('permission.delete')
-                                                @if($permission->roles()->count() == 0 && $permission->users()->count() == 0)
+                                                @php
+                                                    $usersCountForDeletion = $permission->roles()->with('users')->get()->pluck('users')->flatten()->unique('id')->count();
+                                                @endphp
+                                                @if($permission->roles()->count() == 0 && $usersCountForDeletion == 0)
                                                     <form method="POST" 
                                                           action="{{ route('permissions.destroy', $permission) }}" 
                                                           class="d-inline"

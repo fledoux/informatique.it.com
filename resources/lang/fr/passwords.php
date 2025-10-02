@@ -10,7 +10,7 @@ return [
     // Nouvelles traductions
     'Reset Password' => 'Réinitialiser le mot de passe',
     'Send Password Reset Link' => 'Envoyer le lien de réinitialisation',
-    'Back to Login' => 'Retour à la connexion',
+    'Back to Login' => 'J\'ai déjà un compte',
     'Enter your email address and we will send you a link to reset your password' => 'Saisissez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe',
     'Enter your new password' => 'Saisissez votre nouveau mot de passe',
     'New Password' => 'Nouveau mot de passe',
