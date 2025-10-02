@@ -25,7 +25,7 @@ class CheckDomainController extends Controller
         
         if (empty($domain)) {
             return response()->json([
-                'found' => false
+                'valid' => false
             ]);
         }
 
@@ -33,7 +33,7 @@ class CheckDomainController extends Controller
         $allowedDomain = AllowDomainRegistration::where('domain', $domain)->exists();
 
         return response()->json([
-            'found' => $allowedDomain
+            'valid' => $allowedDomain
         ]);
     }
 }

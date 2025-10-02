@@ -11,12 +11,16 @@
                     'canceled' => __('ticket.status.canceled'),
                 ]" :value="$ticket->status ?? 'new'" />
             </div>
-            <div class="col-12 col-lg-8">
-                <x-forms.relation name="company_id" :label="__('ticket.fields.company_id')" model="Company" display-field="name" :value="$ticket->company_id ?? null" />
-            </div>
-            <div class="col-12 col-lg-6">
-                <x-forms.relation name="author_id" :label="__('ticket.fields.author_id')" model="User" display-field="name" :value="$ticket->author_id ?? null" />
-            </div>
+            @hasrole('super-admin')
+                <div class="col-12 col-lg-8">
+                    <x-forms.relation name="company_id" :label="__('ticket.fields.company_id')" model="Company" display-field="name" :value="$ticket->company_id ?? null" />
+                </div>
+            @endhasrole
+            @hasrole('super-admin')
+                <div class="col-12 col-lg-6">
+                    <x-forms.relation name="author_id" :label="__('ticket.fields.author_id')" model="User" display-field="name" :value="$ticket->author_id ?? null" />
+                </div>
+            @endhasrole
 
             <div class="col-12 col-lg-6">
                 <x-forms.select name="assigned_to" :label="__('ticket.fields.assigned_to')" :options="App\Models\Ticket::getAssignedToOptions()" :value="$ticket->assigned_to ?? null" />
@@ -60,7 +64,7 @@
                 placeholder="" />
         </div>
         <div class="col-12">
-            <x-forms.input name="question" :label="__('ticket.fields.question')" type="textarea" :rows="4" :required="true"
+            <x-forms.textarea name="question" :label="__('ticket.fields.question')" :rows="4" :required="true"
                 :value="old('question', $ticket->question ?? null)" />
         </div>
     </div>

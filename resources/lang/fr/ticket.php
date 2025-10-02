@@ -47,7 +47,7 @@ return [
     'statusBadgeColor' => [
         'new' => 'bg-danger',
         'in_progress' => 'bg-primary',
-        'waiting' => 'bg-warning',
+        'waiting' => 'bg-warning text-dark',
         'resolved' => 'bg-success',
         'closed' => 'bg-secondary',
         'canceled' => 'bg-danger'
@@ -67,12 +67,12 @@ return [
     'priorityBadgeColor' => [
         'low' => 'bg-success',
         'normal' => 'bg-primary',
-        'high' => 'bg-warning',
+        'high' => 'bg-warning text-dark',
         'urgent' => 'bg-danger'
     ],
     'billable' => [
-        'yes' => '<i class="fa-regular fa-square-check text-success"></i>',
-        'no' => '<i class="fa-regular fa-square-xmark text-danger"></i>'
+        'yes' => '<i class="fa-solid fa-square-check text-success"></i>',
+        'no' => '<i class="fa-solid fa-square-xmark text-danger"></i>'
     ],
     
     'empty_state' => [

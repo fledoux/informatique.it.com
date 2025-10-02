@@ -155,12 +155,12 @@
                     _token: $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    if (response.found) {
-                        {{-- Domaine trouvé : masquer les champs et désactiver la validation --}}
+                    if (response.valid) {
+                        {{-- Domaine autorisé : masquer les champs et désactiver la validation --}}
                         $(".company-fields").hide();
                         $(".company-fields input").val('').removeAttr('required');
                     } else {
-                        {{-- Domaine non trouvé : afficher les champs et réactiver la validation --}}
+                        {{-- Domaine non autorisé : afficher les champs et réactiver la validation --}}
                         $(".company-fields").show();
                         $(".company-fields input[name='company']").attr('required', 'required');
                         $(".company-fields input[name='firstname']").attr('required', 'required');

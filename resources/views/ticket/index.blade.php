@@ -8,7 +8,7 @@
     <h1 class="mb-4">{{ __('ticket.List') }}</h1>
 
     @if($tickets->count() > 0)
-        <div class="table-responsive-lg">
+        <div class="table-responsive">
             <table class="table align-middle table-xs table-bordered table-hover">
                 <thead>
                     <tr>

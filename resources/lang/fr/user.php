@@ -2,10 +2,11 @@
 
 return [
         'entity' => 'User',
-        'id' => 'ID',
+        'id' => 'N°',
         'List' => 'Liste',
         'Edit' => 'Modifier',
         'Details' => 'Détails',
+        'TitleDetails' => '<i class="far fa-eye"></i> Détails du compte',
         'Actions' => 'Actions',
         'New' => 'Nouveau',
         'Save' => 'Enregistrer',
@@ -13,20 +14,21 @@ return [
         'Delete' => 'Supprimer',
         'Delete?' => 'Supprimer ?',
         'No data' => 'Aucune donnée',
-
+        'Create' => 'Ajouter un utilisateur',
         'fields' => [
-                'name' => 'Nom',
+                'name' => 'Nom du compte',
                 'email' => 'Email',
                 'password' => 'Mot de passe',
                 'status' => 'Statut',
                 'company_id' => 'Entreprise',
-                'firstname' => 'Firstname',
-                'lastname' => 'Lastname',
-                'initial' => 'Initial',
+                'firstname' => 'Prénom',
+                'lastname' => 'Nom de famille',
+                'initial' => 'Initiale',
                 'phone' => 'Téléphone',
-                'last_login' => 'Last Login',
-                'agree_terms' => 'Agree Terms',
-                'channels' => 'Channels',
+                'last_login' => 'Dernière connexion',
+                'agree_terms' => 'Accepter les conditions',
+                'Conditions' => 'Conditions',
+                'channels' => 'Canaux',
                 'channels_email' => 'Email',
                 'channels_sms' => 'Sms',
                 'note' => 'Note',
@@ -45,15 +47,21 @@ return [
                 'oui' => 'Oui',
                 'non' => 'Non'
         ],
+        'statusAgreeTermsColor' => [
+                'oui' => '<i class="fa-regular fa-square-check text-success"></i>',
+                'non' => '<i class="fa-regular fa-square-xmark text-danger"></i>'
+        ],
 
         'roles' => [
                 'super-admin' => 'Super Admin',
                 'manager' => 'Gestionnaire',
-                'user' => 'Utilisateur'
+                'user' => 'Utilisateur',
+                'admin' => 'Admin'
         ],
         'badgeRolesColor' => [
-                'super-admin' => 'bg-warning text-dark',
-                'manager' => 'bg-primary',
-                'user' => 'bg-info'
+                'super-admin' => 'bg-danger',
+                'admin' => 'bg-orange',
+                'manager' => 'bg-warning',
+                'user' => 'bg-success'
         ]
 ];

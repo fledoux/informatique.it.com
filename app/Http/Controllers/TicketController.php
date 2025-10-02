@@ -39,12 +39,16 @@ class TicketController extends Controller
         $data = $request->validated();
         $user = Auth::user();
 
-        // Si l'utilisateur est manager ou user, on force certains champs
+        // Pour tous les utilisateurs sauf super-admin, on force le company_id et author_id
+        if (!$user->hasRole('super-admin')) {
+            $data['company_id'] = $user->company_id;
+            $data['author_id'] = $user->id;
+        }
+
+        // Si l'utilisateur est manager ou user, on force certains champs supplémentaires
         if ($user->hasRole(['manager', 'user'])) {
             // Valeurs par défaut pour manager/user
             $data['status'] = 'new';
-            $data['company_id'] = $user->company_id;
-            $data['author_id'] = $user->id;
             $data['assigned_to'] = null;
             $data['assigned_at'] = null;
             $data['due'] = null;

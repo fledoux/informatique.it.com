@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', __('global.Details') . '  ' . __('user.entity'))
+@section('title', __('user.TitleDetails') . '  ' . ($user->firstname ?? '') . ' ' . ($user->lastname ?? ''))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('global.Details') !!}  {{ __('user.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('user.TitleDetails') !!}  {{ __('user.entity') }}</h1>
 
     <dl class="row">
         <dt class="col-sm-3">{{ __('user.id') }}</dt>
@@ -21,7 +21,6 @@
                 @case('active')
                     @php($badgeColor = 'success')
                 @break
-
                 @case('inactive')
                     @php($badgeColor = 'secondary')
                 @break
@@ -44,17 +43,7 @@
         </dd>
         <dt class="col-sm-3">{{ __('user.fields.agree_terms') }}</dt>
         <dd class="col-sm-9">
-            @php($badgeColor = 'secondary')
-            @switch($user->agree_terms)
-                @case('oui')
-                    @php($badgeColor = 'primary')
-                @break
-
-                @case('non')
-                    @php($badgeColor = 'primary')
-                @break
-            @endswitch
-            <span class="badge bg-{{ $badgeColor }}">{{ __('user.agree_terms.' . $user->agree_terms) }}</span>
+            {!! __('user.statusAgreeTermsColor.' . $user->agree_terms) !!}
         </dd>
         <dt class="col-sm-3">{{ __('user.fields.channels') }}</dt>
         <dd class="col-sm-9">

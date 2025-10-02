@@ -56,8 +56,8 @@
                     <h3 class="h6 mb-0 fw-bold"><i class="fa-regular fa-ticket"></i> Ticket #{{ $ticket->id }}</h3>
                 </div>
                 <div class="card-body">
-                    <p><small class="text-muted">{{ $ticket->created_at->format('l, d F Y à H\hi') ?? '' }}</small></p>
-                    <p><i class="fa-regular fa-square-check text-success"></i> {!! __('ticket.yes') !!},
+                    <p><small class="text-primary">{{ $ticket->created_at->format('l, d F Y à H\hi') ?? '' }}</small></p>
+                    <p><i class="fa-solid fa-square-check text-success"></i> {!! __('ticket.yes') !!},
                         {{ $ticket->author_id ? \App\Models\User::find($ticket->author_id)?->name : '' }}
                         {!! __('ticket.cgv') !!}</p>
                     <span
@@ -67,10 +67,17 @@
 
                     <p>
                         <span
-                            class="fw-bold">{{ $ticket->company_id ? \App\Models\Company::find($ticket->company_id)?->name : '' }}</span><br>
+                            class="h4">{{ $ticket->company_id ? \App\Models\Company::find($ticket->company_id)?->name : '' }}</span><br>
                         {{ $ticket->author_id ? \App\Models\User::find($ticket->author_id)?->name : '' }}<br>
+                        <small class="text-muted">{{ $ticket->author?->getRoleNames()->implode(', ') }}</small><br>
                         {!! \App\Helpers\Helper::mailTo(\App\Models\User::find($ticket->author_id)->email) !!}<br>
-                        {{ $ticket->author_id ? \App\Models\User::find($ticket->author_id)?->phone : '' }}
+                        {!! $ticket->author_id
+                            ? '<a href="tel:' .
+                                \App\Models\User::find($ticket->author_id)?->phone .
+                                '" class="text-orange text-decoration-none">' .
+                                \App\Models\User::find($ticket->author_id)?->phone .
+                                '</a>'
+                            : '' !!}
                     </p>
                     <p>
                         <span class="text-muted">{{ __('ticket.fields.folder_code') }} :
@@ -78,11 +85,13 @@
                         <span class="text-muted">{{ __('ticket.fields.due') }} :
                         </span>{{ $ticket->due ? ($ticket->due instanceof \Carbon\Carbon ? $ticket->due->format('d/m/y à H\hi') : $ticket->due) : '' }}<br>
                         <span class="text-muted">{{ __('ticket.fields.assigned_to') }} :
-                        </span>{{ $ticket->assignedTo?->name ?? '—' }}<br>
+                        </span>{{ $ticket->assignedTo?->name ?? '' }}<br>
                         <span class="text-muted">{{ __('ticket.fields.assigned_at') }} :
                         </span>{{ $ticket->assigned_at ? ($ticket->assigned_at instanceof \Carbon\Carbon ? $ticket->assigned_at->format('d/m/y à H\hi') : $ticket->assigned_at) : '' }}<br>
 
-                        <span class="text-muted">{{ __('ticket.fields.billable') }} : </span>{!! $ticket->billable ? __('ticket.billable.yes') : __('ticket.billable.no') !!}
+                        <span
+                            class="{{ $ticket->billable ? 'text-muted' : 'text-danger' }}">{{ __('ticket.fields.billable') }}
+                            : </span>{!! $ticket->billable ? __('ticket.billable.yes') : __('ticket.billable.no') !!}
                     </p>
                     <div class="d-none d-sm-flex mt-3">
                         @include('ticket._addTicket')
@@ -102,14 +111,14 @@
                     </p>
                 </div>
                 <div class="card-footer bg-success-subtle">
-                    <span class="text-success fw-bold">Solde : <span class="float-end">12
+                    <span class="text-success fw-bold">Solde au {{ now()->format('d/m/y') }} : <span class="float-end">12
                             {{ abs(12) > 1 ? __('ticket.tickets') : __('ticket.ticket') }}</span></span><br>
                 </div>
             </div>
 
             <div class="card border mb-4">
                 <div class="card-header bg-secondary text-white">
-                    <h3 class="h6 mb-0"><i class="fa-regular fa-money-bill-1"></i> Fichiers joints</h3>
+                    <h3 class="h6 mb-0"><i class="fa-regular fa-file-import"></i> Fichiers joints</h3>
                 </div>
                 <div class="card-body pb-0">
                     <p claass="p-0">ici2</p>
@@ -117,18 +126,18 @@
             </div>
             <div class="card border mb-4">
                 <div class="card-header bg-secondary text-white">
-                    <h3 class="h6 mb-0"><i class="fa-regular fa-money-bill-1"></i> Demande d'Approbation</h3>
+                    <h3 class="h6 mb-0"><i class="fa-regular fa-thumbs-up"></i> Demande d'Approbation</h3>
                 </div>
                 <div class="card-body pb-0">
                     @php
                         $managers = $ticket->getManagers();
                     @endphp
-                    
-                    @if($managers->count() > 0)
-                            Votre demande inclut actuellement {!! \App\Helpers\Helper::asLetters($managers->count()) !!} approbateur{{ $managers->count() > 1 ? 's' : '' }}, uniquement si elle concerne la sécurité :
+
+                    @if ($managers->count() > 0)
+                        Une approbation est requise uniquement pour les demandes liées à la sécurité.<br>Voici la liste des approbateurs actuels :
                         </p>
                         <ul class="small fa-ul">
-                            @foreach($managers as $manager)
+                            @foreach ($managers as $manager)
                                 <li class="mb-2">
                                     <span class="fa-li"><i class="fa-solid fa-dash"></i></span>
                                     <div class="">{!! $manager->name !!}</div>

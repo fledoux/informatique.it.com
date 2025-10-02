@@ -11,7 +11,7 @@
 @section('content')
     <h1 class="mb-4">{{ __('allow-domain-registration.List') }}</h1>
 
-    <div class="table-responsive-lg">
+    <div class="table-responsive">
         <table class="table align-middle table-xs table-bordered table-hover">
             <thead>
                 <tr>

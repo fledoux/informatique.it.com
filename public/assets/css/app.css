@@ -155,3 +155,5 @@ footer a { text-decoration: none; }
 
 .text-muted { color: #cccccc !important; }
 .badge {font-weight: normal !important; text-transform: uppercase !important;}
+dt { text-align: right; font-weight: initial !important; color:var(--secondary); opacity: .5; min-height:32px;}
+dt::after { content: " :"; }

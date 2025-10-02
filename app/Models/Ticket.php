@@ -116,15 +116,28 @@ class Ticket extends Model
      */
     public static function getMyLastTickets(int $limit = 20)
     {
-               $user = Auth::user();
+        $user = Auth::user();
 
         if (!$user) {
             return collect();
         }
 
-        return self::with(['company', 'author', 'assignedTo'])
-            ->where('author_id', $user->id)
-            ->orderBy('created_at', 'desc')
+        $query = self::with(['company', 'author', 'assignedTo']);
+
+        // Super-admin : tous les tickets
+        if ($user->hasRole('super-admin')) {
+            // Pas de restriction
+        }
+        // Admin et Manager : tous les tickets de leur société
+        elseif ($user->hasRole(['admin', 'manager'])) {
+            $query->where('company_id', $user->company_id);
+        }
+        // User : seulement ses propres tickets
+        else {
+            $query->where('author_id', $user->id);
+        }
+
+        return $query->orderBy('created_at', 'desc')
             ->limit($limit)
             ->get();
     }
@@ -166,8 +179,8 @@ class Ticket extends Model
         // Appliquer les filtres selon le rôle
         if ($user->hasRole('super-admin')) {
             // Super Admin voit tous les tickets - pas de filtre
-        } elseif ($user->hasRole('manager')) {
-            // Manager voit seulement les tickets de sa société
+        } elseif ($user->hasRole(['admin', 'manager'])) {
+            // Admin et Manager voient seulement les tickets de leur société
             $query->where('company_id', $user->company_id);
         } else {
             // Utilisateur normal voit seulement ses tickets

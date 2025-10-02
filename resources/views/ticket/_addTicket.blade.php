@@ -1,4 +1,4 @@
-<div class="dropdown">
+<div class="dropdown w-100">
     <button class="btn btn-orange dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa-solid fa-bars me-2"></i>Actions
     </button>

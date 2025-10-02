@@ -3,9 +3,7 @@
 @section('title', __('dashboard.Welcome'))
 
 @section('content')
-
-    <div class="container-xxl py-4">
-
+    <div class="container-xxl py-4 px-0">
         {{-- Titre + actions rapides --}}
         <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 mb-5">
             <h1 class="h3 mb-3 mb-sm-0">
@@ -39,7 +37,6 @@
                 @endcan
             </div>
         </div>
-
         {{-- KPIs --}}
         <div class="row g-3 mb-5">
             <div class="col-12 col-md-4 col-xl-2">
@@ -54,7 +51,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-4 col-xl-2">
-                <div class="card shadow-sm h-100 {{ $ticketStats['open_tickets_count'] > 0 ? 'bg-warning' : '' }}">
+                <div class="card shadow-sm h-100 {{ $ticketStats['open_tickets_count'] > 0 ? 'bg-danger text-white' : '' }}">
                     <div class="card-body d-flex align-items-center gap-3">
                         <i
                             class="fa-light fa-clipboard-list-check fs-3 {{ $ticketStats['open_tickets_count'] > 0 ? '' : 'text-orange' }}"></i>
@@ -115,7 +112,6 @@
                 </div>
             @endcan
         </div>
-
         {{-- Derniers tickets --}}
         <div class="card shadow-sm border-4">
             <div class="card-header d-flex align-items-center justify-content-between">
@@ -137,9 +133,12 @@
                                 <th>{{ __('ticket.Priority') }}</th>
                                 <th>{{ __('ticket.Subject') }}</th>
                                 <th>{{ __('ticket.Company') }}</th>
+                                @unless(auth()->user()->hasRole('user'))
+                                    <th>{{ __('ticket.Author') }}</th>
+                                @endunless
                                 <th>{{ __('ticket.AssignedTo') }}</th>
                                 <th>{{ __('ticket.DueAt') }}</th>
-                                <th class="text-end">{{ __('global.Action') }}</th>
+                                <th class="text-start">{{ __('global.Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -151,8 +150,6 @@
                                             <span class="badge {{ __('ticket.statusBadgeColor.' . $ticket->status) }}">
                                                 {{ __('ticket.status.' . $ticket->status) }}
                                             </span>
-                                        @else
-                                            
                                         @endif
                                     </td>
                                     <td>
@@ -160,15 +157,16 @@
                                             <span class="badge {{ __('ticket.priorityBadgeColor.' . $ticket->priority) }}">
                                                 {{ __('ticket.priority.' . $ticket->priority) }}
                                             </span>
-                                        @else
-                                            
                                         @endif
                                     </td>
                                     <td class="text-truncate" style="max-width:320px">{{ $ticket->subject }}</td>
                                     <td>{{ $ticket->company?->name ?? '' }}</td>
+                                    @unless(auth()->user()->hasRole('user'))
+                                        <td>{{ $ticket->author ? \App\Helpers\Helper::getFullName($ticket->author->firstname, $ticket->author->lastname, $ticket->author->name) : '' }}</td>
+                                    @endunless
                                     <td>{{ $ticket->assignedTo?->email ?? '' }}</td>
                                     <td>{{ $ticket->due ? $ticket->due->format('d/m H:i') : '' }}</td>
-                                    <td class="text-end">
+                                    <td class="text-start">
                                         <a href="{{ route('ticket.show', $ticket) }}"
                                             class="btn btn-sm btn-outline-primary">
                                             <i class="fa-regular fa-eye"></i>
@@ -177,7 +175,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-secondary py-4">
+                                    <td colspan="{{ auth()->user()->hasRole('user') ? '8' : '9' }}" class="text-center text-secondary py-4">
                                         {{ __('dashboard.NoTicketsYet') }}</td>
                                 </tr>
                             @endforelse
@@ -186,7 +184,5 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 @endsection

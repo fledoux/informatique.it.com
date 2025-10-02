@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-fluid')
 
 @section('title')
     @if (auth()->check() && auth()->user()->hasRole('manager'))
@@ -11,34 +11,28 @@
 @section('content')
     <h1 class="mb-4">{{ __('user.List') }}</h1>
 
-    <div class="table-responsive-lg">
+    <div class="table-responsive">
         <table class="table align-middle table-xs table-bordered table-hover">
             <thead>
                 <tr>
                     <th class="text-center">{{ __('user.id') }}</th>
-                    <th class="text-left">{{ __('user.fields.name') }}</th>
-                    <th class="text-left">{{ __('user.fields.email') }}</th>
                     <th class="text-left">{{ __('user.fields.status') }}</th>
+                    <th class="text-left">{{ __('user.fields.name') }}</th>
+                    <th class="text-left">{{ __('user.fields.firstname') }}</th>
+                    <th class="text-left">{{ __('user.fields.lastname') }}</th>
+                    <th class="text-left">{{ __('user.fields.email') }}</th>
                     @can('company.show')
                         <th class="text-left">{{ __('user.fields.company_id') }}</th>
                     @endcan
                     <th class="text-left">{{ __('user.fields.roles') }}</th>
-                    <th class="text-left">{{ __('user.fields.firstname') }}</th>
-                    <th class="text-left">{{ __('user.fields.lastname') }}</th>
                     @can('user.edit')
                         <th class="text-left">{{ __('user.fields.initial') }}</th>
                     @endcan
                     <th class="text-left">{{ __('user.fields.phone') }}</th>
                     @can('user.edit')
-                        <th class="text-left">{{ __('user.fields.last_login') }}</th>
+                        <th class="text-center">{{ __('user.fields.Conditions') }}</th>
                     @endcan
-                    @can('user.edit')
-                        <th class="text-left">{{ __('user.fields.agree_terms') }}</th>
-                    @endcan
-                    <th class="text-left">{{ __('user.fields.channels') }}</th>
-                    @can('user.edit')
-                        <th class="text-left">{{ __('user.fields.note') }}</th>
-                    @endcan
+                    <th class="text-center">{{ __('user.fields.channels') }}</th>
                     <th>{{ __('global.Actions') }}</th>
                 </tr>
             </thead>
@@ -46,12 +40,15 @@
                 @forelse($users as $user)
                     <tr>
                         <td class="text-center">{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
                         <td>
                             <span
-                                class="badge {{ __('user.statusBadgeColor.' . $user->status) }}">{{ __('user.status.' . $user->status) }}</span>
+                                class="badge {{ __('user.statusBadgeColor.' . $user->status) }}">{{ __('user.status.' . $user->status) }}
+                            </span>
                         </td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->firstname }}</td>
+                        <td>{{ $user->lastname }}</td>
+                        <td>{{ $user->email }}</td>
                         @can('company.show')
                             <td>{{ $user->company?->name ?? '' }}</td>
                         @endcan
@@ -61,43 +58,21 @@
                                     <span
                                         class="badge {{ __('user.badgeRolesColor.' . $role) }} me-1">{{ __('user.roles.' . $role) }}</span>
                                 @endforeach
-                            @else
-                                <span class="text-secondary"></span>
                             @endif
                         </td>
-                        <td>{{ $user->firstname }}</td>
-                        <td>{{ $user->lastname }}</td>
                         @can('user.edit')
                             <td>{{ $user->initial }}</td>
                         @endcan
                         <td>{{ $user->phone }}</td>
                         @can('user.edit')
-                            <td>{{ $user->last_login ? ($user->last_login instanceof \Carbon\Carbon ? $user->last_login->format('d/m/Y H:i') : $user->last_login) : '' }}
-                            </td>
-                        @endcan
-                        @can('user.edit')
-                            <td>
-                                @php($badgeColor = 'secondary')
-                                @switch($user->agree_terms)
-                                    @case('oui')
-                                        @php($badgeColor = 'primary')
-                                    @break
-
-                                    @case('non')
-                                        @php($badgeColor = 'primary')
-                                    @break
-                                @endswitch
-                                <span
-                                    class="badge bg-{{ $badgeColor }}">{{ __('user.agree_terms.' . $user->agree_terms) }}</span>
+                            <td class="text-center">
+                                {!! __('user.statusAgreeTermsColor.' . $user->agree_terms) !!}
                             </td>
                         @endcan
                         <td>
                             {{ collect(['email', 'sms'])->filter(fn($key) => $user->channels[$key] ?? false)->map(fn($key) => __('user.fields.channels_' . $key))->join(', ') ?:
                                 '' }}
                         </td>
-                        @can('user.edit')
-                            <td>{{ $user->note }}</td>
-                        @endcan
                         <td class="text-nowrap">
                             <a href="{{ route('user.show', $user) }}" class="btn btn-link text-decoration-none p-0 me-2">
                                 {!! __('global.Details') !!}
@@ -105,33 +80,35 @@
                             <a href="{{ route('user.edit', $user) }}" class="btn btn-link text-decoration-none p-0 me-2">
                                 {!! __('global.Edit') !!}
                             </a>
+                            <span class="me-2">
+                                @include('user._delete_form', ['user' => $user])
+                            </span>
                             @can('user.edit')
-                                @if($user->id !== auth()->id())
+                                @if ($user->id !== auth()->id())
                                     <form method="POST" action="{{ route('user.impersonate', $user) }}" class="d-inline">
                                         @csrf
-                                        <button type="submit" class="btn btn-link text-decoration-none p-0 me-2 text-warning"
-                                                onclick="return confirm('{{ __('nav.Login') }} en tant que {{ $user->name }} ?')">
-                                            <i class="fa-regular fa-user-gear"></i> {{ __('nav.Login') }}
+                                        <button type="submit" class="btn btn-link text-decoration-none p-0 me-2 float-end"
+                                            onclick="return confirm('{{ __('nav.Login') }} en tant que {{ $user->name }} ?')">
+                                            <i class="fa-regular fa-arrow-right-to-bracket"></i>
                                         </button>
                                     </form>
                                 @endif
                             @endcan
-                            @include('user._delete_form', ['user' => $user])
                         </td>
                     </tr>
-                    @empty
-                        <tr>
-                            <td colspan="16" class="text-center">
-                                {{ __('global.No data') }}
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                @empty
+                    <tr>
+                        <td colspan="16" class="text-center">
+                            {{ __('global.No data') }}
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
-        <a href="{{ route('user.create') }}" class="btn btn-orange mt-3">
-            <i class="fa-regular fa-square-plus"></i>
-            {{ __('global.New') }}
-        </a>
-    @endsection
+    <a href="{{ route('user.create') }}" class="btn btn-orange mt-3">
+        <i class="fa-regular fa-square-plus"></i>
+        {{ __('global.New') }}
+    </a>
+@endsection
