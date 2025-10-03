@@ -25,7 +25,7 @@ Route::get('/cgv', [PageController::class, 'cgv'])->name('cgv');
 Route::get('/cgu', [PageController::class, 'cgu'])->name('cgu');
 Route::get('/flyer', [PageController::class, 'flyer'])->name('flyer');
 Route::get('/web', [PageController::class, 'web'])->name('web');
-Route::get('/rue', [PageController::class, 'rue'])->name('rue');
+Route::get('/street', [PageController::class, 'street'])->name('street');
 Route::get('/car', [PageController::class, 'car'])->name('car');
 Route::get('/scannez-moi', [PageController::class, 'qrCode'])->name('qr-code');
 

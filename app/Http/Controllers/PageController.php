@@ -63,19 +63,19 @@ class PageController extends Controller
         return view('pages.cgu');
     }
 
-    public function flyer(Request $request)
-    {
-        Page::scan($request, 'FLYER');
-        return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
-    }
-
     public function web(Request $request)
     {
         Page::scan($request, 'WEB');
         return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
     }
 
-    public function rue(Request $request)
+    public function flyer(Request $request)
+    {
+        Page::scan($request, 'FLYER');
+        return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
+    }
+
+    public function street(Request $request)
     {
         Page::scan($request, 'RUE');
         return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
