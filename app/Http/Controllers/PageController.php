@@ -89,7 +89,7 @@ class PageController extends Controller
 
     public function qrCode()
     {
-        $dataUri = Page::generateQrCode('https://informatique-it.com/street');
+        $dataUri = Page::generateQrCode('https://informatique-it.com/car');
         return view('pages.qr-code', compact('dataUri'));
     }
 
