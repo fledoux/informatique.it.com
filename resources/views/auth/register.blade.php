@@ -10,7 +10,7 @@
     @endif
     <div class="card rounded-4 shadow m-3">
         <div class="card-body">
-            <img src="{{ asset('assets/img/logo/logo-vertical.svg') }}" alt="Mon Support by Yellow Cactus"
+            <img src="{{ asset('assets/img/logo/logo-vertical.svg') }}" alt="informatique-it.com by Yellow Cactus"
                 class="d-inline-block align-text-top mb-2 mx-3">
             <h5 class="card-title py-3">
                 <i class="fa-regular fa-address-card"></i>

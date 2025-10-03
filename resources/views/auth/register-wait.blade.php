@@ -5,10 +5,10 @@
 @section('content')
 <div class="card rounded-4 shadow m-3">
     <div class="card-body">
-        <img src="{{ asset('assets/img/logo/logo-vertical.svg') }}" alt="Mon Support by Yellow Cactus" class="d-inline-block align-text-top mb-2 mx-3">
+        <img src="{{ asset('assets/img/logo/logo-vertical.svg') }}" alt="informatique-it.com by Yellow Cactus" class="d-inline-block align-text-top mb-2 mx-3">
         <h5 class="card-title py-3">
             <div class="alert alert-warning text-center">
-                <strong>{{ __('register.Opening') }}</strong> : <span class="text-orange">{{ __('register.Opening date') }}</span>
+                <strong>{!! __('register.Opening') !!}</strong> : <span class="text-orange">{{ __('register.Opening date') }}</span>
             </div>
         </h5>
         <p>{{ __('register.If you need support now') }}</p>

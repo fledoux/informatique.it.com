@@ -11,7 +11,7 @@ return [
     'Check your email' => 'Vérifiez votre e-mail',
     'We have just sent you a link to complete your registration.' => 'Nous venons de vous envoyer un lien<br>pour finaliser votre inscription.',
     'Opening' => 'Ouverture',
-    'Opening date' => '14 novembre 2025',
+    'Opening date' => '14&nbsp;novembre&nbsp;2025',
     'Site in test' => 'Le site est pour le moment en test.',
     'If you need support now' => 'Si vous souhaitez du support dès aujourd\'hui,',
     'Contact us at' => 'Contactez-nous au',
