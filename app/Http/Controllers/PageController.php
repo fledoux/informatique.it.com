@@ -93,8 +93,6 @@ class PageController extends Controller
         return view('pages.qr-code', compact('dataUri'));
     }
 
-
-
     #[ProtectAgainstSpam]
     public function contact(Request $request)
     {
