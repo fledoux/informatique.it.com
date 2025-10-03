@@ -69,7 +69,7 @@
             <td style="background-color: #f8f9fa !important; padding: 20px;" bgcolor="#f8f9fa">
                 <!-- Conteneur avec coins arrondis et ombre -->
                 <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff !important; border: 1px solid #dee2e6; border-radius: 0.375rem; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); padding: 1.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color-scheme: light only !important;" bgcolor="#ffffff">
-                    <img src="{{ $message->embed(public_path('assets/img/logo/logo-horizontal.svg')) }}" alt="informatique.it.com"
+                    <img src="{{ $message->embed(public_path('assets/img/logo/logo-horizontal.svg')) }}" alt="informatique-it.com"
                         style="width:240px; margin-bottom: 40px !important;">
                     <h1 style="color: #212529 !important; font-size: 18px; font-weight: bold; margin-bottom: 1rem; margin-top: 20px;">
                         {{ __('register.Confirm your email') }}

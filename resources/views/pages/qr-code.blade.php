@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Scannez-moi - QR Code')
-@section('meta_description', 'Scannez ce QR code pour accéder facilement à informatique.it.com depuis votre téléphone')
+@section('meta_description', 'Scannez ce QR code pour accéder facilement à informatique-it.com depuis votre téléphone')
 
 @section('content')
 <div class="container py-5">
@@ -23,7 +23,7 @@
                     @if(!empty($dataUri))
                         <div class="mb-4 d-flex justify-content-center">
                             <div class="qr-code-container" style="max-width: 300px; width: 100%;">
-                                <img src="{{ $dataUri }}" alt="QR Code informatique.it.com" class="w-100" style="border: 2px solid #dee2e6; border-radius: 0.5rem; background: white; padding: 1rem;" />
+                                <img src="{{ $dataUri }}" alt="QR Code informatique-it.com" class="w-100" style="border: 2px solid #dee2e6; border-radius: 0.5rem; background: white; padding: 1rem;" />
                             </div>
                         </div>
                     @else

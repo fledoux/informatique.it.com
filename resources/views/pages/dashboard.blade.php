@@ -51,10 +51,10 @@
                 </div>
             </div>
             <div class="col-12 col-md-4 col-xl-2">
-                <div class="card shadow-sm h-100 {{ $ticketStats['open_tickets_count'] > 0 ? 'bg-danger text-white' : '' }}">
+                <div
+                    class="card shadow-sm h-100 {{ $ticketStats['open_tickets_count'] > 0 ? 'bg-danger text-white' : '' }}">
                     <div class="card-body d-flex align-items-center gap-3">
-                        <i
-                            class="fa-light fa-clipboard-list-check fs-3 {{ $ticketStats['open_tickets_count'] > 0 ? '' : 'text-orange' }}"></i>
+                        <i class="fa-light fa-clipboard-list-check fs-3 {{ $ticketStats['open_tickets_count'] > 0 ? '' : 'text-orange' }}"></i>
                         <div>
                             <div class="small">{{ __('dashboard.KPI.Open') }}</div>
                             <div class="fs-4 fw-semibold">{{ $ticketStats['open_tickets_count'] }}</div>
@@ -133,7 +133,7 @@
                                 <th>{{ __('ticket.Priority') }}</th>
                                 <th>{{ __('ticket.Subject') }}</th>
                                 <th>{{ __('ticket.Company') }}</th>
-                                @unless(auth()->user()->hasRole('user'))
+                                @unless (auth()->user()->hasRole('user'))
                                     <th>{{ __('ticket.Author') }}</th>
                                 @endunless
                                 <th>{{ __('ticket.AssignedTo') }}</th>
@@ -161,8 +161,9 @@
                                     </td>
                                     <td class="text-truncate" style="max-width:320px">{{ $ticket->subject }}</td>
                                     <td>{{ $ticket->company?->name ?? '' }}</td>
-                                    @unless(auth()->user()->hasRole('user'))
-                                        <td>{{ $ticket->author ? \App\Helpers\Helper::getFullName($ticket->author->firstname, $ticket->author->lastname, $ticket->author->name) : '' }}</td>
+                                    @unless (auth()->user()->hasRole('user'))
+                                        <td>{{ $ticket->author ? \App\Helpers\Helper::getFullName($ticket->author->firstname, $ticket->author->lastname, $ticket->author->name) : '' }}
+                                        </td>
                                     @endunless
                                     <td>{{ $ticket->assignedTo?->email ?? '' }}</td>
                                     <td>{{ $ticket->due ? $ticket->due->format('d/m H:i') : '' }}</td>
@@ -175,7 +176,8 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="{{ auth()->user()->hasRole('user') ? '8' : '9' }}" class="text-center text-secondary py-4">
+                                    <td colspan="{{ auth()->user()->hasRole('user') ? '8' : '9' }}"
+                                        class="text-center text-secondary py-4">
                                         {{ __('dashboard.NoTicketsYet') }}</td>
                                 </tr>
                             @endforelse

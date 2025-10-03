@@ -281,5 +281,59 @@ class Helper
 		];
 	}
 
+	/**
+	 * Formate une date avec le nom du jour en français
+	 * 
+	 * @param \Carbon\Carbon|null $date
+	 * @param string $format Format personnalisé (optionnel)
+	 * @param bool $capitalizeFirst Capitaliser la première lettre (optionnel)
+	 * @return string
+	 */
+	public static function formatDateWithFrenchDay($date, string $format = 'd F Y à H\hi', bool $capitalizeFirst = false): string
+	{
+		if (!$date) {
+			return '';
+		}
+
+		$frenchDays = [
+			'Sunday' => 'dimanche',
+			'Monday' => 'lundi',
+			'Tuesday' => 'mardi',
+			'Wednesday' => 'mercredi',
+			'Thursday' => 'jeudi',
+			'Friday' => 'vendredi',
+			'Saturday' => 'samedi'
+		];
+
+		$frenchMonths = [
+			'January' => 'janvier',
+			'February' => 'février',
+			'March' => 'mars',
+			'April' => 'avril',
+			'May' => 'mai',
+			'June' => 'juin',
+			'July' => 'juillet',
+			'August' => 'août',
+			'September' => 'septembre',
+			'October' => 'octobre',
+			'November' => 'novembre',
+			'December' => 'décembre'
+		];
+
+		// Formater avec les noms anglais d'abord
+		$formatted = $date->format($format);
+		
+		// Remplacer par les noms français
+		$formatted = str_replace(array_keys($frenchDays), array_values($frenchDays), $formatted);
+		$formatted = str_replace(array_keys($frenchMonths), array_values($frenchMonths), $formatted);
+
+		// Capitaliser la première lettre si demandé
+		if ($capitalizeFirst) {
+			$formatted = ucfirst($formatted);
+		}
+
+		return $formatted;
+	}
+
 
 }

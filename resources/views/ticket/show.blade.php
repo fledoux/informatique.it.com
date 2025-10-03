@@ -56,7 +56,9 @@
                     <h3 class="h6 mb-0 fw-bold"><i class="fa-regular fa-ticket"></i> Ticket #{{ $ticket->id }}</h3>
                 </div>
                 <div class="card-body">
-                    <p><small class="text-primary">{{ $ticket->created_at->format('l, d F Y à H\hi') ?? '' }}</small></p>
+                    <p><small
+                            class="text-primary">{{ \App\Helpers\Helper::formatDateWithFrenchDay($ticket->created_at, 'l, j F Y à H\hi', true) }}.</small>
+                    </p>
                     <p><i class="fa-solid fa-square-check text-success"></i> {!! __('ticket.yes') !!},
                         {{ $ticket->author_id ? \App\Models\User::find($ticket->author_id)?->name : '' }}
                         {!! __('ticket.cgv') !!}</p>
@@ -80,15 +82,14 @@
                             : '' !!}
                     </p>
                     <p>
-                        <span class="text-muted">{{ __('ticket.fields.folder_code') }} :
-                        </span>{{ $ticket->folder_code ?? '' }}<br>
-                        <span class="text-muted">{{ __('ticket.fields.due') }} :
-                        </span>{{ $ticket->due ? ($ticket->due instanceof \Carbon\Carbon ? $ticket->due->format('d/m/y à H\hi') : $ticket->due) : '' }}<br>
-                        <span class="text-muted">{{ __('ticket.fields.assigned_to') }} :
-                        </span>{{ $ticket->assignedTo?->name ?? '' }}<br>
-                        <span class="text-muted">{{ __('ticket.fields.assigned_at') }} :
-                        </span>{{ $ticket->assigned_at ? ($ticket->assigned_at instanceof \Carbon\Carbon ? $ticket->assigned_at->format('d/m/y à H\hi') : $ticket->assigned_at) : '' }}<br>
-
+                        <span class="text-muted">{{ __('ticket.fields.folder_code') }}
+                            :</span>{{ $ticket->folder_code ?? '' }}<br>
+                        <span class="text-muted">{{ __('ticket.fields.due') }} :</span>
+                        <span>{{ \App\Helpers\Helper::formatDateWithFrenchDay($ticket->due, 'l j/m/y - H\hi', true) }}</span><br>
+                        <span class="text-muted">{{ __('ticket.fields.assigned_to') }}
+                            :</span>{{ $ticket->assignedTo?->name ?? '' }}<br>
+                        <span class="text-muted">{{ __('ticket.fields.assigned_at') }}
+                            :</span>{{ $ticket->assigned_at ? ($ticket->assigned_at instanceof \Carbon\Carbon ? $ticket->assigned_at->format('d/m/y à H\hi') : $ticket->assigned_at) : '' }}<br>
                         <span
                             class="{{ $ticket->billable ? 'text-muted' : 'text-danger' }}">{{ __('ticket.fields.billable') }}
                             : </span>{!! $ticket->billable ? __('ticket.billable.yes') : __('ticket.billable.no') !!}
@@ -134,7 +135,8 @@
                     @endphp
 
                     @if ($managers->count() > 0)
-                        Une approbation est requise uniquement pour les demandes liées à la sécurité.<br>Voici la liste des approbateurs actuels :
+                        Une approbation est requise uniquement pour les demandes liées à la sécurité.<br>Voici la liste des
+                        approbateurs actuels :
                         </p>
                         <ul class="small fa-ul">
                             @foreach ($managers as $manager)

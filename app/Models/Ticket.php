@@ -159,42 +159,50 @@ class Ticket extends Model
             ];
         }
 
-        // Construire la requête de base
-        $query = self::selectRaw('
-            COUNT(*) as tickets_count,
-            COUNT(CASE WHEN status IN (?, ?, ?) THEN 1 END) as open_tickets_count,
-            COUNT(CASE WHEN status = ? THEN 1 END) as waiting_count,
-            COUNT(CASE WHEN due < ? AND status NOT IN (?, ?, ?) THEN 1 END) as overdue_count
-        ', [
-            TicketStatus::NEW->value,
-            TicketStatus::IN_PROGRESS->value,
-            TicketStatus::WAITING->value,
-            TicketStatus::WAITING->value,
-            $now,
-            TicketStatus::RESOLVED->value,
-            TicketStatus::CLOSED->value,
-            TicketStatus::CANCELED->value
-        ]);
+        // Construire la requête de base selon le rôle
+        $baseQuery = self::query();
 
         // Appliquer les filtres selon le rôle
         if ($user->hasRole('super-admin')) {
             // Super Admin voit tous les tickets - pas de filtre
         } elseif ($user->hasRole(['admin', 'manager'])) {
             // Admin et Manager voient seulement les tickets de leur société
-            $query->where('company_id', $user->company_id);
+            $baseQuery->where('company_id', $user->company_id);
         } else {
             // Utilisateur normal voit seulement ses tickets
-            $query->where('company_id', $user->company_id)
-                  ->where('author_id', $user->id);
+            $baseQuery->where('author_id', $user->id);
         }
 
-        $stats = $query->first();
+        // Calculer chaque statistique séparément
+        $tickets_count = (clone $baseQuery)->count();
+        
+        $open_tickets_count = (clone $baseQuery)
+            ->whereIn('status', [
+                TicketStatus::NEW->value,
+                TicketStatus::IN_PROGRESS->value,
+                TicketStatus::WAITING->value
+            ])
+            ->count();
+        
+        $waiting_count = (clone $baseQuery)
+            ->where('status', TicketStatus::WAITING->value)
+            ->count();
+        
+        $overdue_count = (clone $baseQuery)
+            ->whereNotNull('due')
+            ->where('due', '<', $now)
+            ->whereNotIn('status', [
+                TicketStatus::RESOLVED->value,
+                TicketStatus::CLOSED->value,
+                TicketStatus::CANCELED->value
+            ])
+            ->count();
 
         return [
-            'tickets_count' => $stats->tickets_count ?? 0,
-            'open_tickets_count' => $stats->open_tickets_count ?? 0,
-            'waiting_count' => $stats->waiting_count ?? 0,
-            'overdue_count' => $stats->overdue_count ?? 0,
+            'tickets_count' => $tickets_count,
+            'open_tickets_count' => $open_tickets_count,
+            'waiting_count' => $waiting_count,
+            'overdue_count' => $overdue_count,
         ];
     }
 

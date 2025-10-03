@@ -88,8 +88,8 @@
                                         <p class="text-secondary small mb-0">
                                             <i class="fa-regular fa-envelope text-primary me-2"></i>
                                             {{ __('global.For technical support') }} : 
-                                            <a href="mailto:dev@informatique.it.com" class="text-decoration-none">
-                                                dev@informatique.it.com
+                                            <a href="mailto:dev@informatique-it.com" class="text-decoration-none">
+                                                dev@informatique-it.com
                                             </a>
                                         </p>
                                     </div>

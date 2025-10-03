@@ -48,8 +48,8 @@ return [
                 'non' => 'Non'
         ],
         'statusAgreeTermsColor' => [
-                'oui' => '<i class="fa-regular fa-square-check text-success"></i>',
-                'non' => '<i class="fa-regular fa-square-xmark text-danger"></i>'
+                'oui' => '<i class="fa-solid fa-square-check text-success"></i>',
+                'non' => '<i class="fa-solid fa-square-xmark text-danger"></i>'
         ],
 
         'roles' => [
@@ -63,5 +63,9 @@ return [
                 'admin' => 'bg-orange',
                 'manager' => 'bg-warning',
                 'user' => 'bg-success'
-        ]
+        ],
+        'channels' => [
+                'email' => 'Email',
+                'sms' => 'Sms'
+        ],
 ];

@@ -3,7 +3,7 @@
 <nav class="navbar border-top border-5 border-orange navbar-expand-lg bg-white sticky-top shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ route('home') }}">
-            <img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="informatique.it.com"
+            <img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="informatique-it.com"
                 class="brand-logo d-inline-block align-text-top">
         </a>
         <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">

@@ -5,7 +5,7 @@
 @section('content')
 
 @php
-$rgpd_email = 'rgpd@informatique.it.com';
+$rgpd_email = 'rgpd@informatique-it.com';
 @endphp
 
 <section class="py-5">
@@ -20,7 +20,7 @@ $rgpd_email = 'rgpd@informatique.it.com';
         <div class="mt-4 p-4 bg-white border rounded-4 shadow-soft" id="point1">
             <h2 class="h4 fw-bold mb-3">1. Responsable du traitement</h2>
             <p class="text-secondary mb-0">
-                <strong>informatique.it.com</strong>, marque de <strong>Yellow Cactus</strong> (ci-après « nous »),
+                <strong>informatique-it.com</strong>, marque de <strong>Yellow Cactus</strong> (ci-après « nous »),
                 est responsable du traitement de vos données personnelles collectées via ce site.
                 Contact : <a href="mailto:{{ $rgpd_email }}" class="text-orange">{{ $rgpd_email }}</a>
                  Tél. 01&nbsp;49&nbsp;66&nbsp;21&nbsp;77.

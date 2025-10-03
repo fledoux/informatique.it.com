@@ -1,4 +1,4 @@
-# Guide de Développement - informatique.it.com
+# Guide de Développement - informatique-it.com
 
 Ce guide contient toutes les informations essentielles pour maintenir et développer l'application Laravel helpdesk.
 
