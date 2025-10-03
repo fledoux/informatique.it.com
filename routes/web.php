@@ -130,11 +130,5 @@ Route::prefix('allow-domain-registration')->group(function () {
     Route::delete('/{allow-domain-registration}', [AllowDomainRegistrationController::class, 'destroy'])->name('allow-domain-registration.destroy');
 });
 
-// Routes Admin IMAP - Permissions gérées dans ImapController::__construct()
-Route::prefix('admin/imap')->middleware(['auth'])->group(function () {
-    Route::get('/', [\App\Http\Controllers\ImapController::class, 'index'])->name('admin.imap.index');
-    Route::post('/test-connection', [\App\Http\Controllers\ImapController::class, 'testConnection'])->name('admin.imap.test-connection');
-    Route::post('/fetch-emails', [\App\Http\Controllers\ImapController::class, 'fetchEmails'])->name('admin.imap.fetch-emails');
-});
 
 

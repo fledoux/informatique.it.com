@@ -363,7 +363,6 @@ class ImapService
                 'billable' => true,
                 'source' => 'email',
                 'email_message_id' => $messageId,
-                'folder_code' => 'EMAIL-' . date('Ymd'),
             ]);
 
             // Envoyer l'email de confirmation

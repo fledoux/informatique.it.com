@@ -72,7 +72,7 @@ return [
 
     // Salutations contextuelles
     'Good morning' => 'Bonjour',
-    'Good afternoon' => 'Bonne après-midi', 
+    'Good afternoon' => 'Bonjour', 
     'Good evening' => 'Bonsoir',
     'Thanks' => 'Merci',
     'ThanksCrew' => 'Merci,<br>L\'équipe Support',

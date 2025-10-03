@@ -1,8 +1,8 @@
-<p>Bonjour {{ $ticket->author->firstname ?? '' }},</p>
+<p>{{ \App\Helpers\Helper::getGreeting() }} {{ $ticket->author->firstname ?? '' }},</p>
 
 <p>
 	Nous vous confirmons la bonne réception de votre demande de support concernant :</p>
-	<blockquote style="border-left: 4px solid #007bff; padding-left: 12px;">"{{ $ticket->subject ?? '' }}"</blockquote>
+	<blockquote style="border-left: 4px solid #ff4c00; padding-left: 12px;">"{{ $ticket->subject ?? '' }}"</blockquote>
 	<p>Notre équipe technique a bien été informée et examinera votre requête sous peu.
 </p>
 

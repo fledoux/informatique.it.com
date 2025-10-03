@@ -60,15 +60,6 @@
                         </a>
                     </li>
                 @endcan
-                @role('super-admin')
-                    <li class="nav-item ms-lg-2 mb-2">
-                        <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'admin.imap.') ? 'btn-orange' : 'btn-outline-secondary' }}"
-                            href="{{ route('admin.imap.index') }}">
-                            <i class="fa-regular fa-envelope"></i>
-                            IMAP
-                        </a>
-                    </li>
-                @endrole
                 @include('partials._lang')
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">

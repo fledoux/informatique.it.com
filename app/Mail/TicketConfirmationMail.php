@@ -25,7 +25,7 @@ class TicketConfirmationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Support #' . $this->ticket->id . ' - Confirmation de votre demande',
+            subject: 'Support N°' . $this->ticket->id . ' - Confirmation de votre demande',
         );
     }
 
@@ -42,7 +42,7 @@ class TicketConfirmationMail extends Mailable
         return new Content(
             view: 'emails.global',
             with: [
-                'title' => 'Support #' . $this->ticket->id . ' - Confirmation de votre demande',
+                'title' => 'Support N°' . $this->ticket->id . ' - Confirmation de votre demande',
                 'content' => $confirmationContent,
                 'ticket' => $this->ticket
             ]
