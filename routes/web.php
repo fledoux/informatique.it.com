@@ -23,9 +23,9 @@ Route::get('/legal', [PageController::class, 'legal'])->name('legal');
 Route::get('/rgpd', [PageController::class, 'rgpd'])->name('rgpd');
 Route::get('/cgv', [PageController::class, 'cgv'])->name('cgv');
 Route::get('/cgu', [PageController::class, 'cgu'])->name('cgu');
-Route::get('/qr', [PageController::class, 'qr'])->name('qr');
+Route::get('/flyer', [PageController::class, 'flyer'])->name('flyer');
 Route::get('/web', [PageController::class, 'web'])->name('web');
-Route::get('/belair', [PageController::class, 'belair'])->name('belair');
+Route::get('/rue', [PageController::class, 'rue'])->name('rue');
 Route::get('/car', [PageController::class, 'car'])->name('car');
 Route::get('/scannez-moi', [PageController::class, 'qrCode'])->name('qr-code');
 

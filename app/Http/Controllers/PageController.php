@@ -63,7 +63,7 @@ class PageController extends Controller
         return view('pages.cgu');
     }
 
-    public function qr(Request $request)
+    public function flyer(Request $request)
     {
         Page::scan($request, 'FLYER');
         return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
@@ -75,9 +75,9 @@ class PageController extends Controller
         return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
     }
 
-    public function belair(Request $request)
+    public function rue(Request $request)
     {
-        Page::scan($request, 'BELAIR');
+        Page::scan($request, 'RUE');
         return redirect()->route('home')->with('success', 'Merci d\'avoir scanné notre QR code !');
     }
 
@@ -89,7 +89,7 @@ class PageController extends Controller
 
     public function qrCode()
     {
-        $dataUri = Page::generateQrCode('https://informatique-it.com/web');
+        $dataUri = Page::generateQrCode('https://informatique-it.com/flyer');
         return view('pages.qr-code', compact('dataUri'));
     }
 
