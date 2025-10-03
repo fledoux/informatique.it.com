@@ -62,7 +62,7 @@
                 <div class="mt-5 pt-4 border-top">
                     <p class="text-secondary small">
                         {{ __('global.If the problem persists, please') }}
-                        <a href="mailto:support@informatique.it" class="text-decoration-none">
+                        <a href="mailto:help@informatique-it.com" class="text-decoration-none">
                             <i class="fa-regular fa-envelope me-1"></i>
                             {{ __('global.Contact support') }}
                         </a>
