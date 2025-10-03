@@ -15,6 +15,7 @@ class PermissionController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('role:super-admin');
         $this->middleware('permission:permission.index')->only('index');
         $this->middleware('permission:permission.create')->only(['create', 'store']);
         $this->middleware('permission:permission.edit')->only(['edit', 'update', 'updateMatrix']);

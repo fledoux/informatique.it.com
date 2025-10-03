@@ -127,7 +127,7 @@
             </div>
         </div>
     </div>
-    @include('emails._baseline2')
+    @include('emails._baseline-small')
 
     <script>
         {{-- Vérification du domaine email pour masquer/afficher les champs société --}}

@@ -29,12 +29,12 @@
                         {{ __('btn.NewCompany') }}
                     </a>
                 @endcan
-                @can('permission.index')
+                @role('super-admin')
                     <a href="{{ route('permissions.index') }}" class="btn btn-outline-danger w-100 w-sm-auto">
                         <i class="fa-solid fa-shield-halved"></i>
                         Permissions
                     </a>
-                @endcan
+                @endrole
             </div>
         </div>
         {{-- KPIs --}}

@@ -67,9 +67,17 @@ class TicketController extends Controller
 
         $ticket = Ticket::create($data);
 
+        // Envoyer la notification Pushover
         $title = '#' . $ticket->id . ' Question';
         $message = 'Création de Ticket';
         Helper::sendPushoverNotification($title, $message);
+
+        // Envoyer l'email de confirmation
+        try {
+            \Illuminate\Support\Facades\Mail::to($ticket->author->email)->send(new \App\Mail\TicketConfirmationMail($ticket));
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to send ticket confirmation email: ' . $e->getMessage());
+        }
 
         return redirect()->route('ticket.show', $ticket->id)->with('success', __('global.messages.created'));
     }
@@ -122,6 +130,25 @@ class TicketController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect()->route('ticket.index')
                 ->with('error', __('global.messages.update_not_found'));
+        }
+    }
+
+    /**
+     * Renvoyer l'email de confirmation
+     */
+    public function resendConfirmation($id)
+    {
+        try {
+            $ticket = Ticket::with(['author', 'company'])->findOrFail($id);
+            
+            // Envoyer l'email de confirmation
+            \Illuminate\Support\Facades\Mail::to($ticket->author->email)->send(new \App\Mail\TicketConfirmationMail($ticket));
+            
+            return back()->with('success', 'Email de confirmation renvoyé à ' . $ticket->author->email);
+        } catch (ModelNotFoundException $e) {
+            return back()->with('error', __('global.messages.not_found'));
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erreur lors de l\'envoi: ' . $e->getMessage());
         }
     }
 

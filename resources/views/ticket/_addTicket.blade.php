@@ -11,6 +11,15 @@
             {!! __('global.Edit') !!}
         </a></li>
         <li><hr class="dropdown-divider"></li>
+        <li>
+            <form action="{{ route('ticket.resend-confirmation', $ticket) }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="dropdown-item" onclick="return confirm('Renvoyer l\'email de confirmation ?')">
+                    <i class="fa-solid fa-envelope me-2"></i>Renvoyer confirmation
+                </button>
+            </form>
+        </li>
+        <li><hr class="dropdown-divider"></li>
         @endcan
         <li><a class="dropdown-item" href="{{ route('ticket.index') }}">
             {!! __('global.Back') !!}

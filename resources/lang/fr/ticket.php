@@ -19,8 +19,8 @@ return [
     'cgv' => 'a accepté(e) les Conditions générales d\'utilisation.',
     'yes' => 'Oui',
     'no' => 'Non',
-    'ticket' => 'demande de support',
-    'tickets' => 'demandes de support',
+    'ticket' => 'ticket',
+    'tickets' => 'tickets',
 
     'fields' => [
         'status' => 'Statut',

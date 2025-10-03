@@ -363,8 +363,16 @@ class ImapService
                 'billable' => true,
                 'source' => 'email',
                 'email_message_id' => $messageId,
-                'folder_code' => '',
+                'folder_code' => 'EMAIL-' . date('Ymd'),
             ]);
+
+            // Envoyer l'email de confirmation
+            try {
+                \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\TicketConfirmationMail($ticket));
+                Log::info("Confirmation email sent for ticket #{$ticket->id} to {$user->email}");
+            } catch (Exception $e) {
+                Log::error("Failed to send confirmation email for ticket #{$ticket->id}: " . $e->getMessage());
+            }
 
             return $ticket;
 

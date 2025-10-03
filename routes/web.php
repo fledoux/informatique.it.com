@@ -92,6 +92,7 @@ Route::prefix('ticket')->group(function () {
     Route::get('/{ticket}/edit', [TicketController::class, 'edit'])->name('ticket.edit');
     Route::put('/{ticket}', [TicketController::class, 'update'])->name('ticket.update');
     Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('ticket.destroy');
+    Route::post('/{ticket}/resend-confirmation', [TicketController::class, 'resendConfirmation'])->name('ticket.resend-confirmation');
 });
 
 // Routes Company - Permissions gérées dans CompanyController::__construct()

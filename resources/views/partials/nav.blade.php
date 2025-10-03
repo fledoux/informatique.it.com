@@ -60,7 +60,7 @@
                         </a>
                     </li>
                 @endcan
-                @can('ticket.create')
+                @role('super-admin')
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'admin.imap.') ? 'btn-orange' : 'btn-outline-secondary' }}"
                             href="{{ route('admin.imap.index') }}">
@@ -68,7 +68,7 @@
                             IMAP
                         </a>
                     </li>
-                @endcan
+                @endrole
                 @include('partials._lang')
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">

@@ -1,8 +1,9 @@
 <p>Bonjour {{ $ticket->author->firstname ?? '' }},</p>
 
 <p>
-	Nous vous confirmons la bonne réception de votre demande de support concernant "{{ $ticket->subject ?? '' }}". Notre
-    équipe technique a bien été informée et examinera votre requête sous peu.
+	Nous vous confirmons la bonne réception de votre demande de support concernant :</p>
+	<blockquote style="border-left: 4px solid #007bff; padding-left: 12px;">"{{ $ticket->subject ?? '' }}"</blockquote>
+	<p>Notre équipe technique a bien été informée et examinera votre requête sous peu.
 </p>
 
 <p>
@@ -27,7 +28,7 @@
 
 <p>
     * Sachez également que vous pouvez demander à notre technicien une estimation du temps de travail et des couts
-    associés pour le traitement de votre requête n°5849, qui, si elle dépasse les 30 min d'intervention, peut nécessiter
+    associés pour le traitement de votre requête n°{{ $ticket->id ?? 'XXXX' }}, qui, si elle dépasse les 30 min d'intervention, peut nécessiter
     des couts supérieurs à 1 ticket. Il vous répondra dans les meilleurs délais.
 </p>
 

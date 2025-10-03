@@ -51,6 +51,6 @@
                 </div>
             </div>
         </div>
-		@include('emails._baseline2')
+		@include('emails._baseline-small')
     </main>
 @endsection
