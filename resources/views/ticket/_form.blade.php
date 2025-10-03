@@ -2,20 +2,8 @@
     @hasanyrole('super-admin')
         <div class="row g-3  bg-warning bg-opacity-10 rounded-3 p-3 my-3">
             <div class="col-12 col-lg-4">
-                <x-forms.select name="status" :label="__('ticket.fields.status')" :options="[
-                    'new' => __('ticket.status.new'),
-                    'in_progress' => __('ticket.status.in_progress'),
-                    'waiting' => __('ticket.status.waiting'),
-                    'resolved' => __('ticket.status.resolved'),
-                    'closed' => __('ticket.status.closed'),
-                    'canceled' => __('ticket.status.canceled'),
-                ]" :value="$ticket->status ?? 'new'" />
+                <x-forms.select name="status" :label="__('ticket.fields.status')" :options="__('ticket.status')" :value="$ticket->status ?? 'new'" />
             </div>
-            @hasrole('super-admin')
-                <div class="col-12 col-lg-8">
-                    <x-forms.relation name="company_id" :label="__('ticket.fields.company_id')" model="Company" display-field="name" :value="$ticket->company_id ?? null" />
-                </div>
-            @endhasrole
             @hasrole('super-admin')
                 <div class="col-12 col-lg-6">
                     <x-forms.relation name="author_id" :label="__('ticket.fields.author_id')" model="User" display-field="name" :value="$ticket->author_id ?? null" />

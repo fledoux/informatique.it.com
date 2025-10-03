@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'entity' => 'Ticket',
+    'entity' => 'Support',
     'Id' => 'N°',
     'Status' => 'Statut',
     'Priority' => 'Priorité',
@@ -14,13 +14,13 @@ return [
     'Billable' => 'Facturable',
     'Author' => 'Auteur',
     'AssignedAt' => 'Assigné le',
-    'List' => 'Liste des tickets',
+    'List' => 'Liste des demandes de support',
     'Answer' => '<i class="fa-regular fa-square-plus"></i> Répondre',
     'cgv' => 'a accepté(e) les Conditions générales d\'utilisation.',
     'yes' => 'Oui',
     'no' => 'Non',
-    'ticket' => 'ticket',
-    'tickets' => 'tickets',
+    'ticket' => 'demande de support',
+    'tickets' => 'demandes de support',
 
     'fields' => [
         'status' => 'Statut',
@@ -45,12 +45,12 @@ return [
         'canceled' => 'Annulé'
     ],
     'statusBadgeColor' => [
-        'new' => 'bg-danger',
-        'in_progress' => 'bg-primary',
-        'waiting' => 'bg-warning text-dark',
-        'resolved' => 'bg-success',
-        'closed' => 'bg-secondary',
-        'canceled' => 'bg-danger'
+        'new' => 'bg-danger bg-opacity-75',
+        'in_progress' => 'bg-primary bg-opacity-75',
+        'waiting' => 'bg-warning text-dark bg-opacity-75',
+        'resolved' => 'bg-success bg-opacity-75',
+        'closed' => 'bg-secondary bg-opacity-75',
+        'canceled' => 'bg-danger bg-opacity-75'
     ],
     'priority' => [
         'low' => 'Faible',
@@ -65,10 +65,10 @@ return [
         'urgent' => 'Priorité Urgente'
     ],
     'priorityBadgeColor' => [
-        'low' => 'bg-success',
-        'normal' => 'bg-primary',
-        'high' => 'bg-warning text-dark',
-        'urgent' => 'bg-danger'
+        'low' => 'bg-success bg-opacity-75',
+        'normal' => 'bg-secondary bg-opacity-75',
+        'high' => 'bg-warning text-dark bg-opacity-75',
+        'urgent' => 'bg-danger bg-opacity-75'
     ],
     'billable' => [
         'yes' => '<i class="fa-solid fa-square-check text-success"></i>',
@@ -76,7 +76,7 @@ return [
     ],
     
     'empty_state' => [
-        'title' => 'Créez votre première demande de support',
-        'create_button' => 'Créer le premier ticket'
+        'title' => 'Bienvenue sur votre espace support',
+        'create_button' => 'Créer ma première demande'
     ],
 ];

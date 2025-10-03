@@ -3,16 +3,16 @@
 return [
     'Welcome' => 'Bienvenue sur votre tableau de bord',
     'WelcomeTitle' => 'Tableau de bord',
-    'RecentTickets' => 'Dernières demandes',
+    'RecentTickets' => 'Dernières demandes de support',
     
     'KPI' => [
-        'Tickets' => 'Tickets',
+        'Tickets' => 'Demandes',
         'Open' => 'Ouverts',
         'Waiting' => 'En attente',
         'Overdue' => 'En retard',
         'Contacts' => 'Contacts',
         'Companies' => 'Sociétés',
     ],
-    
-    'NoTicketsYet' => 'Aucun ticket pour le moment.',
+
+    'NoTicketsYet' => 'Aucune demande pour le moment.',
 ];

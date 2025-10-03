@@ -14,7 +14,7 @@
 
     <div class="row">
         <div class="col-12 col-lg-9">
-            <div class="mt-5">
+            <div class="">
 
                 {{-- Message support --}}
                 <div class="row">
@@ -43,7 +43,7 @@
                         <div class="card border  border-2">
                             <div class="card-body">
                                 <strong>{{ $ticket->subject }}</strong><br>
-                                {{ $ticket->question }}
+                                {!! nl2br(e($ticket->question)) !!}
                             </div>
                         </div>
                     </div>

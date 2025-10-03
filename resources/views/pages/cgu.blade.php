@@ -6,8 +6,8 @@
 
 @php
 $soc_nom = 'Yellow Cactus';
-$soc_marque = 'informatique-it.com';
-$soc_email = 'legal@informatique-it.com';
+$soc_marque = config('app.brand_name');
+$soc_email = config('app.company.emails.legal');
 @endphp
 
 <section class="py-5">

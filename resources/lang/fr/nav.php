@@ -3,10 +3,10 @@
 return [
     'Home' => 'Accueil',
     'Dashboard' => 'Tableau de bord',
-    'Tickets' => 'Tickets',
+    'Tickets' => 'Support',
     'Register' => 'S\'inscrire',
     'Connect' => 'Connexion',
-    'Support' => 'informatique-it.com',
+    'Support' => 'Support',
     'Users' => 'Utilisateurs',
     'Companies' => 'Sociétés', 
     'Contact' => 'Contact',

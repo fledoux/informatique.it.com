@@ -39,10 +39,20 @@ class TicketController extends Controller
         $data = $request->validated();
         $user = Auth::user();
 
-        // Pour tous les utilisateurs sauf super-admin, on force le company_id et author_id
+        // Pour tous les utilisateurs sauf super-admin, on détermine le company_id en fonction de l'utilisateur sélectionné
         if (!$user->hasRole('super-admin')) {
-            $data['company_id'] = $user->company_id;
-            $data['author_id'] = $user->id;
+            if (isset($data['author_id'])) {
+                $author = \App\Models\User::find($data['author_id']);
+                if ($author) {
+                    $data['company_id'] = $author->company_id;
+                } else {
+                    $data['company_id'] = $user->company_id;
+                    $data['author_id'] = $user->id;
+                }
+            } else {
+                $data['company_id'] = $user->company_id;
+                $data['author_id'] = $user->id;
+            }
         }
 
         // Si l'utilisateur est manager ou user, on force certains champs supplémentaires
@@ -91,11 +101,22 @@ class TicketController extends Controller
         try {
             $ticket = Ticket::findOrFail($id);
             $data = $request->validated();
-            if (!empty($data['password'])) {
-                $data['password'] = bcrypt($data['password']);
+            $user = Auth::user();
+
+            // Déterminer le company_id en fonction de l'utilisateur sélectionné (pour tous les utilisateurs)
+            if (isset($data['author_id'])) {
+                $author = \App\Models\User::find($data['author_id']);
+                if ($author) {
+                    $data['company_id'] = $author->company_id;
+                }
             } else {
-                unset($data['password']);
+                // Si pas d'author_id spécifié, garder le company_id existant du ticket
+                // ou utiliser celui de l'utilisateur connecté comme fallback
+                if (!$ticket->company_id) {
+                    $data['company_id'] = $user->company_id;
+                }
             }
+
             $ticket->update($data);
             return redirect()->route('ticket.show', $ticket->id)->with('success', __('global.messages.updated'));
         } catch (ModelNotFoundException $e) {

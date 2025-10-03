@@ -18,7 +18,7 @@
                 Les présentes conditions générales de vente (ci-après « CGV ») régissent l'ensemble des prestations de services informatiques 
                 proposées par la société <strong>Yellow Cactus</strong> 
                 <a href="https://yellowcactus.com" class="text-orange" target="_blank">https://yellowcactus.com</a>, 
-                sous la marque <strong>informatique-it.com</strong>.
+                sous la marque <strong>{{ config('app.brand_name') }}</strong>.
             </p>
         </div>
 

@@ -1,4 +1,4 @@
-<div id="kt_docs_toast_stack_container" class="position-fixed top-0 start-50 translate-middle-x p-2 w-100 w-sm-25 mb-5" style="z-index: 1050;">
+<div id="kt_docs_toast_stack_container" class="position-fixed bottom-0 start-50 translate-middle-x p-2 w-100 w-lg-50 mb-0" style="z-index: 1050;">
     <div class="alert border-0 shadow-sm p-4 d-flex align-items-center" role="alert" aria-live="assertive"
         aria-atomic="true" data-kt-docs-toast="stack">
         <i class="toast-picto me-2"></i>
@@ -10,12 +10,12 @@
 
 <style>
     .alert[data-kt-docs-toast] {
-        animation: slideInDown 0.3s ease-out;
+        animation: slideInUp 0.3s ease-out;
     }
 
-    @keyframes slideInDown {
+    @keyframes slideInUp {
         from {
-            transform: translateY(-100%);
+            transform: translateY(100%);
             opacity: 0;
         }
 

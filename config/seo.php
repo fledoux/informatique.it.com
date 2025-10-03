@@ -2,14 +2,14 @@
 
 return [
     'site' => [
-        'name' => 'informatique-it.com',
+        'name' => config('app.brand_name'),
         'tagline' => 'Support informatique professionnel depuis +25 ans',
         'description' => 'Expert en support informatique, assistance Mac/PC, infogérance et cybersécurité pour entreprises. Intervention rapide, devis gratuit 24h. +25 ans d\'expérience, 9999+ interventions réussies.',
         'keywords' => 'support informatique, assistance informatique, infogérance, cybersécurité, maintenance informatique, assistance PC Mac, expert informatique France, assistance rapide, support technique',
-        'author' => 'informatique-it.com',
-        'email' => 'hello@informatique-it.com',
+        'author' => config('app.brand_name'),
+        'email' => config('app.company.emails.hello'),
         'phone' => '+33 1 49 66 21 77',
-        'url' => env('APP_URL', 'https://informatique-it.com'),
+        'url' => config('app.company.url'),
     ],
 
     'social' => [

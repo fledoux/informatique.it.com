@@ -32,7 +32,7 @@ return [
     'Confirm my email' => 'Confirmer mon e-mail',
     'This link will expire in :minutes minutes' => 'Ce lien expirera dans :minutes minutes',
     'If you did not create an account, no further action is required' => 'Si vous n\'avez pas créé de compte, aucune action supplémentaire n\'est requise',
-    'Cheers' => 'Cordialement<br>L\'équipe informatique-it.com',
+    'Cheers' => 'Cordialement<br>L\'équipe {{ config("app.brand_name") }}',
     'All rights reserved' => 'Tous droits réservés',
     'FirstName' => 'Prénom',
     'LastName' => 'Nom de famille',

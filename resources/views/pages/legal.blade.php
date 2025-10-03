@@ -6,14 +6,14 @@
 
 @php
 $soc_nom = 'Yellow Cactus';
-$soc_marque = 'informatique-it.com';
+$soc_marque = config('app.brand_name');
 $soc_forme = 'SARL';
 $soc_capital = '8 000 €';
 $soc_siren = '430 411 173';
 $soc_rcs = 'RCS Nanterre';
 $soc_tva = 'FR86 430411173';
 $soc_adresse = '10 Bis rue du Bel Air, 92310 Sèvres, France';
-$soc_email = 'legal@informatique-it.com';
+$soc_email = config('app.company.emails.legal');
 $soc_tel = '+33 1 49 66 21 77';
 $dir_publication = 'Frédéric Ledoux';
 $hebergeur_nom = 'Amazon AWS';

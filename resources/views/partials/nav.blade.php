@@ -2,7 +2,7 @@
 <nav class="navbar border-top border-5 border-orange navbar-expand-lg bg-white sticky-top shadow-sm mb-4">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ route('dashboard') }}">
-            <img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="informatique-it.com"
+            <img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="{{ config('app.brand_name') }}"
                 class="brand-logo d-inline-block align-text-top">
         </a>
         <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
@@ -57,6 +57,15 @@
                             href="{{ route('allow-domain-registration.index') }}">
                             <i class="fa-regular fa-globe"></i>
                             {{ __('nav.Domains') }}
+                        </a>
+                    </li>
+                @endcan
+                @can('ticket.create')
+                    <li class="nav-item ms-lg-2 mb-2">
+                        <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'admin.imap.') ? 'btn-orange' : 'btn-outline-secondary' }}"
+                            href="{{ route('admin.imap.index') }}">
+                            <i class="fa-regular fa-envelope"></i>
+                            IMAP
                         </a>
                     </li>
                 @endcan

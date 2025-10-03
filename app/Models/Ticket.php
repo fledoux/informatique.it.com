@@ -33,7 +33,7 @@ enum TicketPriority: string
 
 class Ticket extends Model
 {
-    protected $fillable = ['status', 'priority', 'company_id', 'author_id', 'assigned_to', 'assigned_at', 'due', 'folder_code', 'subject', 'question', 'billable', 'public_uuid', 'public_uuid_expires'];
+    protected $fillable = ['status', 'priority', 'company_id', 'author_id', 'assigned_to', 'assigned_at', 'due', 'folder_code', 'subject', 'question', 'billable', 'source', 'email_message_id', 'public_uuid', 'public_uuid_expires'];
 
     protected $casts = ['email_verified_at' => 'datetime', 'password' => 'hashed', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'status' => 'string', 'priority' => 'string', 'assigned_at' => 'datetime', 'due' => 'datetime', 'billable' => 'boolean', 'public_uuid_expires' => 'datetime'];
 

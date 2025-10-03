@@ -25,7 +25,7 @@
         <div class="small text-secondary mb-3 mb-md-0">©
             {{ date('Y') }},
             <a href="https://www.yellowcactus.com" target="_blank" class="text-orange">Yellow&nbsp;Cactus</a>.
-            <a href="/" class="text-orange">informatique-it.com</a>
+            <a href="/" class="text-orange">{{ config('app.brand_name') }}</a>
             est une marque de
             <a href="https://www.yellowcactus.com" target="_blank" class="text-orange">Yellow&nbsp;Cactus</a>.
             Tous&nbsp;droits&nbsp;réservés.
