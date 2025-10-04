@@ -11,7 +11,7 @@ return [
     'DueAt' => 'Échéance',
     'FolderCode' => 'Code dossier',
     'Question' => 'Description',
-    'Billable' => 'Facturable',
+    'Billable' => 'Prestation facturable',
     'Author' => 'Auteur',
     'AssignedAt' => 'Assigné le',
     'List' => 'Liste des demandes de support',
@@ -33,7 +33,7 @@ return [
         'folder_code' => 'N° Dossier',
         'subject' => 'Sujet',
         'question' => 'Description',
-        'billable' => 'Facturable'
+        'billable' => 'Prestation facturable'
     ],
 
     'status' => [
@@ -66,7 +66,7 @@ return [
     ],
     'priorityBadgeColor' => [
         'low' => 'bg-success bg-opacity-75',
-        'normal' => 'bg-secondary bg-opacity-75',
+        'normal' => 'bg-primary bg-opacity-75',
         'high' => 'bg-warning text-dark bg-opacity-75',
         'urgent' => 'bg-danger bg-opacity-75'
     ],

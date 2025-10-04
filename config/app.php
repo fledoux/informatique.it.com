@@ -21,6 +21,8 @@ return [
             'rgpd' => env('COMPANY_EMAIL_RGPD', 'rgpd@informatique-it.com'),
         ],
     ],
+    'teamviewer_name' => env('TEAMVIEWER', 'TeamViewer'),
+    'teamviewer_url' => env('TEAMVIEWER_URL', 'https://get.teamviewer.com/78369w6g'),
     'cipher' => 'AES-256-CBC',
     'key' => env('APP_KEY'),
     'previous_keys' => [

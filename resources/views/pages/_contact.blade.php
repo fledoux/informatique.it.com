@@ -78,12 +78,12 @@
                         Ouvrir un ticket
                     </a>
                     <hr class="my-4">
-                    <img src="{{ asset('assets/img/logo/tv-logo.svg') }}" alt="TeamViewer" class="img-fluid logo-tv">
+                    <img src="{{ asset('assets/img/logo/tv-logo.svg') }}" alt="{{ config('app.teamviewer_name') }}" class="img-fluid logo-tv">
                     <p class="mt-4">
-                        <a href="https://get.teamviewer.com/78369w6g" target="_blank"
+                        <a href="{{ config('app.teamviewer_url') }}" target="_blank"
                             class="btn btn-primary w-100 w-sm-auto">
                             <i class="fa-regular fa-arrow-down-to-line"></i>
-                            Obtenir<span class="d-none d-sm-inline"> le logiciel</span> TeamViewer
+                            Obtenir<span class="d-none d-sm-inline"> le logiciel</span> {{ config('app.teamviewer_name') }}
                         </a>
                     </p>
                 </div>

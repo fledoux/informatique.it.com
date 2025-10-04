@@ -912,7 +912,7 @@ PHP
             'folder_code' => 'Code dossier',
             'subject' => 'Sujet',
             'question' => 'Description',
-            'billable' => 'Facturable',
+            'billable' => 'Prestation facturable',
             'name' => 'Nom',
             'email' => 'Email',
             'password' => 'Mot de passe',

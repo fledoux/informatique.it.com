@@ -22,7 +22,7 @@ return [
             'need' => 'Need'
     ],
 
-    'types' => [
+    'type' => [
         'particulier' => 'Individual',
         'entreprise' => 'Company',
         'association' => 'Association',

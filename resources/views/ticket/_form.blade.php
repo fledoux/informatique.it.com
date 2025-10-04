@@ -5,15 +5,15 @@
                 <x-forms.select name="status" :label="__('ticket.fields.status')" :options="__('ticket.status')" :value="$ticket->status ?? 'new'" />
             </div>
             @hasrole('super-admin')
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-lg-8">
                     <x-forms.relation name="author_id" :label="__('ticket.fields.author_id')" model="User" display-field="name" :value="$ticket->author_id ?? null" />
                 </div>
             @endhasrole
 
-            <div class="col-12 col-lg-6">
+            <div class="col-12 col-lg-4">
                 <x-forms.select name="assigned_to" :label="__('ticket.fields.assigned_to')" :options="App\Models\Ticket::getAssignedToOptions()" :value="$ticket->assigned_to ?? null" />
             </div>
-            <div class="col-12 col-lg-6">
+            <div class="col-12 col-lg-4">
                 <x-forms.input name="assigned_at" :label="__('ticket.fields.assigned_at')" type="datetime-local" :value="old(
                     'assigned_at',
                     $ticket->assigned_at
@@ -23,7 +23,7 @@
                         : '',
                 )" />
             </div>
-            <div class="col-12 col-lg-6">
+            <div class="col-12 col-lg-4">
                 <x-forms.input name="due" :label="__('ticket.fields.due')" type="datetime-local" :value="old(
                     'due',
                     $ticket->due
@@ -40,7 +40,7 @@
     @endhasanyrole
 
     <div class="row g-3">
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-lg-3">
             <x-forms.select name="priority" :label="__('ticket.fields.priority')" :required="true" :options="__('ticket.priority')"
                 :value="$ticket->priority ?? ''" />
         </div>
