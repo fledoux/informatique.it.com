@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('allow-domain-registration.destroy', $allowDomainRegistration) }}" 
+<form method="POST" action="{{ route('allowdomain.destroy', $allowDomainRegistration) }}" 
 onsubmit="return confirm('{{ __('global.Delete?') }}');" 
 style="display:inline">
 @csrf

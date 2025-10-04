@@ -53,8 +53,8 @@
                 @endcan
                 @can('contact.index')
                     <li class="nav-item ms-lg-2 mb-2">
-                        <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'allow-domain-registration.') ? 'btn-orange' : 'btn-outline-secondary' }}"
-                            href="{{ route('allow-domain-registration.index') }}">
+                        <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'allowdomain.') ? 'btn-orange' : 'btn-outline-secondary' }}"
+                            href="{{ route('allowdomain.index') }}">
                             <i class="fa-regular fa-globe"></i>
                             {{ __('nav.Domains') }}
                         </a>

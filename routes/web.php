@@ -120,14 +120,14 @@ Route::prefix('permissions')->middleware(['auth'])->group(function () {
 });
 
 // Routes AllowDomainRegistration - Permissions gérées dans AllowDomainRegistrationController::__construct()
-Route::prefix('allow-domain-registration')->group(function () {
-    Route::get('/', [AllowDomainRegistrationController::class, 'index'])->name('allow-domain-registration.index');
-    Route::get('/create', [AllowDomainRegistrationController::class, 'create'])->name('allow-domain-registration.create');
-    Route::post('/', [AllowDomainRegistrationController::class, 'store'])->name('allow-domain-registration.store');
-    Route::get('/{allow-domain-registration}', [AllowDomainRegistrationController::class, 'show'])->name('allow-domain-registration.show');
-    Route::get('/{allow-domain-registration}/edit', [AllowDomainRegistrationController::class, 'edit'])->name('allow-domain-registration.edit');
-    Route::put('/{allow-domain-registration}', [AllowDomainRegistrationController::class, 'update'])->name('allow-domain-registration.update');
-    Route::delete('/{allow-domain-registration}', [AllowDomainRegistrationController::class, 'destroy'])->name('allow-domain-registration.destroy');
+Route::prefix('allowdomain')->group(function () {
+    Route::get('/', [AllowDomainRegistrationController::class, 'index'])->name('allowdomain.index');
+    Route::get('/create', [AllowDomainRegistrationController::class, 'create'])->name('allowdomain.create');
+    Route::post('/', [AllowDomainRegistrationController::class, 'store'])->name('allowdomain.store');
+    Route::get('/{allowdomain}', [AllowDomainRegistrationController::class, 'show'])->name('allowdomain.show');
+    Route::get('/{allowdomain}/edit', [AllowDomainRegistrationController::class, 'edit'])->name('allowdomain.edit');
+    Route::put('/{allowdomain}', [AllowDomainRegistrationController::class, 'update'])->name('allowdomain.update');
+    Route::delete('/{allowdomain}', [AllowDomainRegistrationController::class, 'destroy'])->name('allowdomain.destroy');
 });
 
 

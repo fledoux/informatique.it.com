@@ -15,12 +15,12 @@ class PermissionSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // === PERMISSIONS AUTOMATIQUES ===
-                // Permissions allow-domain-registration
-        Permission::firstOrCreate(['name' => 'allow-domain-registration.index']);
-        Permission::firstOrCreate(['name' => 'allow-domain-registration.show']);
-        Permission::firstOrCreate(['name' => 'allow-domain-registration.create']);
-        Permission::firstOrCreate(['name' => 'allow-domain-registration.edit']);
-        Permission::firstOrCreate(['name' => 'allow-domain-registration.delete']);
+                // Permissions allowdomain
+        Permission::firstOrCreate(['name' => 'allowdomain.index']);
+        Permission::firstOrCreate(['name' => 'allowdomain.show']);
+        Permission::firstOrCreate(['name' => 'allowdomain.create']);
+        Permission::firstOrCreate(['name' => 'allowdomain.edit']);
+        Permission::firstOrCreate(['name' => 'allowdomain.delete']);
 
         // Permissions company
         Permission::firstOrCreate(['name' => 'company.index']);
@@ -90,13 +90,13 @@ class PermissionSeeder extends Seeder
         // Admin : Gestion complète
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $admin->syncPermissions([
-            'admin.access', 'reports.access', 'allow-domain-registration.index', 'allow-domain-registration.show', 'allow-domain-registration.create', 'allow-domain-registration.edit', 'allow-domain-registration.delete', 'company.index', 'company.show', 'company.create', 'company.edit', 'company.delete', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'contact.delete', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'locale.delete', 'page.index', 'page.show', 'page.create', 'page.edit', 'page.delete', 'permission.index', 'permission.show', 'permission.create', 'permission.edit', 'permission.delete', 'test.index', 'test.show', 'test.create', 'test.edit', 'test.delete', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'ticket.delete', 'user.index', 'user.show', 'user.create', 'user.edit', 'user.delete'
+            'admin.access', 'reports.access', 'allowdomain.index', 'allowdomain.show', 'allowdomain.create', 'allowdomain.edit', 'allowdomain.delete', 'company.index', 'company.show', 'company.create', 'company.edit', 'company.delete', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'contact.delete', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'locale.delete', 'page.index', 'page.show', 'page.create', 'page.edit', 'page.delete', 'permission.index', 'permission.show', 'permission.create', 'permission.edit', 'permission.delete', 'test.index', 'test.show', 'test.create', 'test.edit', 'test.delete', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'ticket.delete', 'user.index', 'user.show', 'user.create', 'user.edit', 'user.delete'
         ]);
         
         // Manager : Gestion limitée (pas de suppression)
         $manager = Role::firstOrCreate(['name' => 'manager']);
         $manager->syncPermissions([
-            'allow-domain-registration.index', 'allow-domain-registration.show', 'allow-domain-registration.create', 'allow-domain-registration.edit', 'company.index', 'company.show', 'company.create', 'company.edit', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'page.index', 'page.show', 'page.create', 'page.edit', 'permission.index', 'permission.show', 'permission.create', 'permission.edit', 'test.index', 'test.show', 'test.create', 'test.edit', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'user.index', 'user.show', 'user.edit'
+            'allowdomain.index', 'allowdomain.show', 'allowdomain.create', 'allowdomain.edit', 'company.index', 'company.show', 'company.create', 'company.edit', 'contact.index', 'contact.show', 'contact.create', 'contact.edit', 'locale.index', 'locale.show', 'locale.create', 'locale.edit', 'page.index', 'page.show', 'page.create', 'page.edit', 'permission.index', 'permission.show', 'permission.create', 'permission.edit', 'test.index', 'test.show', 'test.create', 'test.edit', 'ticket.index', 'ticket.show', 'ticket.create', 'ticket.edit', 'user.index', 'user.show', 'user.edit'
         ]);
         
         // User : Accès aux tickets et lecture seule sur profil et company (PAS D'ACCÈS aux domaines)

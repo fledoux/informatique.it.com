@@ -78,7 +78,7 @@ class MakeCrudBootstrap extends Command
         ));
 
         $entity     = class_basename($modelClass); // Company
-        $entitySlug = Str::kebab($entity); // company (singular slug as requested)
+        $entitySlug = Str::snake($entity); // company (singular slug as requested)
         $varSing    = Str::camel($entity);         // company
         $varPlur    = Str::camel(Str::pluralStudly($entity)); // companies
         $viewDir    = resource_path("views/{$entitySlug}");
@@ -880,8 +880,8 @@ PHP
 
         $this->info("Traductions générées : lang/en/{$entitySlug}.php et lang/fr/{$entitySlug}.php");
 
-        // NOUVEAU : Ajouter à la liste des entités traitées (en kebab-case)
-        $this->allEntitiesProcessed[] = Str::kebab($entity);
+        // NOUVEAU : Ajouter à la liste des entités traitées (en snake_case)
+        $this->allEntitiesProcessed[] = Str::snake($entity);
 
         // NOUVEAU : Générer/Mettre à jour automatiquement le PermissionSeeder
         $this->updatePermissionSeeder();
@@ -2025,8 +2025,8 @@ PHP;
         $code = [];
         
         foreach ($entities as $entity) {
-            // Convertir en kebab-case pour les permissions
-            $entitySlug = Str::kebab($entity);
+            // Convertir en snake_case pour les permissions
+            $entitySlug = Str::snake($entity);
             $code[] = "        // Permissions {$entitySlug}";
             $code[] = "        Permission::firstOrCreate(['name' => '{$entitySlug}.index']);";
             $code[] = "        Permission::firstOrCreate(['name' => '{$entitySlug}.show']);";
@@ -2055,8 +2055,8 @@ PHP;
         $userPermissions = [];
         
         foreach ($entities as $entity) {
-            // Convertir en kebab-case pour les permissions
-            $entitySlug = Str::kebab($entity);
+            // Convertir en snake_case pour les permissions
+            $entitySlug = Str::snake($entity);
             
             // Admin : toutes les permissions
             $adminPermissions[] = "{$entitySlug}.index";

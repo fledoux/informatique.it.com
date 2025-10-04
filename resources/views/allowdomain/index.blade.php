@@ -2,22 +2,22 @@
 
 @section('title')
     @if (auth()->check() && auth()->user()->hasRole('manager'))
-        {{ __('allow-domain-registration.List') }}
+        {{ __('allowdomain.List') }}
     @else
-        {{ __('allow-domain-registration.YourList') }}
+        {{ __('allowdomain.YourList') }}
     @endif
 @endsection
 
 @section('content')
-    <h1 class="mb-4">{{ __('allow-domain-registration.List') }}</h1>
+    <h1 class="mb-4">{{ __('allowdomain.List') }}</h1>
 
     <div class="table-responsive">
         <table class="table align-middle table-xs table-bordered table-hover">
             <thead>
                 <tr>
-                    <th class="text-center">{{ __('allow-domain-registration.id') }}</th>
-                    <th class="text-left">{{ __('allow-domain-registration.fields.company_id') }}</th>
-                    <th class="text-left">{{ __('allow-domain-registration.fields.domain') }}</th>
+                    <th class="text-center">{{ __('allowdomain.id') }}</th>
+                    <th class="text-left">{{ __('allowdomain.fields.company_id') }}</th>
+                    <th class="text-left">{{ __('allowdomain.fields.domain') }}</th>
                     <th>{{ __('global.Actions') }}</th>
                 </tr>
             </thead>
@@ -28,15 +28,15 @@
                         <td>{{ $allowDomainRegistration->company?->name ?? '' }}</td>
                         <td>{{ $allowDomainRegistration->domain }}</td>
                         <td class="text-nowrap">
-                            <a href="{{ route('allow-domain-registration.show', $allowDomainRegistration) }}"
+                            <a href="{{ route('allowdomain.show', $allowDomainRegistration) }}"
                                 class="btn btn-link text-decoration-none p-0 me-2">
                                 {!! __('global.Details') !!}
                             </a>
-                            <a href="{{ route('allow-domain-registration.edit', $allowDomainRegistration) }}"
+                            <a href="{{ route('allowdomain.edit', $allowDomainRegistration) }}"
                                 class="btn btn-link text-decoration-none p-0 me-2">
                                 {!! __('global.Edit') !!}
                             </a>
-                            @include('allow-domain-registration._delete_form', [
+                            @include('allowdomain._delete_form', [
                                 'allowDomainRegistration' => $allowDomainRegistration,
                             ])
                         </td>
@@ -52,7 +52,7 @@
         </table>
     </div>
 
-    <a href="{{ route('allow-domain-registration.create') }}" class="btn btn-orange mt-3">
+    <a href="{{ route('allowdomain.create') }}" class="btn btn-orange mt-3">
         <i class="fa-regular fa-square-plus"></i>
         {{ __('global.New') }}
     </a>

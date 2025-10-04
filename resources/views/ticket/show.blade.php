@@ -36,14 +36,14 @@
 
                 {{-- Message client --}}
                 <div class="row">
-                    <div class="col-12, col-lg-2 mb-3 text-end">
+                    <div class="col-2 mb-3 text-end text-end">
                         <span class="text-secondary fw-bold">{{ $ticket->author->name ?? '' }}</span><br>
                         <small
                             class="text-muted">{{ $ticket->created_at->format('d/m/Y') ?? '' }}<br>{{ $ticket->created_at->format('H\hi') ?? '' }}
                         </small>
                     </div>
-                    <div class="col-12 col-lg-10 mb-3 ms-auto">
-                        <div class="card border  border-4 me-5">
+                    <div class="col-12 col-lg-10 mb-3">
+                        <div class="card border  border-4">
                             <div class="card-body">
                                 <strong>{{ $ticket->subject }}</strong><br>
                                 {!! nl2br(e($ticket->question)) !!}
@@ -56,7 +56,7 @@
         <div class="col-12 col-lg-3">
             <div class="card border border border-secondary border-opacity-25 mb-4">
                 <div class="card-header bg-secondary bg-opacity-75 text-white">
-                    <h3 class="h6 mb-0 fw-bold"><i class="fa-regular fa-ticket"></i> Ticket #{{ $ticket->id }}</h3>
+                    <h3 class="h6 mb-0"><i class="fa-regular fa-message-question"></i> Demande N°{{ $ticket->id }}</h3>
                 </div>
                 <div class="card-body">
                     <span
@@ -187,7 +187,7 @@
                 </div>
                 <div class="card-body">
                     <p class="mb-2">
-                        Si un technicien vous invite à accéder à votre poste, vous pouvez télécharger une version de
+                        Si un technicien vous invite à accéder à votre poste, vous pouvez télécharger une version sécurisée de
                         {{ config('app.teamviewer_name') }}.
                     </p>
                     <a href="{{ config('app.teamviewer_url') }}" target="_blank"

@@ -13,11 +13,11 @@ class PermissionHelper
     {
         return [
             // Allow Domain Registration
-            'allow-domain-registration.index',
-            'allow-domain-registration.show',
-            'allow-domain-registration.create',
-            'allow-domain-registration.edit',
-            'allow-domain-registration.delete',
+            'allowdomain.index',
+            'allowdomain.show',
+            'allowdomain.create',
+            'allowdomain.edit',
+            'allowdomain.delete',
             
             // Company
             'company.index',
