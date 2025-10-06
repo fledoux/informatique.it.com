@@ -21,4 +21,4 @@ return [
         'update_not_found' => 'Unable to update: this record does not exist or has been deleted.',
         'delete_not_found' => 'Unable to delete: this record does not exist or has already been deleted.',
     ]
-};
+];

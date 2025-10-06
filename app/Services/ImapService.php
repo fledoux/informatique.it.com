@@ -174,7 +174,28 @@ class ImapService
             // Récupérer le contenu du message
             $body = $this->getEmailBody($emailId);
 
-            // Trouver ou créer l'utilisateur
+            // Vérifier s'il y a un code de réponse dans l'email
+            $replyCode = \App\Services\EmailReplyCodeService::extractReplyCode($body);
+            
+            if ($replyCode) {
+                // C'est une réponse à un ticket existant
+                Log::info("Reply code found in email", ['code' => $replyCode, 'sender' => $senderEmail]);
+                
+                $existingTicket = \App\Services\EmailReplyCodeService::getTicketFromReplyCode($replyCode);
+                
+                if ($existingTicket) {
+                    // Nettoyer le contenu (supprimer tout après le code)
+                    $cleanedBody = \App\Services\EmailReplyCodeService::cleanEmailContent($body);
+                    
+                    // Ajouter un message au ticket existant
+                    return $this->addMessageToTicket($existingTicket, $senderEmail, $cleanedBody);
+                } else {
+                    Log::warning("Invalid reply code in email", ['code' => $replyCode, 'sender' => $senderEmail]);
+                    // Traiter comme un nouveau ticket si le code est invalide
+                }
+            }
+
+            // Pas de code de réponse ou code invalide - créer un nouveau ticket
             $user = $this->findOrCreateUser($senderEmail, $senderName);
             
             if (!$user) {
@@ -344,6 +365,45 @@ class ImapService
         } catch (Exception $e) {
             Log::error("Error creating user for email {$email}: " . $e->getMessage());
             return null;
+        }
+    }
+
+    /**
+     * Ajoute un message à un ticket existant
+     */
+    private function addMessageToTicket(Ticket $ticket, string $senderEmail, string $messageContent): bool
+    {
+        try {
+            // Trouver l'utilisateur qui envoie la réponse
+            $user = User::where('email', $senderEmail)->first();
+            
+            if (!$user) {
+                Log::warning("User not found for reply email: {$senderEmail}");
+                return false;
+            }
+
+            // Créer un nouveau message pour le ticket
+            $ticketMessage = \App\Models\TicketMessage::create([
+                'status' => 'active', // Message public, visible par le client
+                'subject' => 'Re: ' . $ticket->subject,
+                'body' => $messageContent,
+                'company_id' => $ticket->company_id,
+                'ticket_id' => $ticket->id,
+                'author_id' => $user->id,
+            ]);
+
+            // Mettre à jour le statut du ticket
+            $ticket->update([
+                'status' => 'in_progress',
+                'updated_at' => now()
+            ]);
+
+            Log::info("Added email reply message #{$ticketMessage->id} to ticket #{$ticket->id} from {$senderEmail}");
+            return true;
+
+        } catch (Exception $e) {
+            Log::error("Error adding message to ticket #{$ticket->id}: " . $e->getMessage());
+            return false;
         }
     }
 

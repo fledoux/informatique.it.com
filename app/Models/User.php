@@ -94,6 +94,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Messages de tickets créés par cet utilisateur
+     */
+    public function ticketMessages()
+    {
+        return $this->hasMany(\App\Models\TicketMessage::class, 'author_id');
+    }
+
+    /**
      * Send the email verification notification with globalMail.
      *
      * @return void

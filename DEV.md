@@ -50,7 +50,7 @@ php artisan optimize:clear
 *Table permettant l'inscription automatique d'utilisateurs basée sur le domaine email. Si un utilisateur s'inscrit avec un email `user@example.com` et que le domaine `example.com` est dans cette table, l'utilisateur sera automatiquement rattaché à la société correspondante.*
 
 # TicketMessage
-- status: string(20)  Message activé/désactivé (active|inactive)
+- status: string(20)  Message activé/désactivé/Message interne (active|inactive)
 - companyId: relation ManyToOne → Company  Société concernée
 - ticketId: relation ManyToOne → Ticket  Ticket parent
 - authorId: relation ManyToOne → User  Auteur du message

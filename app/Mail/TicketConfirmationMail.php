@@ -34,16 +34,22 @@ class TicketConfirmationMail extends Mailable
      */
     public function content(): Content
     {
-        // Rendre le contenu de confirmation
+        // Générer le contenu de base
         $confirmationContent = view('emails._support-confirmation', [
             'ticket' => $this->ticket
         ])->render();
+        
+        // Ajouter le code de réponse
+        $contentWithReplyCode = \App\Services\EmailReplyCodeService::buildEmailWithReplyCode(
+            $confirmationContent, 
+            $this->ticket
+        );
 
         return new Content(
             view: 'emails.global',
             with: [
                 'title' => 'Support N°' . $this->ticket->id . ' - Confirmation de votre demande',
-                'content' => $confirmationContent,
+                'content' => $contentWithReplyCode,
                 'ticket' => $this->ticket
             ]
         );

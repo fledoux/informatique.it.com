@@ -27,6 +27,14 @@ class Company extends Model
     }
 
     /**
+     * Une société a plusieurs messages de tickets
+     */
+    public function ticketMessages()
+    {
+        return $this->hasMany(\App\Models\TicketMessage::class);
+    }
+
+    /**
      * Une société peut avoir plusieurs domaines autorisés pour l'inscription
      */
     public function allowedDomains()

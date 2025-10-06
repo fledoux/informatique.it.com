@@ -11,6 +11,7 @@ use \App\Http\Controllers\ContactController;
 use \App\Http\Controllers\TicketController;
 use \App\Http\Controllers\CompanyController;
 use \App\Http\Controllers\AllowDomainRegistrationController;
+use \App\Http\Controllers\TicketMessageController;
 
 // Locale routes (accessible sans authentification)
 Route::post('/locale/change', [LocaleController::class, 'change'])->name('locale.change');
@@ -132,3 +133,14 @@ Route::prefix('allowdomain')->group(function () {
 
 
 
+
+// Routes TicketMessage - Permissions gérées dans TicketMessageController::__construct()
+Route::prefix('ticket_message')->group(function () {
+    Route::get('/', [TicketMessageController::class, 'index'])->name('ticket_message.index');
+    Route::get('/create', [TicketMessageController::class, 'create'])->name('ticket_message.create');
+    Route::post('/', [TicketMessageController::class, 'store'])->name('ticket_message.store');
+    Route::get('/{ticket_message}', [TicketMessageController::class, 'show'])->name('ticket_message.show');
+    Route::get('/{ticket_message}/edit', [TicketMessageController::class, 'edit'])->name('ticket_message.edit');
+    Route::put('/{ticket_message}', [TicketMessageController::class, 'update'])->name('ticket_message.update');
+    Route::delete('/{ticket_message}', [TicketMessageController::class, 'destroy'])->name('ticket_message.destroy');
+});

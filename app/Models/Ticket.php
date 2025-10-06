@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use App\Services\PushoverService;
 
@@ -59,6 +60,38 @@ class Ticket extends Model
     public function assignedTo(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    /**
+     * Relation vers les messages du ticket
+     */
+    public function messages()
+    {
+        return $this->hasMany(TicketMessage::class);
+    }
+
+    /**
+     * Messages publics du ticket (visibles par le client)
+     */
+    public function publicMessages()
+    {
+        return $this->hasMany(TicketMessage::class)->where('status', 'active');
+    }
+
+    /**
+     * Messages internes du ticket (visibles seulement par l'équipe)
+     */
+    public function internalMessages()
+    {
+        return $this->hasMany(TicketMessage::class)->where('status', 'internal');
+    }
+
+    /**
+     * Messages actifs du ticket (publics uniquement)
+     */
+    public function activeMessages()
+    {
+        return $this->hasMany(TicketMessage::class)->where('status', 'active');
     }
 
     /**

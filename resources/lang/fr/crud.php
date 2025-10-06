@@ -28,4 +28,4 @@ return [
         'access_denied' => 'Accès refusé : vous n\'avez pas les permissions nécessaires.',
         'cannot_delete_self' => 'Vous ne pouvez pas supprimer votre propre compte.',
     ]
-};
+];
