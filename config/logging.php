@@ -127,6 +127,12 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'sentry' => [
+            'driver' => 'sentry',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'bubble' => true, // Whether the messages that are handled can bubble up the stack or not
+        ],
+
     ],
 
 ];

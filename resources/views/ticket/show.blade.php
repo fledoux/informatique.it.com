@@ -25,8 +25,8 @@
                         </small>
                     </div>
                     <div class="col-12 col-lg-10 mb-3">
-                        <div class="card border border-warning border-4">
-                            <div class="card-body bg-warning-subtle">
+                        <div class="card border border-primary border-2">
+                            <div class="card-body bg-primary-subtle">
                                 <p class="mb-1">Nous avons bien reçu votre demande.
                                 </p>
                             </div>
@@ -43,7 +43,7 @@
                         </small>
                     </div>
                     <div class="col-12 col-lg-10 mb-3">
-                        <div class="card border  border-4">
+                        <div class="card border  border-2">
                             <div class="card-body">
                                 <strong>{{ $ticket->subject }}</strong><br>
                                 {!! nl2br(e($ticket->question)) !!}
