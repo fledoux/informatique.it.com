@@ -2,26 +2,26 @@
 
 @section('title')
 @if(auth()->check() && auth()->user()->hasRole('manager'))
-{{ __('ticket_message.List') }}
+{{ __('ticketmessage.List') }}
 @else  
-{{ __('ticket_message.YourList') }}
+{{ __('ticketmessage.YourList') }}
 @endif
 @endsection
 
 @section('content')
-<h1 class="mb-4">{{ __('ticket_message.List') }}</h1>
+<h1 class="mb-4">{{ __('ticketmessage.List') }}</h1>
 
 <div class="table-responsive">
 <table class="table align-middle table-xs table-bordered table-hover">
 <thead>
 <tr>
-<th class="text-center">{{ __('ticket_message.id') }}</th>
-<th class="text-left">{{ __('ticket_message.fields.status') }}</th>
-<th class="text-left">{{ __('ticket_message.fields.subject') }}</th>
-<th class="text-left">{{ __('ticket_message.fields.body') }}</th>
-<th class="text-left">{{ __('ticket_message.fields.company_id') }}</th>
-<th class="text-left">{{ __('ticket_message.fields.ticket_id') }}</th>
-<th class="text-left">{{ __('ticket_message.fields.author_id') }}</th>
+<th class="text-center">{{ __('ticketmessage.id') }}</th>
+<th class="text-left">{{ __('ticketmessage.fields.status') }}</th>
+<th class="text-left">{{ __('ticketmessage.fields.subject') }}</th>
+<th class="text-left">{{ __('ticketmessage.fields.body') }}</th>
+<th class="text-left">{{ __('ticketmessage.fields.company_id') }}</th>
+<th class="text-left">{{ __('ticketmessage.fields.ticket_id') }}</th>
+<th class="text-left">{{ __('ticketmessage.fields.author_id') }}</th>
 <th>{{ __('global.Actions') }}</th>
 </tr>
 </thead>
@@ -36,13 +36,13 @@
 <td>{{ $ticketMessage->ticket?->public_uuid ?? '' }}</td>
 <td>{{ $ticketMessage->author?->name ?? '' }}</td>
 <td class="text-nowrap">
-<a href="{{ route('ticket_message.show', $ticketMessage) }}" class="btn btn-link text-decoration-none p-0 me-2">
+<a href="{{ route('ticketmessage.show', $ticketMessage) }}" class="btn btn-link text-decoration-none p-0 me-2">
 {!! __('global.Details') !!}
 </a>
-<a href="{{ route('ticket_message.edit', $ticketMessage) }}" class="btn btn-link text-decoration-none p-0 me-2">
+<a href="{{ route('ticketmessage.edit', $ticketMessage) }}" class="btn btn-link text-decoration-none p-0 me-2">
 {!! __('global.Edit') !!}
 </a>
-@include('ticket_message._delete_form', ['ticketMessage' => $ticketMessage])
+@include('ticketmessage._delete_form', ['ticketMessage' => $ticketMessage])
 </td>
 </tr>
 @empty
@@ -56,7 +56,7 @@
 </table>
 </div>
 
-<a href="{{ route('ticket_message.create') }}" class="btn btn-orange mt-3">
+<a href="{{ route('ticketmessage.create') }}" class="btn btn-orange mt-3">
     <i class="fa-regular fa-square-plus"></i>
 {{ __('global.New') }}
 </a>

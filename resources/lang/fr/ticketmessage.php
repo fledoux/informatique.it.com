@@ -4,6 +4,7 @@ return [
     'entity' => 'Message',
     'id' => 'ID',
     'List' => 'Liste des messages',
+    'YourList' => 'Vos messages',
     'Edit' => 'Modifier',
     'Details' => 'Détails',
     'Actions' => 'Actions',

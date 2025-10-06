@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('ticket_message.destroy', $ticketMessage) }}" 
+<form method="POST" action="{{ route('ticketmessage.destroy', $ticketMessage) }}" 
 onsubmit="return confirm('{{ __('global.Delete?') }}');" 
 style="display:inline">
 @csrf

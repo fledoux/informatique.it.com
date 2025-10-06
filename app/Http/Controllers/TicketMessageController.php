@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\TicketSecurityHelper;
 use App\Http\Requests\TicketMessageStoreRequest;
 use App\Models\Ticket;
 use App\Models\TicketMessage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -51,9 +53,35 @@ class TicketMessageController extends Controller
         // Si ticket_id est fourni, récupérer le ticket
         if ($request->has('ticket_id')) {
             $ticket = \App\Models\Ticket::findOrFail($request->get('ticket_id'));
+            
+            // Vérifications de sécurité par rôle
+            $user = Auth::user();
+            
+            if ($user->hasRole('super-admin')) {
+                // Super-admin : accès à tous les tickets
+            } elseif ($user->hasAnyRole(['admin', 'manager'])) {
+                // Admin/Manager : seulement les tickets de leur société
+                if ($ticket->company_id !== $user->company_id) {
+                    return redirect()->route('ticket.index')
+                        ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
+                }
+            } else {
+                // Utilisateur normal : seulement ses propres tickets ou ceux de sa société
+                if ($ticket->company_id !== $user->company_id) {
+                    return redirect()->route('ticket.index')
+                        ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
+                }
+                
+                // Pour les notes internes, on a déjà vérifié plus haut
+                // Pour les réponses publiques, vérifier que c'est son ticket ou sa société
+                if (!$isInternal && $ticket->author_id !== $user->id && $ticket->company_id !== $user->company_id) {
+                    return redirect()->route('ticket.index')
+                        ->with('error', 'Vous ne pouvez répondre qu\'aux tickets de votre société.');
+                }
+            }
         }
         
-        return view('ticket_message.create', compact('ticket', 'isInternal'));
+        return view('ticketmessage.create', compact('ticket', 'isInternal'));
     }
 
     /**
@@ -66,8 +94,33 @@ class TicketMessageController extends Controller
         // Récupérer le ticket et vérifier les permissions
         $ticket = Ticket::findOrFail($validated['ticket_id']);
         
+        // Vérifications de sécurité par rôle
+        $user = Auth::user();
+        
+        if ($user->hasRole('super-admin')) {
+            // Super-admin : accès à tous les tickets
+        } elseif ($user->hasAnyRole(['admin', 'manager'])) {
+            // Admin/Manager : seulement les tickets de leur société
+            if ($ticket->company_id !== $user->company_id) {
+                return redirect()->route('ticket.index')
+                    ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
+            }
+        } else {
+            // Utilisateur normal : seulement ses propres tickets ou ceux de sa société
+            if ($ticket->company_id !== $user->company_id) {
+                return redirect()->route('ticket.index')
+                    ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
+            }
+            
+            // Pour les réponses publiques, vérifier que c'est son ticket ou sa société
+            if ($validated['status'] === 'active' && $ticket->author_id !== $user->id && $ticket->company_id !== $user->company_id) {
+                return redirect()->route('ticket.index')
+                    ->with('error', 'Vous ne pouvez répondre qu\'aux tickets de votre société.');
+            }
+        }
+        
         // Vérifier que seuls les super-admin peuvent créer des notes internes
-        if ($validated['status'] === 'internal' && !Auth::user()->hasRole('super-admin')) {
+        if ($validated['status'] === 'internal' && !$user->hasRole('super-admin')) {
             return redirect()->back()
                 ->with('error', 'Seuls les super-administrateurs peuvent créer des notes internes.')
                 ->withInput();
@@ -118,8 +171,26 @@ class TicketMessageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TicketMessage $ticketMessage)
+    public function destroy($id)
     {
-        //
+        try {
+            $ticketMessage = TicketMessage::findOrFail($id);
+            
+            // Sauvegarder l'ID du ticket pour la redirection
+            $ticketId = $ticketMessage->ticket_id;
+            
+            // Vérifier les permissions (sécurité)
+            if (!TicketSecurityHelper::canManageTicketMessage(Auth::user(), $ticketMessage)) {
+                return redirect()->route('ticket.show', $ticketId)
+                    ->with('error', 'Accès refusé pour supprimer ce message.');
+            }
+            
+            $ticketMessage->delete();
+            return redirect()->route('ticket.show', $ticketId)
+                ->with('success', __('global.messages.deleted'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('ticketmessage.index')
+                ->with('error', __('global.messages.delete_not_found'));
+        }
     }
 }

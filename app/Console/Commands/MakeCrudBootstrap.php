@@ -78,7 +78,7 @@ class MakeCrudBootstrap extends Command
         ));
 
         $entity     = class_basename($modelClass); // Company
-        $entitySlug = Str::snake($entity); // company (singular slug as requested)
+        $entitySlug = Str::lower($entity); // company (singular slug without special characters)
         $varSing    = Str::camel($entity);         // company
         $varPlur    = Str::camel(Str::pluralStudly($entity)); // companies
         $viewDir    = resource_path("views/{$entitySlug}");

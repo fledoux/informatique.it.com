@@ -135,12 +135,12 @@ Route::prefix('allowdomain')->group(function () {
 
 
 // Routes TicketMessage - Permissions gérées dans TicketMessageController::__construct()
-Route::prefix('ticket_message')->group(function () {
-    Route::get('/', [TicketMessageController::class, 'index'])->name('ticket_message.index');
-    Route::get('/create', [TicketMessageController::class, 'create'])->name('ticket_message.create');
-    Route::post('/', [TicketMessageController::class, 'store'])->name('ticket_message.store');
-    Route::get('/{ticket_message}', [TicketMessageController::class, 'show'])->name('ticket_message.show');
-    Route::get('/{ticket_message}/edit', [TicketMessageController::class, 'edit'])->name('ticket_message.edit');
-    Route::put('/{ticket_message}', [TicketMessageController::class, 'update'])->name('ticket_message.update');
-    Route::delete('/{ticket_message}', [TicketMessageController::class, 'destroy'])->name('ticket_message.destroy');
+Route::prefix('ticketmessage')->group(function () {
+    Route::get('/', [TicketMessageController::class, 'index'])->name('ticketmessage.index');
+    Route::get('/create', [TicketMessageController::class, 'create'])->name('ticketmessage.create');
+    Route::post('/', [TicketMessageController::class, 'store'])->name('ticketmessage.store');
+    Route::get('/{ticketmessage}', [TicketMessageController::class, 'show'])->name('ticketmessage.show');
+    Route::get('/{ticketmessage}/edit', [TicketMessageController::class, 'edit'])->name('ticketmessage.edit');
+    Route::put('/{ticketmessage}', [TicketMessageController::class, 'update'])->name('ticketmessage.update');
+    Route::delete('/{ticketmessage}', [TicketMessageController::class, 'destroy'])->name('ticketmessage.destroy');
 });

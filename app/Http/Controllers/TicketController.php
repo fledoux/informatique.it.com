@@ -8,6 +8,7 @@ use App\Http\Requests\TicketUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helper;
+use App\Helpers\TicketSecurityHelper;
 
 class TicketController extends Controller
 {
@@ -86,6 +87,13 @@ class TicketController extends Controller
     {
         try {
             $ticket = Ticket::query()->with(['company', 'author'])->findOrFail($id);
+            
+            // Vérifications de sécurité
+            if (!TicketSecurityHelper::canAccessTicket(Auth::user(), $ticket)) {
+                return redirect()->route('ticket.index')
+                    ->with('error', TicketSecurityHelper::getAccessDeniedMessage());
+            }
+            
             return view('ticket.show', compact('ticket'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('ticket.index')
@@ -97,6 +105,26 @@ class TicketController extends Controller
     {
         try {
             $ticket = Ticket::query()->with(['company', 'author'])->findOrFail($id);
+            
+            // Vérifications de sécurité par rôle
+            $user = Auth::user();
+            
+            if ($user->hasRole('super-admin')) {
+                // Super-admin : accès à tous les tickets
+            } elseif ($user->hasAnyRole(['admin', 'manager'])) {
+                // Admin/Manager : seulement les tickets de leur société
+                if ($ticket->company_id !== $user->company_id) {
+                    return redirect()->route('ticket.index')
+                        ->with('error', 'Vous ne pouvez pas modifier les tickets d\'une autre société.');
+                }
+            } else {
+                // Utilisateur normal : seulement les tickets de sa société
+                if ($ticket->company_id !== $user->company_id) {
+                    return redirect()->route('ticket.index')
+                        ->with('error', 'Vous ne pouvez pas modifier les tickets d\'une autre société.');
+                }
+            }
+            
             return view('ticket.edit', compact('ticket'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('ticket.index')
@@ -110,6 +138,23 @@ class TicketController extends Controller
             $ticket = Ticket::findOrFail($id);
             $data = $request->validated();
             $user = Auth::user();
+            
+            // Vérifications de sécurité par rôle
+            if ($user->hasRole('super-admin')) {
+                // Super-admin : accès à tous les tickets
+            } elseif ($user->hasAnyRole(['admin', 'manager'])) {
+                // Admin/Manager : seulement les tickets de leur société
+                if ($ticket->company_id !== $user->company_id) {
+                    return redirect()->route('ticket.index')
+                        ->with('error', 'Vous ne pouvez pas modifier les tickets d\'une autre société.');
+                }
+            } else {
+                // Utilisateur normal : seulement les tickets de sa société
+                if ($ticket->company_id !== $user->company_id) {
+                    return redirect()->route('ticket.index')
+                        ->with('error', 'Vous ne pouvez pas modifier les tickets d\'une autre société.');
+                }
+            }
 
             // Déterminer le company_id en fonction de l'utilisateur sélectionné (pour tous les utilisateurs)
             if (isset($data['author_id'])) {

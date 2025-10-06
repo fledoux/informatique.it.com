@@ -16,42 +16,6 @@
             </div>
         </div>
 
-        {{-- Contexte du ticket --}}
-        <div class="card border-primary border-opacity-25 mb-4">
-            <div class="card-header bg-primary bg-opacity-10">
-                <h5 class="mb-0">
-                    <i class="fa-regular fa-message-question me-2"></i>
-                    Contexte - {{ $ticket->subject }}
-                </h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <strong>Client :</strong> {{ $ticket->author->name ?? 'N/A' }}<br>
-                        <strong>Société :</strong> {{ $ticket->company->name ?? 'N/A' }}<br>
-                        <strong>Statut :</strong> 
-                        <span class="badge {{ __('ticket.statusBadgeColor.' . $ticket->status) }}">
-                            {{ __('ticket.status.' . $ticket->status) }}
-                        </span>
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Créé le :</strong> {{ $ticket->created_at->format('d/m/Y à H\hi') }}<br>
-                        <strong>Priorité :</strong>
-                        <span class="badge {{ __('ticket.priorityBadgeColor.' . $ticket->priority) }}">
-                            {{ __('ticket.priorityFull.' . $ticket->priority) }}
-                        </span>
-                    </div>
-                </div>
-                @if($ticket->question)
-                    <hr>
-                    <strong>Question initiale :</strong><br>
-                    <div class="bg-light p-3 rounded">
-                        {!! nl2br(e($ticket->question)) !!}
-                    </div>
-                @endif
-            </div>
-        </div>
-
         {{-- Formulaire de réponse --}}
         <div class="card">
             <div class="card-header">
@@ -61,7 +25,7 @@
                 </h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('ticket_message.store') }}" method="POST">
+                <form action="{{ route('ticketmessage.store') }}" method="POST">
                     @csrf
 
                     {{-- Champs cachés --}}
