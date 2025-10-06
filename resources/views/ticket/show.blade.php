@@ -18,7 +18,7 @@
 
                 {{-- Message support --}}
                 <div class="row">
-                    <div class="col-2 mb-3 text-end text-warning-emphasis">
+                    <div class="col-2 mb-3 text-end text-primary">
                         <span class="fw-bold">Votre support</span><br>
                         <small
                             class="text-muted">{{ $ticket->created_at->format('d/m/Y') ?? '' }}<br>{{ $ticket->created_at->format('H\hi') ?? '' }}
@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-12 col-lg-10 mb-3">
                         <div class="card border border-primary border-2">
-                            <div class="card-body bg-primary-subtle">
+                            <div class="card-body ">
                                 <p class="mb-1">Nous avons bien reçu votre demande.
                                 </p>
                             </div>
