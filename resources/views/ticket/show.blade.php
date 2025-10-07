@@ -37,7 +37,9 @@
                     @foreach ($ticket->messages()->orderBy('created_at', 'desc')->get() as $message)
                         @if (
                             $message->status === 'active' ||
-                                (auth()->user() && auth()->user()->hasRole('super-admin') && ($message->status === 'internal' || $message->status === 'inactive')))
+                                (auth()->user() &&
+                                    auth()->user()->hasRole('super-admin') &&
+                                    ($message->status === 'internal' || $message->status === 'inactive')))
                             <div class="row mb-3 {{ $message->status === 'inactive' ? ' opacity-25' : '' }}">
                                 <div class="col-2 text-end">
                                     <span
@@ -82,8 +84,8 @@
                                                 </div>
                                             @endhasrole
                                             @hasrole('toto')
-                                                    #{{ $message->id }}
-                                                @endhasrole
+                                                #{{ $message->id }}
+                                            @endhasrole
                                             @if ($message->subject && $message->subject !== 'Re: ' . $ticket->subject)
                                                 <strong>{{ $message->subject }}</strong><br>
                                             @endif
@@ -151,24 +153,20 @@
                     </p>
                     <p>
                         <i class="fa-regular fa-square-check text-success"></i> {!! __('ticket.yes') !!},
-                        {{ $ticket->author_id ? \App\Models\User::find($ticket->author_id)?->name : '' }}
+                        {{ $user->name ?? '' }}
                         {!! __('ticket.cgv') !!}
                     </p>
                     <p>
                         <span class="h4">
-                            {{ $ticket->company_id ? \App\Models\Company::find($ticket->company_id)?->name : '' }}
+                            {{ $company->name ?? '' }}
                         </span><br>
-                        {{ $ticket->author_id ? \App\Models\User::find($ticket->author_id)?->name : '' }}<br>
+                        {{ $user->name ?? '' }}<br>
                         @role('super-admin')
                             <small class="text-muted">{{ $ticket->author?->getRoleNames()->implode(', ') }}</small><br>
                         @endrole
-                        {!! \App\Helpers\Helper::mailTo(\App\Models\User::find($ticket->author_id)->email) !!}<br>
-                        {!! $ticket->author_id
-                            ? '<a href="tel:' .
-                                \App\Models\User::find($ticket->author_id)?->phone .
-                                '" class="text-orange text-decoration-none">' .
-                                \App\Models\User::find($ticket->author_id)?->phone .
-                                '</a>'
+                        {!! \App\Helpers\Helper::mailTo($user->email) !!}<br>
+                        {!! $user->phone
+                            ? '<a href="tel:' . $user->phone . '" class="text-orange text-decoration-none">' . $user->phone . '</a>'
                             : '' !!}
                     </p>
                     <p>

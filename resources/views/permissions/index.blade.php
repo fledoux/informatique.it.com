@@ -17,7 +17,7 @@
             @endcan
             @can('permission.create')
                 <a href="{{ route('permissions.create') }}" class="btn btn-orange">
-                    <i class="fa-regular fa-square-plus"></i>
+                    
                     Nouvelle Permission Custom
                 </a>
             @endcan

@@ -40,7 +40,7 @@ return [
         'locale_updated' => 'Language updated successfully',
     ],
     'List' => '<i class="fa-regular fa-list"></i> List',
-    'Create' => '<i class="fa-regular fa-square-plus"></i> Create',
+    'Create' => ' Create',
     'Edit' => '<i class="fa-regular fa-pencil"></i> Edit',
     'Details' => '<i class="fa-regular fa-eye"></i> Details',
     'Actions' => 'Actions',

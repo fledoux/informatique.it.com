@@ -57,6 +57,6 @@
         </div>
     </div>
     <div class="btn-group mt-3" role="group" aria-label="Basic example">
-        <button type="submit" class="btn btn-primary">{{ __('global.Save') }}</button>
-        <a href="{{ route('ticket.index') }}" class="btn btn-outline-primary">{!! __('global.Back') !!}</a>
+        <button type="submit" class="btn btn-primary">{!! __('global.btn.Save') !!}</button>
+        <a href="{{ route('ticket.index') }}" class="btn btn-outline-primary">{!! __('global.btn.Back') !!}</a>
     </div>

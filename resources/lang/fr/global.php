@@ -42,14 +42,26 @@ return [
 
     'List' => 'Liste',
     'Create' => 'Créer',
-    'Edit' => '<i class="fa-regular fa-pencil"></i> Éditer',
-    'Details' => '<i class="fa-regular fa-eye"></i> Détails',
+    'Edit' => '',
+    'Details' => 'Détails',
     'New' => 'Nouveau',
     'Save' => 'Enregistrer',
-    'Back' => '<i class="fa-regular fa-rotate-left"></i> Retour',
-    'Delete' => '<i class="fa-regular fa-trash-can"></i>',
+    'Back' => 'Retour',
     'Delete?' => 'Supprimer ?',
     'No data' => 'Aucune donnée',
+
+    'btn' => [
+        'List' => 'Liste',
+        'Create' => 'Créer',
+        'Edit' => '<i class="fa-regular fa-pencil"></i> Éditer',
+        'Details' => '<i class="fa-regular fa-eye"></i> Détails',
+        'New' => '<i class="fa-regular fa-plus"></i> Nouveau',
+        'Save' => '<i class="fa-regular fa-floppy-disk"></i> Enregistrer',
+        'Back' => '<i class="fa-regular fa-rotate-left"></i> Retour',
+        'Delete' => '<i class="fa-regular fa-trash-can"></i>',
+        'Delete?' => 'Supprimer ?',
+        'No data' => 'Aucune donnée',
+    ],
 
     'boolean' => [
         'yes' => 'Oui',
@@ -72,7 +84,7 @@ return [
 
     // Salutations contextuelles
     'Good morning' => 'Bonjour',
-    'Good afternoon' => 'Bonjour', 
+    'Good afternoon' => 'Bonjour',
     'Good evening' => 'Bonsoir',
     'Thanks' => 'Merci',
     'ThanksCrew' => 'Merci,<br>L\'équipe Support',

@@ -8,7 +8,7 @@
             </a></li>
         @can('ticket.edit')
             <li><a class="dropdown-item" href="{{ route('ticket.edit', $ticket) }}">
-                    {!! __('global.Edit') !!}
+                    {!! __('global.btn.Edit') !!}
                 </a></li>
             @role('super-admin')
                 <li>
@@ -30,7 +30,7 @@
         @endcan
         <li>
             <a class="dropdown-item" href="{{ route('ticket.index') }}">
-                {!! __('global.Back') !!}
+                {!! __('global.btn.Back') !!}
             </a>
         </li>
     </ul>

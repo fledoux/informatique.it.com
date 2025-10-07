@@ -42,10 +42,10 @@
 <td>{{ $contact->need }}</td>
 <td class="text-nowrap">
 <a href="{{ route('contact.show', $contact) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{!! __('global.Details') !!}
+{!! __('global.btn.Details') !!}
 </a>
 <a href="{{ route('contact.edit', $contact) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{!! __('global.Edit') !!}
+{!! __('global.btn.Edit') !!}
 </a>
 @include('contact._delete_form', ['contact' => $contact])
 </td>
@@ -53,7 +53,7 @@
 @empty
 <tr>
 <td colspan="7" class="text-center">
-{{ __('global.No data') }}
+{!! __('global.No data') !!}
 </td>
 </tr>
 @endforelse
@@ -62,7 +62,7 @@
 </div>
 
 <a href="{{ route('contact.create') }}" class="btn btn-orange mt-3">
-    <i class="fa-regular fa-square-plus"></i>
-{{ __('global.New') }}
+    
+{!! __('global.btn.New') !!}
 </a>
 @endsection

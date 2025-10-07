@@ -15,7 +15,7 @@ return [
     'Author' => 'Auteur',
     'AssignedAt' => 'Assigné le',
     'List' => 'Liste des demandes de support',
-    'Answer' => '<i class="fa-regular fa-square-plus"></i> Répondre',
+    'Answer' => ' Répondre',
     'cgv' => 'a accepté(e) les Conditions générales d\'utilisation.',
     'yes' => 'Oui',
     'no' => 'Non',

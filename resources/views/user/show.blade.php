@@ -57,7 +57,7 @@
     </dl>
 
     <div class="btn-group mt-3" role="group" aria-label="Actions">
-        <a href="{{ route('user.edit', $user) }}" class="btn btn-primary">{!! __('global.Edit') !!}</a>
-        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{!! __('global.Back') !!}</a>
+        <a href="{{ route('user.edit', $user) }}" class="btn btn-primary">{!! __('global.btn.Edit') !!}</a>
+        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{!! __('global.btn.Back') !!}</a>
     </div>
 @endsection

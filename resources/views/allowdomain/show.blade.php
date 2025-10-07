@@ -3,7 +3,7 @@
 @section('title', __('global.Details') . '  ' . __('allowdomain.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('global.Details') !!}  {{ __('allowdomain.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('global.btn.Details') !!}  {{ __('allowdomain.entity') }}</h1>
 
     <dl class="row">
         <dt class="col-sm-3">{{ __('allowdomain.id') }}</dt>
@@ -15,7 +15,7 @@
     </dl>
 
     <div class="btn-group mt-3" role="group" aria-label="Actions">
-        <a href="{{ route('allowdomain.edit', $allowDomainRegistration) }}" class="btn btn-primary">{!! __('global.Edit') !!}</a>
-        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{!! __('global.Back') !!}</a>
+        <a href="{{ route('allowdomain.edit', $allowDomainRegistration) }}" class="btn btn-primary">{!! __('global.btn.Edit') !!}</a>
+        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{!! __('global.btn.Back') !!}</a>
     </div>
 @endsection

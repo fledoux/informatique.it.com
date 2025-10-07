@@ -56,12 +56,12 @@
                         <td class="text-nowrap">
                             <a href="{{ route('ticket.show', $ticket) }}"
                                 class="btn btn-link text-decoration-none p-0 me-2">
-                                {!! __('global.Details') !!}
+                                {!! __('global.btn.Details') !!}
                             </a>
                             @can('ticket.edit')
                                 <a href="{{ route('ticket.edit', $ticket) }}"
                                     class="btn btn-link text-decoration-none p-0 me-2">
-                                    {!! __('global.Edit') !!}
+                                    {!! __('global.btn.Edit') !!}
                                 </a>
                             @endcan
                             @can('ticket.delete')
@@ -80,7 +80,7 @@
                 <h3 class="text-muted mb-3">{{ __('ticket.empty_state.title') }}</h3>
                 @can('ticket.create')
                     <a href="{{ route('ticket.create') }}" class="btn btn-orange">
-                        <i class="fa-regular fa-square-plus"></i>
+                        
                         {{ __('ticket.empty_state.create_button') }}
                     </a>
                 @endcan
@@ -90,8 +90,8 @@
 
     @if($tickets->count() > 0)
         <a href="{{ route('ticket.create') }}" class="btn btn-orange mt-3">
-            <i class="fa-regular fa-square-plus"></i>
-            {{ __('global.New') }}
+            
+            {!! __('global.btn.New') !!}
         </a>
     @endif
 @endsection

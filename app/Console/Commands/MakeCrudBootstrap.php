@@ -1604,10 +1604,10 @@ HTML;
 <td class="text-center">{{ \${$varSing}->id }}</td>{$tds}
 <td class="text-nowrap">
 <a href="{{ route('{$entitySlug}.show', \${$varSing}) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{!! __('global.Details') !!}
+{!! __('global.btn.Details') !!}
 </a>
 <a href="{{ route('{$entitySlug}.edit', \${$varSing}) }}" class="btn btn-link text-decoration-none p-0 me-2">
-{!! __('global.Edit') !!}
+{!! __('global.btn.Edit') !!}
 </a>
 @include('{$entitySlug}._delete_form', ['{$varSing}' => \${$varSing}])
 </td>
@@ -1615,7 +1615,7 @@ HTML;
 @empty
 <tr>
 <td colspan="{$totalColumns}" class="text-center">
-{{ __('global.No data') }}
+{!! __('global.No data') !!}
 </td>
 </tr>
 @endforelse
@@ -1624,8 +1624,8 @@ HTML;
 </div>
 
 <a href="{{ route('{$entitySlug}.create') }}" class="btn btn-orange mt-3">
-    <i class="fa-regular fa-square-plus"></i>
-{{ __('global.New') }}
+    
+{!! __('global.btn.New') !!}
 </a>
 @endsection
 BLADE;
@@ -1640,7 +1640,7 @@ style="display:inline">
 @csrf
 @method('DELETE')
 <button type="submit" class="btn btn-link text-decoration-none text-orange p-0">
-{!! __('global.Delete') !!}
+{!! __('global.btn.Delete') !!}
 </button>
 </form>
 BLADE;
@@ -1661,8 +1661,8 @@ BLADE;
 {$fields}
 </div>
 <div class="btn-group mt-3" role="group" aria-label="Basic example">
-<button type="submit" class="btn btn-primary">{{ __('global.Save') }}</button>
-<a href="{{ route('{$entitySlug}.index') }}" class="btn btn-outline-primary">{!! __('global.Back') !!}</a>
+<button type="submit" class="btn btn-primary">{!! __('global.btn.Save') !!}</button>
+<a href="{{ route('{$entitySlug}.index') }}" class="btn btn-outline-primary">{!! __('global.btn.Back') !!}</a>
 </div>
 BLADE;
     }
@@ -1697,7 +1697,7 @@ BLADE;
 @section('title', __('global.Edit') . '  ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('global.Edit') !!}  {{ __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('global.btn.Edit') !!}  {{ __('{$entitySlug}.entity') }}</h1>
 
     <form method="POST" action="{{ route('{$entitySlug}.update', {$singToken}) }}" novalidate>
         @csrf
@@ -1783,15 +1783,15 @@ HTML;
 @section('title', __('global.Details') . '  ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('global.Details') !!}  {{ __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('global.btn.Details') !!}  {{ __('{$entitySlug}.entity') }}</h1>
 
     <dl class="row">
 {$allRows}
     </dl>
 
     <div class="btn-group mt-3" role="group" aria-label="Actions">
-        <a href="{{ route('{$entitySlug}.edit', {$singToken}) }}" class="btn btn-primary">{!! __('global.Edit') !!}</a>
-        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{!! __('global.Back') !!}</a>
+        <a href="{{ route('{$entitySlug}.edit', {$singToken}) }}" class="btn btn-primary">{!! __('global.btn.Edit') !!}</a>
+        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{!! __('global.btn.Back') !!}</a>
     </div>
 @endsection
 BLADE;

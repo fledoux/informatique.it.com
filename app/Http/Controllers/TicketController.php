@@ -93,8 +93,11 @@ class TicketController extends Controller
                 return redirect()->route('ticket.index')
                     ->with('error', TicketSecurityHelper::getAccessDeniedMessage());
             }
-            
-            return view('ticket.show', compact('ticket'));
+
+            $user = \App\Models\User::find($ticket->author_id);
+            $company = \App\Models\Company::find($ticket->company_id);
+
+            return view('ticket.show', compact('ticket', 'user', 'company'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('ticket.index')
                 ->with('error', __('global.messages.not_found'));

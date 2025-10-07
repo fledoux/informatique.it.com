@@ -253,10 +253,10 @@ foreach ($entities as $entity) {
     
     <div class="d-flex gap-2 mt-4">
         <button type="submit" class="btn btn-primary">
-            {{ __('global.Save') }}
+            {!! __('global.btn.Save') !!}
         </button>
         <a href="{{ route('entity.index') }}" class="btn btn-secondary">
-            {!! __('global.Back') !!}
+            {!! __('global.btn.Back') !!}
         </a>
     </div>
 </form>
@@ -343,7 +343,7 @@ try {
                     <h5 class="card-title mb-0">{{ __('entity.List') }}</h5>
                     @can('entity.create')
                         <a href="{{ route('entity.create') }}" class="btn btn-primary">
-                            {{ __('global.New') }}
+                            {!! __('global.btn.New') !!}
                         </a>
                     @endcan
                 </div>

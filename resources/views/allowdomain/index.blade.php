@@ -30,11 +30,11 @@
                         <td class="text-nowrap">
                             <a href="{{ route('allowdomain.show', $allowDomainRegistration) }}"
                                 class="btn btn-link text-decoration-none p-0 me-2">
-                                {!! __('global.Details') !!}
+                                {!! __('global.btn.Details') !!}
                             </a>
                             <a href="{{ route('allowdomain.edit', $allowDomainRegistration) }}"
                                 class="btn btn-link text-decoration-none p-0 me-2">
-                                {!! __('global.Edit') !!}
+                                {!! __('global.btn.Edit') !!}
                             </a>
                             @include('allowdomain._delete_form', [
                                 'allowDomainRegistration' => $allowDomainRegistration,
@@ -44,7 +44,7 @@
                 @empty
                     <tr>
                         <td colspan="4" class="text-center">
-                            {{ __('global.No data') }}
+                            {!! __('global.No data') !!}
                         </td>
                     </tr>
                 @endforelse
@@ -53,7 +53,6 @@
     </div>
 
     <a href="{{ route('allowdomain.create') }}" class="btn btn-orange mt-3">
-        <i class="fa-regular fa-square-plus"></i>
-        {{ __('global.New') }}
+        {!! __('global.btn.New') !!}
     </a>
 @endsection

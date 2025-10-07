@@ -63,11 +63,11 @@
                         <td class="text-nowrap">
                             <a href="{{ route('company.show', $company) }}"
                                 class="btn btn-link text-decoration-none p-0 me-2">
-                                {!! __('global.Details') !!}
+                                {!! __('global.btn.Details') !!}
                             </a>
                             <a href="{{ route('company.edit', $company) }}"
                                 class="btn btn-link text-decoration-none p-0 me-2">
-                                {!! __('global.Edit') !!}
+                                {!! __('global.btn.Edit') !!}
                             </a>
                             @include('company._delete_form', ['company' => $company])
                         </td>
@@ -75,7 +75,7 @@
                     @empty
                         <tr>
                             <td colspan="15" class="text-center">
-                                {{ __('global.No data') }}
+                                {!! __('global.No data') !!}
                             </td>
                         </tr>
                     @endforelse
@@ -84,7 +84,7 @@
         </div>
 
         <a href="{{ route('company.create') }}" class="btn btn-orange mt-3">
-            <i class="fa-regular fa-square-plus"></i>
-            {{ __('global.New') }}
+            
+            {!! __('global.btn.New') !!}
         </a>
     @endsection
