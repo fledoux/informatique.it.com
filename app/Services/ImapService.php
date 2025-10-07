@@ -6,6 +6,9 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Company;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UnauthorizedReplyMail;
+use App\Services\EmailReplyCodeService;
 use Exception;
 
 class ImapService
@@ -19,6 +22,7 @@ class ImapService
     private string $folder;
     private string $archiveFolder;
     private string $folderSeparator;
+    private array $messages = []; // Pour collecter les messages à afficher
 
     public function __construct()
     {
@@ -96,7 +100,7 @@ class ImapService
             $emails = imap_search($this->connection, 'UNSEEN');
             
             if (!$emails) {
-                Log::info('No new emails found');
+                Log::info('Aucun nouvel email trouvé');
                 return 0;
             }
 
@@ -104,17 +108,20 @@ class ImapService
 
             foreach ($emails as $emailId) {
                 try {
-                    if ($this->processEmail($emailId)) {
+                    $emailProcessed = $this->processEmail($emailId);
+                    
+                    if ($emailProcessed) {
                         $processed++;
-                        
-                        // Déplacer vers le dossier Archives selon la configuration
-                        if (config('imap.move_to_archive', true)) {
-                            $this->moveEmailToArchive($emailId);
-                        } else {
-                            // Sinon marquer simplement comme lu
-                            imap_setflag_full($this->connection, $emailId, "\\Seen");
-                        }
                     }
+                    
+                    // TOUJOURS archiver l'email (traité ou rejeté)
+                    if (config('imap.move_to_archive', true)) {
+                        $this->moveEmailToArchive($emailId);
+                    } else {
+                        // Sinon marquer simplement comme lu
+                        imap_setflag_full($this->connection, $emailId, "\\Seen");
+                    }
+                    
                 } catch (Exception $e) {
                     Log::error("Error processing email ID {$emailId}: " . $e->getMessage());
                 }
@@ -127,6 +134,22 @@ class ImapService
         }
 
         return $processed;
+    }
+
+    /**
+     * Récupère les messages collectés pour affichage dans le terminal
+     */
+    public function getMessages(): array
+    {
+        return $this->messages;
+    }
+
+    /**
+     * Ajoute un message pour affichage dans le terminal
+     */
+    private function addMessage(string $message): void
+    {
+        $this->messages[] = $message;
     }
 
     /**
@@ -195,15 +218,26 @@ class ImapService
                 }
             }
 
-            // Pas de code de réponse ou code invalide - créer un nouveau ticket
-            $user = $this->findOrCreateUser($senderEmail, $senderName);
+            // Pas de code de réponse ou code invalide - SÉCURITÉ: Vérifier si l'utilisateur existe
+            $user = $this->findExistingUser($senderEmail);
             
             if (!$user) {
-                Log::error("Could not find or create user for email: {$senderEmail}");
+                Log::warning("SÉCURITÉ: Tentative de création de ticket par utilisateur non-inscrit: {$senderEmail}");
+                
+                // Envoyer un mail d'erreur pour inciter à s'inscrire
+                try {
+                    Mail::to($senderEmail)->send(new UnauthorizedReplyMail($senderEmail, 'NOUVEAU'));
+                    Log::info("✅ Mail de rejet envoyé à l'utilisateur non-inscrit: {$senderEmail}");
+                    $this->addMessage("✅ Mail de rejet envoyé à l'utilisateur non-inscrit: {$senderEmail}");
+                } catch (Exception $e) {
+                    Log::error("❌ Échec envoi mail de rejet à {$senderEmail}: " . $e->getMessage());
+                    $this->addMessage("❌ Échec envoi mail de rejet à {$senderEmail}: " . $e->getMessage());
+                }
+                
                 return false;
             }
 
-            // Créer le ticket
+            // L'utilisateur existe - créer le ticket
             $ticket = $this->createTicketFromEmail($user, $subject, $body, $messageId);
 
             if ($ticket) {
@@ -309,63 +343,12 @@ class ImapService
     }
 
     /**
-     * Trouve ou crée un utilisateur basé sur l'email
+     * SÉCURITÉ: Ne trouve QUE les utilisateurs existants - ne crée JAMAIS d'utilisateur
      */
-    private function findOrCreateUser(string $email, string $name): ?User
+    private function findExistingUser(string $email): ?User
     {
-        // Chercher un utilisateur existant
-        $user = User::where('email', $email)->first();
-        
-        if ($user) {
-            return $user;
-        }
-
-        // Si pas trouvé, chercher une entreprise par défaut pour les nouveaux utilisateurs
-        $defaultCompany = Company::where('name', 'like', '%support%')
-            ->orWhere('name', 'like', '%default%')
-            ->orWhere('name', 'like', '%client%')
-            ->first();
-
-        if (!$defaultCompany) {
-            // Créer une entreprise par défaut si elle n'existe pas
-            $defaultCompany = Company::create([
-                'name' => 'Clients Email',
-                'status' => 'active',
-                'address' => '',
-                'postal_code' => '',
-                'city' => '',
-                'country' => 'FR'
-            ]);
-        }
-
-        // Séparer prénom et nom si possible
-        $nameParts = explode(' ', trim($name), 2);
-        $firstName = $nameParts[0] ?? '';
-        $lastName = $nameParts[1] ?? '';
-
-        // Créer le nouvel utilisateur
-        try {
-            $user = User::create([
-                'name' => $name,
-                'email' => $email,
-                'firstname' => $firstName,
-                'lastname' => $lastName,
-                'company_id' => $defaultCompany->id,
-                'status' => 'active',
-                'password' => bcrypt(str()->random(32)), // Mot de passe aléatoire
-                'email_verified_at' => now(), // Marquer comme vérifié
-            ]);
-
-            // Assigner le rôle utilisateur par défaut
-            $user->assignRole('user');
-
-            Log::info("Created new user from email: {$email} - {$name}");
-            return $user;
-
-        } catch (Exception $e) {
-            Log::error("Error creating user for email {$email}: " . $e->getMessage());
-            return null;
-        }
+        // Chercher UNIQUEMENT un utilisateur existant
+        return User::where('email', $email)->first();
     }
 
     /**
@@ -379,6 +362,37 @@ class ImapService
             
             if (!$user) {
                 Log::warning("User not found for reply email: {$senderEmail}");
+                
+                // Envoyer un mail d'erreur pour inciter à s'inscrire
+                try {
+                    Mail::to($senderEmail)->send(new UnauthorizedReplyMail($senderEmail, $ticket->id));
+                    Log::info("Unauthorized reply email sent to: {$senderEmail}");
+                } catch (Exception $e) {
+                    Log::error("Failed to send unauthorized reply email to {$senderEmail}: " . $e->getMessage());
+                }
+                
+                return false;
+            }
+
+            // VÉRIFICATION DE SÉCURITÉ : L'utilisateur doit appartenir à la même société que le ticket
+            if ($user->company_id !== $ticket->company_id) {
+                Log::warning("Security: User from different company trying to reply to ticket", [
+                    'user_email' => $senderEmail,
+                    'user_company_id' => $user->company_id,
+                    'ticket_id' => $ticket->id,
+                    'ticket_company_id' => $ticket->company_id
+                ]);
+                
+                // Envoyer un mail d'erreur pour sécurité
+                try {
+                    Mail::to($senderEmail)->send(new UnauthorizedReplyMail($senderEmail, $ticket->id));
+                    Log::info("✅ Mail de rejet de sécurité envoyé à: {$senderEmail}");
+                    $this->addMessage("✅ Mail de rejet de sécurité envoyé à: {$senderEmail}");
+                } catch (Exception $e) {
+                    Log::error("❌ Échec envoi mail de rejet de sécurité à {$senderEmail}: " . $e->getMessage());
+                    $this->addMessage("❌ Échec envoi mail de rejet de sécurité à {$senderEmail}: " . $e->getMessage());
+                }
+                
                 return false;
             }
 
@@ -387,7 +401,7 @@ class ImapService
                 'status' => 'active', // Message public, visible par le client
                 'subject' => 'Re: ' . $ticket->subject,
                 'body' => $messageContent,
-                'company_id' => $ticket->company_id,
+                'company_id' => $ticket->company_id, // Utiliser la company_id du ticket (sécurité)
                 'ticket_id' => $ticket->id,
                 'author_id' => $user->id,
             ]);
@@ -463,7 +477,8 @@ class ImapService
             if ($result) {
                 // Expunge pour finaliser le déplacement
                 imap_expunge($this->connection);
-                Log::info("Email {$emailId} marked as read and moved to {$this->archiveFolder}");
+                Log::info("📁 Email {$emailId} archivé dans {$this->archiveFolder}");
+                $this->addMessage("📁 Email {$emailId} archivé dans {$this->archiveFolder}");
                 return true;
             } else {
                 Log::error("Failed to move email {$emailId}: " . imap_last_error());

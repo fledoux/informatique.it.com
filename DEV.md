@@ -4,6 +4,8 @@ php artisan db:seed --class=PermissionSeeder
 php artisan make:crud-bootstrap User --force
 php artisan optimize:clear
 
+php artisan email:fetch
+
 # User
 - status: string(20)  Utilisateur activé/désactivé (active|inactive)
 - companyId: relation ManyToOne → Company  Société d’appartenance

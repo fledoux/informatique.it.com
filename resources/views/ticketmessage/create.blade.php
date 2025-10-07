@@ -41,7 +41,7 @@
                                class="form-control @error('subject') is-invalid @enderror" 
                                id="subject" 
                                name="subject" 
-                               value="{{ old('subject', ($isInternal ? 'Note interne' : 'Re: ') . $ticket->subject) }}" 
+                               value="{{ old('subject', '') }}" 
                                maxlength="190"
                                required>
                         @error('subject')

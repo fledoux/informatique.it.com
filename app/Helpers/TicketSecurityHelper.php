@@ -21,6 +21,24 @@ class TicketSecurityHelper
         // Autres rôles : seulement les tickets de leur société
         return $ticket->company_id === $user->company_id;
     }
+
+    /**
+     * Vérifier si un utilisateur peut accéder à un ticket par son ID
+     */
+    public static function canAccessTicketById(User $user, ?int $ticketId): bool
+    {
+        // Si pas de ticket_id, refuser l'accès
+        if (!$ticketId) {
+            return false;
+        }
+
+        try {
+            $ticket = Ticket::findOrFail($ticketId);
+            return self::canAccessTicket($user, $ticket);
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
     
     /**
      * Vérifier si un utilisateur peut créer une note interne

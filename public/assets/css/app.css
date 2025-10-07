@@ -157,3 +157,21 @@ footer a { text-decoration: none; }
 .badge {font-weight: normal !important; text-transform: uppercase !important;}
 dt { text-align: right; font-weight: initial !important; color:var(--secondary); opacity: .5; min-height:32px;}
 dt::after { content: " :"; }
+
+.badge {
+--bs-badge-font-size: 0.75rem;
+}
+
+/* Fix badge vertical alignment in tables */
+table td,
+table th {
+  vertical-align: middle !important;
+}
+
+table .badge, 
+td .badge, 
+th .badge {
+  vertical-align: middle !important;
+  display: inline-block;
+  line-height: 0.75 !important;
+}

@@ -17,7 +17,7 @@
             margin: 0;
             padding: 20px;
             background-color: #f8f9fa !important;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             color-scheme: light only !important;
         }
 
@@ -68,7 +68,7 @@
         <tr>
             <td style="background-color: #f8f9fa !important; padding: 20px;" bgcolor="#f8f9fa">
                 <!-- Conteneur avec coins arrondis et ombre -->
-                <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff !important; border: 1px solid #dee2e6; border-radius: 0.375rem; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); padding: 1.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color-scheme: light only !important;" bgcolor="#ffffff">
+                <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff !important; border: 1px solid #dee2e6; border-radius: 0.375rem; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); padding: 1.5rem; font-family: Arial, Helvetica, sans-serif; color-scheme: light only !important;" bgcolor="#ffffff">
                     <img src="{{ $message->embed(public_path('assets/img/logo/logo-horizontal.svg')) }}" alt="{{ config('app.brand_name') }}"
                         style="width:240px; margin-bottom: 40px !important;">
                     <h1 style="color: #212529 !important; font-size: 18px; font-weight: bold; margin-bottom: 1rem; margin-top: 20px;">
@@ -89,7 +89,7 @@
                 </div>
 
                 <!-- Footer en dehors du conteneur principal -->
-                <div style="max-width: 600px; margin: 0 auto; padding: 1.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                <div style="max-width: 600px; margin: 0 auto; padding: 1.5rem; font-family: Arial, Helvetica, sans-serif;">
                     @include('emails._baseline')
                 </div>
             </td>

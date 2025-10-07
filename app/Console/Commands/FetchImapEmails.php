@@ -55,6 +55,11 @@ class FetchImapEmails extends Command
             // Récupérer et traiter les emails
             $processed = $imapService->fetchNewEmails();
 
+            // Afficher les messages informatifs collectés
+            foreach ($imapService->getMessages() as $message) {
+                $this->line($message);
+            }
+
             $imapService->disconnect();
 
             if ($processed > 0) {

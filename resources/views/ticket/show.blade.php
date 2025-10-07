@@ -16,7 +16,7 @@
                     {{-- Boutons de réponse --}}
                     @auth
                         <div class="row mb-4">
-                            <div class="col-12 text-center">
+                            <div class="col-12 ">
                                 <a href="{{ route('ticketmessage.create') }}?ticket_id={{ $ticket->id }}"
                                     class="btn btn-primary">
                                     <i class="fa-regular fa-reply me-2"></i>Répondre
@@ -25,7 +25,7 @@
                                     @hasanyrole(['super-admin'])
                                         <a href="{{ route('ticketmessage.create') }}?ticket_id={{ $ticket->id }}&internal=1"
                                             class="btn btn-warning ms-2">
-                                            <i class="fa-solid fa-lock me-2"></i>Note interne
+                                            <i class="fa-regular fa-lock me-2"></i>Note interne
                                         </a>
                                     @endhasanyrole
                                 @endcan
@@ -37,49 +37,53 @@
                     @foreach ($ticket->messages()->orderBy('created_at', 'desc')->get() as $message)
                         @if (
                             $message->status === 'active' ||
-                                (auth()->user() && auth()->user()->hasRole('super-admin') && $message->status === 'internal'))
-                            <div class="row mb-3">
+                                (auth()->user() && auth()->user()->hasRole('super-admin') && ($message->status === 'internal' || $message->status === 'inactive')))
+                            <div class="row mb-3 {{ $message->status === 'inactive' ? ' opacity-25' : '' }}">
                                 <div class="col-2 text-end">
                                     <span
-                                        class="fw-bold {{ $message->status === 'internal' ? 'text-warning' : ($message->author_id === $ticket->author_id ? 'text-secondary' : 'text-primary') }}">
+                                        class="{{ $message->status === 'internal' ? 'text-warning' : ($message->status === 'inactive' ? 'text-muted' : ($message->author_id === $ticket->author_id ? 'text-secondary' : 'text-primary')) }}">
+                                        @if ($message->status === 'internal')
+                                            <i class="fa-regular fa-lock text-warning ms-1" title="Message interne"></i>
+                                        @elseif ($message->status === 'inactive')
+                                            <i class="fa-regular fa-eye-slash ms-1" title="Message inactif"></i>
+                                        @endif
                                         @hasrole('super-admin')
                                             {{ $message->author->name ?? 'Support' }}
                                         @else
                                             Support
                                         @endhasrole
-                                        @if ($message->status === 'internal')
-                                            <i class="fa-solid fa-lock text-warning ms-1" title="Message interne"></i>
-                                        @endif
-                                        
-                                        @hasrole('super-admin')
-                                            <div class="mt-1">
-                                                <a href="{{ route('ticketmessage.edit', $message) }}" 
-                                                   class="btn btn-link btn-outline-primary me-1" 
-                                                   title="Modifier">
-                                                    <i class="fa-regular fa-edit"></i>
-                                                </a>
-                                                <form method="POST" action="{{ route('ticketmessage.destroy', $message) }}" 
-                                                      class="d-inline" 
-                                                      onsubmit="return confirm('Supprimer ce message ?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" 
-                                                            class="btn btn-link text-danger" 
-                                                            title="Supprimer">
-                                                        <i class="fa-regular fa-trash-can"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        @endhasrole
-                                    </span><br>
-                                    <small class="text-muted">
-                                        {{ $message->created_at->format('d/m/Y') }}<br>{{ $message->created_at->format('H\hi') }}
-                                    </small>
+                                        <br>
+                                        <small class="text-muted">
+                                            {{ $message->created_at->format('d/m/Y') }} -
+                                            {{ $message->created_at->format('H\hi') }}
+                                        </small>
+                                    </span>
                                 </div>
                                 <div class="col-10">
                                     <div
-                                        class="card border-2 {{ $message->status === 'internal' ? 'border-warning bg-warning bg-opacity-25' : ($message->author_id === $ticket->author_id ? 'border-secondary' : 'border-primary bg-primary bg-opacity-25') }}">
+                                        class="card border-2 {{ $message->status === 'internal' ? 'border-warning bg-warning bg-opacity-25' : ($message->author_id === $ticket->author_id ? 'bg-light' : 'border-primary text-primary') }}">
                                         <div class="card-body">
+                                            @hasrole('super-admin')
+                                                <div class="float-end">
+                                                    <a href="{{ route('ticketmessage.edit', $message) }}"
+                                                        class="btn btn-link m-0 p-0" title="Modifier">
+                                                        <i class="fa-regular fa-edit"></i>
+                                                    </a>
+                                                    <form method="POST"
+                                                        action="{{ route('ticketmessage.destroy', $message) }}"
+                                                        class="d-inline" onsubmit="return confirm('Supprimer ce message ?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-link text-danger m-0 p-0"
+                                                            title="Supprimer">
+                                                            <i class="fa-regular fa-trash-can"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            @endhasrole
+                                            @hasrole('toto')
+                                                    #{{ $message->id }}
+                                                @endhasrole
                                             @if ($message->subject && $message->subject !== 'Re: ' . $ticket->subject)
                                                 <strong>{{ $message->subject }}</strong><br>
                                             @endif
@@ -94,11 +98,11 @@
                     {{-- Message d'accueil --}}
                     <div class="row mb-4">
                         <div class="col-2 text-end text-primary">
-                            <span class="fw-bold">Support</span><br>
+                            <span class="">Support</span><br>
                             <small class="text-muted">{{ $ticket->created_at->format('d/m/Y') }}</small>
                         </div>
                         <div class="col-10">
-                            <div class="card border-primary bg-primary bg-opacity-25 border-2">
+                            <div class="card border-primary text-primary border-2">
                                 <div class="card-body">
                                     <p class="mb-0">Nous avons bien reçu votre demande.</p>
                                 </div>
@@ -109,7 +113,7 @@
                     {{-- Message client original (en bas pour le contexte) --}}
                     <div class="row">
                         <div class="col-2 text-end">
-                            <span class="text-secondary fw-bold">{{ $ticket->author->name ?? 'Client' }}</span><br>
+                            <span class="text-secondary">{{ $ticket->author->name ?? 'Client' }}</span><br>
                             <small class="text-muted">
                                 {{ $ticket->created_at->format('d/m/Y') }}<br>{{ $ticket->created_at->format('H\hi') }}
                             </small>
@@ -146,7 +150,7 @@
                         </small>
                     </p>
                     <p>
-                        <i class="fa-solid fa-square-check text-success"></i> {!! __('ticket.yes') !!},
+                        <i class="fa-regular fa-square-check text-success"></i> {!! __('ticket.yes') !!},
                         {{ $ticket->author_id ? \App\Models\User::find($ticket->author_id)?->name : '' }}
                         {!! __('ticket.cgv') !!}
                     </p>
@@ -242,7 +246,7 @@
                         <ul class="small fa-ul">
                             @foreach ($managers as $manager)
                                 <li class="mb-2">
-                                    <span class="fa-li"><i class="fa-solid fa-dash"></i></span>
+                                    <span class="fa-li"><i class="fa-regular fa-dash"></i></span>
                                     <div class="">{!! $manager->name !!}</div>
                                     <div class="">{!! \App\Helpers\Helper::mailTo($manager->email) !!}</div>
                                 </li>
@@ -250,7 +254,7 @@
                         </ul>
                     @else
                         <p class="text-muted">
-                            <i class="fa-solid fa-info-circle me-2"></i>
+                            <i class="fa-regular fa-info-circle me-2"></i>
                             Aucun Manager assigné à cette société et/ou compte pour approbation.
                         </p>
                     @endif

@@ -45,7 +45,14 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'default_company_name' => env('IMAP_DEFAULT_COMPANY_NAME', 'Clients Email'),
+        /*
+    |--------------------------------------------------------------------------
+    | SÉCURITÉ: Plus de création automatique d'utilisateurs/entreprises
+    | Seuls les utilisateurs existants peuvent créer des tickets par email
+    |--------------------------------------------------------------------------
+    */
+
+    // Configuration supprimée pour sécurité - pas de création automatique
 
     /*
     |--------------------------------------------------------------------------

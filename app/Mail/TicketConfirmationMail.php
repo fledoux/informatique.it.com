@@ -25,6 +25,7 @@ class TicketConfirmationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
+            from: config('app.company.emails.help'),
             subject: 'Support N°' . $this->ticket->id . ' - Confirmation de votre demande',
         );
     }
@@ -40,7 +41,7 @@ class TicketConfirmationMail extends Mailable
         ])->render();
         
         // Ajouter le code de réponse
-        $contentWithReplyCode = \App\Services\EmailReplyCodeService::buildEmailWithReplyCode(
+        $emailData = \App\Services\EmailReplyCodeService::buildEmailWithReplyCode(
             $confirmationContent, 
             $this->ticket
         );
@@ -49,7 +50,8 @@ class TicketConfirmationMail extends Mailable
             view: 'emails.global',
             with: [
                 'title' => 'Support N°' . $this->ticket->id . ' - Confirmation de votre demande',
-                'content' => $contentWithReplyCode,
+                'content' => $emailData['content'],
+                'header' => $emailData['header'],
                 'ticket' => $this->ticket
             ]
         );

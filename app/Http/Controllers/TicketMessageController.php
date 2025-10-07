@@ -9,6 +9,8 @@ use App\Models\TicketMessage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class TicketMessageController extends Controller
 {
@@ -18,7 +20,6 @@ class TicketMessageController extends Controller
     public function __construct()
     {
         // Permissions standard pour les opérations CRUD
-        $this->middleware('permission:ticketmessage.index')->only('index');
         $this->middleware('permission:ticketmessage.create')->only(['create', 'store']);
         $this->middleware('permission:ticketmessage.show')->only('show');
         $this->middleware('permission:ticketmessage.edit')->only(['edit', 'update']);
@@ -26,14 +27,6 @@ class TicketMessageController extends Controller
         
         // S'assurer que l'utilisateur est authentifié
         $this->middleware('auth');
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
     }
 
     /**
@@ -46,7 +39,8 @@ class TicketMessageController extends Controller
         
         // Vérifier que seuls les super-admin peuvent créer des notes internes
         if ($isInternal && !Auth::user()->hasRole('super-admin')) {
-            return redirect()->back()
+            $ticketId = $request->get('ticket_id');
+            return redirect()->route('ticket.show', $ticketId)
                 ->with('error', 'Seuls les super-administrateurs peuvent créer des notes internes.');
         }
         
@@ -62,20 +56,20 @@ class TicketMessageController extends Controller
             } elseif ($user->hasAnyRole(['admin', 'manager'])) {
                 // Admin/Manager : seulement les tickets de leur société
                 if ($ticket->company_id !== $user->company_id) {
-                    return redirect()->route('ticket.index')
+                    return redirect()->route('ticket.show', $ticket->id)
                         ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
                 }
             } else {
                 // Utilisateur normal : seulement ses propres tickets ou ceux de sa société
                 if ($ticket->company_id !== $user->company_id) {
-                    return redirect()->route('ticket.index')
+                    return redirect()->route('ticket.show', $ticket->id)
                         ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
                 }
                 
                 // Pour les notes internes, on a déjà vérifié plus haut
                 // Pour les réponses publiques, vérifier que c'est son ticket ou sa société
                 if (!$isInternal && $ticket->author_id !== $user->id && $ticket->company_id !== $user->company_id) {
-                    return redirect()->route('ticket.index')
+                    return redirect()->route('ticket.show', $ticket->id)
                         ->with('error', 'Vous ne pouvez répondre qu\'aux tickets de votre société.');
                 }
             }
@@ -102,26 +96,26 @@ class TicketMessageController extends Controller
         } elseif ($user->hasAnyRole(['admin', 'manager'])) {
             // Admin/Manager : seulement les tickets de leur société
             if ($ticket->company_id !== $user->company_id) {
-                return redirect()->route('ticket.index')
+                return redirect()->route('ticket.show', $ticket->id)
                     ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
             }
         } else {
             // Utilisateur normal : seulement ses propres tickets ou ceux de sa société
             if ($ticket->company_id !== $user->company_id) {
-                return redirect()->route('ticket.index')
+                return redirect()->route('ticket.show', $ticket->id)
                     ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
             }
             
             // Pour les réponses publiques, vérifier que c'est son ticket ou sa société
             if ($validated['status'] === 'active' && $ticket->author_id !== $user->id && $ticket->company_id !== $user->company_id) {
-                return redirect()->route('ticket.index')
+                return redirect()->route('ticket.show', $ticket->id)
                     ->with('error', 'Vous ne pouvez répondre qu\'aux tickets de votre société.');
             }
         }
         
         // Vérifier que seuls les super-admin peuvent créer des notes internes
         if ($validated['status'] === 'internal' && !$user->hasRole('super-admin')) {
-            return redirect()->back()
+            return redirect()->route('ticket.show', $ticket->id)
                 ->with('error', 'Seuls les super-administrateurs peuvent créer des notes internes.')
                 ->withInput();
         }
@@ -155,17 +149,63 @@ class TicketMessageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TicketMessage $ticketMessage)
+    public function edit($ticketmessage)
     {
-        //
+        try {
+            // Récupération manuelle du TicketMessage
+            $ticketMessage = TicketMessage::findOrFail($ticketmessage);
+
+            // Vérification de sécurité
+            if (!TicketSecurityHelper::canAccessTicketById(Auth::user(), $ticketMessage->ticket_id)) {
+                return redirect()->route('ticket.show', $ticketMessage->ticket_id)
+                    ->with('error', __('global.messages.not_found'));
+            }
+
+            return view('ticketmessage.edit', compact('ticketMessage'));
+            
+        } catch (ModelNotFoundException $e) {
+            // Essayer de récupérer le ticket_id depuis l'URL de référence ou utiliser un ID par défaut
+            $ticketId = request()->get('ticket_id') ?? 1;
+            return redirect()->route('ticket.show', $ticketId)
+                ->with('error', __('global.messages.not_found'));
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TicketMessage $ticketMessage)
+    public function update(Request $request, $ticketmessage)
     {
-        //
+        try {
+            // Récupération manuelle du TicketMessage
+            $ticketMessage = TicketMessage::findOrFail($ticketmessage);
+            
+            // Vérification de sécurité
+            if (!TicketSecurityHelper::canAccessTicketById(Auth::user(), $ticketMessage->ticket_id)) {
+                return redirect()->route('ticket.show', $ticketMessage->ticket_id)
+                    ->with('error', __('global.messages.not_found'));
+            }
+
+            // Validation des champs éditables seulement
+            $validated = $request->validate([
+                'subject' => 'required|string|max:255',
+                'body' => 'required|string',
+                'status' => 'required|in:active,inactive,internal',
+            ]);
+
+            // Mise à jour
+            $ticketMessage->update($validated);
+
+            return redirect()
+                ->route('ticket.show', $ticketMessage->ticket_id)
+                ->with('success', 'Message mis à jour avec succès');
+                
+        } catch (ModelNotFoundException $e) {
+            // Essayer de récupérer le ticket_id depuis l'URL de référence ou utiliser un ID par défaut
+            $ticketId = request()->get('ticket_id') ?? 1;
+            return redirect()->route('ticket.show', $ticketId)
+                ->with('error', __('global.messages.not_found'));
+        }
     }
 
     /**
@@ -189,7 +229,9 @@ class TicketMessageController extends Controller
             return redirect()->route('ticket.show', $ticketId)
                 ->with('success', __('global.messages.deleted'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('ticketmessage.index')
+            // Si on ne peut pas trouver le message, rediriger vers un ticket par défaut
+            $ticketId = request()->get('ticket_id') ?? 1;
+            return redirect()->route('ticket.show', $ticketId)
                 ->with('error', __('global.messages.delete_not_found'));
         }
     }

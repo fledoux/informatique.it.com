@@ -36,7 +36,7 @@ class ResetPasswordGlobalMail extends Mailable
 		$firstname = $user->firstname ?? explode(' ', $user->name)[0];
 
 		$this->content = "
-            <div style='font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif; line-height: 1.6;'>
+            <div style='font-family: Arial, Helvetica, sans-serif; line-height: 1.6;'>
                 <p style='margin-bottom: 1rem;'>
                     {$greeting} {$firstname},
                 </p>

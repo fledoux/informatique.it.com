@@ -106,26 +106,37 @@ class EmailReplyCodeService
     }
     
     /**
-     * Nettoie le contenu d'un email en supprimant tout ce qui suit le code de réponse
+     * Nettoie le contenu d'un email en supprimant tout ce qui suit la ligne de séparation
      *
      * @param string $emailContent
      * @return string
      */
     public static function cleanEmailContent(string $emailContent): string
     {
-        // Trouver la position du code de réponse
-        // Pattern pour ### TICKET_ID.UNIQUE_9_CHARS ###
+        // Chercher d'abord la ligne de séparation principale
+        $separators = [
+            '##### METTEZ VOTRE RÉPONSE AU-DESSUS DE CETTE LIGNE #####',
+            '────────────────────────────────────────', // Ancienne séparation (compatibilité)
+        ];
+        
+        foreach ($separators as $separator) {
+            $position = strpos($emailContent, $separator);
+            if ($position !== false) {
+                // Couper le contenu avant la ligne de séparation
+                $cleanContent = substr($emailContent, 0, $position);
+                return trim($cleanContent);
+            }
+        }
+        
+        // Si aucune séparation trouvée, chercher le code de réponse
         $pattern = '/' . preg_quote(self::CODE_PREFIX, '/') . '\d+\.[A-Z0-9]{' . self::UNIQUE_PART_LENGTH . '}' . preg_quote(self::CODE_SUFFIX, '/') . '/';
         
         if (preg_match($pattern, $emailContent, $matches, PREG_OFFSET_CAPTURE)) {
-            // Couper le contenu avant le code de réponse
             $cleanContent = substr($emailContent, 0, $matches[0][1]);
-            
-            // Nettoyer les espaces et sauts de ligne en fin
             return trim($cleanContent);
         }
         
-        // Si pas de code trouvé, retourner le contenu complet
+        // Si rien trouvé, retourner le contenu complet
         return trim($emailContent);
     }
     
@@ -165,18 +176,37 @@ class EmailReplyCodeService
      * @param string $messageContent
      * @param Ticket $ticket
      * @param string|null $existingCode Code existant à utiliser (optionnel)
-     * @return string
+     * @param bool $includeInstructions Inclure les instructions (pour emails seulement)
+     * @return array Format: ['content' => string, 'header' => string|null]
      */
-    public static function buildEmailWithReplyCode(string $messageContent, Ticket $ticket, ?string $existingCode = null): string
+    public static function buildEmailWithReplyCode(string $messageContent, Ticket $ticket, ?string $existingCode = null, bool $includeInstructions = true): array
     {
         $replyCode = $existingCode ?? self::generateReplyCode($ticket);
         $formattedCode = self::formatCodeForEmail($replyCode);
         
-        // Ajouter le code à la fin du message avec une séparation claire
-        return $messageContent . "\n\n" . 
-               "────────────────────────────────────────\n" .
-               "Pour répondre à ce ticket, répondez directement à cet email.\n" .
-               "Code de réponse : " . $formattedCode . "\n" .
-               "Ne supprimez pas cette ligne lors de votre réponse.";
+        if ($includeInstructions) {
+            // Pour les emails : construire un header HTML complet
+            $header = '<div style="max-width: 600px; margin: 10px auto; text-align: center; font-family: Arial, Helvetica, sans-serif;">' .
+                     '<div style="font-size: 16px; margin-bottom: 10px;">' .
+                     '##### METTEZ VOTRE RÉPONSE AU-DESSUS DE CETTE LIGNE #####' .
+                     '</div>' .
+                     '<div style="font-size: 12px;">' .
+                     'Pour répondre à ce ticket, répondez directement à cet email.<br>' .
+                     'Code de réponse : ' . $formattedCode . '<br>' .
+                     'Ne supprimez pas cette ligne lors de votre réponse.' .
+                     '</div>' .
+                     '</div>';
+            
+            return [
+                'content' => $messageContent,
+                'header' => $header
+            ];
+        } else {
+            // Pour les tickets web : juste le contenu
+            return [
+                'content' => $messageContent,
+                'header' => null
+            ];
+        }
     }
 }

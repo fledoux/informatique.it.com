@@ -95,6 +95,22 @@ class Ticket extends Model
     }
 
     /**
+     * Messages visibles selon le rôle de l'utilisateur
+     */
+    public function visibleMessages($user = null)
+    {
+        $user = $user ?? Auth::user();
+        
+        if ($user && $user->hasRole('super-admin')) {
+            // Super-admin voit tous les messages
+            return $this->hasMany(TicketMessage::class);
+        } else {
+            // Autres utilisateurs ne voient que les messages actifs
+            return $this->hasMany(TicketMessage::class)->where('status', 'active');
+        }
+    }
+
+    /**
      * Scope pour filtrer par statut
      */
     public function scopeWithStatus($query, TicketStatus $status)

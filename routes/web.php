@@ -135,8 +135,8 @@ Route::prefix('allowdomain')->group(function () {
 
 
 // Routes TicketMessage - Permissions gérées dans TicketMessageController::__construct()
+// Note: Pas de route index - les messages se gèrent depuis les tickets
 Route::prefix('ticketmessage')->group(function () {
-    Route::get('/', [TicketMessageController::class, 'index'])->name('ticketmessage.index');
     Route::get('/create', [TicketMessageController::class, 'create'])->name('ticketmessage.create');
     Route::post('/', [TicketMessageController::class, 'store'])->name('ticketmessage.store');
     Route::get('/{ticketmessage}', [TicketMessageController::class, 'show'])->name('ticketmessage.show');
