@@ -16,19 +16,25 @@
                     {{-- Boutons de réponse --}}
                     @auth
                         <div class="row mb-4">
-                            <div class="col-12 ">
-                                <a href="{{ route('ticketmessage.create', [$ticket->id]) }}"
-                                    class="btn btn-primary">
-                                    <i class="fa-regular fa-reply me-2"></i>Répondre
-                                </a>
-                                @can('ticketmessage.create')
-                                    @hasanyrole(['super-admin'])
-                                        <a href="{{ route('ticketmessage.create', [$ticket->id, 'internal']) }}"
-                                            class="btn btn-warning ms-2">
-                                            <i class="fa-regular fa-lock me-2"></i>Note interne
-                                        </a>
-                                    @endhasanyrole
-                                @endcan
+                            <div class="col-12 col-lg-10 offset-sm-2">
+                                <div class="btn-group">
+                                    <a href="{{ route('ticketmessage.create', [$ticket->id]) }}" class="btn btn-primary">
+                                        {!! __('ticket.Answer') !!}
+                                    </a>
+                                    <a href="{{ route('ticketattachment.create', [$ticket->id]) }}"
+                                        class="btn btn-outline-primary">
+                                        <i class="fa-regular fa-file-import me-1"></i>
+                                        {!! __('ticketattachment.Add Attachment') !!}
+                                    </a>
+                                    @can('ticketmessage.create')
+                                        @hasanyrole(['super-admin'])
+                                            <a href="{{ route('ticketmessage.create', [$ticket->id, 'internal']) }}"
+                                                class="btn btn-warning">
+                                                {!! __('ticket.Note Interne') !!}
+                                            </a>
+                                        @endhasanyrole
+                                    @endcan
+                                </div>
                             </div>
                         </div>
                     @endauth
@@ -89,7 +95,38 @@
                                             @if ($message->subject && $message->subject !== 'Re: ' . $ticket->subject)
                                                 <strong>{{ $message->subject }}</strong><br>
                                             @endif
-                                            {!! nl2br(e($message->body)) !!}
+                                            {!! $message->body !!}
+
+                                            {{-- Pièces jointes du message --}}
+                                            @if ($message->attachments->count() > 0)
+                                                <div class="mt-3 pt-3 border-top">
+                                                    <small class="text-muted">
+                                                        <i class="fa-regular fa-paperclip me-1"></i>
+                                                        <strong>{{ \App\Helpers\Helper::pluralize($message->attachments->count(), 'global.attachment', 'global.attachments') }} :</strong>
+                                                    </small>
+                                                    <div class="mt-2">
+                                                        @foreach ($message->attachments as $attachment)
+                                                            @php
+                                                                $fileIcon = \App\Helpers\Helper::getFileIcon(
+                                                                    $attachment->original_filename,
+                                                                    $attachment->mime_type,
+                                                                );
+                                                            @endphp
+                                                            <div class="d-inline-block me-1 mt-2">
+                                                                <a href="{{ route('ticketattachment.download', $attachment->id) }}"
+                                                                    class="btn btn-sm btn-outline-secondary"
+                                                                    title="{{ $attachment->original_filename }}">
+                                                                    <i
+                                                                        class="fa-regular {{ $fileIcon['icon'] }} {{ $fileIcon['color'] }} me-1"></i>
+                                                                    {{ \Illuminate\Support\Str::limit($attachment->original_filename, 20) }}
+                                                                    <small
+                                                                        class="text-muted">({{ $attachment->getFormattedSize() }})</small>
+                                                                </a>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +143,7 @@
                         <div class="col-10">
                             <div class="card border-primary text-primary border-2">
                                 <div class="card-body">
-                                    <p class="mb-0">Nous avons bien reçu votre demande.</p>
+                                    <p class="">Nous avons bien reçu votre demande.</p>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +161,41 @@
                             <div class="card border-2 bg-light">
                                 <div class="card-body">
                                     <strong>{{ $ticket->subject }}</strong><br>
-                                    {!! nl2br(e($ticket->question)) !!}
+                                    {!! $ticket->question !!}
+                                    
+                                    {{-- Pièces jointes de la demande initiale (sans message_id) --}}
+                                    @if ($ticket->initialAttachments->count() > 0)
+                                        @php
+                                            $initialAttachments = $ticket->initialAttachments;
+                                        @endphp
+                                        <div class="mt-3 pt-3 border-top">
+                                            <small class="text-muted">
+                                                <i class="fa-regular fa-paperclip me-1"></i>
+                                                <strong>{{ \App\Helpers\Helper::pluralize($initialAttachments->count(), 'global.attachment', 'global.attachments') }} :</strong>
+                                            </small>
+                                            <div class="mt-2">
+                                                @foreach ($initialAttachments as $attachment)
+                                                    @php
+                                                        $fileIcon = \App\Helpers\Helper::getFileIcon(
+                                                            $attachment->original_filename,
+                                                            $attachment->mime_type,
+                                                        );
+                                                    @endphp
+                                                    <div class="d-inline-block me-1 mt-2">
+                                                        <a href="{{ route('ticketattachment.download', $attachment->id) }}"
+                                                            class="btn btn-sm btn-outline-secondary"
+                                                            title="{{ $attachment->original_filename }}">
+                                                            <i
+                                                                class="fa-regular {{ $fileIcon['icon'] }} {{ $fileIcon['color'] }} me-1"></i>
+                                                            {{ \Illuminate\Support\Str::limit($attachment->original_filename, 20) }}
+                                                            <small
+                                                                class="text-muted">({{ $attachment->getFormattedSize() }})</small>
+                                                        </a>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -196,7 +267,68 @@
                         {!! $ticket->billable ? __('ticket.billable.yes') : __('ticket.billable.no') !!}
                     </p>
                     <div class="d-none d-sm-flex mt-3">
-                        @include('ticket._addTicket')
+                        <div class="dropdown w-100">
+                            <button class="btn btn-orange dropdown-toggle w-100" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="fa-regular fa-bars me-2"></i>Actions
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('ticketmessage.create', [$ticket->id]) }}">
+                                        {!! __('ticket.Answer') !!}
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('ticket.index') }}">
+                                        {!! __('global.btn.Back') !!}
+                                    </a>
+                                </li>
+                                @can('ticket.edit')
+                                    @hasrole('super-admin')
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('ticket.edit', $ticket) }}">
+                                                {!! __('global.btn.Edit') !!}
+                                            </a>
+                                        </li>
+                                    @endhasrole
+                                    @role('super-admin')
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            <form action="{{ route('ticket.resend-confirmation', $ticket) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item"
+                                                    onclick="return confirm('Renvoyer l\'email de confirmation ?')">
+                                                    {!! __('ticket.Resend Confirmation') !!}
+                                                </button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            <form action="{{ route('ticket.destroy', $ticket) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="dropdown-item text-danger"
+                                                    onclick="return confirm('⚠️ ATTENTION ⚠️\n\nVous êtes sur le point de supprimer définitivement ce ticket ainsi que :\n- Tous les messages associés\n- Tous les fichiers joints (sur S3 et en base)\n\nCette action est IRRÉVERSIBLE.\n\nConfirmer la suppression ?')">
+                                                    <i class="fa-regular fa-trash-can me-1"></i>
+                                                    {!! __('global.Delete') !!}
+                                                </button>
+                                            </form>
+                                        </li>
+                                    @endrole
+
+                                @endcan
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -214,16 +346,81 @@
                     </p>
                 </div>
                 <div class="card-footer bg-secondary-subtle">
-                    <span class="text-secondary">Solde au {{ now()->format('d/m/y') }} : <span class="float-end">12
-                            {{ abs(12) > 1 ? __('ticket.tickets') : __('ticket.ticket') }}</span></span><br>
+                    <span class="text-secondary">Solde au {{ now()->format('d/m/y') }} : <span class="float-end">{{ \App\Helpers\Helper::pluralize(12, 'ticket.ticket', 'ticket.tickets') }}</span></span><br>
                 </div>
             </div>
+
+            {{-- Fichiers joints --}}
             <div class="card border border-secondary border-opacity-25 mb-4">
                 <div class="card-header bg-secondary bg-opacity-75 text-white">
-                    <h3 class="h6 mb-0"><i class="fa-regular fa-file-import"></i> Fichiers joints</h3>
+                    @php
+                        $attachmentsCount = $ticket->activeAttachments()->count();
+                    @endphp
+                    <h3 class="h6 mb-0">
+                        <i class="fa-regular fa-file-import"></i> 
+                        {{ \App\Helpers\Helper::pluralize($attachmentsCount, 'global.attached_file', 'global.attached_files') }}
+                    </h3>
                 </div>
                 <div class="card-body pb-0">
-                    <p claass="p-0">ici2</p>
+                    @php
+                        $attachments = $ticket->activeAttachments()->get();
+                    @endphp
+
+                    @if ($attachments->count() > 0)
+                        <ul class="list-unstyled">
+                            @foreach ($attachments as $attachment)
+                                <li class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <div class="me-2">
+                                            @php
+                                                $fileIcon = \App\Helpers\Helper::getFileIcon(
+                                                    $attachment->original_filename,
+                                                    $attachment->mime_type,
+                                                );
+                                            @endphp
+                                            <i class="fa-regular {{ $fileIcon['icon'] }} {{ $fileIcon['color'] }}"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <a href="{{ route('ticketattachment.download', $attachment) }}"
+                                                class="text-decoration-none" title="Télécharger">
+                                                {{ \Illuminate\Support\Str::limit($attachment->original_filename, 30) }}
+                                            </a>
+                                            <br>
+                                            <small class="text-muted">
+                                                {{ $attachment->getFormattedSize() }}
+                                                @if ($attachment->uploaded_by)
+                                                    @hasrole('super-admin')
+                                                        • {{ $attachment->uploader->name ?? 'Support' }}
+                                                    @else
+                                                        • Support
+                                                    @endhasrole
+                                                @endif
+                                            </small>
+                                        </div>
+                                        @hasrole('super-admin')
+                                            <div class="ms-2">
+                                                <form method="POST"
+                                                    action="{{ route('ticketattachment.destroy', $attachment) }}"
+                                                    class="d-inline" onsubmit="return confirm('Supprimer ce fichier ?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-link text-danger p-0 m-0"
+                                                        title="Supprimer">
+                                                        <i class="fa-regular fa-trash-can"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @endhasrole
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-muted mb-3">
+                            <i class="fa-regular fa-info-circle me-2"></i>
+                            Aucun fichier joint pour ce ticket.
+                        </p>
+                    @endif
                 </div>
             </div>
 

@@ -30,11 +30,21 @@
                 @endcan
                 @can('company.index')
                     <li class="nav-item ms-lg-2 mb-2">
-                        <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'company.') ? 'btn-orange' : 'btn-outline-secondary' }}"
-                            href="{{ route('company.index') }}">
-                            <i class="fa-regular fa-building"></i>
-                            {{ __('nav.Companies') }}
-                        </a>
+                        @hasrole('super-admin')
+                            {{-- Super-admin : liste de toutes les sociétés --}}
+                            <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'company.') ? 'btn-orange' : 'btn-outline-secondary' }}"
+                                href="{{ route('company.index') }}">
+                                <i class="fa-regular fa-building"></i>
+                                {{ __('nav.Companies') }}
+                            </a>
+                        @else
+                            {{-- Admin/Manager : vue de leur propre société --}}
+                            <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'company.') ? 'btn-orange' : 'btn-outline-secondary' }}"
+                                href="{{ route('company.show', auth()->user()->company_id) }}">
+                                <i class="fa-regular fa-building"></i>
+                                {{ __('nav.Company') }}
+                            </a>
+                        @endhasrole
                     </li>
                 @endcan
                 @can('contact.index')

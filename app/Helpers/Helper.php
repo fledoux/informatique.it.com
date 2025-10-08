@@ -335,5 +335,108 @@ class Helper
 		return $formatted;
 	}
 
+	/**
+	 * Formate une taille en octets en format lisible (Ko, Mo, Go)
+	 */
+	public static function formatBytes(int $bytes, int $precision = 2): string
+	{
+		if ($bytes === 0) {
+			return '0 octet';
+		}
+
+		$units = ['octets', 'Ko', 'Mo', 'Go', 'To'];
+		$pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+		$pow = min($pow, count($units) - 1);
+
+		$bytes /= pow(1024, $pow);
+
+		return round($bytes, $precision) . ' ' . $units[$pow];
+	}
+
+	/**
+	 * Récupère la taille maximale configurée pour les fichiers
+	 */
+	public static function getMaxFileSize(): int
+	{
+		return config('attachments.max_size', 20971520); // 20 Mo par défaut
+	}
+
+	/**
+	 * Récupère la taille maximale formatée pour affichage
+	 */
+	public static function getMaxFileSizeFormatted(): string
+	{
+		return self::formatBytes(self::getMaxFileSize());
+	}
+
+	/**
+	 * Récupère l'icône FontAwesome et la couleur pour un fichier selon son extension ou MIME type
+	 * 
+	 * @param string $filename Nom du fichier
+	 * @param string|null $mimeType Type MIME du fichier (optionnel, prioritaire sur l'extension)
+	 * @return array ['icon' => 'fa-file-pdf', 'color' => 'text-danger']
+	 */
+	public static function getFileIcon(string $filename, ?string $mimeType = null): array
+	{
+		$iconClass = 'fa-file';
+		$iconColor = 'text-secondary';
+
+		// Si MIME type fourni, l'utiliser en priorité
+		if ($mimeType) {
+			if (str_starts_with($mimeType, 'image/')) {
+				$iconClass = 'fa-file-image';
+				$iconColor = 'text-info';
+			} elseif ($mimeType === 'application/pdf') {
+				$iconClass = 'fa-file-pdf';
+				$iconColor = 'text-danger';
+			} elseif (str_contains($mimeType, 'word') || str_contains($mimeType, 'document')) {
+				$iconClass = 'fa-file-word';
+				$iconColor = 'text-primary';
+			} elseif (str_contains($mimeType, 'excel') || str_contains($mimeType, 'spreadsheet')) {
+				$iconClass = 'fa-file-excel';
+				$iconColor = 'text-success';
+			} elseif (str_contains($mimeType, 'powerpoint') || str_contains($mimeType, 'presentation')) {
+				$iconClass = 'fa-file-powerpoint';
+				$iconColor = 'text-warning';
+			} elseif (str_contains($mimeType, 'zip') || str_contains($mimeType, 'compressed')) {
+				$iconClass = 'fa-file-zipper';
+				$iconColor = 'text-dark';
+			} elseif (str_contains($mimeType, 'text/')) {
+				$iconClass = 'fa-file-lines';
+			}
+		} else {
+			// Sinon, utiliser l'extension
+			$ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+			if (in_array($ext, ['pdf'])) {
+				$iconClass = 'fa-file-pdf';
+				$iconColor = 'text-danger';
+			} elseif (in_array($ext, ['doc', 'docx'])) {
+				$iconClass = 'fa-file-word';
+				$iconColor = 'text-primary';
+			} elseif (in_array($ext, ['xls', 'xlsx'])) {
+				$iconClass = 'fa-file-excel';
+				$iconColor = 'text-success';
+			} elseif (in_array($ext, ['ppt', 'pptx'])) {
+				$iconClass = 'fa-file-powerpoint';
+				$iconColor = 'text-warning';
+			} elseif (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'])) {
+				$iconClass = 'fa-file-image';
+				$iconColor = 'text-info';
+			} elseif (in_array($ext, ['zip', 'rar', '7z', 'tar', 'gz'])) {
+				$iconClass = 'fa-file-zipper';
+				$iconColor = 'text-dark';
+			} elseif (in_array($ext, ['txt', 'csv'])) {
+				$iconClass = 'fa-file-lines';
+			}
+		}
+
+		return [
+			'icon' => $iconClass,
+			'color' => $iconColor
+		];
+	}
 
 }
+
+

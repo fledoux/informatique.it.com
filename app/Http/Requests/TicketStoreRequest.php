@@ -20,15 +20,15 @@ class TicketStoreRequest extends FormRequest
         return [
             'status' => $isAdminLevel ? ['required','in:new,in_progress,waiting,resolved,closed,canceled'] : ['sometimes','in:new,in_progress,waiting,resolved,closed,canceled'],
             'priority' => ['required','in:low,normal,high,urgent'],
-            'company_id' => $isAdminLevel ? ['required','integer'] : ['sometimes','integer'],
-            'author_id' => $isAdminLevel ? ['required','integer'] : ['sometimes','integer'],
+            'company_id' => ['sometimes','integer'], // Calculé automatiquement via author_id
+            'author_id' => ['sometimes','integer'], 
             'assigned_to' => ['nullable','integer'],
             'assigned_at' => ['nullable','date'],
             'due' => ['nullable','date'],
             'folder_code' => ['nullable','string','max:64'],
             'subject' => ['required','string','max:190'],
             'question' => ['required','string'],
-            'billable' => $isAdminLevel ? ['required','boolean'] : ['sometimes','boolean']
+            'billable' => ['nullable','in:0,1']
         ];
     }
 }

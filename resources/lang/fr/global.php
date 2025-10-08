@@ -47,6 +47,7 @@ return [
     'New' => 'Nouveau',
     'Save' => 'Enregistrer',
     'Back' => 'Retour',
+    'Delete' => 'Supprimer',
     'Delete?' => 'Supprimer ?',
     'No data' => 'Aucune donnée',
 
@@ -91,4 +92,18 @@ return [
 
     // Pages légales
     'Terms of Use' => 'Conditions Générales d\'Utilisation',
+
+    // Pluralisation
+    'attachment' => 'pièce jointe',
+    'attachments' => 'pièces jointes',
+    'file' => 'fichier',
+    'files' => 'fichiers',
+    'attached_file' => 'fichier joint',
+    'attached_files' => 'fichiers joints',
+    'assigned_role' => 'rôle assigné',
+    'assigned_roles' => 'rôles assignés',
+    'direct_user' => 'utilisateur direct',
+    'direct_users' => 'utilisateurs directs',
+    'user' => 'utilisateur',
+    'users' => 'utilisateurs',
 ];

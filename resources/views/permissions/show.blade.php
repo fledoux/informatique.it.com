@@ -99,13 +99,13 @@
                         <div class="col-6">
                             <div class="p-3 border rounded">
                                 <h2 class="mb-0 text-orange">{{ $roles->count() }}</h2>
-                                <small class="text-muted">Rôle{{ $roles->count() > 1 ? 's' : '' }} assigné{{ $roles->count() > 1 ? 's' : '' }}</small>
+                                <small class="text-muted">{{ \App\Helpers\Helper::pluralize($roles->count(), 'global.assigned_role', 'global.assigned_roles') }}</small>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="p-3 border rounded">
                                 <h2 class="mb-0 text-orange">{{ $users->count() }}</h2>
-                                <small class="text-muted">Utilisateur{{ $users->count() > 1 ? 's' : '' }} direct{{ $users->count() > 1 ? 's' : '' }}</small>
+                                <small class="text-muted">{{ \App\Helpers\Helper::pluralize($users->count(), 'global.direct_user', 'global.direct_users') }}</small>
                             </div>
                         </div>
                     </div>

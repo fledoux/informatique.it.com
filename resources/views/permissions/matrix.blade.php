@@ -42,8 +42,7 @@
                                             <div class="d-flex flex-column align-items-center">
                                                 <span class="fw-bold">{{ ucfirst($role->name) }}</span>
                                                 <small class="text-muted">
-                                                    {{ $role->users()->count() }} 
-                                                    {{ $role->users()->count() > 1 ? 'utilisateurs' : 'utilisateur' }}
+                                                    {{ \App\Helpers\Helper::pluralize($role->users()->count(), 'global.user', 'global.users') }}
                                                 </small>
                                             </div>
                                         </th>

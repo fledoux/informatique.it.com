@@ -39,6 +39,52 @@ class Ticket extends Model
     protected $casts = ['email_verified_at' => 'datetime', 'password' => 'hashed', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'status' => 'string', 'priority' => 'string', 'assigned_at' => 'datetime', 'due' => 'datetime', 'billable' => 'boolean', 'public_uuid_expires' => 'datetime'];
 
     /**
+     * Boot du modèle
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Supprimer tous les fichiers S3 du ticket avant suppression
+        static::deleting(function ($ticket) {
+            try {
+                $attachments = $ticket->attachments;
+                
+                if ($attachments->count() > 0) {
+                    $s3Client = new \Aws\S3\S3Client([
+                        'version' => 'latest',
+                        'region'  => env('AWS_DEFAULT_REGION', 'eu-west-3'),
+                        'credentials' => [
+                            'key'    => env('AWS_ACCESS_KEY_ID'),
+                            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                        ],
+                    ]);
+
+                    foreach ($attachments as $attachment) {
+                        try {
+                            // Supprimer le fichier de S3
+                            $s3Client->deleteObject([
+                                'Bucket' => env('AWS_BUCKET'),
+                                'Key'    => $attachment->s3_path,
+                            ]);
+                            \Illuminate\Support\Facades\Log::info("Deleted S3 file: {$attachment->s3_path}");
+                        } catch (\Aws\S3\Exception\S3Exception $e) {
+                            \Illuminate\Support\Facades\Log::error("Failed to delete S3 file {$attachment->s3_path}: " . $e->getMessage());
+                        }
+                    }
+
+                    // Supprimer les enregistrements en base (cascade delete devrait le faire aussi)
+                    $ticket->attachments()->delete();
+                    
+                    \Illuminate\Support\Facades\Log::info("Deleted {$attachments->count()} attachment(s) for ticket #{$ticket->id}");
+                }
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error("Error deleting ticket attachments: " . $e->getMessage());
+            }
+        });
+    }
+
+    /**
      * Relation vers la société
      */
     public function company(): BelongsTo
@@ -108,6 +154,32 @@ class Ticket extends Model
             // Autres utilisateurs ne voient que les messages actifs
             return $this->hasMany(TicketMessage::class)->where('status', 'active');
         }
+    }
+
+    /**
+     * Relation vers les pièces jointes du ticket
+     */
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(TicketAttachment::class);
+    }
+
+    /**
+     * Pièces jointes actives uniquement
+     */
+    public function activeAttachments(): HasMany
+    {
+        return $this->hasMany(TicketAttachment::class)->where('status', 'active');
+    }
+
+    /**
+     * Pièces jointes de la demande initiale (sans message_id)
+     */
+    public function initialAttachments(): HasMany
+    {
+        return $this->hasMany(TicketAttachment::class)
+            ->whereNull('message_id')
+            ->where('status', 'active');
     }
 
     /**

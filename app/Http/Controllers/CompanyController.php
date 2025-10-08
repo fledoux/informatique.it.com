@@ -24,7 +24,16 @@ class CompanyController extends Controller
 
     public function index()
     {
-        $companies = Company::all()->sortBy('name');
+        $user = Auth::user();
+        
+        // Super-admin voit toutes les sociétés
+        if ($user->hasRole('super-admin')) {
+            $companies = Company::all()->sortBy('name');
+        } else {
+            // Admin/Manager ne voit que sa propre société
+            $companies = Company::where('id', $user->company_id)->get();
+        }
+        
         return view('company.index', compact('companies'));
     }
 
@@ -42,7 +51,14 @@ class CompanyController extends Controller
             unset($data['password']);
         }
         $company = Company::create($data);
-        return redirect()->route('company.index')->with('success', __('global.messages.created'));
+        
+        // Redirection conditionnelle selon le rôle
+        $user = Auth::user();
+        if ($user->hasRole('super-admin')) {
+            return redirect()->route('company.index')->with('success', __('global.messages.created'));
+        } else {
+            return redirect()->route('company.show', $company)->with('success', __('global.messages.created'));
+        }
     }
 
     public function show($id)
@@ -78,7 +94,14 @@ class CompanyController extends Controller
                 unset($data['password']);
             }
             $company->update($data);
-            return redirect()->route('company.index')->with('success', __('global.messages.updated'));
+            
+            // Redirection conditionnelle selon le rôle
+            $user = Auth::user();
+            if ($user->hasRole('super-admin')) {
+                return redirect()->route('company.index')->with('success', __('global.messages.updated'));
+            } else {
+                return redirect()->route('company.show', $company)->with('success', __('global.messages.updated'));
+            }
         } catch (ModelNotFoundException $e) {
             return redirect()->route('company.index')
                 ->with('error', __('global.messages.update_not_found'));

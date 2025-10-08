@@ -38,10 +38,33 @@ class TicketController extends Controller
     public function store(TicketStoreRequest $request)
     {
         $data = $request->validated();
+        
+        $allInput = $request->all();
+        if (!isset($data['billable']) && isset($allInput['billable_unchecked'])) {
+            $data['billable'] = $allInput['billable_unchecked'];
+        }
+        
         $user = Auth::user();
 
-        // Pour tous les utilisateurs sauf super-admin, on détermine le company_id en fonction de l'utilisateur sélectionné
-        if (!$user->hasRole('super-admin')) {
+        // Déterminer company_id et author_id selon le rôle
+        if ($user->hasRole('super-admin')) {
+            // Super-admin : doit avoir author_id, on récupère le company_id de cet auteur
+            if (isset($data['author_id'])) {
+                $author = \App\Models\User::find($data['author_id']);
+                if ($author) {
+                    $data['company_id'] = $author->company_id;
+                } else {
+                    // Fallback si l'auteur n'existe pas
+                    $data['company_id'] = $user->company_id;
+                    $data['author_id'] = $user->id;
+                }
+            } else {
+                // Si pas d'author_id fourni, utiliser le super-admin lui-même
+                $data['company_id'] = $user->company_id;
+                $data['author_id'] = $user->id;
+            }
+        } else {
+            // Pour tous les autres utilisateurs (admin, manager, user)
             if (isset($data['author_id'])) {
                 $author = \App\Models\User::find($data['author_id']);
                 if ($author) {

@@ -197,6 +197,16 @@ class ImapService
             // Récupérer le contenu du message
             $body = $this->getEmailBody($emailId);
 
+            // Extraire les pièces jointes UNE SEULE FOIS pour tous les cas
+            $structure = imap_fetchstructure($this->connection, $emailId);
+            $attachments = [];
+            if ($structure) {
+                $attachments = $this->extractAttachments($emailId, $structure);
+                if (!empty($attachments)) {
+                    Log::info("Found " . count($attachments) . " attachment(s) in email from {$senderEmail}");
+                }
+            }
+
             // Vérifier s'il y a un code de réponse dans l'email
             $replyCode = \App\Services\EmailReplyCodeService::extractReplyCode($body);
             
@@ -210,8 +220,8 @@ class ImapService
                     // Nettoyer le contenu (supprimer tout après le code)
                     $cleanedBody = \App\Services\EmailReplyCodeService::cleanEmailContent($body);
                     
-                    // Ajouter un message au ticket existant
-                    return $this->addMessageToTicket($existingTicket, $senderEmail, $cleanedBody);
+                    // Ajouter un message au ticket existant avec les pièces jointes
+                    return $this->addMessageToTicket($existingTicket, $senderEmail, $cleanedBody, $attachments);
                 } else {
                     Log::warning("Invalid reply code in email", ['code' => $replyCode, 'sender' => $senderEmail]);
                     // Traiter comme un nouveau ticket si le code est invalide
@@ -237,8 +247,8 @@ class ImapService
                 return false;
             }
 
-            // L'utilisateur existe - créer le ticket
-            $ticket = $this->createTicketFromEmail($user, $subject, $body, $messageId);
+            // L'utilisateur existe - créer le ticket avec les pièces jointes (déjà extraites)
+            $ticket = $this->createTicketFromEmail($user, $subject, $body, $messageId, $attachments);
 
             if ($ticket) {
                 Log::info("Created ticket #{$ticket->id} from email: {$senderEmail} - {$subject}");
@@ -272,12 +282,14 @@ class ImapService
                     if ($part->subtype === 'PLAIN') {
                         $body = imap_fetchbody($this->connection, $emailId, $i + 1);
                         $body = $this->decodeBody($body, $part->encoding);
+                        // Convertir les retours à la ligne en HTML
+                        $body = nl2br(htmlspecialchars($body, ENT_QUOTES, 'UTF-8'));
                         break;
                     } elseif ($part->subtype === 'HTML') {
                         $htmlBody = imap_fetchbody($this->connection, $emailId, $i + 1);
                         $htmlBody = $this->decodeBody($htmlBody, $part->encoding);
-                        // Convertir HTML en texte brut
-                        $body = strip_tags($htmlBody);
+                        // Nettoyer le HTML mais le garder
+                        $body = $this->cleanHtml($htmlBody);
                         break;
                     }
                 }
@@ -286,6 +298,15 @@ class ImapService
                 $body = imap_body($this->connection, $emailId);
                 if ($structure->encoding) {
                     $body = $this->decodeBody($body, $structure->encoding);
+                }
+                
+                // Détecter si c'est du HTML ou du texte brut
+                if (preg_match('/<html|<body|<p>|<div>/i', $body)) {
+                    // C'est du HTML
+                    $body = $this->cleanHtml($body);
+                } else {
+                    // C'est du texte brut, convertir les retours à la ligne
+                    $body = nl2br(htmlspecialchars($body, ENT_QUOTES, 'UTF-8'));
                 }
             }
 
@@ -323,6 +344,26 @@ class ImapService
     }
 
     /**
+     * Nettoie le HTML des emails en gardant les balises essentielles
+     */
+    private function cleanHtml(string $html): string
+    {
+        // Supprimer les scripts, styles et autres éléments dangereux
+        $html = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $html);
+        $html = preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', '', $html);
+        $html = preg_replace('/<iframe\b[^>]*>(.*?)<\/iframe>/is', '', $html);
+        
+        // Garder uniquement les balises sûres
+        $allowedTags = '<p><br><b><strong><i><em><u><ul><ol><li><a><h1><h2><h3><h4><h5><h6><blockquote><div><span>';
+        $html = strip_tags($html, $allowedTags);
+        
+        // Nettoyer les attributs dangereux (onclick, onerror, etc.)
+        $html = preg_replace('/ on\w+="[^"]*"/i', '', $html);
+        
+        return trim($html);
+    }
+
+    /**
      * Décode les headers encodés
      */
     private function decodeHeader(string $header): string
@@ -354,9 +395,14 @@ class ImapService
     /**
      * Ajoute un message à un ticket existant
      */
-    private function addMessageToTicket(Ticket $ticket, string $senderEmail, string $messageContent): bool
+    private function addMessageToTicket(Ticket $ticket, string $senderEmail, string $messageContent, array $attachments = []): bool
     {
         try {
+            Log::info("Processing reply for ticket #{$ticket->id}", [
+                'sender' => $senderEmail,
+                'attachments_count' => count($attachments)
+            ]);
+            
             // Trouver l'utilisateur qui envoie la réponse
             $user = User::where('email', $senderEmail)->first();
             
@@ -406,13 +452,29 @@ class ImapService
                 'author_id' => $user->id,
             ]);
 
+            // Uploader les pièces jointes si présentes
+            if (!empty($attachments)) {
+                Log::info("Traitement de " . count($attachments) . " fichier(s) pour le message #{$ticketMessage->id}");
+                
+                $attachmentService = new \App\Services\AttachmentService();
+                $uploadedAttachments = $attachmentService->uploadEmailAttachments(
+                    $attachments,
+                    $ticket->id,
+                    $ticket->company_id,
+                    $user->id,
+                    $ticketMessage->id
+                );
+                
+                Log::info("✅ " . count($uploadedAttachments) . " fichier(s) uploadé(s) pour le message #{$ticketMessage->id}");
+            }
+
             // Mettre à jour le statut du ticket
             $ticket->update([
                 'status' => 'in_progress',
                 'updated_at' => now()
             ]);
 
-            Log::info("Added email reply message #{$ticketMessage->id} to ticket #{$ticket->id} from {$senderEmail}");
+            Log::info("✅ Message #{$ticketMessage->id} ajouté au ticket #{$ticket->id} avec " . count($attachments) . " fichier(s)");
             return true;
 
         } catch (Exception $e) {
@@ -424,7 +486,7 @@ class ImapService
     /**
      * Crée un ticket à partir d'un email
      */
-    private function createTicketFromEmail(User $user, string $subject, string $body, ?string $messageId): ?Ticket
+    private function createTicketFromEmail(User $user, string $subject, string $body, ?string $messageId, array $attachments = []): ?Ticket
     {
         try {
             $ticket = Ticket::create([
@@ -438,6 +500,14 @@ class ImapService
                 'source' => 'email',
                 'email_message_id' => $messageId,
             ]);
+
+            // Sauvegarder les pièces jointes sur S3
+            Log::info("createTicketFromEmail: received " . count($attachments) . " attachment(s)");
+            if (!empty($attachments)) {
+                Log::info("Calling AttachmentService for ticket #{$ticket->id}");
+                $attachmentService = new \App\Services\AttachmentService();
+                $attachmentService->uploadEmailAttachments($attachments, $ticket->id, $ticket->company_id, $user->id);
+            }
 
             // Envoyer l'email de confirmation
             try {
@@ -656,4 +726,193 @@ class ImapService
 
         return $result;
     }
+
+    /**
+     * Extraire les pièces jointes d'un email (récursif pour gérer multipart imbriqués)
+     */
+    private function extractAttachments(int $emailId, object $structure, string $prefix = ''): array
+    {
+        $attachments = [];
+
+        if (!isset($structure->parts) || !count($structure->parts)) {
+            return $attachments;
+        }
+
+        foreach ($structure->parts as $partNum => $part) {
+            $currentPartNum = $prefix ? "{$prefix}." . ($partNum + 1) : ($partNum + 1);
+            
+            // Vérifier si c'est une pièce jointe (disposition = attachment ou inline avec filename)
+            $isAttachment = false;
+            $filename = null;
+
+            // Vérifier la disposition
+            if (isset($part->disposition)) {
+                $disposition = strtolower($part->disposition);
+                if ($disposition === 'attachment') {
+                    $isAttachment = true;
+                }
+            }
+
+            // Récupérer le nom du fichier
+            if (isset($part->dparameters)) {
+                foreach ($part->dparameters as $param) {
+                    if (strtolower($param->attribute) === 'filename') {
+                        $filename = $param->value;
+                        $isAttachment = true;
+                    }
+                }
+            }
+
+            // Aussi vérifier dans parameters si pas trouvé
+            if (!$filename && isset($part->parameters)) {
+                foreach ($part->parameters as $param) {
+                    if (strtolower($param->attribute) === 'name') {
+                        $filename = $param->value;
+                        if (!$isAttachment && isset($part->disposition)) {
+                            $isAttachment = true;
+                        }
+                    }
+                }
+            }
+
+            // Si c'est un multipart imbriqué, explorer récursivement
+            if (isset($part->type) && $part->type === 1 && isset($part->parts)) {
+                $nestedAttachments = $this->extractAttachmentsFromParts($emailId, $part->parts, $currentPartNum);
+                $attachments = array_merge($attachments, $nestedAttachments);
+            }
+            
+            // Si c'est une pièce jointe, l'extraire
+            if ($isAttachment && $filename) {
+                // Récupérer le contenu
+                $data = imap_fetchbody($this->connection, $emailId, $currentPartNum);
+
+                // Décoder selon l'encodage
+                if ($part->encoding === 3) { // Base64
+                    $data = base64_decode($data);
+                } elseif ($part->encoding === 4) { // Quoted-printable
+                    $data = quoted_printable_decode($data);
+                }
+
+                // Déterminer le type MIME
+                $mimeType = 'application/octet-stream'; // Par défaut
+                if (isset($part->type) && isset($part->subtype)) {
+                    $mimeTypes = [
+                        0 => 'text',
+                        1 => 'multipart',
+                        2 => 'message',
+                        3 => 'application',
+                        4 => 'audio',
+                        5 => 'image',
+                        6 => 'video',
+                        7 => 'other'
+                    ];
+                    $typeStr = $mimeTypes[$part->type] ?? 'application';
+                    $mimeType = $typeStr . '/' . strtolower($part->subtype);
+                }
+
+                $attachments[] = [
+                    'filename' => $filename,
+                    'data' => $data,
+                    'size' => strlen($data),
+                    'mime_type' => $mimeType
+                ];
+
+                Log::info("Extracted attachment: {$filename} ({$mimeType}, " . strlen($data) . " bytes)");
+            }
+        }
+
+        return $attachments;
+    }
+
+    /**
+     * Extraire les pièces jointes d'un tableau de parts (helper récursif)
+     */
+    private function extractAttachmentsFromParts(int $emailId, array $parts, string $prefix): array
+    {
+        $attachments = [];
+
+        foreach ($parts as $partNum => $part) {
+            $currentPartNum = "{$prefix}." . ($partNum + 1);
+
+            $isAttachment = false;
+            $filename = null;
+
+            // Vérifier la disposition
+            if (isset($part->disposition)) {
+                $disposition = strtolower($part->disposition);
+                if ($disposition === 'attachment') {
+                    $isAttachment = true;
+                }
+            }
+
+            // Récupérer le nom du fichier depuis dparameters
+            if (isset($part->dparameters)) {
+                foreach ($part->dparameters as $param) {
+                    if (strtolower($param->attribute) === 'filename') {
+                        $filename = $param->value;
+                        $isAttachment = true;
+                    }
+                }
+            }
+
+            // Récupérer le nom du fichier depuis parameters
+            if (!$filename && isset($part->parameters)) {
+                foreach ($part->parameters as $param) {
+                    if (strtolower($param->attribute) === 'name') {
+                        $filename = $param->value;
+                        if (!$isAttachment && isset($part->disposition)) {
+                            $isAttachment = true;
+                        }
+                    }
+                }
+            }
+
+            // Si c'est encore un multipart, continuer la récursion
+            if (isset($part->type) && $part->type === 1 && isset($part->parts)) {
+                $nestedAttachments = $this->extractAttachmentsFromParts($emailId, $part->parts, $currentPartNum);
+                $attachments = array_merge($attachments, $nestedAttachments);
+            }
+
+            // Si c'est une pièce jointe, l'extraire
+            if ($isAttachment && $filename) {
+                $data = imap_fetchbody($this->connection, $emailId, $currentPartNum);
+
+                // Décoder selon l'encodage
+                if ($part->encoding === 3) { // Base64
+                    $data = base64_decode($data);
+                } elseif ($part->encoding === 4) { // Quoted-printable
+                    $data = quoted_printable_decode($data);
+                }
+
+                // Déterminer le type MIME
+                $mimeType = 'application/octet-stream';
+                if (isset($part->type) && isset($part->subtype)) {
+                    $mimeTypes = [
+                        0 => 'text',
+                        1 => 'multipart',
+                        2 => 'message',
+                        3 => 'application',
+                        4 => 'audio',
+                        5 => 'image',
+                        6 => 'video',
+                        7 => 'other'
+                    ];
+                    $typeStr = $mimeTypes[$part->type] ?? 'application';
+                    $mimeType = $typeStr . '/' . strtolower($part->subtype);
+                }
+
+                $attachments[] = [
+                    'filename' => $filename,
+                    'data' => $data,
+                    'size' => strlen($data),
+                    'mime_type' => $mimeType
+                ];
+
+                Log::info("Extracted attachment: {$filename} ({$mimeType}, " . strlen($data) . " bytes)");
+            }
+        }
+
+        return $attachments;
+    }
+
 }

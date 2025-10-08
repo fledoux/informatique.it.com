@@ -46,6 +46,14 @@ class TicketMessage extends Model
     }
 
     /**
+     * Get the attachments for this message.
+     */
+    public function attachments()
+    {
+        return $this->hasMany(TicketAttachment::class, 'message_id')->where('status', 'active');
+    }
+
+    /**
      * Scope pour messages publics (actifs, visibles par le client)
      */
     public function scopePublic($query)

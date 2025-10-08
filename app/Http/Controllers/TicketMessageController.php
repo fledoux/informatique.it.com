@@ -6,6 +6,7 @@ use App\Helpers\TicketSecurityHelper;
 use App\Http\Requests\TicketMessageStoreRequest;
 use App\Models\Ticket;
 use App\Models\TicketMessage;
+use App\Services\AttachmentService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -122,6 +123,18 @@ class TicketMessageController extends Controller
         $validated['company_id'] = $ticket->company_id;
 
         $ticketMessage = TicketMessage::create($validated);
+
+        // Gérer les pièces jointes si présentes
+        if ($request->hasFile('files')) {
+            $attachmentService = new AttachmentService();
+            $attachmentService->uploadMultipleAttachments(
+                $request->file('files'),
+                $ticket->id,
+                $ticket->company_id,
+                Auth::id(),
+                $ticketMessage->id
+            );
+        }
 
         // Mettre à jour le statut du ticket si c'est une réponse publique
         if ($validated['status'] === 'active') {

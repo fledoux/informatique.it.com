@@ -8,6 +8,7 @@ return [
     'Connect' => 'Connexion',
     'Support' => 'Support',
     'Users' => 'Utilisateurs',
+    'Company' => 'Société',
     'Companies' => 'Sociétés', 
     'Contact' => 'Contact',
     'Contacts' => 'Contacts',

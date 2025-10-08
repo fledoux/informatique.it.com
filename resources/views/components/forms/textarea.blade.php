@@ -19,7 +19,7 @@
 @endunless
 
 <textarea
-    class="form-control @error($name) is-invalid @enderror {{ $class }}"
+    class="form-control tinymce @error($name) is-invalid @enderror {{ $class }}"
     id="{{ $name }}" 
     name="{{ $name }}"
     rows="{{ $rows }}"

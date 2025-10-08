@@ -11,9 +11,6 @@
 ])
 
 <div class="mb-3">
-    {{-- Champ hidden pour envoyer valueOff quand le switch n'est pas coché --}}
-    <input type="hidden" name="{{ $name }}" value="{{ $valueOff }}">
-    
     <div class="form-check form-switch">
         <input 
             class="form-check-input @error($name) is-invalid @enderror" 
@@ -27,6 +24,9 @@
             @if($disabled) disabled @endif
             {{ $attributes }}
         >
+        {{-- Hidden input pour envoyer 0 si non coché, DOIT être après le checkbox --}}
+        <input type="hidden" name="{{ $name }}_unchecked" value="{{ $valueOff }}">
+        
         <label class="form-check-label" for="{{ $id }}">
             {{ $label }}
             @if($required)

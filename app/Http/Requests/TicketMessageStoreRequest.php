@@ -13,11 +13,15 @@ class TicketMessageStoreRequest extends FormRequest
 
     public function rules(): array
     {
+        $maxFileSize = config('attachments.max_size', 20971520) / 1024; // Convert to KB
+        
         return [
             'ticket_id' => ['required', 'integer', 'exists:tickets,id'],
             'subject' => ['required', 'string', 'max:190'],
             'body' => ['nullable', 'string'],
             'status' => ['required', 'string', 'in:active,inactive,internal'],
+            'files' => ['nullable', 'array'],
+            'files.*' => ['nullable', 'file', 'max:' . $maxFileSize],
         ];
     }
 
@@ -30,6 +34,9 @@ class TicketMessageStoreRequest extends FormRequest
             'subject.max' => 'Le sujet ne peut pas dépasser :max caractères.',
             'status.required' => 'Le statut est requis.',
             'status.in' => 'Le statut doit être : active, inactive ou internal.',
+            'files.array' => 'Les fichiers doivent être un tableau.',
+            'files.*.file' => 'Chaque élément doit être un fichier valide.',
+            'files.*.max' => 'Chaque fichier ne doit pas dépasser :max Ko.',
         ];
     }
 }

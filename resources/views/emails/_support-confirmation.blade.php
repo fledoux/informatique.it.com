@@ -2,7 +2,7 @@
 
 <p>
 	Nous vous confirmons la bonne réception de votre demande de support concernant :</p>
-	<blockquote style="border-left: 4px solid #ff4c00; padding-left: 12px;">"{{ $ticket->subject ?? '' }}"</blockquote>
+	<blockquote style="border-left: 4px solid #ff4c00; padding-left: 12px;">"{{ $ticket->subject ?? '' }}{{ $ticket->question ?? '' }}"</blockquote>
 	<p>Notre équipe technique a bien été informée et examinera votre requête sous peu.
 </p>
 

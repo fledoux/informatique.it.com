@@ -12,6 +12,7 @@ use \App\Http\Controllers\TicketController;
 use \App\Http\Controllers\CompanyController;
 use \App\Http\Controllers\AllowDomainRegistrationController;
 use \App\Http\Controllers\TicketMessageController;
+use \App\Http\Controllers\TicketAttachmentController;
 
 // Locale routes (accessible sans authentification)
 Route::post('/locale/change', [LocaleController::class, 'change'])->name('locale.change');
@@ -143,4 +144,16 @@ Route::prefix('ticketmessage')->group(function () {
     Route::get('/{ticketmessage}/edit', [TicketMessageController::class, 'edit'])->name('ticketmessage.edit');
     Route::put('/{ticketmessage}', [TicketMessageController::class, 'update'])->name('ticketmessage.update');
     Route::delete('/{ticketmessage}', [TicketMessageController::class, 'destroy'])->name('ticketmessage.destroy');
+});
+
+// Routes TicketAttachment - Permissions gérées dans TicketAttachmentController::__construct()
+Route::prefix('ticketattachment')->group(function () {
+    Route::get('/', [TicketAttachmentController::class, 'index'])->name('ticketattachment.index');
+    Route::get('/ticket/{ticketId}/create', [TicketAttachmentController::class, 'create'])->name('ticketattachment.create');
+    Route::post('/', [TicketAttachmentController::class, 'store'])->name('ticketattachment.store');
+    Route::get('/{ticketattachment}', [TicketAttachmentController::class, 'show'])->name('ticketattachment.show');
+    Route::get('/{ticketattachment}/download', [TicketAttachmentController::class, 'download'])->name('ticketattachment.download');
+    Route::get('/{ticketattachment}/edit', [TicketAttachmentController::class, 'edit'])->name('ticketattachment.edit');
+    Route::put('/{ticketattachment}', [TicketAttachmentController::class, 'update'])->name('ticketattachment.update');
+    Route::delete('/{ticketattachment}', [TicketAttachmentController::class, 'destroy'])->name('ticketattachment.destroy');
 });
