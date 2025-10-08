@@ -8,7 +8,7 @@
             class="row g-4 mt-1">
             {{-- Entrées --}}
             <div class="col-lg-5">
-                <div class="p-4 bg-white border rounded-4 shadow-soft h-100">
+                <div class="p-4 bg-white border rounded-4 shadow-soft h-100 zoom-hover">
                     <h5 class="fw-bold mb-3">
                         <i class="fa-regular fa-calculator me-2 text-orange"></i>Paramètres
                     </h5>

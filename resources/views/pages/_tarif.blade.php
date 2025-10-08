@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="col-md-12 col-lg-6">
-                <div class="p-4 bg-white bg-opacity-25 border rounded-4 h-100 d-flex flex-column justify-content-center gap-2">
+                <div class="p-4 bg-white bg-opacity-25 border rounded-4 h-100 d-flex flex-column justify-content-center gap-2 zoom-hover">
                     <div class="form-check form-switch form-switch-orange form-switch-lg m-0">
                         <input class="form-check-input" type="checkbox" id="toggleTTC">
                         <label class="form-check-label fw-bold text-orange" for="toggleTTC">Affichage des Tarifs en TTC</label>

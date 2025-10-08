@@ -9,8 +9,7 @@
                 <h1 class="display-5 fw-bold mb-3">
                     Support informatique
                     <span class="text-orange">depuis plus de {{ date('Y') - 2000 }} ans</span>
-                    pour
-                    <br class="d-none d-lg-inline">entreprises et particuliers
+                    pour&nbsp;entreprises et&nbsp;particuliers
                 </h1>
                 <p class="lead text-secondary mb-4">
                     Assistance express, maintenance proactive, cybersécurité et infogérance. Nous prenons en charge vos incidents et prévenons les suivants.
@@ -20,10 +19,10 @@
                     depuis l’an 2000.
                 </p>
                 <div class="d-flex flex-wrap gap-2">
-                    <a href="#contact" class="btn btn-orange btn-lg w-100 w-sm-auto">
+                    <a href="#contact" class="btn btn-orange btn-lg w-100 w-sm-auto zoom-hover">
                         <i class="fa-regular fa-calendar-check me-2"></i><span class="d-none d-sm-inline">Obtenir un&nbsp;</span>devis en&nbsp;2&nbsp;min
                     </a>
-                    <a href="#tarifs" class="btn border-2 btn-outline-orange btn-lg w-100 w-sm-auto">
+                    <a href="#tarifs" class="btn border-2 btn-outline-orange btn-lg w-100 w-sm-auto zoom-hover">
                         <i class="fa-regular fa-tags me-2"></i>Voir les tarifs
                     </a>
                 </div>
@@ -39,7 +38,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="p-4 p-lg-5 bg-white rounded-4 border shadow-soft">
+                <div class="p-4 p-lg-5 bg-white rounded-4 border shadow-soft zoom-hover">
                     <h3 class="fw-bold mb-3">
                         <i class="fa-regular fa-screwdriver-wrench me-2 text-orange"></i>Besoin d’aide maintenant ?
                     </h3>
