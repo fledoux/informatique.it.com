@@ -5,7 +5,7 @@
 {{-- SEO spécifique à la homepage --}}
 @section('og:type', 'website')
 @section('og:title', __('home.Welcome') . ' - Expert depuis +25 ans')
-@section('og:description', 'Expert en support informatique, assistance Mac/PC, infogérance et cybersécurité. Intervention rapide, devis gratuit 24h. +25 ans d\'expérience, 9999+ interventions réussies.')
+@section('og:description', 'Expert en support informatique à Paris, assistance Mac/PC, réseaux, infogérance et cybersécurité. +25 ans d\'expérience, devis gratuit en 24h. Intervention rapide.')
 
 @section('content')
 @include('pages._hero')
