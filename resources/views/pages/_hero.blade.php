@@ -8,7 +8,7 @@
                     Assistance rapide  Distant & Sur site</span>
                 <h1 class="display-5 fw-bold mb-3">
                     Support informatique
-                    <span class="text-orange">depuis plus de {{ date('Y') - 2000 }} ans</span>
+                    <span class="text-orange">depuis plus de&nbsp;{{ date('Y') - 2000 }}&nbsp;ans</span>
                     pour&nbsp;entreprises et&nbsp;particuliers
                 </h1>
                 <p class="lead text-secondary mb-4">
