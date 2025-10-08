@@ -107,10 +107,7 @@
                                                     <div class="mt-2">
                                                         @foreach ($message->attachments as $attachment)
                                                             @php
-                                                                $fileIcon = \App\Helpers\Helper::getFileIcon(
-                                                                    $attachment->original_filename,
-                                                                    $attachment->mime_type,
-                                                                );
+                                                                $fileIcon = \App\Helpers\Helper::getFileIcon($attachment->original_filename);
                                                             @endphp
                                                             <div class="d-inline-block me-1 mt-2">
                                                                 <a href="{{ route('ticketattachment.download', $attachment->id) }}"
@@ -176,10 +173,7 @@
                                             <div class="mt-2">
                                                 @foreach ($initialAttachments as $attachment)
                                                     @php
-                                                        $fileIcon = \App\Helpers\Helper::getFileIcon(
-                                                            $attachment->original_filename,
-                                                            $attachment->mime_type,
-                                                        );
+                                                        $fileIcon = \App\Helpers\Helper::getFileIcon($attachment->original_filename);
                                                     @endphp
                                                     <div class="d-inline-block me-1 mt-2">
                                                         <a href="{{ route('ticketattachment.download', $attachment->id) }}"
@@ -373,10 +367,7 @@
                                     <div class="d-flex align-items-start">
                                         <div class="me-2">
                                             @php
-                                                $fileIcon = \App\Helpers\Helper::getFileIcon(
-                                                    $attachment->original_filename,
-                                                    $attachment->mime_type,
-                                                );
+                                                $fileIcon = \App\Helpers\Helper::getFileIcon($attachment->original_filename);
                                             @endphp
                                             <i class="fa-regular {{ $fileIcon['icon'] }} {{ $fileIcon['color'] }}"></i>
                                         </div>
