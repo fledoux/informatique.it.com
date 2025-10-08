@@ -5,12 +5,12 @@
 @section('content')
     <div class="container-xxl py-4 px-0">
         {{-- Titre + actions rapides --}}
-        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 mb-5">
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-5">
             <h1 class="h3 mb-3 mb-sm-0">
                 <i class="fa-light fa-gauge"></i>
                 {{ __('dashboard.WelcomeTitle') }}
             </h1>
-            <div class="d-flex flex-column flex-sm-row flex-wrap gap-2 ms-md-auto">
+            <div class="d-flex flex-column flex-sm-row flex-wrap gap-1 gap-sm-2 ms-md-auto">
                 @auth
                     <a href="{{ route('ticket.create') }}" class="btn btn-orange w-100 w-sm-auto">
                         <i class="fa-regular fa-message-question"></i>
@@ -41,7 +41,7 @@
         <div class="row g-3 mb-5">
             <div class="col-12 col-md-4 col-xl-2">
                 <div class="card shadow-sm h-100">
-                    <div class="card-body d-flex align-items-center gap-3">
+                    <div class="card-body d-flex align-items-center gap-1 gap-sm-3">
                         <i class="fa-light fa-message-question fs-3 text-orange"></i>
                         <div>
                             <div class="text-secondary small">{{ __('dashboard.KPI.Tickets') }}</div>
@@ -53,7 +53,7 @@
             <div class="col-12 col-md-4 col-xl-2">
                 <div
                     class="card shadow-sm h-100 {{ $ticketStats['open_tickets_count'] > 0 ? 'bg-danger text-white' : '' }}">
-                    <div class="card-body d-flex align-items-center gap-3">
+                    <div class="card-body d-flex align-items-center gap-1 gap-sm-3">
                         <i class="fa-light fa-clipboard-list-check fs-3 {{ $ticketStats['open_tickets_count'] > 0 ? '' : 'text-orange' }}"></i>
                         <div>
                             <div class="small">{{ __('dashboard.KPI.Open') }}</div>
@@ -64,7 +64,7 @@
             </div>
             <div class="col-12 col-md-4 col-xl-2">
                 <div class="card shadow-sm h-100 {{ $ticketStats['waiting_count'] > 0 ? 'bg-warning' : '' }}">
-                    <div class="card-body d-flex align-items-center gap-3">
+                    <div class="card-body d-flex align-items-center gap-1 gap-sm-3">
                         <i class="fa-light fa-clock fs-3 {{ $ticketStats['waiting_count'] > 0 ? '' : 'text-orange' }}"></i>
                         <div>
                             <div class="text-secondary small">{{ __('dashboard.KPI.Waiting') }}</div>
@@ -75,7 +75,7 @@
             </div>
             <div class="col-12 col-md-4 col-xl-2">
                 <div class="card shadow-sm h-100 {{ $ticketStats['overdue_count'] > 0 ? 'bg-danger text-white' : '' }}">
-                    <div class="card-body d-flex align-items-center gap-3">
+                    <div class="card-body d-flex align-items-center gap-1 gap-sm-3">
                         <i
                             class="fa-light fa-triangle-exclamation fs-3 {{ $ticketStats['overdue_count'] > 0 ? 'text-white' : 'text-orange' }}"></i>
                         <div>
@@ -88,7 +88,7 @@
             @can('contact.index')
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="card shadow-sm h-100">
-                        <div class="card-body d-flex align-items-center gap-3">
+                        <div class="card-body d-flex align-items-center gap-1 gap-sm-3">
                             <i class="fa-light fa-address-book fs-3 text-orange"></i>
                             <div>
                                 <div class="text-secondary small">{{ __('dashboard.KPI.Contacts') }}</div>
@@ -101,7 +101,7 @@
             @can('company.index')
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="card shadow-sm h-100">
-                        <div class="card-body d-flex align-items-center gap-3">
+                        <div class="card-body d-flex align-items-center gap-1 gap-sm-3">
                             <i class="fa-light fa-buildings fs-3 text-orange"></i>
                             <div>
                                 <div class="text-secondary small">{{ __('dashboard.KPI.Companies') }}</div>

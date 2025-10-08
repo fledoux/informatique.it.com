@@ -6,7 +6,7 @@
 			<div class="hero border border-orange border-1 rounded-4 p-4">
 				<div class="row mt-0">
 					<div class="col-md-8 mx-auto">
-						<div class="d-flex flex-column flex-sm-row align-items-center gap-3 mb-2">
+						<div class="d-flex flex-column flex-sm-row align-items-center gap-1 gap-sm-3 mb-2">
 							<div>
 								<h6 class="fw-bold mb-1 text-orange">Connexion à distance avec {{ config('app.teamviewer_name') }}</h6>
 								<p class="text-secondary mb-0 small">Nous utilisons

@@ -251,7 +251,7 @@ foreach ($entities as $entity) {
         :value="old('amount', $entity->amount ?? '')"
     />
     
-    <div class="d-flex gap-2 mt-4">
+    <div class="d-flex gap-1 gap-sm-2 mt-4">
         <button type="submit" class="btn btn-primary">
             {!! __('global.btn.Save') !!}
         </button>

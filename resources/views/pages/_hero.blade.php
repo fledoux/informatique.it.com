@@ -18,7 +18,7 @@
                         demandes traitées</u>
                     depuis l’an 2000.
                 </p>
-                <div class="d-flex flex-wrap gap-2">
+                <div class="d-flex flex-wrap gap-1 gap-sm-2">
                     <a href="#contact" class="btn btn-orange btn-lg w-100 w-sm-auto zoom-hover">
                         <i class="fa-regular fa-calendar-check me-2"></i><span class="d-none d-sm-inline">Obtenir un&nbsp;</span>devis en&nbsp;2&nbsp;min
                     </a>
@@ -26,7 +26,7 @@
                         <i class="fa-regular fa-tags me-2"></i>Voir les tarifs
                     </a>
                 </div>
-                <div class="d-flex align-items-center gap-3 mt-4">
+                <div class="d-flex align-items-center gap-1 gap-sm-3 mt-4">
                     <div class="d-flex align-items-center">
                         <i class="fa-solid fa-star text-warning"></i>
                         <i class="fa-solid fa-star text-warning"></i>

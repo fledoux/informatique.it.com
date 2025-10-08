@@ -64,7 +64,7 @@ IMAP_FOLDER=INBOX</code></pre>
                     <h5 class="card-title mb-0">Actions</h5>
                 </div>
                 <div class="card-body">
-                    <div class="d-grid gap-2 d-md-block">
+                    <div class="d-grid gap-1 gap-sm-2 d-md-block">
                         <button type="button" class="btn btn-outline-primary" onclick="testConnection()">
                             🔍 Tester la connexion
                         </button>

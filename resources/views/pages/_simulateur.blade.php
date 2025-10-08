@@ -81,7 +81,7 @@
                         <span class="totalEnHeure"></span>
                         d'intervention
                     </h5>
-                    <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+                    <div class="d-flex flex-wrap align-items-center gap-1 gap-sm-3 mb-3">
                         <div class="p-2 px-3 border border-2 rounded-4 text-center text-uppercase fw-bold w-100 w-sm-auto">
                             <small class="text-secondary">Base :
                                 <span class="fw-bold" id="outBase">0</span>

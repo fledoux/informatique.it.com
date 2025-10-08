@@ -41,7 +41,7 @@
                 </div>
                 
                 <!-- Actions -->
-                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center mb-5">
+                <div class="d-flex flex-column flex-sm-row gap-1 gap-sm-3 justify-content-center mb-5">
                     <a href="{{ route('home') }}" class="btn btn-primary">
                         <i class="fa-regular fa-home me-2"></i>
                         {{ __('global.Back to home') }}

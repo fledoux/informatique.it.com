@@ -9,7 +9,7 @@
                 <div class="p-4 bg-info border border-info bg-opacity-50 rounded-4 shadow-soft h-100 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
                     <div class="me-md-3">
                         <h6 class="text-secondary mb-1">Achat de Ticket unitaire</h6>
-                        <div class="d-flex align-items-baseline gap-2">
+                        <div class="d-flex align-items-baseline gap-1 gap-sm-2">
                             <h3 class="price mb-0">
                                 <span class="js-price" data-ht="68">68</span>€
                             </h3>
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="col-md-12 col-lg-6">
-                <div class="p-4 bg-white bg-opacity-25 border rounded-4 h-100 d-flex flex-column justify-content-center gap-2 zoom-hover">
+                <div class="p-4 bg-white bg-opacity-25 border rounded-4 h-100 d-flex flex-column justify-content-center gap-1 gap-sm-2 zoom-hover">
                     <div class="form-check form-switch form-switch-orange form-switch-lg m-0">
                         <input class="form-check-input" type="checkbox" id="toggleTTC">
                         <label class="form-check-label fw-bold text-orange" for="toggleTTC">Affichage des Tarifs en TTC</label>
@@ -145,7 +145,7 @@
             {{-- Col: Unités de 30 minutes --}}
             <div class="col-lg-6">
                 <div class="p-4 bg-light border rounded-4 shadow-soft h-100">
-                    <div class="d-flex flex-column flex-sm-row align-items-start gap-3 mb-2">
+                    <div class="d-flex flex-column flex-sm-row align-items-start gap-1 gap-sm-3 mb-2">
                         <div class="feature-icon mx-auto mx-sm-0">
                             <i class="fa-regular fa-stopwatch"></i>
                         </div>
@@ -172,7 +172,7 @@
 
             <div class="col-lg-6">
                 <div class="p-4 bg-white border rounded-4 shadow-soft h-100">
-                    <div class="d-flex flex-column flex-sm-row align-items-start gap-3 mb-2">
+                    <div class="d-flex flex-column flex-sm-row align-items-start gap-1 gap-sm-3 mb-2">
                         <div class="feature-icon mx-auto mx-sm-0">
                             <i class="fa-regular fa-clock-rotate-left"></i>
                         </div>

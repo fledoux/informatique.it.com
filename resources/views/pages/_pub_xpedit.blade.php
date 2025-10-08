@@ -59,7 +59,7 @@
                             Sécurité professionnelle
                         </p>
 
-                        <div class="d-grid gap-2">
+                        <div class="d-grid gap-1 gap-sm-2">
                             <a href="https://www.xpedit.fr" 
                                 class="btn btn-sm fw-semibold" style="background-color: #8ac338; border-color: #8ac338; color: white;" target="_blank" rel="noopener">
                                 <i class="fa-regular fa-rocket me-1"></i>

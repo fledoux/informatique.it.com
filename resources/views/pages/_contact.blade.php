@@ -32,7 +32,7 @@
                                     :rows="4" />
                             </div>
 
-                            <div class="col-12 d-grid d-md-flex gap-2">
+                            <div class="col-12 d-grid d-md-flex gap-1 gap-sm-2">
                                 <button type="submit" class="btn btn-orange">
                                     <i class="fa-regular fa-paper-plane me-2"></i>
                                     Envoyer<span class="d-none d-sm-inline"> ma demande</span>
