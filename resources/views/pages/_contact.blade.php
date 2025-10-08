@@ -5,7 +5,7 @@
         <div class="gradient-bar"></div>
         <div class="row g-4 mt-1">
             <div class="col-lg-7">
-                <div class="p-4 bg-white border rounded-4 shadow-soft h-100 zoom-hover">
+                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100 zoom-hover">
                     <form action="{{ route('contact.submit') }}" method="POST">
                         @csrf
                         @honeypot
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="col-lg-5">
-                <div class="p-4 bg-white  border rounded-4 shadow-soft h-100">
+                <div class="p-3 p-lg-4 bg-white  border rounded-4 shadow-soft h-100">
                     <h5 class="fw-bold mb-3">
                         <i class="fa-regular fa-clock me-2 text-orange"></i>Horaires & zones
                     </h5>

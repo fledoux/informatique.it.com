@@ -38,7 +38,7 @@
                                     <div class="feature-icon mx-auto mx-sm-0 me-3 mt-1">
                                         <i class="fa-brands fa-apple"></i>
                                     </div>
-                                    <div @class(['p-2'])>
+                                    <div class="p-2">
                                         <h6 class="fw-bold">iPhone/iPad</h6>
                                         <p class="small text-secondary mb-0">
                                             Ouvrez l'appareil photo et pointez vers le QR code
@@ -51,7 +51,7 @@
                                     <div class="feature-icon mx-auto mx-sm-0 me-3 mt-1">
                                         <i class="fa-brands fa-android"></i>
                                     </div>
-                                    <div @class(['p-2'])>
+                                    <div class="p-2">
                                         <h6 class="fw-bold">Android</h6>
                                         <p class="small text-secondary mb-0">
                                             Google Lens ou appareil photo natif

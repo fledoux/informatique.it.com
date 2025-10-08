@@ -5,7 +5,7 @@
 			<div class="gradient-bar"></div>
 			<div class="row g-4 mt-1">
 				<div class="col-md-6 col-lg-3">
-					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
 						<div class="feature-icon mb-3 mx-auto mx-sm-0">
 							<i class="fa-regular fa-bolt"></i>
 						</div>
@@ -14,7 +14,7 @@
 					</div>
 				</div>
 				<div class="col-md-6 col-lg-3">
-					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
 						<div class="feature-icon mb-3 mx-auto mx-sm-0">
 							<i class="fa-regular fa-user-shield"></i>
 						</div>
@@ -23,7 +23,7 @@
 					</div>
 				</div>
 				<div class="col-md-6 col-lg-3">
-					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
 						<div class="feature-icon mb-3 mx-auto mx-sm-0">
 							<i class="fa-regular fa-chart-line"></i>
 						</div>
@@ -32,7 +32,7 @@
 					</div>
 				</div>
 				<div class="col-md-6 col-lg-3">
-					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
 						<div class="feature-icon mb-3 mx-auto mx-sm-0">
 							<i class="fa-regular fa-face-smile"></i>
 						</div>
@@ -42,7 +42,7 @@
 				</div>
 
 				<div class="col-md-6 col-lg-3">
-					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
 						<div class="feature-icon mb-3 mx-auto mx-sm-0">
 							<i class="fa-regular fa-shield-heart"></i>
 						</div>
@@ -52,7 +52,7 @@
 				</div>
 
 				<div class="col-md-6 col-lg-3">
-					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
 						<div class="feature-icon mb-3 mx-auto mx-sm-0">
 							<i class="fa-regular fa-magnifying-glass-chart"></i>
 						</div>
@@ -62,7 +62,7 @@
 				</div>
 
 				<div class="col-md-6 col-lg-3">
-					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
 						<div class="feature-icon mb-3 mx-auto mx-sm-0">
 							<i class="fa-regular fa-user-gear"></i>
 						</div>
@@ -72,7 +72,7 @@
 				</div>
 
 				<div class="col-md-6 col-lg-3">
-					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
+					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100 text-center text-sm-start">
 						<div class="feature-icon mb-3 mx-auto mx-sm-0">
 							<i class="fa-regular fa-sliders"></i>
 						</div>

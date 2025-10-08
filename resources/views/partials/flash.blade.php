@@ -1,5 +1,5 @@
 <div id="kt_docs_toast_stack_container" class="position-fixed bottom-0 start-50 translate-middle-x p-2 w-100 w-lg-50 mb-0" style="z-index: 1050;">
-    <div class="alert border-0 shadow-sm p-4 d-flex align-items-center" role="alert" aria-live="assertive"
+    <div class="alert border-0 shadow-sm p-3 p-lg-4 d-flex align-items-center" role="alert" aria-live="assertive"
         aria-atomic="true" data-kt-docs-toast="stack">
         <i class="toast-picto me-2"></i>
         <span class="toast-message flex-grow-1 h6 mb-0"></span>

@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="p-4 p-lg-5 bg-white rounded-4 border shadow-soft zoom-hover">
+                <div class="p-2 p-lg-5 bg-white rounded-4 border shadow-soft zoom-hover">
                     <h3 class="fw-bold mb-3">
                         <i class="fa-regular fa-screwdriver-wrench me-2 text-orange"></i>Besoin d’aide maintenant ?
                     </h3>

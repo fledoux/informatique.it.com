@@ -3,7 +3,7 @@
 								pour des&nbsp;sessions d'assistance à distance sécurisées, rapides et intuitives.</p>wer --}}
 	<section class="py-5">
 		<div class="container">
-			<div class="hero border border-orange border-1 rounded-4 p-4">
+			<div class="hero border border-orange border-1 rounded-4 p-3 p-lg-4">
 				<div class="row mt-0">
 					<div class="col-md-8 mx-auto">
 						<div class="d-flex flex-column flex-sm-row align-items-center gap-1 gap-sm-3 mb-2">

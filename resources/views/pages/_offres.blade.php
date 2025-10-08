@@ -5,7 +5,7 @@
 			<div class="gradient-bar"></div>
 			<div class="row g-4 mt-1">
 				<div class="col-lg-4">
-					<div class="p-4 bg-white border rounded-4 shadow-soft h-100">
+					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
 						<span class="badge text-bg-light mb-2">
 							<i class="fa-regular fa-house-laptop me-1"></i>
 							Particuliers</span>
@@ -23,7 +23,7 @@
 					</div>
 				</div>
 				<div class="col-lg-4">
-					<div class="p-4 bg-white border rounded-4 shadow-soft h-100 position-relative">
+					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100 position-relative">
 						<span class="ribbon">
 							<i class="fa-regular fa-star me-1"></i>L’incontournable</span>
 						<span class="badge text-bg-light mb-2">
@@ -45,7 +45,7 @@
 					</div>
 				</div>
 				<div class="col-lg-4">
-					<div class="p-4 bg-white border rounded-4 shadow-soft h-100">
+					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
 						<span class="badge text-bg-light mb-2">
 							<i class="fa-regular fa-shield-halved me-1"></i>
 							Sécurité</span>
