@@ -17,13 +17,13 @@
                     @auth
                         <div class="row mb-4">
                             <div class="col-12 ">
-                                <a href="{{ route('ticketmessage.create') }}?ticket_id={{ $ticket->id }}"
+                                <a href="{{ route('ticketmessage.create', [$ticket->id]) }}"
                                     class="btn btn-primary">
                                     <i class="fa-regular fa-reply me-2"></i>Répondre
                                 </a>
                                 @can('ticketmessage.create')
                                     @hasanyrole(['super-admin'])
-                                        <a href="{{ route('ticketmessage.create') }}?ticket_id={{ $ticket->id }}&internal=1"
+                                        <a href="{{ route('ticketmessage.create', [$ticket->id, 'internal']) }}"
                                             class="btn btn-warning ms-2">
                                             <i class="fa-regular fa-lock me-2"></i>Note interne
                                         </a>

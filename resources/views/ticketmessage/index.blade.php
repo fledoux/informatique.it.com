@@ -56,8 +56,5 @@
 </table>
 </div>
 
-<a href="{{ route('ticketmessage.create') }}" class="btn btn-orange mt-3">
-    
-{!! __('global.btn.New') !!}
-</a>
+{{-- Le bouton "Nouveau message" a été retiré : on ne peut créer un message que depuis la page d'un ticket --}}
 @endsection

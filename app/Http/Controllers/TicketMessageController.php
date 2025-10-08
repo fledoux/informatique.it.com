@@ -32,46 +32,43 @@ class TicketMessageController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create($ticketId, $internal = null)
     {
-        $ticket = null;
-        $isInternal = $request->boolean('internal', false);
+        // Récupérer le ticket
+        $ticket = \App\Models\Ticket::findOrFail($ticketId);
+        
+        // Déterminer si c'est une note interne
+        $isInternal = ($internal === '1' || $internal === 'internal');
         
         // Vérifier que seuls les super-admin peuvent créer des notes internes
         if ($isInternal && !Auth::user()->hasRole('super-admin')) {
-            $ticketId = $request->get('ticket_id');
-            return redirect()->route('ticket.show', $ticketId)
+            return redirect()->route('ticket.show', $ticket->id)
                 ->with('error', 'Seuls les super-administrateurs peuvent créer des notes internes.');
         }
         
-        // Si ticket_id est fourni, récupérer le ticket
-        if ($request->has('ticket_id')) {
-            $ticket = \App\Models\Ticket::findOrFail($request->get('ticket_id'));
+        // Vérifications de sécurité par rôle
+        $user = Auth::user();
+        
+        if ($user->hasRole('super-admin')) {
+            // Super-admin : accès à tous les tickets
+        } elseif ($user->hasAnyRole(['admin', 'manager'])) {
+            // Admin/Manager : seulement les tickets de leur société
+            if ($ticket->company_id !== $user->company_id) {
+                return redirect()->route('ticket.show', $ticket->id)
+                    ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
+            }
+        } else {
+            // Utilisateur normal : seulement ses propres tickets ou ceux de sa société
+            if ($ticket->company_id !== $user->company_id) {
+                return redirect()->route('ticket.show', $ticket->id)
+                    ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
+            }
             
-            // Vérifications de sécurité par rôle
-            $user = Auth::user();
-            
-            if ($user->hasRole('super-admin')) {
-                // Super-admin : accès à tous les tickets
-            } elseif ($user->hasAnyRole(['admin', 'manager'])) {
-                // Admin/Manager : seulement les tickets de leur société
-                if ($ticket->company_id !== $user->company_id) {
-                    return redirect()->route('ticket.show', $ticket->id)
-                        ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
-                }
-            } else {
-                // Utilisateur normal : seulement ses propres tickets ou ceux de sa société
-                if ($ticket->company_id !== $user->company_id) {
-                    return redirect()->route('ticket.show', $ticket->id)
-                        ->with('error', 'Vous ne pouvez pas accéder aux tickets d\'une autre société.');
-                }
-                
-                // Pour les notes internes, on a déjà vérifié plus haut
-                // Pour les réponses publiques, vérifier que c'est son ticket ou sa société
-                if (!$isInternal && $ticket->author_id !== $user->id && $ticket->company_id !== $user->company_id) {
-                    return redirect()->route('ticket.show', $ticket->id)
-                        ->with('error', 'Vous ne pouvez répondre qu\'aux tickets de votre société.');
-                }
+            // Pour les notes internes, on a déjà vérifié plus haut
+            // Pour les réponses publiques, vérifier que c'est son ticket ou sa société
+            if (!$isInternal && $ticket->author_id !== $user->id && $ticket->company_id !== $user->company_id) {
+                return redirect()->route('ticket.show', $ticket->id)
+                    ->with('error', 'Vous ne pouvez répondre qu\'aux tickets de votre société.');
             }
         }
         
