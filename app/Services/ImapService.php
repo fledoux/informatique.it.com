@@ -23,6 +23,11 @@ class ImapService
     private string $archiveFolder;
     private string $folderSeparator;
     private array $messages = []; // Pour collecter les messages à afficher
+    
+    // Compteurs pour les statistiques
+    private int $processedCount = 0;
+    private int $rejectedCount = 0;
+    private int $archivedCount = 0;
 
     public function __construct()
     {
@@ -93,47 +98,83 @@ class ImapService
             return 0;
         }
 
-        $processed = 0;
+        // Réinitialiser les compteurs
+        $this->processedCount = 0;
+        $this->rejectedCount = 0;
+        $this->archivedCount = 0;
         
         try {
-            // Rechercher les emails non lus
-            $emails = imap_search($this->connection, 'UNSEEN');
+            // Rechercher les emails non lus en utilisant les UIDs (SE_UID)
+            $emails = imap_search($this->connection, 'UNSEEN', SE_UID);
             
             if (!$emails) {
                 Log::info('Aucun nouvel email trouvé');
                 return 0;
             }
 
-            Log::info('Found ' . count($emails) . ' new emails');
+            $totalEmails = count($emails);
+            Log::info("Found {$totalEmails} new email(s)");
+            $this->addMessage("📬 {$totalEmails} nouvel(aux) email(s) trouvé(s)");
 
-            foreach ($emails as $emailId) {
+            foreach ($emails as $uid) {
+                $emailProcessed = false;
+                
                 try {
-                    $emailProcessed = $this->processEmail($emailId);
+                    // Convertir UID en numéro de message pour le traitement
+                    $msgNo = imap_msgno($this->connection, $uid);
                     
-                    if ($emailProcessed) {
-                        $processed++;
-                    }
-                    
-                    // TOUJOURS archiver l'email (traité ou rejeté)
-                    if (config('imap.move_to_archive', true)) {
-                        $this->moveEmailToArchive($emailId);
+                    if (!$msgNo) {
+                        Log::warning("Could not get message number for UID {$uid}");
+                        // Archiver quand même pour éviter de le retraiter
+                        $this->rejectedCount++;
                     } else {
-                        // Sinon marquer simplement comme lu
-                        imap_setflag_full($this->connection, $emailId, "\\Seen");
+                        $emailProcessed = $this->processEmail($msgNo);
+                        
+                        if ($emailProcessed) {
+                            $this->processedCount++;
+                        } else {
+                            $this->rejectedCount++;
+                        }
                     }
                     
                 } catch (Exception $e) {
-                    Log::error("Error processing email ID {$emailId}: " . $e->getMessage());
+                    Log::error("Error processing email UID {$uid}: " . $e->getMessage());
+                    $this->addMessage("❌ Erreur lors du traitement de l'email UID #{$uid}");
+                    $this->rejectedCount++;
+                } finally {
+                    // TOUJOURS archiver l'email (succès, rejet ou erreur) pour éviter de le retraiter
+                    try {
+                        if (config('imap.move_to_archive', true)) {
+                            $this->moveEmailToArchiveByUid($uid);
+                            $this->archivedCount++;
+                        } else {
+                            // Marquer comme lu en utilisant l'UID
+                            imap_setflag_full($this->connection, $uid, "\\Seen", ST_UID);
+                        }
+                    } catch (Exception $archiveError) {
+                        Log::error("Failed to archive email UID {$uid}: " . $archiveError->getMessage());
+                    }
                 }
             }
 
-            Log::info("Successfully processed {$processed} emails");
+            // Message de résumé
+            if ($this->processedCount > 0) {
+                $this->addMessage("✅ {$this->processedCount} email(s) traité(s) avec succès");
+            }
+            if ($this->rejectedCount > 0) {
+                $this->addMessage("⚠️  {$this->rejectedCount} email(s) rejeté(s) (utilisateur non inscrit)");
+            }
+            if ($this->archivedCount > 0) {
+                $this->addMessage("📁 {$this->archivedCount} email(s) archivé(s)");
+            }
+
+            Log::info("Email processing summary: {$this->processedCount} processed, {$this->rejectedCount} rejected, {$this->archivedCount} archived");
             
         } catch (Exception $e) {
             Log::error('Error fetching emails: ' . $e->getMessage());
         }
 
-        return $processed;
+        return $this->processedCount;
     }
 
     /**
@@ -528,6 +569,46 @@ class ImapService
     /**
      * Déplace un email vers le dossier d'archives
      */
+    /**
+     * Déplace un email dans le dossier d'archives en utilisant son UID
+     */
+    private function moveEmailToArchiveByUid(int $uid): bool
+    {
+        try {
+            // Créer le dossier d'archives si nécessaire
+            if (!$this->ensureArchiveFolderExists()) {
+                Log::error("Cannot create archive folder, marking email as read instead");
+                imap_setflag_full($this->connection, $uid, "\\Seen", ST_UID);
+                return true; // Continue le traitement
+            }
+
+            // Marquer comme lu avant de déplacer (en utilisant UID)
+            imap_setflag_full($this->connection, $uid, "\\Seen", ST_UID);
+            
+            // Déplacer l'email en utilisant l'UID
+            $result = imap_mail_move($this->connection, $uid, $this->archiveFolder, CP_UID);
+            
+            if ($result) {
+                // Expunge pour finaliser le déplacement
+                imap_expunge($this->connection);
+                Log::info("Email UID {$uid} moved to {$this->archiveFolder}");
+                return true;
+            } else {
+                Log::error("Failed to move email UID {$uid}: " . imap_last_error());
+                Log::info("Email UID {$uid} was marked as read but could not be moved");
+                return true; // Email traité et marqué comme lu même si pas déplacé
+            }
+        } catch (Exception $e) {
+            Log::error("Error moving email UID {$uid} to archive: " . $e->getMessage());
+            // Fallback: marquer comme lu
+            imap_setflag_full($this->connection, $uid, "\\Seen", ST_UID);
+            return true;
+        }
+    }
+
+    /**
+     * Déplace un email dans le dossier d'archives (ancienne méthode, conservée pour compatibilité)
+     */
     private function moveEmailToArchive(int $emailId): bool
     {
         try {
@@ -547,8 +628,7 @@ class ImapService
             if ($result) {
                 // Expunge pour finaliser le déplacement
                 imap_expunge($this->connection);
-                Log::info("📁 Email {$emailId} archivé dans {$this->archiveFolder}");
-                $this->addMessage("📁 Email {$emailId} archivé dans {$this->archiveFolder}");
+                Log::info("Email {$emailId} moved to {$this->archiveFolder}");
                 return true;
             } else {
                 Log::error("Failed to move email {$emailId}: " . imap_last_error());

@@ -158,26 +158,9 @@ class TicketAttachmentController extends Controller
             // Récupérer le ticket pour la redirection
             $ticket = $ticketAttachment->ticket;
             
-            // Supprimer le fichier de S3
-            try {
-                $s3Client = new \Aws\S3\S3Client([
-                    'version' => 'latest',
-                    'region'  => env('AWS_DEFAULT_REGION', 'eu-west-3'),
-                    'credentials' => [
-                        'key'    => env('AWS_ACCESS_KEY_ID'),
-                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
-                    ],
-                ]);
-
-                $s3Client->deleteObject([
-                    'Bucket' => env('AWS_BUCKET'),
-                    'Key'    => $ticketAttachment->s3_path,
-                ]);
-
-                \Illuminate\Support\Facades\Log::info("File deleted from S3: {$ticketAttachment->s3_path}");
-            } catch (\Aws\S3\Exception\S3Exception $e) {
-                \Illuminate\Support\Facades\Log::error("S3 delete error: " . $e->getMessage());
-                // On continue quand même la suppression en base
+            // Supprimer le fichier de S3 via le helper
+            if ($ticketAttachment->s3_path) {
+                \App\Helpers\Helper::destroyS3File($ticketAttachment->s3_path);
             }
             
             // Supprimer l'enregistrement en base

@@ -102,12 +102,15 @@
                                                 <div class="mt-3 pt-3 border-top">
                                                     <small class="text-muted">
                                                         <i class="fa-regular fa-paperclip me-1"></i>
-                                                        <strong>{{ \App\Helpers\Helper::pluralize($message->attachments->count(), 'global.attachment', 'global.attachments') }} :</strong>
+                                                        <strong>{{ \App\Helpers\Helper::pluralize($message->attachments->count(), 'global.attachment', 'global.attachments') }}
+                                                            :</strong>
                                                     </small>
                                                     <div class="mt-2">
                                                         @foreach ($message->attachments as $attachment)
                                                             @php
-                                                                $fileIcon = \App\Helpers\Helper::getFileIcon($attachment->original_filename);
+                                                                $fileIcon = \App\Helpers\Helper::getFileIcon(
+                                                                    $attachment->original_filename,
+                                                                );
                                                             @endphp
                                                             <div class="d-inline-block me-1 mt-2">
                                                                 <a href="{{ route('ticketattachment.download', $attachment->id) }}"
@@ -157,9 +160,27 @@
                         <div class="col-10">
                             <div class="card border-2 bg-light">
                                 <div class="card-body">
+                                    @hasrole('super-admin')
+                                        <div class="float-end">
+                                            <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-link m-0 p-0"
+                                                title="Modifier">
+                                                <i class="fa-regular fa-edit"></i>
+                                            </a>
+                                            <form method="POST" action="{{ route('ticket.destroy', $ticket) }}"
+                                                class="d-inline"
+                                                onsubmit="return confirm('⚠️ ATTENTION ⚠️\n\nVous êtes sur le point de supprimer définitivement ce ticket ainsi que :\n- Tous les messages associés\n- Tous les fichiers joints (sur S3 et en base)\n\nCette action est IRRÉVERSIBLE.\n\nConfirmer la suppression ?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-link text-danger m-0 p-0"
+                                                    title="Supprimer">
+                                                    <i class="fa-regular fa-trash-can"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endhasrole
                                     <strong>{{ $ticket->subject }}</strong><br>
                                     {!! $ticket->question !!}
-                                    
+
                                     {{-- Pièces jointes de la demande initiale (sans message_id) --}}
                                     @if ($ticket->initialAttachments->count() > 0)
                                         @php
@@ -168,12 +189,15 @@
                                         <div class="mt-3 pt-3 border-top">
                                             <small class="text-muted">
                                                 <i class="fa-regular fa-paperclip me-1"></i>
-                                                <strong>{{ \App\Helpers\Helper::pluralize($initialAttachments->count(), 'global.attachment', 'global.attachments') }} :</strong>
+                                                <strong>{{ \App\Helpers\Helper::pluralize($initialAttachments->count(), 'global.attachment', 'global.attachments') }}
+                                                    :</strong>
                                             </small>
                                             <div class="mt-2">
                                                 @foreach ($initialAttachments as $attachment)
                                                     @php
-                                                        $fileIcon = \App\Helpers\Helper::getFileIcon($attachment->original_filename);
+                                                        $fileIcon = \App\Helpers\Helper::getFileIcon(
+                                                            $attachment->original_filename,
+                                                        );
                                                     @endphp
                                                     <div class="d-inline-block me-1 mt-2">
                                                         <a href="{{ route('ticketattachment.download', $attachment->id) }}"
@@ -204,7 +228,7 @@
                 <div class="card-header bg-secondary bg-opacity-75 text-white">
                     <h3 class="h6 mb-0"><i class="fa-regular fa-message-question"></i> Demande N°{{ $ticket->id }}</h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body pb-0">
                     <span
                         class="badge mb-3 {{ __('ticket.statusBadgeColor.' . $ticket->status) }}">{{ __('ticket.status.' . $ticket->status) }}
                     </span>
@@ -260,70 +284,6 @@
                         </span>
                         {!! $ticket->billable ? __('ticket.billable.yes') : __('ticket.billable.no') !!}
                     </p>
-                    <div class="d-none d-sm-flex mt-3">
-                        <div class="dropdown w-100">
-                            <button class="btn btn-orange dropdown-toggle w-100" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <i class="fa-regular fa-bars me-2"></i>Actions
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('ticketmessage.create', [$ticket->id]) }}">
-                                        {!! __('ticket.Answer') !!}
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('ticket.index') }}">
-                                        {!! __('global.btn.Back') !!}
-                                    </a>
-                                </li>
-                                @can('ticket.edit')
-                                    @hasrole('super-admin')
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('ticket.edit', $ticket) }}">
-                                                {!! __('global.btn.Edit') !!}
-                                            </a>
-                                        </li>
-                                    @endhasrole
-                                    @role('super-admin')
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li>
-                                            <form action="{{ route('ticket.resend-confirmation', $ticket) }}" method="POST"
-                                                class="d-inline">
-                                                @csrf
-                                                <button type="submit" class="dropdown-item"
-                                                    onclick="return confirm('Renvoyer l\'email de confirmation ?')">
-                                                    {!! __('ticket.Resend Confirmation') !!}
-                                                </button>
-                                            </form>
-                                        </li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li>
-                                            <form action="{{ route('ticket.destroy', $ticket) }}" method="POST"
-                                                class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="dropdown-item text-danger"
-                                                    onclick="return confirm('⚠️ ATTENTION ⚠️\n\nVous êtes sur le point de supprimer définitivement ce ticket ainsi que :\n- Tous les messages associés\n- Tous les fichiers joints (sur S3 et en base)\n\nCette action est IRRÉVERSIBLE.\n\nConfirmer la suppression ?')">
-                                                    <i class="fa-regular fa-trash-can me-1"></i>
-                                                    {!! __('global.Delete') !!}
-                                                </button>
-                                            </form>
-                                        </li>
-                                    @endrole
-
-                                @endcan
-                            </ul>
-                        </div>
-
-                    </div>
                 </div>
             </div>
 
@@ -340,7 +300,8 @@
                     </p>
                 </div>
                 <div class="card-footer bg-secondary-subtle">
-                    <span class="text-secondary">Solde au {{ now()->format('d/m/y') }} : <span class="float-end">{{ \App\Helpers\Helper::pluralize(12, 'ticket.ticket', 'ticket.tickets') }}</span></span><br>
+                    <span class="text-secondary">Solde au {{ now()->format('d/m/y') }} : <span
+                            class="float-end">{{ \App\Helpers\Helper::pluralize(12, 'ticket.ticket', 'ticket.tickets') }}</span></span><br>
                 </div>
             </div>
 
@@ -351,7 +312,7 @@
                         $attachmentsCount = $ticket->activeAttachments()->count();
                     @endphp
                     <h3 class="h6 mb-0">
-                        <i class="fa-regular fa-file-import"></i> 
+                        <i class="fa-regular fa-file-import"></i>
                         {{ \App\Helpers\Helper::pluralize($attachmentsCount, 'global.attached_file', 'global.attached_files') }}
                     </h3>
                 </div>
@@ -367,7 +328,9 @@
                                     <div class="d-flex align-items-start">
                                         <div class="me-2">
                                             @php
-                                                $fileIcon = \App\Helpers\Helper::getFileIcon($attachment->original_filename);
+                                                $fileIcon = \App\Helpers\Helper::getFileIcon(
+                                                    $attachment->original_filename,
+                                                );
                                             @endphp
                                             <i class="fa-regular {{ $fileIcon['icon'] }} {{ $fileIcon['color'] }}"></i>
                                         </div>

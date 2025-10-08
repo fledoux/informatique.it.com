@@ -209,6 +209,7 @@ class TicketController extends Controller
      */
     public function resendConfirmation($id)
     {
+        die('function fermée pour le moment');
         try {
             $ticket = Ticket::with(['author', 'company'])->findOrFail($id);
             

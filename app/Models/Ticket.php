@@ -51,25 +51,10 @@ class Ticket extends Model
                 $attachments = $ticket->attachments;
                 
                 if ($attachments->count() > 0) {
-                    $s3Client = new \Aws\S3\S3Client([
-                        'version' => 'latest',
-                        'region'  => env('AWS_DEFAULT_REGION', 'eu-west-3'),
-                        'credentials' => [
-                            'key'    => env('AWS_ACCESS_KEY_ID'),
-                            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-                        ],
-                    ]);
-
                     foreach ($attachments as $attachment) {
-                        try {
-                            // Supprimer le fichier de S3
-                            $s3Client->deleteObject([
-                                'Bucket' => env('AWS_BUCKET'),
-                                'Key'    => $attachment->s3_path,
-                            ]);
-                            \Illuminate\Support\Facades\Log::info("Deleted S3 file: {$attachment->s3_path}");
-                        } catch (\Aws\S3\Exception\S3Exception $e) {
-                            \Illuminate\Support\Facades\Log::error("Failed to delete S3 file {$attachment->s3_path}: " . $e->getMessage());
+                        // Supprimer le fichier de S3 via le helper
+                        if ($attachment->s3_path) {
+                            \App\Helpers\Helper::destroyS3File($attachment->s3_path);
                         }
                     }
 

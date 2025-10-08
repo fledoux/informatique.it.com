@@ -424,6 +424,45 @@ class Helper
 		];
 	}
 
+	/**
+	 * Supprime un fichier depuis S3
+	 * 
+	 * @param string $s3Path Chemin du fichier dans S3
+	 * @return bool True si supprimé avec succès, false sinon
+	 */
+	public static function destroyS3File(string $s3Path): bool
+	{
+		if (empty($s3Path)) {
+			return false;
+		}
+
+		try {
+			$s3Client = new \Aws\S3\S3Client([
+				'version' => 'latest',
+				'region'  => env('AWS_DEFAULT_REGION', 'eu-west-3'),
+				'credentials' => [
+					'key'    => env('AWS_ACCESS_KEY_ID'),
+					'secret' => env('AWS_SECRET_ACCESS_KEY'),
+				],
+			]);
+
+			$s3Client->deleteObject([
+				'Bucket' => env('AWS_BUCKET'),
+				'Key'    => $s3Path,
+			]);
+
+			\Illuminate\Support\Facades\Log::info("File deleted from S3: {$s3Path}");
+			return true;
+
+		} catch (\Aws\S3\Exception\S3Exception $e) {
+			\Illuminate\Support\Facades\Log::error("S3 delete error for {$s3Path}: " . $e->getMessage());
+			return false;
+		} catch (\Exception $e) {
+			\Illuminate\Support\Facades\Log::error("Unexpected error deleting S3 file {$s3Path}: " . $e->getMessage());
+			return false;
+		}
+	}
+
 }
 
 

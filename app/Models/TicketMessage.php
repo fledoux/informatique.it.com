@@ -15,6 +15,30 @@ class TicketMessage extends Model
     protected $fillable = ['status','subject','body','company_id','ticket_id','author_id'];
 
     /**
+     * Boot du modèle - gère la suppression des pièces jointes
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Avant la suppression du message, supprimer toutes les pièces jointes
+        static::deleting(function ($message) {
+            // Récupérer toutes les pièces jointes (même inactives)
+            $attachments = TicketAttachment::where('message_id', $message->id)->get();
+            
+            foreach ($attachments as $attachment) {
+                // Supprimer le fichier de S3 via le helper
+                if ($attachment->s3_path) {
+                    \App\Helpers\Helper::destroyS3File($attachment->s3_path);
+                }
+                
+                // Supprimer l'enregistrement en base
+                $attachment->delete();
+            }
+        });
+    }
+
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>

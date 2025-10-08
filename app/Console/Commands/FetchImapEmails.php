@@ -55,16 +55,15 @@ class FetchImapEmails extends Command
             // Récupérer et traiter les emails
             $processed = $imapService->fetchNewEmails();
 
-            // Afficher les messages informatifs collectés
+            // Afficher les messages informatifs collectés (qui contiennent déjà les résumés)
             foreach ($imapService->getMessages() as $message) {
                 $this->line($message);
             }
 
             $imapService->disconnect();
 
-            if ($processed > 0) {
-                $this->info("✅ {$processed} email(s) traité(s) avec succès");
-            } else {
+            // Le résumé est déjà affiché dans les messages, pas besoin de message supplémentaire
+            if ($processed === 0 && count($imapService->getMessages()) === 0) {
                 $this->info('ℹ️  Aucun nouvel email à traiter');
             }
 
