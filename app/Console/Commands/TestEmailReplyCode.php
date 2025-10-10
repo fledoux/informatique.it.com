@@ -35,7 +35,7 @@ class TestEmailReplyCode extends Command
         if ($ticketId) {
             $ticket = Ticket::find($ticketId);
             if (!$ticket) {
-                $this->error("❌ Ticket #{$ticketId} introuvable");
+                $this->error("❌ Support n°{$ticketId} introuvable");
                 return 1;
             }
         } else {
@@ -46,7 +46,7 @@ class TestEmailReplyCode extends Command
             }
         }
         
-        $this->info("📧 Test avec le ticket #{$ticket->id} : {$ticket->subject}");
+        $this->info("📧 Test avec le Support n°{$ticket->id} : {$ticket->subject}");
         
         // Test 1: Générer un code de réponse
         $this->info("\n1️⃣ Génération du code de réponse");

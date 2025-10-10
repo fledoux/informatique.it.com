@@ -6,7 +6,7 @@ return [
     'Action' => 'Action',
     'Back' => 'Retour',
     'Cancel' => 'Annuler',
-    'Id' => 'N°',
+    'Id' => 'n°',
     'Are you sure you want to delete this item' => 'Êtes-vous sûr de vouloir supprimer cet élément ?',
 
     // Page 404

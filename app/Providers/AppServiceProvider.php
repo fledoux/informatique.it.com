@@ -24,6 +24,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Eager load company relation for authenticated users
+        \Illuminate\Support\Facades\View::composer('*', function ($view) {
+            if (\Illuminate\Support\Facades\Auth::check()) {
+                $user = \Illuminate\Support\Facades\Auth::user();
+                if ($user && !$user->relationLoaded('company')) {
+                    $user->load('company');
+                }
+            }
+        });
     }
 }

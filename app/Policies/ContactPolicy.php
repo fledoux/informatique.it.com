@@ -13,7 +13,13 @@ class ContactPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        // Super-admin peut tout voir
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent voir les contacts de leur société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id !== null;
     }
 
     /**
@@ -21,7 +27,13 @@ class ContactPolicy
      */
     public function view(User $user, Contact $contact): bool
     {
-        return false;
+        // Super-admin peut tout voir
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent voir uniquement les contacts de leur société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id === $contact->company_id;
     }
 
     /**
@@ -29,7 +41,13 @@ class ContactPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        // Super-admin peut créer des contacts pour toutes les sociétés
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent créer des contacts pour leur société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id !== null;
     }
 
     /**
@@ -37,7 +55,13 @@ class ContactPolicy
      */
     public function update(User $user, Contact $contact): bool
     {
-        return false;
+        // Super-admin peut tout modifier
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent modifier uniquement les contacts de leur société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id === $contact->company_id;
     }
 
     /**
@@ -45,7 +69,13 @@ class ContactPolicy
      */
     public function delete(User $user, Contact $contact): bool
     {
-        return false;
+        // Super-admin peut supprimer n'importe quel contact
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent supprimer les contacts de leur société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id === $contact->company_id;
     }
 
     /**
@@ -53,7 +83,11 @@ class ContactPolicy
      */
     public function restore(User $user, Contact $contact): bool
     {
-        return false;
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id === $contact->company_id;
     }
 
     /**
@@ -61,6 +95,6 @@ class ContactPolicy
      */
     public function forceDelete(User $user, Contact $contact): bool
     {
-        return false;
+        return $user->hasRole('super-admin');
     }
 }

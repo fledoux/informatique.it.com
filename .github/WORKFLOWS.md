@@ -347,7 +347,7 @@ try {
                         </a>
                     @endcan
                 </div>
-                <div class="card-body">
+                <div class="card-body p-2 p-sm-3">
                     {{-- Contenu --}}
                 </div>
             </div>

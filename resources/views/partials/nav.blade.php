@@ -10,6 +10,13 @@
         </button>
         <div id="navMain" class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item ms-lg-2 mb-2">
+                    <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'dashboard') ? 'btn-orange' : 'btn-outline-secondary' }}"
+                        href="{{ route('dashboard') }}">
+                        <i class="fa-regular fa-gauge"></i>
+                        {{ __('nav.Dashboard') }}
+                    </a>
+                </li>
                 @can('ticket.index')
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'ticket.') ? 'btn-orange' : 'btn-outline-secondary' }}"
@@ -30,7 +37,7 @@
                 @endcan
                 @can('company.index')
                     <li class="nav-item ms-lg-2 mb-2">
-                        @hasrole('super-admin')
+                        @hasanyrole(['super-admin'])
                             {{-- Super-admin : liste de toutes les sociétés --}}
                             <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'company.') ? 'btn-orange' : 'btn-outline-secondary' }}"
                                 href="{{ route('company.index') }}">
@@ -44,10 +51,10 @@
                                 <i class="fa-regular fa-building"></i>
                                 {{ __('nav.Company') }}
                             </a>
-                        @endhasrole
+                        @endhasanyrole
                     </li>
                 @endcan
-                @can('contact.index')
+                @hasanyrole(['super-admin'])
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'contact.') ? 'btn-orange' : 'btn-outline-secondary' }}"
                             href="{{ route('contact.index') }}">
@@ -60,8 +67,8 @@
                             @endif
                         </a>
                     </li>
-                @endcan
-                @can('contact.index')
+                @endhasanyrole
+                @hasanyrole(['super-admin'])
                     <li class="nav-item ms-lg-2 mb-2">
                         <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'allowdomain.') ? 'btn-orange' : 'btn-outline-secondary' }}"
                             href="{{ route('allowdomain.index') }}">
@@ -69,8 +76,10 @@
                             {{ __('nav.Domains') }}
                         </a>
                     </li>
-                @endcan
-                @include('partials._lang')
+                @endhasanyrole
+                @hasanyrole(['super-admin'])
+                    @include('partials._lang')
+                @endhasanyrole
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">

@@ -15,7 +15,7 @@
     </div>
 
     <div class="card shadow-sm">
-        <div class="card-body">
+        <div class="card-body p-2 p-sm-3">
             <form method="POST" action="{{ route('permissions.update', $permission) }}">
                 @csrf
                 @method('PUT')
@@ -69,7 +69,7 @@
                         Utilisation actuelle
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-2 p-sm-3">
                     @if($permission->roles()->count() > 0)
                         <p><strong>Rôles assignés :</strong></p>
                         <ul>

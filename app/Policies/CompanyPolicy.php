@@ -13,7 +13,13 @@ class CompanyPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        // Super-admin peut tout voir
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent voir leur propre société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id !== null;
     }
 
     /**
@@ -21,7 +27,13 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company): bool
     {
-        return false;
+        // Super-admin peut tout voir
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent voir uniquement leur propre société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id === $company->id;
     }
 
     /**
@@ -29,7 +41,8 @@ class CompanyPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        // Seul super-admin peut créer des sociétés
+        return $user->hasRole('super-admin');
     }
 
     /**
@@ -37,7 +50,13 @@ class CompanyPolicy
      */
     public function update(User $user, Company $company): bool
     {
-        return false;
+        // Super-admin peut tout modifier
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent modifier uniquement leur propre société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id === $company->id;
     }
 
     /**
@@ -45,7 +64,8 @@ class CompanyPolicy
      */
     public function delete(User $user, Company $company): bool
     {
-        return false;
+        // Seul super-admin peut supprimer des sociétés
+        return $user->hasRole('super-admin');
     }
 
     /**
@@ -53,7 +73,7 @@ class CompanyPolicy
      */
     public function restore(User $user, Company $company): bool
     {
-        return false;
+        return $user->hasRole('super-admin');
     }
 
     /**
@@ -61,6 +81,6 @@ class CompanyPolicy
      */
     public function forceDelete(User $user, Company $company): bool
     {
-        return false;
+        return $user->hasRole('super-admin');
     }
 }

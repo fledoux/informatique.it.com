@@ -2,8 +2,8 @@
 
 return [
         'entity' => 'User',
-        'id' => 'N°',
-        'List' => 'Liste',
+        'id' => 'n°',
+        'List' => 'Liste des utilisateurs',
         'Edit' => 'Modifier',
         'Details' => 'Détails',
         'TitleDetails' => '<i class="far fa-eye"></i> Détails du compte',
@@ -27,8 +27,8 @@ return [
                 'phone' => 'Téléphone',
                 'last_login' => 'Dernière connexion',
                 'agree_terms' => 'Accepter les conditions',
-                'Conditions' => 'Conditions',
-                'channels' => 'Canaux',
+                'Conditions' => 'CGU',
+                'channels' => 'Communications',
                 'channels_email' => 'Email',
                 'channels_sms' => 'Sms',
                 'note' => 'Note',
@@ -48,8 +48,8 @@ return [
                 'non' => 'Non'
         ],
         'statusAgreeTermsColor' => [
-                'oui' => '<i class="fa-solid fa-square-check text-success"></i>',
-                'non' => '<i class="fa-solid fa-square-xmark text-danger"></i>'
+                'oui' => '<i class="fa-regular fa-square-check text-success"></i>',
+                'non' => '<i class="fa-regular fa-square-xmark text-danger"></i>'
         ],
 
         'roles' => [

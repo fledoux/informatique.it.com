@@ -28,7 +28,7 @@ class TicketUpdateRequest extends FormRequest
             'folder_code' => ['nullable','string','max:64'],
             'subject' => ['required','string','max:190'],
             'question' => ['nullable','string'],
-            'billable' => ['required','boolean']
+            'billable' => ['nullable','boolean']
         ];
     }
 }

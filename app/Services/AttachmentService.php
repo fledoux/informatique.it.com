@@ -148,7 +148,7 @@ class AttachmentService
         int $uploadedBy,
         ?int $messageId = null
     ): array {
-        Log::info("Traitement de " . count($files) . " fichier(s) pour le ticket #{$ticketId}" . ($messageId ? ", message #{$messageId}" : ""));
+        Log::info("Traitement de " . count($files) . " fichier(s) pour le Support n°{$ticketId}" . ($messageId ? ", message #{$messageId}" : ""));
 
         $attachments = [];
 
@@ -190,7 +190,7 @@ class AttachmentService
         int $uploadedBy,
         ?int $messageId = null
     ): array {
-        Log::info("Traitement de " . count($attachments) . " pièce(s) jointe(s) d'email pour le ticket #{$ticketId}");
+        Log::info("Traitement de " . count($attachments) . " pièce(s) jointe(s) d'email pour le Support n°{$ticketId}");
 
         $savedAttachments = [];
 

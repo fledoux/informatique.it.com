@@ -25,13 +25,23 @@ class ContactController extends Controller
 
     public function index()
     {
-        $contacts = Contact::query()->latest('id')->paginate(15);
+        $currentUser = Auth::user();
+        
+        $query = Contact::query();
+        
+        // Si l'utilisateur est manager ou admin, filtrer par sa société
+        if ($currentUser->hasAnyRole(['manager', 'admin'])) {
+            $query->where('company_id', $currentUser->company_id);
+        }
+        
+        $contacts = $query->latest('id')->paginate(15);
         return view('contact.index', compact('contacts'));
     }
 
     public function create()
     {
-        return view('contact.create');
+        $contact = new \App\Models\Contact();
+        return view('contact.create', compact('contact'));
     }
 
     public function store(ContactStoreRequest $request)
@@ -64,6 +74,10 @@ class ContactController extends Controller
     {
         try {
             $contact = Contact::query()->findOrFail($id);
+            
+            // Vérifier l'autorisation avec la policy
+            $this->authorize('view', $contact);
+            
             return view('contact.show', compact('contact'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('contact.index')
@@ -75,6 +89,10 @@ class ContactController extends Controller
     {
         try {
             $contact = Contact::query()->findOrFail($id);
+            
+            // Vérifier l'autorisation avec la policy
+            $this->authorize('update', $contact);
+            
             return view('contact.edit', compact('contact'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('contact.index')

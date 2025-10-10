@@ -28,7 +28,7 @@ class TicketStoreRequest extends FormRequest
             'folder_code' => ['nullable','string','max:64'],
             'subject' => ['required','string','max:190'],
             'question' => ['required','string'],
-            'billable' => ['nullable','in:0,1']
+            'billable' => ['nullable','boolean']
         ];
     }
 }

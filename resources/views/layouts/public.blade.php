@@ -12,7 +12,6 @@
 
     @stack('stylesheets')
     @include('partials.style')
-    @stack('javascripts')
     @include('partials.script')
 </head>
 
@@ -28,6 +27,7 @@
     @include('partials.footer')
     @include('partials._matomo')
     @include('partials._scrolltop')
+    @stack('javascripts')
 </body>
 
 </html>

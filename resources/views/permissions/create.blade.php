@@ -21,7 +21,7 @@
     </div>
 
     <div class="card shadow-sm">
-        <div class="card-body">
+        <div class="card-body p-2 p-sm-3">
             <form method="POST" action="{{ route('permissions.store') }}">
                 @csrf
 
@@ -79,7 +79,7 @@
                     Bonnes pratiques
                 </h5>
             </div>
-            <div class="card-body">
+            <div class="card-body p-2 p-sm-3">
                 <ul>
                     <li><strong>Préfixe "custom."</strong> : Utilisez toujours un préfixe pour distinguer vos permissions des permissions système.</li>
                     <li><strong>Noms explicites</strong> : Choisissez des noms qui décrivent clairement l'action (ex: <code>custom.export_invoices</code>).</li>

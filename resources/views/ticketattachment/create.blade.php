@@ -12,7 +12,7 @@
                         {{ __('ticketattachment.Add Attachment') }}
                     </h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-2 p-sm-3">
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">

@@ -13,7 +13,6 @@
     @stack('stylesheets')
     @include('partials.style')
     <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
-    @stack('javascripts')
     @include('partials.script')
 </head>
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
@@ -23,5 +22,6 @@
         @yield('content')
     </main>
     @include('partials._matomo')
+    @stack('javascripts')
 </body>
 </html>

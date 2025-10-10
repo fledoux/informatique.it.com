@@ -140,7 +140,7 @@ $emailWithCode = EmailReplyCodeService::buildEmailWithReplyCode($message, $ticke
 // Traiter une réponse
 $incomingEmail = "Ma réponse... ### 15.KD8BSBS35 ### Contenu original...";
 $code = EmailReplyCodeService::extractReplyCode($incomingEmail); // "15.KD8BSBS35"
-$ticket = EmailReplyCodeService::getTicketFromReplyCode($code); // Ticket #15
+$ticket = EmailReplyCodeService::getTicketFromReplyCode($code); // Support n°15
 $cleanContent = EmailReplyCodeService::cleanEmailContent($incomingEmail); // "Ma réponse..."
 ```
 

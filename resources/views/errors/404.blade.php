@@ -52,7 +52,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="card border-0 bg-light">
-                            <div class="card-body py-4">
+                            <div class="card-body p-2 p-sm-3 py-4">
                                 <h6 class="card-title fw-semibold mb-3">
                                     <i class="fa-regular fa-lightbulb me-2 text-warning"></i>
                                     {{ __('global.You might be interested in') }} :

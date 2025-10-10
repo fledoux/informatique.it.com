@@ -44,7 +44,7 @@ class TestTicketConfirmationEmail extends Command
             }
             
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            $this->error("❌ Ticket #{$ticketId} introuvable.");
+            $this->error("❌ Support n°{$ticketId} introuvable.");
             return self::FAILURE;
         } catch (\Exception $e) {
             $this->error("❌ Erreur lors de l'envoi: " . $e->getMessage());

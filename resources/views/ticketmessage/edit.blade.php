@@ -10,9 +10,13 @@
         </a>
     </div>
 
-    <form method="POST" action="{{ route('ticketmessage.update', $ticketMessage) }}" novalidate>
-        @csrf
-        @method('PUT')
-        @include('ticketmessage._form')
-    </form>
+    <div class="card shadow-sm">
+        <div class="card-body p-2 p-sm-3">
+            <form method="POST" action="{{ route('ticketmessage.update', $ticketMessage) }}" novalidate>
+                @csrf
+                @method('PUT')
+                @include('ticketmessage._form')
+            </form>
+        </div>
+    </div>
 @endsection

@@ -30,7 +30,8 @@ class AllowDomainRegistrationController extends Controller
 
     public function create()
     {
-        return view('allowdomain.create');
+        $allowDomainRegistration = new \App\Models\AllowDomainRegistration();
+        return view('allowdomain.create', compact('allowDomainRegistration'));
     }
 
     public function store(AllowDomainRegistrationStoreRequest $request)

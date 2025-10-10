@@ -168,14 +168,6 @@ table th {
   vertical-align: middle !important;
 }
 
-table .badge, 
-td .badge, 
-th .badge {
-  vertical-align: middle !important;
-  display: inline-block;
-  line-height: 0.75 !important;
-}
-
 /* Hover zoom effect */
 .zoom-hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -185,4 +177,28 @@ th .badge {
 .zoom-hover:hover {
   transform: scale(1.03);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* DataTables custom styles */
+.datatable {
+  font-size: 0.875em;
+}
+
+.datatable thead th {
+  font-size: 0.875rem;
+  padding: 0.25em 0.5em;
+}
+
+.datatable tbody td, .datatable tbody td a {
+  font-size: 0.875rem;
+  padding: 0.25em 0.5em;
+}
+
+.datatable .badge {
+  font-size: 0.75em;
+}
+
+/* Remove padding from DataTables info for better alignment */
+div.dataTables_wrapper div.dataTables_info {
+  padding-top: 0 !important;
 }

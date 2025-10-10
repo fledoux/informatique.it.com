@@ -32,5 +32,11 @@ return [
         'status' => [
                 'active' => 'Actif',
                 'inactive' => 'Inactif'
+        ],
+
+        'statusBadgeColor' => [
+                'active' => 'bg-success',
+                'inactive' => 'bg-secondary'
         ]
 ];
+

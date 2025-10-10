@@ -22,20 +22,40 @@ class UserController extends Controller
         $this->middleware('permission:user.show')->only('show');
         $this->middleware('permission:user.edit')->only(['edit', 'update']);
         $this->middleware('permission:user.delete')->only('destroy');
-        
+
         // Permissions spéciales pour l'impersonation
         $this->middleware('role:super-admin')->only('impersonate');
     }
 
     public function index()
     {
-        $users = User::query()->with(['company', 'roles'])->latest('id')->paginate(15);
-        return view('user.index', compact('users'));
+        $currentUser = Auth::user();
+
+        $query = User::query()->with(['company', 'roles']);
+
+        // Si l'utilisateur est manager ou admin, filtrer par sa société
+        if ($currentUser->hasAnyRole(['manager', 'admin'])) {
+            $query->where('company_id', $currentUser->company_id);
+        }
+
+        $users = $query->latest('id')->paginate(15);
+
+        // Récupérer les domaines autorisés pour la société de l'utilisateur
+        $allowedDomains = [];
+        $allowedDomains = \App\Models\AllowDomainRegistration::where('company_id', $currentUser->company_id)
+            ->pluck('domain')
+            ->toArray();
+
+        return view('user.index', compact('users', 'allowedDomains'));
     }
 
     public function create()
     {
-        return view('user.create');
+        // Vérifier l'autorisation avec la policy
+        $this->authorize('create', User::class);
+
+        $user = new \App\Models\User();
+        return view('user.create', compact('user'));
     }
 
     public function store(UserStoreRequest $request)
@@ -49,6 +69,14 @@ class UserController extends Controller
 
         // Générer les initiales automatiquement
         $data['initial'] = Helper::generateInitials($data['firstname'] ?? '', $data['lastname'] ?? '');
+
+        // Si l'utilisateur n'est pas super-admin (ce qui ne devrait pas arriver grâce à la policy)
+        // on force les valeurs par défaut par sécurité
+        $currentUser = Auth::user();
+        if (!$currentUser->hasRole('super-admin')) {
+            $data['company_id'] = $currentUser->company_id;
+            $data['agree_terms'] = 'oui';
+        }
 
         // Extraire les rôles des données
         $roles = $data['roles'] ?? [];
@@ -68,6 +96,10 @@ class UserController extends Controller
     {
         try {
             $user = User::query()->with(['company'])->findOrFail($id);
+
+            // Vérifier l'autorisation avec la policy
+            $this->authorize('view', $user);
+
             return view('user.show', compact('user'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('user.index')
@@ -79,6 +111,10 @@ class UserController extends Controller
     {
         try {
             $user = User::query()->with(['company'])->findOrFail($id);
+
+            // Vérifier l'autorisation avec la policy
+            $this->authorize('update', $user);
+
             return view('user.edit', compact('user'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('user.index')
@@ -100,14 +136,26 @@ class UserController extends Controller
             // Générer les initiales automatiquement
             $data['initial'] = Helper::generateInitials($data['firstname'] ?? '', $data['lastname'] ?? '');
 
+            // Si l'utilisateur n'est pas super-admin, on préserve les valeurs existantes
+            $currentUser = Auth::user();
+            if (!$currentUser->hasRole('super-admin')) {
+                // Ne pas permettre de changer la société, agree_terms, email ou note
+                $data['company_id'] = $user->company_id;
+                $data['agree_terms'] = $user->agree_terms;
+                $data['email'] = $user->email;
+                $data['note'] = $user->note;
+            }
+
             // Extraire les rôles des données
-            $roles = $data['roles'] ?? [];
+            $roles = $data['roles'] ?? null;
             unset($data['roles']);
 
             $user->update($data);
 
-            // Synchroniser les rôles
-            $user->syncRoles($roles);
+            // Synchroniser les rôles uniquement si fournis (super-admin)
+            if ($roles !== null) {
+                $user->syncRoles($roles);
+            }
 
             return redirect()->route('user.index')->with('success', __('global.messages.updated'));
         } catch (ModelNotFoundException $e) {
@@ -148,16 +196,15 @@ class UserController extends Controller
 
         try {
             $userToImpersonate = User::findOrFail($id);
-            
+
             // Sauvegarder l'ID de l'admin actuel en session
             session(['impersonating_from' => Auth::id()]);
-            
+
             // Se connecter en tant que l'autre utilisateur
             Auth::loginUsingId($userToImpersonate->id);
-            
+
             return redirect()->route('dashboard')
                 ->with('success', "Connexion en tant que {$userToImpersonate->name}");
-                
         } catch (ModelNotFoundException $e) {
             return redirect()->route('user.index')
                 ->with('error', __('global.messages.not_found'));
@@ -170,7 +217,7 @@ class UserController extends Controller
     public function stopImpersonation()
     {
         $originalUserId = session('impersonating_from');
-        
+
         if (!$originalUserId) {
             return redirect()->route('dashboard')
                 ->with('error', 'Aucune impersonation en cours');
@@ -179,7 +226,7 @@ class UserController extends Controller
         try {
             // Vérifier que l'utilisateur d'origine existe et est super-admin
             $originalUser = User::findOrFail($originalUserId);
-            
+
             if (!$originalUser->hasRole('super-admin')) {
                 // Sécurité : l'utilisateur d'origine n'est plus super-admin
                 session()->forget('impersonating_from');
@@ -187,16 +234,15 @@ class UserController extends Controller
                 return redirect()->route('login')
                     ->with('error', 'Session d\'impersonation invalide');
             }
-            
+
             // Supprimer la session d'impersonation
             session()->forget('impersonating_from');
-            
+
             // Se reconnecter avec le compte d'origine
             Auth::loginUsingId($originalUserId);
-            
+
             return redirect()->route('user.index')
                 ->with('success', 'Retour au compte administrateur');
-                
         } catch (ModelNotFoundException $e) {
             // L'utilisateur d'origine n'existe plus
             session()->forget('impersonating_from');

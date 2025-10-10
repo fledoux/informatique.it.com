@@ -32,17 +32,16 @@ class TicketController extends Controller
 
     public function create()
     {
-        return view('ticket.create');
+        $ticket = new Ticket();
+        return view('ticket.create', compact('ticket'));
     }
 
     public function store(TicketStoreRequest $request)
     {
         $data = $request->validated();
         
-        $allInput = $request->all();
-        if (!isset($data['billable']) && isset($allInput['billable_unchecked'])) {
-            $data['billable'] = $allInput['billable_unchecked'];
-        }
+        // Les checkbox non cochées ne sont pas envoyées, on met false par défaut
+        $data['billable'] = $data['billable'] ?? false;
         
         $user = Auth::user();
 
@@ -109,18 +108,37 @@ class TicketController extends Controller
     public function show($id)
     {
         try {
-            $ticket = Ticket::query()->with(['company', 'author'])->findOrFail($id);
+            $ticket = Ticket::query()
+                ->with([
+                    'company',
+                    'author',
+                    'assignedTo',
+                    'messages' => function ($query) {
+                        $query->with(['author', 'attachments' => function ($q) {
+                            $q->where('status', 'active');
+                        }])->orderBy('created_at', 'desc');
+                    },
+                    'attachments' => function ($query) {
+                        $query->where('status', 'active')->with('uploader');
+                    },
+                    'initialAttachments'
+                ])
+                ->findOrFail($id);
             
-            // Vérifications de sécurité
-            if (!TicketSecurityHelper::canAccessTicket(Auth::user(), $ticket)) {
-                return redirect()->route('ticket.index')
-                    ->with('error', TicketSecurityHelper::getAccessDeniedMessage());
-            }
+            // Vérifier l'autorisation avec la policy
+            $this->authorize('view', $ticket);
 
-            $user = \App\Models\User::find($ticket->author_id);
-            $company = \App\Models\Company::find($ticket->company_id);
+            $user = $ticket->author;
+            $company = $ticket->company;
+            
+            // Récupérer les pièces jointes actives (déjà chargées via eager loading)
+            $attachments = $ticket->attachments->where('status', 'active')->sortByDesc('id');
+            $attachmentsCount = $attachments->count();
+            
+            // Pré-charger les managers pour éviter la requête dans la vue
+            $managers = $ticket->getManagers();
 
-            return view('ticket.show', compact('ticket', 'user', 'company'));
+            return view('ticket.show', compact('ticket', 'user', 'company', 'attachments', 'attachmentsCount', 'managers'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('ticket.index')
                 ->with('error', __('global.messages.not_found'));
@@ -132,24 +150,8 @@ class TicketController extends Controller
         try {
             $ticket = Ticket::query()->with(['company', 'author'])->findOrFail($id);
             
-            // Vérifications de sécurité par rôle
-            $user = Auth::user();
-            
-            if ($user->hasRole('super-admin')) {
-                // Super-admin : accès à tous les tickets
-            } elseif ($user->hasAnyRole(['admin', 'manager'])) {
-                // Admin/Manager : seulement les tickets de leur société
-                if ($ticket->company_id !== $user->company_id) {
-                    return redirect()->route('ticket.index')
-                        ->with('error', 'Vous ne pouvez pas modifier les tickets d\'une autre société.');
-                }
-            } else {
-                // Utilisateur normal : seulement les tickets de sa société
-                if ($ticket->company_id !== $user->company_id) {
-                    return redirect()->route('ticket.index')
-                        ->with('error', 'Vous ne pouvez pas modifier les tickets d\'une autre société.');
-                }
-            }
+            // Vérifier l'autorisation avec la policy
+            $this->authorize('update', $ticket);
             
             return view('ticket.edit', compact('ticket'));
         } catch (ModelNotFoundException $e) {
@@ -163,6 +165,10 @@ class TicketController extends Controller
         try {
             $ticket = Ticket::findOrFail($id);
             $data = $request->validated();
+            
+            // Les checkbox non cochées ne sont pas envoyées, on met false par défaut
+            $data['billable'] = $data['billable'] ?? false;
+            
             $user = Auth::user();
             
             // Vérifications de sécurité par rôle

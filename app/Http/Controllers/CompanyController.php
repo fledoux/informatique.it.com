@@ -30,7 +30,7 @@ class CompanyController extends Controller
         if ($user->hasRole('super-admin')) {
             $companies = Company::all()->sortBy('name');
         } else {
-            // Admin/Manager ne voit que sa propre société
+            // Admin/Manager ne voient que leur propre société
             $companies = Company::where('id', $user->company_id)->get();
         }
         
@@ -39,7 +39,8 @@ class CompanyController extends Controller
 
     public function create()
     {
-        return view('company.create');
+        $company = new \App\Models\Company();
+        return view('company.create', compact('company'));
     }
 
     public function store(CompanyStoreRequest $request)
@@ -65,6 +66,10 @@ class CompanyController extends Controller
     {
         try {
             $company = Company::query()->findOrFail($id);
+            
+            // Vérifier l'autorisation avec la policy
+            $this->authorize('view', $company);
+            
             return view('company.show', compact('company'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('company.index')
@@ -76,6 +81,10 @@ class CompanyController extends Controller
     {
         try {
             $company = Company::query()->findOrFail($id);
+            
+            // Vérifier l'autorisation avec la policy
+            $this->authorize('update', $company);
+            
             return view('company.edit', compact('company'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('company.index')

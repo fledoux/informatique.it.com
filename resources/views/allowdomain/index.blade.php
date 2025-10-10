@@ -9,10 +9,22 @@
 @endsection
 
 @section('content')
-    <h1 class="mb-4">{{ __('allowdomain.List') }}</h1>
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
+        <h1 class="h3 mb-0">
+            <i class="fa-regular fa-globe me-2"></i>
+            {{ __('allowdomain.List') }}
+        </h1>
+        @can('create', App\Models\AllowDomainRegistration::class)
+            <div class="d-flex gap-1 gap-sm-2">
+                <a href="{{ route('allowdomainregistration.create') }}" class="btn btn-orange">
+                    {!! __('global.btn.New') !!}
+                </a>
+            </div>
+        @endcan
+    </div>
 
     <div class="table-responsive">
-        <table class="table align-middle table-xs table-bordered table-hover">
+        <table class="table align-middle datatable table-bordered table-hover">
             <thead>
                 <tr>
                     <th class="text-center">{{ __('allowdomain.id') }}</th>
@@ -51,8 +63,10 @@
             </tbody>
         </table>
     </div>
-
-    <a href="{{ route('allowdomain.create') }}" class="btn btn-orange mt-3">
-        {!! __('global.btn.New') !!}
-    </a>
 @endsection
+
+@if ($allowDomainRegistrations->count() > 0)
+    @push('javascripts')
+        @include('partials._datatable')
+    @endpush
+@endif

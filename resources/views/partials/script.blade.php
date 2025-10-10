@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             selector: '.tinymce',
             height: 300,
             menubar: false,
-            language: 'fr_FR',
+            language: 'fr-FR',
             plugins: 'anchor autolink charmap codesample emoticons link lists searchreplace table visualblocks wordcount',
             toolbar: 'undo redo | blocks fontsize | bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
             content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; }',

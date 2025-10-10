@@ -5,10 +5,12 @@
 @section('content')
     <h1 class="h3 mb-3">{{ __('global.Create') }}  {{ __('allowdomain.entity') }}</h1>
 
-    @php($allowDomainRegistration = new \App\Models\AllowDomainRegistration())
-
-    <form method="POST" action="{{ route('allowdomain.store') }}" novalidate>
-        @csrf
-        @include('allowdomain._form')
-    </form>
+    <div class="card shadow-sm">
+        <div class="card-body p-2 p-sm-3">
+            <form method="POST" action="{{ route('allowdomain.store') }}" novalidate>
+                @csrf
+                @include('allowdomain._form')
+            </form>
+        </div>
+    </div>
 @endsection

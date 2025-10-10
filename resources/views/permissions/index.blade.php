@@ -3,22 +3,22 @@
 @section('title', 'Gestion des Permissions')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mb-0">
-            <i class="fa-regular fa-shield-halved"></i>
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
+        <h1 class="h3 mb-0">
+            <i class="fa-regular fa-shield-halved me-2"></i>
             Gestion des Permissions
         </h1>
-        <div>
+        <div class="d-flex gap-1 gap-sm-2">
             @can('permission.edit')
                 <a href="{{ route('permissions.matrix') }}" class="btn btn-outline-primary">
-                    <i class="fa-regular fa-table-cells"></i>
-                    Matrice Permissions/Rôles
+                    <i class="fa-regular fa-table-cells me-2"></i>
+                    Matrice
                 </a>
             @endcan
             @can('permission.create')
                 <a href="{{ route('permissions.create') }}" class="btn btn-orange">
-                    
-                    Nouvelle Permission Custom
+                    <i class="fa-regular fa-plus me-2"></i>
+                    Nouvelle
                 </a>
             @endcan
         </div>
@@ -38,7 +38,7 @@
                     {{ ucfirst($group) }}
                 </h5>
             </div>
-            <div class="card-body">
+            <div class="card-body p-2 p-sm-3">
                 <div class="table-responsive">
                     <table class="table table-hover table-sm">
                         <thead>
@@ -55,7 +55,7 @@
                                 @php
                                     $isSystem = \App\Helpers\PermissionHelper::isSystemPermission($permission->name);
                                 @endphp
-                                <tr class="{{ !$isSystem ? 'table-success' : '' }}">
+                                <tr class="{{ !$isSystem ? 'table-warning' : '' }}">
                                     <td>
                                         <code class="text-dark">{{ $permission->name }}</code>
                                     </td>
@@ -66,7 +66,7 @@
                                                 Système
                                             </span>
                                         @else
-                                            <span class="badge bg-success">
+                                            <span class="badge bg-warning">
                                                 <i class="fa-regular fa-pencil"></i>
                                                 Custom
                                             </span>
@@ -149,3 +149,9 @@
         </p>
     </div>
 @endsection
+
+@if (!empty($grouped))
+    @push('javascripts')
+        @include('partials._datatable')
+    @endpush
+@endif

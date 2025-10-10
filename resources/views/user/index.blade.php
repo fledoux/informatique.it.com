@@ -1,33 +1,43 @@
 @extends('layouts.app-fluid')
 
 @section('title')
-    @if (auth()->check() && auth()->user()->hasRole('manager'))
-        {{ __('user.List') }}
-    @else
-        {{ __('user.YourList') }}
-    @endif
+    {{ __('user.List') }}
 @endsection
 
 @section('content')
-    <h1 class="mb-4">{{ __('user.List') }}</h1>
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
+        <h1 class="h3 mb-0">
+            <i class="fa-regular fa-users me-2"></i>
+            {{ __('user.List') }}
+        </h1>
+        @hasanyrole(['super-admin'])
+            @hasanyrole(['super-admin'])
+                <div class="d-flex gap-1 gap-sm-2">
+                    <a href="{{ route('user.create') }}" class="btn btn-orange">
+                        {!! __('global.btn.New') !!}
+                    </a>
+                </div>
+            @endhasanyrole
+        @endhasanyrole
+    </div>
 
     <div class="table-responsive">
-        <table class="table align-middle table-xs table-bordered table-hover">
+        <table class="table align-middle datatable table-bordered table-hover">
             <thead>
                 <tr>
                     <th class="text-center">{{ __('user.id') }}</th>
-                    <th class="text-left">{{ __('user.fields.status') }}</th>
+                    <th class="text-center">{{ __('user.fields.status') }}</th>
                     <th class="text-left">{{ __('user.fields.name') }}</th>
                     <th class="text-left">{{ __('user.fields.firstname') }}</th>
                     <th class="text-left">{{ __('user.fields.lastname') }}</th>
                     <th class="text-left">{{ __('user.fields.email') }}</th>
-                    @can('company.show')
+                    @hasanyrole(['super-admin'])
                         <th class="text-left">{{ __('user.fields.company_id') }}</th>
-                    @endcan
+                    @endhasanyrole
                     <th class="text-left">{{ __('user.fields.roles') }}</th>
-                    @can('user.edit')
+                    @hasanyrole(['super-admin'])
                         <th class="text-left">{{ __('user.fields.initial') }}</th>
-                    @endcan
+                    @endhasanyrole
                     <th class="text-left">{{ __('user.fields.phone') }}</th>
                     @can('user.edit')
                         <th class="text-center">{{ __('user.fields.Conditions') }}</th>
@@ -40,7 +50,7 @@
                 @forelse($users as $user)
                     <tr>
                         <td class="text-center">{{ $user->id }}</td>
-                        <td>
+                        <td class="text-center">
                             <span
                                 class="badge {{ __('user.statusBadgeColor.' . $user->status) }}">{{ __('user.status.' . $user->status) }}
                             </span>
@@ -49,21 +59,21 @@
                         <td>{{ $user->firstname }}</td>
                         <td>{{ $user->lastname }}</td>
                         <td>{{ $user->email }}</td>
-                        @can('company.show')
+                        @hasanyrole(['super-admin'])
                             <td>{{ $user->company?->name ?? '' }}</td>
-                        @endcan
+                        @endhasanyrole
                         <td>
                             @if ($user->getRoleNames()->isNotEmpty())
                                 @foreach ($user->getRoleNames() as $role)
                                     <span
-                                        class="badge {{ __('user.badgeRolesColor.' . $role) }} me-1">{{ __('user.roles.' . $role) }}</span>
+                                        class="badge {{ __('user.badgeRolesColor.' . $role) }}">{{ __('user.roles.' . $role) }}</span>
                                 @endforeach
                             @endif
                         </td>
-                        @can('user.edit')
+                        @hasanyrole(['super-admin'])
                             <td>{{ $user->initial }}</td>
-                        @endcan
-                        <td>{{ $user->phone }}</td>
+                        @endhasanyrole
+                        <td>{{ \App\Helpers\Helper::internationalFormatPhone($user->phone) }}</td>
                         @can('user.edit')
                             <td class="text-center">
                                 {!! __('user.statusAgreeTermsColor.' . $user->agree_terms) !!}
@@ -80,10 +90,12 @@
                             <a href="{{ route('user.edit', $user) }}" class="btn btn-link text-decoration-none p-0 me-2">
                                 {!! __('global.btn.Edit') !!}
                             </a>
-                            <span class="me-2">
-                                @include('user._delete_form', ['user' => $user])
-                            </span>
-                            @can('user.edit')
+                            @if ($user->id !== auth()->id())
+                                <span class="me-2">
+                                    @include('user._delete_form', ['user' => $user])
+                                </span>
+                            @endif
+                            @hasanyrole(['super-admin'])
                                 @if ($user->id !== auth()->id())
                                     <form method="POST" action="{{ route('user.impersonate', $user) }}" class="d-inline">
                                         @csrf
@@ -93,7 +105,7 @@
                                         </button>
                                     </form>
                                 @endif
-                            @endcan
+                            @endhasanyrole
                         </td>
                     </tr>
                 @empty
@@ -107,8 +119,28 @@
         </table>
     </div>
 
-    <a href="{{ route('user.create') }}" class="btn btn-orange mt-3">
-        
-        {!! __('global.btn.New') !!}
-    </a>
+    @hasanyrole(['super-admin', 'manager', 'admin'])
+        <div class="alert alert-info mt-3">
+            <i class="fa-regular fa-info-circle me-2"></i>
+            <strong>Pour ajouter un nouvel utilisateur :</strong> Invitez-le à s'inscrire via le
+            <a href="{{ route('register') }}" class="alert-link" target="_blank">formulaire d'inscription</a>.
+            Une fois inscrit et approuvé, l'utilisateur apparaîtra dans cette liste.
+        </div>
+        <div class="alert alert-warning mt-3">
+            @if (!empty($allowedDomains))
+                <i class="fa-regular fa-exclamation-triangle me-2"></i>
+                Domaines d'emails autorisés pour votre société :
+                <strong>{{ implode(', ', array_map(fn($domain) => '@' . $domain, $allowedDomains)) }}</strong>
+            @else
+                <i class="fa-regular fa-exclamation-triangle me-2"></i>
+                Aucun domaine d'email autorisé configuré pour votre société.
+            @endif
+        </div>
+    @endhasanyrole
 @endsection
+
+@if ($users->count() > 0)
+    @push('javascripts')
+        @include('partials._datatable')
+    @endpush
+@endif

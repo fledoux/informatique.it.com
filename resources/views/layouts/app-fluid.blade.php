@@ -12,12 +12,12 @@
     <link rel="icon" href="{{ asset('assets/img/favicon/favicon.svg') }}" type="image/svg+xml">
     @stack('stylesheets')
     @include('partials.style')
-    @stack('javascripts')
     @include('partials.script')
 </head>
 <body class="d-flex flex-column h-100 bg-body-tertiary">
     @php($currentRoute = request()->route() ? request()->route()->getName() : null)
     @include('partials.nav')
+    @include('partials._impersonat')
     <div class="container-fluid pb-5">
         <main class="flex-shrink-0">
             @include('partials.flash')
@@ -26,5 +26,6 @@
     </div>
     @include('partials.footer')
     @include('partials._matomo')
+    @stack('javascripts')
 </body>
 </html>

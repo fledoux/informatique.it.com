@@ -12,7 +12,13 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        // Super-admin peut tout voir
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent voir les utilisateurs de leur société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id !== null;
     }
 
     /**
@@ -20,7 +26,13 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return false;
+        // Super-admin peut tout voir
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent voir uniquement les utilisateurs de leur société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id === $model->company_id;
     }
 
     /**
@@ -28,7 +40,9 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        // Seul super-admin peut créer des utilisateurs
+        // Les managers/admins doivent utiliser le formulaire d'inscription public
+        return $user->hasRole('super-admin');
     }
 
     /**
@@ -36,7 +50,13 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return false;
+        // Super-admin peut tout modifier
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent modifier uniquement les utilisateurs de leur société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id === $model->company_id;
     }
 
     /**
@@ -44,7 +64,15 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return false;
+        // Super-admin peut supprimer n'importe quel utilisateur
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent supprimer des utilisateurs de leur société (sauf eux-mêmes)
+        return $user->hasAnyRole(['manager', 'admin']) 
+            && $user->company_id === $model->company_id 
+            && $user->id !== $model->id; // Ne peut pas se supprimer soi-même
     }
 
     /**
@@ -52,7 +80,11 @@ class UserPolicy
      */
     public function restore(User $user, User $model): bool
     {
-        return false;
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id === $model->company_id;
     }
 
     /**
@@ -60,6 +92,7 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model): bool
     {
-        return false;
+        // Seul super-admin peut supprimer définitivement
+        return $user->hasRole('super-admin');
     }
 }

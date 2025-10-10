@@ -3,7 +3,8 @@
 return [
         'entity' => 'Company',
         'id' => 'ID',
-        'List' => 'Liste',
+        'List' => 'Société',
+        'YourList' => 'Liste des sociétés',
         'Edit' => 'Modifier',
         'Details' => 'Détails',
         'Actions' => 'Actions',
@@ -35,5 +36,15 @@ return [
                 'active' => 'Actif',
                 'inactive' => 'Inactif'
             ]
+    ],
+
+    'status' => [
+        'active' => 'Actif',
+        'inactive' => 'Inactif'
+    ],
+
+    'statusBadgeColor' => [
+        'active' => 'bg-success',
+        'inactive' => 'bg-secondary'
     ]
 ];

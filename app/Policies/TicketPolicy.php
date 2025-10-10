@@ -13,7 +13,13 @@ class TicketPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        // Super-admin peut tout voir
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent voir les tickets de leur société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id !== null;
     }
 
     /**
@@ -21,7 +27,13 @@ class TicketPolicy
      */
     public function view(User $user, Ticket $ticket): bool
     {
-        return false;
+        // Super-admin peut tout voir
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent voir uniquement les tickets de leur société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id === $ticket->company_id;
     }
 
     /**
@@ -29,7 +41,13 @@ class TicketPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        // Super-admin peut créer des tickets pour toutes les sociétés
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        // Manager et admin peuvent créer des tickets pour leur société
+        return $user->hasAnyRole(['manager', 'admin']) && $user->company_id !== null;
     }
 
     /**
@@ -37,7 +55,8 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket): bool
     {
-        return false;
+        // Seul super-admin peut supprimer des tickets
+        return $user->hasRole('super-admin');
     }
 
     /**
@@ -45,7 +64,8 @@ class TicketPolicy
      */
     public function delete(User $user, Ticket $ticket): bool
     {
-        return false;
+        // Seul super-admin peut supprimer des tickets
+        return $user->hasRole('super-admin');
     }
 
     /**
@@ -53,7 +73,7 @@ class TicketPolicy
      */
     public function restore(User $user, Ticket $ticket): bool
     {
-        return false;
+        return $user->hasRole('super-admin');
     }
 
     /**
@@ -61,6 +81,6 @@ class TicketPolicy
      */
     public function forceDelete(User $user, Ticket $ticket): bool
     {
-        return false;
+        return $user->hasRole('super-admin');
     }
 }

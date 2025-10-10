@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Helpers;
+
 use App\Services\PushoverService;
 
 class Helper
@@ -11,7 +12,7 @@ class Helper
 	public static function generateInitials(string $firstname, string $lastname): string
 	{
 		$firstInitial = !empty($firstname) ? strtoupper(mb_substr(trim($firstname), 0, 1)) : '';
-		
+
 		$lastInitials = '';
 		if (!empty($lastname)) {
 			$cleanLastname = trim($lastname);
@@ -25,12 +26,12 @@ class Helper
 	}
 
 	/**
-     * Envoie une notification lors de la création d'un message
-     */
-    public static function sendPushoverNotification(string $title, string $message): void
-    {        
-        PushoverService::send($title, $message);
-    }
+	 * Envoie une notification lors de la création d'un message
+	 */
+	public static function sendPushoverNotification(string $title, string $message): void
+	{
+		PushoverService::send($title, $message);
+	}
 
 	/**
 	 * Formate le nom complet d'une personne
@@ -47,9 +48,13 @@ class Helper
 	}
 
 	/**
-	 * Formate un numéro de téléphone
+	 * Formate un numéro de téléphone au format français
+	 * 
+	 * @param string|null $phone Numéro de téléphone à formater
+	 * @param bool $withSpaces Ajouter des espaces dans le formatage (true par défaut)
+	 * @return string|null
 	 */
-	public static function formatPhone(?string $phone): ?string
+	public static function formatPhone(?string $phone, bool $withSpaces = true): ?string
 	{
 		if (empty($phone)) {
 			return null;
@@ -58,11 +63,59 @@ class Helper
 		// Supprime tous les espaces, points, tirets
 		$cleaned = preg_replace('/[\s\-\.]/', '', $phone);
 
+		// Convertit +33 en 0 pour le format français
+		if (preg_match('/^\+33[1-9]\d{8}$/', $cleaned)) {
+			$cleaned = '0' . substr($cleaned, 3);
+		}
+
 		// Formate si c'est un numéro français (10 chiffres commençant par 0)
 		if (preg_match('/^0[1-9]\d{8}$/', $cleaned)) {
-			return substr($cleaned, 0, 2) . ' ' . substr($cleaned, 2, 2) . ' ' .
-				substr($cleaned, 4, 2) . ' ' . substr($cleaned, 6, 2) . ' ' .
-				substr($cleaned, 8, 2);
+			if ($withSpaces) {
+				return substr($cleaned, 0, 2) . ' ' . substr($cleaned, 2, 2) . ' ' .
+					substr($cleaned, 4, 2) . ' ' . substr($cleaned, 6, 2) . ' ' .
+					substr($cleaned, 8, 2);
+			}
+			return $cleaned;
+		}
+
+		return $phone; // Retourne le format original si pas reconnu
+	}
+
+	/**
+	 * Formate un numéro de téléphone au format international
+	 * 
+	 * @param string|null $phone Numéro de téléphone à formater
+	 * @param bool $withSpaces Ajouter des espaces dans le formatage (true par défaut)
+	 * @return string|null
+	 */
+	public static function internationalFormatPhone(?string $phone, bool $withSpaces = true): ?string
+	{
+		if (empty($phone)) {
+			return null;
+		}
+
+		// Supprime tous les espaces, points, tirets
+		$cleaned = preg_replace('/[\s\-\.]/', '', $phone);
+
+		// Si déjà au format +33, on le formate
+		if (preg_match('/^\+33[1-9]\d{8}$/', $cleaned)) {
+			if ($withSpaces) {
+				return '+33 ' . substr($cleaned, 3, 1) . ' ' . substr($cleaned, 4, 2) . ' ' .
+					substr($cleaned, 6, 2) . ' ' . substr($cleaned, 8, 2) . ' ' .
+					substr($cleaned, 10, 2);
+			}
+			return $cleaned;
+		}
+
+		// Convertit 0 en +33 pour le format international
+		if (preg_match('/^0[1-9]\d{8}$/', $cleaned)) {
+			$withoutZero = substr($cleaned, 1);
+			if ($withSpaces) {
+				return '+33 ' . substr($withoutZero, 0, 1) . ' ' . substr($withoutZero, 1, 2) . ' ' .
+					substr($withoutZero, 3, 2) . ' ' . substr($withoutZero, 5, 2) . ' ' .
+					substr($withoutZero, 7, 2);
+			}
+			return '+33' . $withoutZero;
 		}
 
 		return $phone; // Retourne le format original si pas reconnu
@@ -100,13 +153,13 @@ class Helper
 	{
 		$name = $name ?: $email;
 		$href = 'mailto:' . $email;
-		
+
 		// Ajouter des attributs HTML si fournis
 		$attrString = '';
 		foreach ($attributes as $key => $value) {
 			$attrString .= ' ' . $key . '="' . htmlspecialchars($value) . '"';
 		}
-		
+
 		return '<a href="' . $href . '"' . $attrString . '>' . htmlspecialchars($name) . '</a>';
 	}
 
@@ -233,32 +286,32 @@ class Helper
 	public static function validatePasswordStrength(string $password): array
 	{
 		$errors = [];
-		
+
 		// Au moins 8 caractères
 		if (strlen($password) < 8) {
 			$errors[] = __('validation.password_min_length', ['min' => 8]);
 		}
-		
+
 		// Au moins une minuscule
 		if (!preg_match('/[a-z]/', $password)) {
 			$errors[] = __('validation.password_lowercase');
 		}
-		
+
 		// Au moins une majuscule
 		if (!preg_match('/[A-Z]/', $password)) {
 			$errors[] = __('validation.password_uppercase');
 		}
-		
+
 		// Au moins un chiffre
 		if (!preg_match('/[0-9]/', $password)) {
 			$errors[] = __('validation.password_number');
 		}
-		
+
 		// Au moins un caractère spécial
 		if (!preg_match('/[!@#$%^&*]/', $password)) {
 			$errors[] = __('validation.password_special', ['chars' => '!@#$%^&*']);
 		}
-		
+
 		return [
 			'valid' => empty($errors),
 			'errors' => $errors
@@ -322,7 +375,7 @@ class Helper
 
 		// Formater avec les noms anglais d'abord
 		$formatted = $date->format($format);
-		
+
 		// Remplacer par les noms français
 		$formatted = str_replace(array_keys($frenchDays), array_values($frenchDays), $formatted);
 		$formatted = str_replace(array_keys($frenchMonths), array_values($frenchMonths), $formatted);
@@ -377,10 +430,18 @@ class Helper
 	 * @param string $pluralKey Clé de traduction pour le pluriel
 	 * @return string Texte formaté avec le nombre et le mot approprié
 	 */
-	public static function pluralize(int $count, string $singularKey, string $pluralKey): string
+	public static function pluralize(int $count, string $singularKey, string $pluralKey, bool $asLetters = false, bool $capitalizeFirst = false): string
 	{
 		$word = $count > 1 ? __($pluralKey) : __($singularKey);
-		return self::asLetters($count) . ' ' . $word;
+		if ($asLetters) {
+			if ($capitalizeFirst) {
+				return \ucfirst(self::asLetters($count)) . ' ' . \ucfirst($word);
+			} else {
+				return self::asLetters($count) . ' ' . $word;
+			}
+		} else {
+			return $word;
+		}
 	}
 
 	/**
@@ -453,7 +514,6 @@ class Helper
 
 			\Illuminate\Support\Facades\Log::info("File deleted from S3: {$s3Path}");
 			return true;
-
 		} catch (\Aws\S3\Exception\S3Exception $e) {
 			\Illuminate\Support\Facades\Log::error("S3 delete error for {$s3Path}: " . $e->getMessage());
 			return false;
@@ -462,7 +522,4 @@ class Helper
 			return false;
 		}
 	}
-
 }
-
-

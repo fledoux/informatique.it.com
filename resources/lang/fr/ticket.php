@@ -2,7 +2,7 @@
 
 return [
     'entity' => 'Support',
-    'Id' => 'N°',
+    'Id' => 'n°',
     'Status' => 'Statut',
     'Priority' => 'Priorité',
     'Company' => 'Entreprise',
@@ -14,7 +14,7 @@ return [
     'Billable' => 'Prestation facturable',
     'Author' => 'Auteur',
     'AssignedAt' => 'Assigné le',
-    'List' => 'Liste des demandes de support',
+    'List' => 'Liste des demandes',
     'Answer' => '<i class="fa-regular fa-reply"></i> Répondre',
     'Note Interne' => '<i class="fa-regular fa-lock"></i> Note interne',
     'Resend Confirmation' => '<i class="fa-regular fa-envelope"></i> Renvoyer confirmation',
@@ -23,6 +23,8 @@ return [
     'no' => 'Non',
     'ticket' => 'ticket',
     'tickets' => 'tickets',
+    'Create' => 'Créer une demande de support',
+    'Create at' => 'Créé le',
 
     'fields' => [
         'status' => 'Statut',
@@ -32,10 +34,10 @@ return [
         'assigned_to' => 'Assigné à',
         'assigned_at' => 'Assigné le',
         'due' => 'Échéance',
-        'folder_code' => 'N° Dossier',
+        'folder_code' => 'n° Dossier',
         'subject' => 'Sujet',
         'question' => 'Description',
-        'billable' => 'Prestation facturable'
+        'billable' => 'Facturable'
     ],
 
     'status' => [
@@ -76,7 +78,10 @@ return [
         'yes' => '<i class="fa-solid fa-square-check text-success"></i>',
         'no' => '<i class="fa-solid fa-square-xmark text-danger"></i>'
     ],
-    
+    'billableindex' => [
+        'yes' => '<i class="fa-solid fa-check text-success"></i>',
+        'no' => '<i class="fa-solid fa-square-xmark text-danger"></i>'
+    ],
     'empty_state' => [
         'title' => 'Bienvenue sur votre espace support',
         'create_button' => 'Créer ma première demande'

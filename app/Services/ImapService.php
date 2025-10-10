@@ -292,7 +292,7 @@ class ImapService
             $ticket = $this->createTicketFromEmail($user, $subject, $body, $messageId, $attachments);
 
             if ($ticket) {
-                Log::info("Created ticket #{$ticket->id} from email: {$senderEmail} - {$subject}");
+                Log::info("Created Support n°{$ticket->id} from email: {$senderEmail} - {$subject}");
                 return true;
             }
 
@@ -439,7 +439,7 @@ class ImapService
     private function addMessageToTicket(Ticket $ticket, string $senderEmail, string $messageContent, array $attachments = []): bool
     {
         try {
-            Log::info("Processing reply for ticket #{$ticket->id}", [
+            Log::info("Processing reply for Support n°{$ticket->id}", [
                 'sender' => $senderEmail,
                 'attachments_count' => count($attachments)
             ]);
@@ -515,11 +515,11 @@ class ImapService
                 'updated_at' => now()
             ]);
 
-            Log::info("✅ Message #{$ticketMessage->id} ajouté au ticket #{$ticket->id} avec " . count($attachments) . " fichier(s)");
+            Log::info("✅ Message #{$ticketMessage->id} ajouté au Support n°{$ticket->id} avec " . count($attachments) . " fichier(s)");
             return true;
 
         } catch (Exception $e) {
-            Log::error("Error adding message to ticket #{$ticket->id}: " . $e->getMessage());
+            Log::error("Error adding message to Support n°{$ticket->id}: " . $e->getMessage());
             return false;
         }
     }
@@ -545,7 +545,7 @@ class ImapService
             // Sauvegarder les pièces jointes sur S3
             Log::info("createTicketFromEmail: received " . count($attachments) . " attachment(s)");
             if (!empty($attachments)) {
-                Log::info("Calling AttachmentService for ticket #{$ticket->id}");
+                Log::info("Calling AttachmentService for Support n°{$ticket->id}");
                 $attachmentService = new \App\Services\AttachmentService();
                 $attachmentService->uploadEmailAttachments($attachments, $ticket->id, $ticket->company_id, $user->id);
             }
@@ -553,9 +553,9 @@ class ImapService
             // Envoyer l'email de confirmation
             try {
                 \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\TicketConfirmationMail($ticket));
-                Log::info("Confirmation email sent for ticket #{$ticket->id} to {$user->email}");
+                Log::info("Confirmation email sent for Support n°{$ticket->id} to {$user->email}");
             } catch (Exception $e) {
-                Log::error("Failed to send confirmation email for ticket #{$ticket->id}: " . $e->getMessage());
+                Log::error("Failed to send confirmation email for Support n°{$ticket->id}: " . $e->getMessage());
             }
 
             return $ticket;

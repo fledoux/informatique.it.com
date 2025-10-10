@@ -33,7 +33,7 @@
                         Informations
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-2 p-sm-3">
                     <table class="table table-borderless">
                         <tbody>
                             <tr>
@@ -94,7 +94,7 @@
                         Statistiques d'utilisation
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-2 p-sm-3">
                     <div class="row text-center">
                         <div class="col-6">
                             <div class="p-3 border rounded">
@@ -122,7 +122,7 @@
                     Rôles ayant cette permission ({{ $roles->count() }})
                 </h5>
             </div>
-            <div class="card-body">
+            <div class="card-body p-2 p-sm-3">
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -164,7 +164,7 @@
                     Utilisateurs ayant cette permission directement ({{ $users->count() }})
                 </h5>
             </div>
-            <div class="card-body">
+            <div class="card-body p-2 p-sm-3">
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -219,7 +219,7 @@
                     Utilisation dans le code
                 </h5>
             </div>
-            <div class="card-body">
+            <div class="card-body p-2 p-sm-3">
                 <p><strong>Dans les vues Blade :</strong></p>
                 <pre><code>@@can('{{ $permission->name }}')
     &lt;!-- Contenu visible uniquement avec cette permission --&gt;

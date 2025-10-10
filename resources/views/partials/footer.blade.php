@@ -1,4 +1,5 @@
 {{-- Footer --}}
+{{--
 @env('local')
     @auth
         <div class="container">
@@ -15,6 +16,7 @@
         </div>
     @endauth
 @endenv
+--}}
 <footer class="mt-5 px-5 bg-white footer mt-auto">
     <div
         class="container-fluid px-0 py-4 d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-between text-center text-md-start">

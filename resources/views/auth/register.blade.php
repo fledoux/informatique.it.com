@@ -9,7 +9,7 @@
         </div>
     @endif
     <div class="card rounded-4 shadow m-3">
-        <div class="card-body">
+        <div class="card-body p-2 p-sm-3">
             <img src="{{ asset('assets/img/logo/logo-vertical.svg') }}" alt="{{ config('app.brand_name') }} by Yellow Cactus"
                 class="d-inline-block align-text-top mb-2 mx-3">
             <h5 class="card-title py-3">

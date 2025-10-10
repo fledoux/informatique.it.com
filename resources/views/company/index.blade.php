@@ -1,18 +1,34 @@
 @extends('layouts.app')
 
 @section('title')
-    @if (auth()->check() && auth()->user()->hasRole('manager'))
-        {{ __('company.List') }}
-    @else
+    @hasanyrole(['super-admin'])
         {{ __('company.YourList') }}
-    @endif
+    @else
+        {{ __('company.List') }}
+    @endhasanyrole
 @endsection
 
 @section('content')
-    <h1 class="mb-4">{{ __('company.List') }}</h1>
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
+        <h1 class="h3 mb-0">
+            <i class="fa-regular fa-building me-2"></i>
+            @hasanyrole(['super-admin'])
+                {{ __('company.YourList') }}
+            @else
+                {{ __('company.List') }}
+            @endhasanyrole
+        </h1>
+        @can('create', App\Models\Company::class)
+            <div class="d-flex gap-1 gap-sm-2">
+                <a href="{{ route('company.create') }}" class="btn btn-orange">
+                    {!! __('global.btn.New') !!}
+                </a>
+            </div>
+        @endcan
+    </div>
 
     <div class="table-responsive">
-        <table class="table align-middle table-xs table-bordered table-hover">
+        <table class="table align-middle datatable table-bordered table-hover">
             <thead>
                 <tr>
                     <th class="text-center">{{ __('company.id') }}</th>
@@ -36,18 +52,8 @@
                     <tr>
                         <td class="text-center">{{ $company->id }}</td>
                         <td>
-                            @php($badgeColor = 'secondary')
-                            @switch($company->status)
-                                @case('active')
-                                    @php($badgeColor = 'success')
-                                @break
-
-                                @case('inactive')
-                                    @php($badgeColor = 'secondary')
-                                @break
-                            @endswitch
                             <span
-                                class="badge bg-{{ $badgeColor }}">{{ __('company.enum.status.' . $company->status) }}</span>
+                                class="badge {{ __('company.statusBadgeColor.' . $company->status) }}">{{ __('company.status.' . $company->status) }}</span>
                         </td>
                         <td>{{ $company->name }}</td>
                         <td>{{ $company->siret }}</td>
@@ -72,19 +78,20 @@
                             @include('company._delete_form', ['company' => $company])
                         </td>
                     </tr>
-                    @empty
-                        <tr>
-                            <td colspan="15" class="text-center">
-                                {!! __('global.No data') !!}
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                @empty
+                    <tr>
+                        <td colspan="15" class="text-center">
+                            {!! __('global.No data') !!}
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+@endsection
 
-        <a href="{{ route('company.create') }}" class="btn btn-orange mt-3">
-            
-            {!! __('global.btn.New') !!}
-        </a>
-    @endsection
+@if ($companies->count() > 0)
+    @push('javascripts')
+        @include('partials._datatable')
+    @endpush
+@endif

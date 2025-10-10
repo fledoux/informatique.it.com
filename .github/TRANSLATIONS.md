@@ -55,7 +55,7 @@ resources/lang/
 return [
     // Métadonnées
     'entity' => 'Nom de l\'Entité',
-    'id' => 'N°',
+    'id' => 'n°',
     
     // Actions CRUD
     'List' => 'Liste',
@@ -70,7 +70,7 @@ return [
     'No data' => 'Aucune donnée',
     
     // En-têtes de colonnes (pour dashboard/listes)
-    'Id' => 'N°',
+    'Id' => 'n°',
     'Status' => 'Statut',
     'Priority' => 'Priorité',
     'Subject' => 'Sujet',

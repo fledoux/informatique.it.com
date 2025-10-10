@@ -395,7 +395,8 @@ class {$entity}Controller extends Controller
 
     public function create()
     {
-        return view('{$entitySlug}.create');
+        \${$varSing} = new {$entity}();
+        return view('{$entitySlug}.create', compact('{$varSing}'));
     }
 
     public function store({$entity}StoreRequest \$request)
@@ -669,11 +670,14 @@ PHP;
 
         // CORRIGÉ : Ajouter les traductions enum SEULEMENT pour les champs de CETTE table
         $enumTranslations = [];
+        $enumBadgeColors = [];
         foreach ($columns as $column) {
             if (isset($this->enumFields[$column])) {
                 $enumValues = $this->enumFields[$column];
                 foreach ($enumValues as $enumValue) {
                     $enumTranslations[$column][$enumValue] = ucfirst($enumValue);
+                    // Générer aussi les couleurs de badge
+                    $enumBadgeColors[$column . 'BadgeColor'][$enumValue] = 'bg-' . $this->getBadgeColorForEnumValue($enumValue);
                 }
             }
         }
@@ -712,8 +716,8 @@ PHP;
             'No data'  => 'Aucune donnée',
         ];
 
-        // MODIFIÉ : Fonction d'export avec enum à la racine
-        $exportArray = function (array $arr, array $fields, array $enums) {
+        // MODIFIÉ : Fonction d'export avec enum à la racine + badge colors
+        $exportArray = function (array $arr, array $fields, array $enums, array $badgeColors = []) {
             $fieldsLines = [];
             foreach ($fields as $k => $v) {
                 $fieldsLines[] = "            '{$k}' => '" . addslashes($v) . "'";
@@ -738,6 +742,19 @@ PHP;
                     $enumSections[] = "    '{$enumField}' => [\n" . implode(",\n", $enumValueLines) . "\n    ]";
                 }
                 $enumStr = ",\n\n" . implode(",\n", $enumSections);
+            }
+
+            // Ajouter les badge colors
+            if (!empty($badgeColors)) {
+                $badgeColorSections = [];
+                foreach ($badgeColors as $colorField => $colorValues) {
+                    $colorValueLines = [];
+                    foreach ($colorValues as $key => $color) {
+                        $colorValueLines[] = "            '{$key}' => '" . addslashes($color) . "'";
+                    }
+                    $badgeColorSections[] = "    '{$colorField}' => [\n" . implode(",\n", $colorValueLines) . "\n    ]";
+                }
+                $enumStr .= ",\n\n" . implode(",\n", $badgeColorSections);
             }
 
             return "<?php\n\nreturn [\n{$commonStr},\n\n    'fields' => [\n{$fieldsStr}\n    ]{$enumStr}\n];\n";
@@ -802,8 +819,8 @@ PHP;
             }
         }
 
-        $fs->put($enFile, $exportArray($commonEN, $labelsMapEN, $enEnumTranslations));
-        $fs->put($frFile, $exportArray($commonFR, $labelsMapFR, $frEnumTranslations));
+        $fs->put($enFile, $exportArray($commonEN, $labelsMapEN, $enEnumTranslations, $enumBadgeColors));
+        $fs->put($frFile, $exportArray($commonFR, $labelsMapFR, $frEnumTranslations, $enumBadgeColors));
 
         // Ensure minimal crud.php exists in resources/lang/en and fr
         $crudEn = resource_path('lang/en/crud.php');
@@ -1521,23 +1538,10 @@ HTML;
                 $relationName = $this->getRelationNameFromColumn($column);
                 $tds .= "\n<td>{{ \${$varSing}->{$relationName}?->{$displayField} ?? '' }}</td>";
             }
-            // CORRIGÉ : Gestion des champs enum Laravel avec traductions et couleurs dynamiques
+            // CORRIGÉ : Gestion des champs enum Laravel avec traductions pour badges
             elseif (isset($this->enumFields[$column])) {
-                $enumValues = $this->enumFields[$column];
-                
-                // Générer dynamiquement les case statements
-                $switchCases = '';
-                foreach ($enumValues as $enumValue) {
-                    $badgeColor = $this->getBadgeColorForEnumValue($enumValue);
-                    $switchCases .= "\n    @case('{$enumValue}') @php(\$badgeColor = '{$badgeColor}') @break";
-                }
-                
                 $tds .= "\n<td>";
-                $tds .= "\n@php(\$badgeColor = 'secondary')"; // Couleur par défaut
-                $tds .= "\n@switch(\${$varSing}->{$column})";
-                $tds .= $switchCases;
-                $tds .= "\n@endswitch";
-                $tds .= "\n<span class=\"badge bg-{{ \$badgeColor }}\">{{ __('{$entitySlug}.{$column}.' . \${$varSing}->{$column}) }}</span>";
+                $tds .= "\n<span class=\"badge {{ __('{$entitySlug}.{$column}BadgeColor.' . \${$varSing}->{$column}) }}\">{{ __('{$entitySlug}.{$column}.' . \${$varSing}->{$column}) }}</span>";
                 $tds .= "\n</td>";
             }
             // Gestion spéciale pour les champs timestamp/datetime
@@ -1577,7 +1581,7 @@ HTML;
         $totalColumns = count($columns) + 2;
 
         return <<<BLADE
-@extends('layouts.app')
+@extends('layouts.app-fluid')
 
 @section('title')
 @if(auth()->check() && auth()->user()->hasRole('manager'))
@@ -1588,10 +1592,22 @@ HTML;
 @endsection
 
 @section('content')
-<h1 class="mb-4">{{ __('{$entitySlug}.List') }}</h1>
+<div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
+    <h1 class="h3 mb-0">
+        <i class="fa-regular fa-list me-2"></i>
+        {{ __('{$entitySlug}.List') }}
+    </h1>
+    @can('create', App\\Models\\{$entity}::class)
+        <div class="d-flex gap-1 gap-sm-2">
+            <a href="{{ route('{$entitySlug}.create') }}" class="btn btn-orange">
+                {!! __('global.btn.New') !!}
+            </a>
+        </div>
+    @endcan
+</div>
 
 <div class="table-responsive">
-<table class="table align-middle table-xs table-bordered table-hover">
+<table class="table align-middle datatable table-bordered table-hover">
 <thead>
 <tr>
 <th class="text-center">{{ __('{$entitySlug}.id') }}</th>{$ths}
@@ -1622,12 +1638,13 @@ HTML;
 </tbody>
 </table>
 </div>
-
-<a href="{{ route('{$entitySlug}.create') }}" class="btn btn-orange mt-3">
-    
-{!! __('global.btn.New') !!}
-</a>
 @endsection
+
+@if (\${$varPlur}->count() > 0)
+    @push('javascripts')
+        @include('partials._datatable')
+    @endpush
+@endif
 BLADE;
     }
 
@@ -1678,12 +1695,14 @@ BLADE;
 @section('content')
     <h1 class="h3 mb-3">{{ __('global.Create') }}  {{ __('{$entitySlug}.entity') }}</h1>
 
-    @php(\${$varSing} = new \\App\\Models\\{$entity}())
-
-    <form method="POST" action="{{ route('{$entitySlug}.store') }}" novalidate>
-        @csrf
-        @include('{$entitySlug}._form')
-    </form>
+    <div class="card shadow-sm">
+        <div class="card-body p-2 p-sm-3">
+            <form method="POST" action="{{ route('{$entitySlug}.store') }}" novalidate>
+                @csrf
+                @include('{$entitySlug}._form')
+            </form>
+        </div>
+    </div>
 @endsection
 BLADE;
     }
@@ -1697,13 +1716,17 @@ BLADE;
 @section('title', __('global.Edit') . '  ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('global.btn.Edit') !!}  {{ __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('global.btn.Edit') !!}  {{ {$singToken}->name ?? __('{$entitySlug}.entity') }}</h1>
 
-    <form method="POST" action="{{ route('{$entitySlug}.update', {$singToken}) }}" novalidate>
-        @csrf
-        @method('PUT')
-        @include('{$entitySlug}._form')
-    </form>
+    <div class="card shadow-sm">
+        <div class="card-body p-2 p-sm-3">
+            <form method="POST" action="{{ route('{$entitySlug}.update', {$singToken}) }}" novalidate>
+                @csrf
+                @method('PUT')
+                @include('{$entitySlug}._form')
+            </form>
+        </div>
+    </div>
 @endsection
 BLADE;
     }
@@ -1736,25 +1759,9 @@ BLADE;
             elseif (Str::endsWith($lower, '_at') || in_array($lower, ['last_login', 'email_verified_at'])) {
                 $value = '        <dd class="col-sm-9">{{ ' . $singToken . '->' . $c . ' ? (' . $singToken . '->' . $c . ' instanceof \\Carbon\\Carbon ? ' . $singToken . '->' . $c . "->format('d/m/Y à H:i') : " . $singToken . '->' . $c . ") : '' }}</dd>";
             }
-            // CORRIGÉ : Gestion des champs enum Laravel avec traductions et couleurs dynamiques
+            // CORRIGÉ : Gestion des champs enum Laravel avec traductions pour badges
             elseif (isset($this->enumFields[$c])) {
-                $enumValues = $this->enumFields[$c];
-                
-                // Générer dynamiquement les case statements
-                $switchCases = '';
-                foreach ($enumValues as $enumValue) {
-                    $badgeColor = $this->getBadgeColorForEnumValue($enumValue);
-                    $switchCases .= "\n                @case('{$enumValue}') @php(\$badgeColor = '{$badgeColor}') @break";
-                }
-                
-                $value = <<<HTML
-        <dd class="col-sm-9">
-            @php(\$badgeColor = 'secondary')
-            @switch({$singToken}->{$c}){$switchCases}
-            @endswitch
-            <span class="badge bg-{{ \$badgeColor }}">{{ __('{$entitySlug}.{$c}.' . {$singToken}->{$c}) }}</span>
-        </dd>
-HTML;
+                $value = '        <dd class="col-sm-9"><span class="badge {{ __(\''. $entitySlug .'.'. $c .'BadgeColor.\' . ' . $singToken . '->' . $c . ') }}">{{ __(\''. $entitySlug .'.'. $c .'.\' . ' . $singToken . '->' . $c . ') }}</span></dd>';
             }
             // Autres champs JSON
             elseif (in_array($c, $this->jsonFields)) {
@@ -1785,13 +1792,17 @@ HTML;
 @section('content')
     <h1 class="h3 mb-3">{!! __('global.btn.Details') !!}  {{ __('{$entitySlug}.entity') }}</h1>
 
-    <dl class="row">
+    <div class="card shadow-sm">
+        <div class="card-body p-2 p-sm-3">
+            <dl class="row mb-0">
 {$allRows}
-    </dl>
+            </dl>
 
-    <div class="btn-group mt-3" role="group" aria-label="Actions">
-        <a href="{{ route('{$entitySlug}.edit', {$singToken}) }}" class="btn btn-primary">{!! __('global.btn.Edit') !!}</a>
-        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{!! __('global.btn.Back') !!}</a>
+            <div class="btn-group mt-3" role="group" aria-label="Actions">
+                <a href="{{ route('{$entitySlug}.edit', {$singToken}) }}" class="btn btn-primary">{!! __('global.btn.Edit') !!}</a>
+                <a href="{{ url()->previous() }}" class="btn btn-outline-primary">{!! __('global.btn.Back') !!}</a>
+            </div>
+        </div>
     </div>
 @endsection
 BLADE;

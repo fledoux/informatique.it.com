@@ -61,7 +61,7 @@ class Ticket extends Model
                     // Supprimer les enregistrements en base (cascade delete devrait le faire aussi)
                     $ticket->attachments()->delete();
                     
-                    \Illuminate\Support\Facades\Log::info("Deleted {$attachments->count()} attachment(s) for ticket #{$ticket->id}");
+                    \Illuminate\Support\Facades\Log::info("Deleted {$attachments->count()} attachment(s) for Support n°{$ticket->id}");
                 }
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error("Error deleting ticket attachments: " . $e->getMessage());
@@ -218,6 +218,33 @@ class Ticket extends Model
     }
 
     /**
+     * Vérifie si le ticket attend une réponse du support
+     * (dernier message du client ou aucune réponse)
+     * Utilise la relation 'messages' pré-chargée si disponible
+     */
+    public function needsReply(): bool
+    {
+        // Utiliser les messages déjà chargés si disponibles (eager loading)
+        if ($this->relationLoaded('messages')) {
+            $lastMessage = $this->messages->first();
+        } else {
+            // Fallback : charger le dernier message actif
+            $lastMessage = $this->messages()
+                ->where('status', 'active')
+                ->orderBy('created_at', 'desc')
+                ->first();
+        }
+        
+        // Si aucun message, le ticket attend une réponse
+        if (!$lastMessage) {
+            return true;
+        }
+        
+        // Si le dernier message est du client (auteur = auteur du ticket), il attend une réponse
+        return $lastMessage->author_id === $this->author_id;
+    }
+
+    /**
      * Récupère les tickets récents avec leurs relations
      */
     public static function getMyLastTickets(int $limit = 20)
@@ -352,21 +379,28 @@ class Ticket extends Model
             return collect();
         }
 
+        $query = self::with([
+            'company', 
+            'author', 
+            'assignedTo',
+            'messages' => function ($query) {
+                $query->where('status', 'active')
+                    ->orderBy('created_at', 'desc')
+                    ->limit(1);
+            }
+        ]);
+
         if ($user->hasRole('super-admin')) {
             // Super Admin voit tous les tickets
-            return self::with(['company', 'author', 'assignedTo'])
-                ->orderBy('created_at', 'desc')
-                ->get();
-        } elseif ($user->hasRole('manager')) {
-            // Utilisateur normal voit seulement les tickets de sa société
-            return self::with(['company', 'author', 'assignedTo'])
-                ->where('company_id', $user->company_id)
+            return $query->orderBy('created_at', 'desc')->get();
+        } elseif ($user->hasAnyRole(['manager', 'admin'])) {
+            // Manager et Admin voient tous les tickets de leur société
+            return $query->where('company_id', $user->company_id)
                 ->orderBy('created_at', 'desc')
                 ->get();
         } else {
-            // Utilisateur normal voit seulement ses tickets
-            return self::with(['company', 'author', 'assignedTo'])
-                ->where('company_id', $user->company_id)
+            // Utilisateur normal voit seulement ses propres tickets
+            return $query->where('company_id', $user->company_id)
                 ->where('author_id', $user->id)
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -395,7 +429,7 @@ class Ticket extends Model
     public function sendSmsWithLink(string $phoneNumber, string $message): bool
     {
         $publicLink = $this->getPublicLink();
-        $smsContent = "Ticket #{$this->id}: {$message}\n\nRépondre: {$publicLink}";
+        $smsContent = "Support n°{$this->id}: {$message}\n\nRépondre: {$publicLink}";
         
         return \App\Services\SmsService::send($phoneNumber, $smsContent);
     }

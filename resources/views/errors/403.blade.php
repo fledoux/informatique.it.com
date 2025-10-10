@@ -69,7 +69,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
                         <div class="card border-0 bg-light mx-auto">
-                            <div class="card-body border py-4 text-start">
+                            <div class="card-body p-2 p-sm-3 border py-4 text-start">
                                 <h6 class="card-title fw-semibold mb-3 text-center">
                                     <i class="fa-regular fa-info-circle me-1 text-primary"></i>
                                     {{ __('global.About permissions') }} :

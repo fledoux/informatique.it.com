@@ -30,7 +30,7 @@
                         {{ ucfirst($group) }}
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-2 p-sm-3">
                     <div class="table-responsive">
                         <table class="table table-hover table-sm">
                             <thead>
@@ -41,9 +41,6 @@
                                         <th class="text-center align-middle" style="width: 150px;">
                                             <div class="d-flex flex-column align-items-center">
                                                 <span class="fw-bold">{{ ucfirst($role->name) }}</span>
-                                                <small class="text-muted">
-                                                    {{ \App\Helpers\Helper::pluralize($role->users()->count(), 'global.user', 'global.users') }}
-                                                </small>
                                             </div>
                                         </th>
                                     @endforeach
@@ -55,7 +52,7 @@
                                     @php
                                         $isSystem = \App\Helpers\PermissionHelper::isSystemPermission($permission->name);
                                     @endphp
-                                    <tr class="{{ !$isSystem ? 'table-success' : '' }}">
+                                    <tr class="{{ !$isSystem ? 'table-warning' : '' }}">
                                         <td class="align-middle">
                                             <code class="text-dark">{{ $permission->name }}</code>
                                         </td>
@@ -66,7 +63,7 @@
                                                     Système
                                                 </span>
                                             @else
-                                                <span class="badge bg-success">
+                                                <span class="badge bg-warning">
                                                     <i class="fa-regular fa-pencil"></i>
                                                     Custom
                                                 </span>
