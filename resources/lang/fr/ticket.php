@@ -30,11 +30,31 @@ return [
         'List' => '<i class="fa-regular fa-message-question me-2"></i>Demande de support',
         'Create' => '<i class="fa-regular fa-plus me-2"></i>Créer une demande de support',
         'Edit' => '<i class="fa-regular fa-pen-to-square me-2"></i>Modifier la demande de support',
-        'Details' => '<i class="fa-regular fa-eye me-2"></i>Détails de la demande de support'
+        'Details' => '<i class="fa-regular fa-eye me-2"></i>Détails de la demande de support',
+        'Merge' => '<i class="fa-regular fa-code-merge me-2"></i>Fusionner les tickets'
     ],
 
     'btn' => [
-        'New' => '<i class="fa-regular fa-plus me-2"></i>Nouveau ticket'
+        'New' => '<i class="fa-regular fa-plus me-2"></i>Nouveau ticket',
+        'Merge' => '<i class="fa-regular fa-code-merge me-1"></i>Fusionner'
+    ],
+
+    'merge' => [
+        'title' => 'Fusionner les tickets',
+        'keep' => 'Ticket à conserver',
+        'delete' => 'Ticket à fusionner (sera supprimé)',
+        'select' => 'Sélectionner le ticket à fusionner',
+        'confirm' => 'Êtes-vous sûr de vouloir fusionner ces tickets ? Cette action est irréversible.',
+        'success' => 'Le ticket #:id a été fusionné avec succès.',
+        'info' => 'Cette opération va fusionner un autre ticket avec le ticket actuel. Tous les messages et pièces jointes de l\'ancien ticket seront transférés vers ce ticket, puis l\'ancien ticket sera supprimé.',
+        'warning_title' => 'Attention',
+        'warning_messages' => 'Tous les messages du ticket à fusionner seront transférés vers le ticket à conserver',
+        'warning_attachments' => 'Toutes les pièces jointes seront également transférées',
+        'warning_dates' => 'Les dates de création des messages et pièces jointes seront conservées',
+        'warning_system_message' => 'Un message système sera créé pour indiquer la fusion',
+        'warning_delete' => 'Le ticket à fusionner sera définitivement supprimé',
+        'warning_irreversible' => 'Cette action est irréversible',
+        'no_tickets' => 'Aucun ticket disponible pour la fusion.',
     ],
 
     'fields' => [

@@ -446,4 +446,30 @@ class Ticket extends Model
             })
             ->first();
     }
+
+    /**
+     * Récupère les tickets disponibles pour la fusion avec ce ticket
+     * (tickets de la même entreprise, non clôturés ni annulés)
+     */
+    public function getAvailableTicketsForMerge()
+    {
+        return self::where('company_id', $this->company_id)
+            ->where('id', '!=', $this->id)
+            ->where('status', '!=', 'closed')
+            ->where('status', '!=', 'canceled')
+            ->with(['author'])
+            ->withCount(['messages', 'attachments'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
+    /**
+     * Charge ce ticket avec les compteurs pour l'affichage de fusion
+     */
+    public static function findForMerge(int $id): ?self
+    {
+        return self::with(['company', 'author'])
+            ->withCount(['messages', 'attachments'])
+            ->find($id);
+    }
 }

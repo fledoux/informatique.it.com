@@ -20,7 +20,7 @@ class TicketController extends Controller
         $this->middleware('permission:ticket.index')->only('index');
         $this->middleware('permission:ticket.create')->only(['create', 'store']);
         $this->middleware('permission:ticket.show')->only('show');
-        $this->middleware('permission:ticket.edit')->only(['edit', 'update']);
+        $this->middleware('permission:ticket.edit')->only(['edit', 'update', 'mergeForm', 'merge']);
         $this->middleware('permission:ticket.delete')->only('destroy');
     }
 
@@ -246,6 +246,126 @@ class TicketController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect()->route('ticket.index')
                 ->with('error', __('global.messages.delete_not_found'));
+        }
+    }
+
+    /**
+     * Afficher le formulaire de fusion de tickets
+     */
+    public function mergeForm($id)
+    {
+        try {
+            $ticket = Ticket::findForMerge($id);
+            
+            if (!$ticket) {
+                throw new ModelNotFoundException();
+            }
+            
+            $availableTickets = $ticket->getAvailableTicketsForMerge();
+            
+            return view('ticket.merge', compact('ticket', 'availableTickets'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('ticket.index')
+                ->with('error', __('global.messages.not_found'));
+        }
+    }
+
+    /**
+     * Fusionner deux tickets
+     */
+    public function merge($id)
+    {
+        try {
+            $sourceTicketId = request()->input('source_ticket_id');
+            
+            if (!$sourceTicketId) {
+                return back()->with('error', 'Veuillez sélectionner un ticket à fusionner.');
+            }
+
+            $targetTicket = Ticket::findOrFail($id); // Ticket à conserver
+            $sourceTicket = Ticket::findOrFail($sourceTicketId); // Ticket à supprimer
+            
+            // Vérifier que les tickets appartiennent à la même entreprise
+            if ($targetTicket->company_id !== $sourceTicket->company_id) {
+                return back()->with('error', 'Les tickets doivent appartenir à la même entreprise.');
+            }
+
+            \Illuminate\Support\Facades\DB::beginTransaction();
+            
+            try {
+                // 1. Migrer les messages du ticket source vers le ticket cible
+                \App\Models\TicketMessage::where('ticket_id', $sourceTicket->id)
+                    ->update(['ticket_id' => $targetTicket->id]);
+                
+                // 2. Migrer les pièces jointes du ticket source vers le ticket cible
+                // Récupérer toutes les pièces jointes à déplacer
+                $attachments = \App\Models\TicketAttachment::where('ticket_id', $sourceTicket->id)->get();
+                
+                $movedCount = 0;
+                $failedCount = 0;
+                
+                foreach ($attachments as $attachment) {
+                    if ($attachment->moveToTicket($targetTicket->id)) {
+                        $movedCount++;
+                    } else {
+                        $failedCount++;
+                        \Illuminate\Support\Facades\Log::warning(
+                            "Failed to move attachment {$attachment->id} from ticket {$sourceTicket->id} to {$targetTicket->id}"
+                        );
+                    }
+                }
+                
+                // Si des pièces jointes n'ont pas pu être déplacées, logger l'info mais continuer
+                if ($failedCount > 0) {
+                    \Illuminate\Support\Facades\Log::warning(
+                        "Ticket merge: {$movedCount} attachments moved successfully, {$failedCount} failed"
+                    );
+                }
+                
+                // 3. Créer un message système pour indiquer la fusion
+                $mergeDetails = "Le ticket #{$sourceTicket->id} (créé le " . $sourceTicket->created_at->format('d/m/Y à H:i') . ") a été fusionné avec ce ticket.\n\n";
+                $mergeDetails .= "Sujet du ticket fusionné : {$sourceTicket->subject}\n";
+                $mergeDetails .= "Messages transférés : " . \App\Models\TicketMessage::where('ticket_id', $targetTicket->id)->count() . "\n";
+                $mergeDetails .= "Pièces jointes déplacées : {$movedCount}";
+                
+                if ($failedCount > 0) {
+                    $mergeDetails .= " ({$failedCount} échec(s))";
+                }
+                
+                \App\Models\TicketMessage::create([
+                    'ticket_id' => $targetTicket->id,
+                    'company_id' => $targetTicket->company_id,
+                    'author_id' => Auth::id(),
+                    'status' => 'internal',
+                    'subject' => 'Fusion de tickets',
+                    'body' => $mergeDetails,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                
+                // 4. Supprimer l'ancien ticket
+                $sourceTicket->delete();
+                
+                \Illuminate\Support\Facades\DB::commit();
+                
+                $successMessage = "Le ticket #{$sourceTicket->id} a été fusionné avec succès.";
+                if ($failedCount > 0) {
+                    $successMessage .= " Attention : {$failedCount} pièce(s) jointe(s) n'ont pas pu être déplacées.";
+                }
+                
+                return redirect()->route('ticket.show', $targetTicket->id)
+                    ->with('success', $successMessage);
+                    
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\DB::rollBack();
+                throw $e;
+            }
+            
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('ticket.index')
+                ->with('error', __('global.messages.not_found'));
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erreur lors de la fusion : ' . $e->getMessage());
         }
     }
 }

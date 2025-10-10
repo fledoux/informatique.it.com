@@ -31,6 +31,11 @@
                                             class="btn btn-warning">
                                             {!! __('ticket.Note Interne') !!}
                                         </a>
+                                        <a href="{{ route('ticket.merge.form', $ticket->id) }}"
+                                            class="btn btn-outline-secondary">
+                                            <i class="fa-regular fa-code-merge me-1"></i>
+                                            Fusionner
+                                        </a>
                                     @endhasanyrole
                                 @endcan
                             </div>

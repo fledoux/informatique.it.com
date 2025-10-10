@@ -30,6 +30,9 @@ Route::get('/web', [PageController::class, 'web'])->name('web');
 Route::get('/street', [PageController::class, 'street'])->name('street');
 Route::get('/car', [PageController::class, 'car'])->name('car');
 Route::get('/scannez-moi', [PageController::class, 'qrCode'])->name('qr-code');
+Route::get('/cybersecurite', [PageController::class, 'cybersecurite'])->name('cybersecurite');
+Route::post('/cybersecurite', [PageController::class, 'cybersecuriteSubmit'])->name('cybersecurite.submit');
+Route::get('/cybersecurite-resultat', [PageController::class, 'cybersecuriteResult'])->name('cybersecurite.result');
 
 // Auth routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -95,6 +98,8 @@ Route::prefix('ticket')->group(function () {
     Route::put('/{ticket}', [TicketController::class, 'update'])->name('ticket.update');
     Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('ticket.destroy');
     Route::post('/{ticket}/resend-confirmation', [TicketController::class, 'resendConfirmation'])->name('ticket.resend-confirmation');
+    Route::get('/{ticket}/merge', [TicketController::class, 'mergeForm'])->name('ticket.merge.form');
+    Route::post('/{ticket}/merge', [TicketController::class, 'merge'])->name('ticket.merge');
 });
 
 // Routes Company - Permissions gérées dans CompanyController::__construct()

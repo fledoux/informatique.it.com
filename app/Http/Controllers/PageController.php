@@ -43,6 +43,26 @@ class PageController extends Controller
         ));
     }
 
+    public function cybersecurite()
+    {
+        return view('pages.cyber-entry');
+    }
+
+    public function cybersecuriteSubmit(Request $request)
+    {
+        $validated = $request->validate([
+            'firstname' => ['required', 'string', 'max:100'],
+        ]);
+
+        //return redirect()->route('cybersecurite.result', ['firstname' => $validated['firstname']]);
+        return view('pages.cybersecurite', ['firstname' => $validated['firstname']]);
+    }
+
+    public function cybersecuriteResult()
+    {
+        //return view('pages.cybersecurite');
+    }
+
     public function legal()
     {
         return view('pages.legal');

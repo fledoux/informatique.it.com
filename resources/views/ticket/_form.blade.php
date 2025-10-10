@@ -34,7 +34,7 @@
                         )" />
                     </div>
                     <div class="col-12 col-lg-4">
-                        <x-forms.checkbox name="billable" :label="__('ticket.fields.billable')" :checked="old('billable', $ticket->billable ?? false)" />
+                        <x-forms.checkbox name="billable" :label="__('ticket.fields.billable')" :checked="old('billable', $ticket->billable ?? true)" />
                     </div>
                 </div>
             </div>

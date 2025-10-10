@@ -147,6 +147,14 @@ class Helper
 	}
 
 	/**
+	 * Génère une couleur de badge selon la priorité (alias de getStatusBadgeColor)
+	 */
+	public static function getPriorityBadgeColor(string $priority, array $mapping = []): string
+	{
+		return self::getStatusBadgeColor($priority, $mapping);
+	}
+
+	/**
 	 * Génère un lien mailto (équivalent Html::mail_to de FuelPHP)
 	 */
 	public static function mailTo(string $email, ?string $name = null, array $attributes = ['class' => 'text-orange text-decoration-none']): string
