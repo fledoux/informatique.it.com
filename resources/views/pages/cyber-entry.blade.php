@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <div class="text-center mb-4">
                             <i class="fa-solid fa-shield-halved fa-4x text-primary mb-3"></i>
-                            <h2 class="fw-bold">Formation<br>Cyber-sécurité</h2>
+                            <h2 class="fw-bold">Formation<br>Cybersécurité</h2>
                             <p class="text-muted">Veuillez vous identifier<br>pour obtenir votre cadeau</p>
                         </div>
 
