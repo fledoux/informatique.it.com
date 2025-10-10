@@ -14,7 +14,18 @@ return [
         'Delete?' => 'Supprimer ?',
         'No data' => 'Aucune donnée',
 
-        'fields' => [
+    'h1' => [
+        'List' => '<i class="fa-regular fa-address-book me-2"></i>Contacts',
+        'Create' => '<i class="fa-regular fa-plus me-2"></i>Créer un contact',
+        'Edit' => '<i class="fa-regular fa-pen-to-square me-2"></i>Modifier le contact',
+        'Details' => '<i class="fa-regular fa-eye me-2"></i>Détails du contact'
+    ],
+
+    'btn' => [
+        'New' => '<i class="fa-regular fa-plus me-2"></i>Nouveau contact'
+    ],
+
+    'fields' => [
                 'name' => 'Nom',
                 'email' => 'Email',
                 'phone' => 'Téléphone',

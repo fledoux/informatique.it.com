@@ -7,14 +7,13 @@
 @section('content')
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
         <h1 class="h3 mb-0">
-            <i class="fa-regular fa-users me-2"></i>
-            {{ __('user.List') }}
+            {!! __('user.h1.List') !!}
         </h1>
         @hasanyrole(['super-admin'])
             @hasanyrole(['super-admin'])
                 <div class="d-flex gap-1 gap-sm-2">
                     <a href="{{ route('user.create') }}" class="btn btn-orange">
-                        {!! __('global.btn.New') !!}
+                        {!! __('user.btn.New') !!}
                     </a>
                 </div>
             @endhasanyrole

@@ -1594,13 +1594,12 @@ HTML;
 @section('content')
 <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
     <h1 class="h3 mb-0">
-        <i class="fa-regular fa-list me-2"></i>
-        {{ __('{$entitySlug}.List') }}
+        {!! __('{$entitySlug}.h1.List') !!}
     </h1>
     @can('create', App\\Models\\{$entity}::class)
         <div class="d-flex gap-1 gap-sm-2">
             <a href="{{ route('{$entitySlug}.create') }}" class="btn btn-orange">
-                {!! __('global.btn.New') !!}
+                {!! __('{$entitySlug}.btn.New') !!}
             </a>
         </div>
     @endcan
@@ -1693,7 +1692,7 @@ BLADE;
 @section('title', __('global.Create') . '  ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{{ __('global.Create') }}  {{ __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('{$entitySlug}.h1.Create') !!}</h1>
 
     <div class="card shadow-sm">
         <div class="card-body p-2 p-sm-3">
@@ -1716,7 +1715,7 @@ BLADE;
 @section('title', __('global.Edit') . '  ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('global.btn.Edit') !!}  {{ {$singToken}->name ?? __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('{$entitySlug}.h1.Edit') !!} {{ {$singToken}->name ?? '' }}</h1>
 
     <div class="card shadow-sm">
         <div class="card-body p-2 p-sm-3">
@@ -1790,7 +1789,7 @@ BLADE;
 @section('title', __('global.Details') . '  ' . __('{$entitySlug}.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('global.btn.Details') !!}  {{ __('{$entitySlug}.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('{$entitySlug}.h1.Details') !!}</h1>
 
     <div class="card shadow-sm">
         <div class="card-body p-2 p-sm-3">

@@ -7,13 +7,12 @@
 @section('content')
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
         <h1 class="h3 mb-0">
-            <i class="fa-regular fa-message-question me-2"></i>
-            {{ __('ticket.List') }}
+            {!! __('ticket.h1.List') !!}
         </h1>
         @can('create', App\Models\Ticket::class)
             <div class="d-flex gap-1 gap-sm-2">
                 <a href="{{ route('ticket.create') }}" class="btn btn-orange">
-                    {!! __('btn.NewTicket') !!}
+                    {!! __('ticket.btn.New') !!}
                 </a>
             </div>
         @endcan

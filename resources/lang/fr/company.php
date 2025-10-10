@@ -15,6 +15,17 @@ return [
         'Delete?' => 'Supprimer ?',
         'No data' => 'Aucune donnée',
 
+    'h1' => [
+        'List' => '<i class="fa-regular fa-building me-2"></i>Sociétés',
+        'Create' => '<i class="fa-regular fa-plus me-2"></i>Créer une société',
+        'Edit' => '<i class="fa-regular fa-pen-to-square me-2"></i>Modifier',
+        'Details' => '<i class="fa-regular fa-eye me-2"></i>Détails de'
+    ],
+
+    'btn' => [
+        'New' => '<i class="fa-regular fa-plus me-2"></i>Nouvelle société'
+    ],
+
     'fields' => [
             'status' => 'Statut',
             'name' => 'Nom',

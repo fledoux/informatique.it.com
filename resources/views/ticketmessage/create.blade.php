@@ -5,8 +5,7 @@
 @section('content')
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
             <h1 class="h3 mb-0">
-                <i class="fa-regular fa-{{ $isInternal ? 'lock' : 'reply' }} me-2"></i>
-                {{ $isInternal ? 'Note interne' : 'Répondre' }} - Support n°{{ $ticket->id }}
+                {!! $isInternal ? __('ticketmessage.h1.InternalNote') : __('ticketmessage.h1.Reply') !!} - Support n°{{ $ticket->id }}
             </h1>
             <div class="d-flex gap-1 gap-sm-2">
                 <a href="{{ route('ticket.show', $ticket->id) }}" class="btn btn-outline-secondary">
@@ -17,12 +16,6 @@
 
         {{-- Formulaire de réponse --}}
         <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">
-                    <i class="fa-regular fa-{{ $isInternal ? 'lock' : 'pencil' }} me-2"></i>
-                    {{ $isInternal ? 'Nouvelle note interne' : 'Votre réponse' }}
-                </h5>
-            </div>
             <div class="card-body p-2 p-sm-3">
                 <form action="{{ route('ticketmessage.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf

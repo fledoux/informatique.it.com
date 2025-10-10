@@ -5,13 +5,13 @@
 @section('content')
     <div class="row">
         <div class="col-12 col-lg-9">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
+                <h1 class="h3 mb-0">
+                    <i class="fa-regular fa-comments me-2"></i> Conversation - </span>Support n°{{ $ticket->id }}
+                </h1>
+            </div>
+
             <div class="card mb-4">
-                <div class="card-header">
-                    <h4 class="mb-0">
-                        <i class="fa-regular fa-comments me-2"></i>
-                        <span class="d-none d-sm-inline">Conversation - </span>Support n°{{ $ticket->id }}
-                    </h4>
-                </div>
                 <div class="card-body p-2 p-sm-3">
 
                     {{-- Boutons de réponse --}}
@@ -68,7 +68,8 @@
                                                 </div>
                                             @endhasanyrole
                                             @if ($message->status === 'internal')
-                                                <i class="fa-regular fa-eye-slash text-warning ms-1" title="Message interne"></i>
+                                                <i class="fa-regular fa-eye-slash text-warning ms-1"
+                                                    title="Message interne"></i>
                                             @elseif ($message->status === 'inactive')
                                                 <i class="fa-regular fa-eye-slash ms-1" title="Message inactif"></i>
                                             @endif
@@ -353,7 +354,7 @@
                                             <small class="text-muted">
                                                 {{ $attachment->getFormattedSize() }}
                                                 @if ($attachment->uploaded_by)
-                                                 • {{ $attachment->created_at->format('d/m') }}
+                                                    • {{ $attachment->created_at->format('d/m') }}
                                                     @if ($attachment->uploaded_by === $ticket->author_id)
                                                         • {{ $attachment->uploader->name ?? 'Support' }}
                                                     @else

@@ -15,7 +15,15 @@ return [
         'Delete?' => 'Supprimer ?',
         'No data' => 'Aucune donnée',
         'Create' => 'Ajouter un utilisateur',
-        'fields' => [
+
+    'h1' => [
+        'List' => '<i class="fa-regular fa-users me-2"></i>Utilisateurs',
+        'Create' => '<i class="fa-regular fa-plus me-2"></i>Créer un utilisateur',
+        'Edit' => '<i class="fa-regular fa-pen-to-square me-2"></i>Modifier',
+        'Details' => '<i class="fa-regular fa-eye me-2"></i>Détails du compte'
+    ],
+
+    'fields' => [
                 'name' => 'Nom du compte',
                 'email' => 'Email',
                 'password' => 'Mot de passe',
@@ -34,7 +42,9 @@ return [
                 'note' => 'Note',
                 'roles' => 'Rôles'
         ],
-
+        'btn' => [
+                'New' => '<i class="fa fa-plus"></i> Ajouter un utilisateur'
+        ],
         'status' => [
                 'active' => 'Actif',
                 'inactive' => 'Inactif'

@@ -26,6 +26,17 @@ return [
     'Create' => 'Créer une demande de support',
     'Create at' => 'Créé le',
 
+    'h1' => [
+        'List' => '<i class="fa-regular fa-message-question me-2"></i>Demande de support',
+        'Create' => '<i class="fa-regular fa-plus me-2"></i>Créer une demande de support',
+        'Edit' => '<i class="fa-regular fa-pen-to-square me-2"></i>Modifier la demande de support',
+        'Details' => '<i class="fa-regular fa-eye me-2"></i>Détails de la demande de support'
+    ],
+
+    'btn' => [
+        'New' => '<i class="fa-regular fa-plus me-2"></i>Nouveau ticket'
+    ],
+
     'fields' => [
         'status' => 'Statut',
         'priority' => 'Priorité',

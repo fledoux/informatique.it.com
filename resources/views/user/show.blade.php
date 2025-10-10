@@ -3,7 +3,7 @@
 @section('title', __('user.TitleDetails') . ' ' . ($user->firstname ?? '') . ' ' . ($user->lastname ?? ''))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('user.TitleDetails') !!} {{ $user->firstname ? $user->firstname : __('user.entity') }}
+    <h1 class="h3 mb-3">{!! __('user.h1.Details') !!} {{ $user->firstname ? $user->firstname : __('user.entity') }}
         {{ $user->lastname ? $user->lastname : '' }}</h1>
 
     <div class="card shadow-sm">

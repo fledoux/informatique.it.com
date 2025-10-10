@@ -11,13 +11,12 @@
 @section('content')
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
         <h1 class="h3 mb-0">
-            <i class="fa-regular fa-address-book me-2"></i>
-            {{ __('contact.List') }}
+            {!! __('contact.h1.List') !!}
         </h1>
         @can('create', App\Models\Contact::class)
             <div class="d-flex gap-1 gap-sm-2">
                 <a href="{{ route('contact.create') }}" class="btn btn-orange">
-                    {!! __('global.btn.New') !!}
+                    {!! __('contact.btn.New') !!}
                 </a>
             </div>
         @endcan

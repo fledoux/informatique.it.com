@@ -3,7 +3,7 @@
 @section('title', __('global.Details') . ' ' . __('company.entity'))
 
 @section('content')
-    <h1 class="h3 mb-3">{!! __('global.btn.Details') !!} de {{ $company->name ?? __('company.entity') }}</h1>
+    <h1 class="h3 mb-3">{!! __('company.h1.Details') !!} {{ $company->name ?? __('company.entity') }}</h1>
 
     <div class="card shadow-sm">
         <div class="card-body p-2 p-sm-3">

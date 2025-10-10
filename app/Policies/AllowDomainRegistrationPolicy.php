@@ -13,7 +13,7 @@ class AllowDomainRegistrationPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->hasAnyRole(['super-admin',]);
     }
 
     /**
@@ -21,7 +21,7 @@ class AllowDomainRegistrationPolicy
      */
     public function view(User $user, AllowDomainRegistration $allowDomainRegistration): bool
     {
-        return false;
+        return $user->hasAnyRole(['super-admin',]);
     }
 
     /**
@@ -29,7 +29,7 @@ class AllowDomainRegistrationPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasAnyRole(['super-admin',]);
     }
 
     /**
@@ -37,7 +37,7 @@ class AllowDomainRegistrationPolicy
      */
     public function update(User $user, AllowDomainRegistration $allowDomainRegistration): bool
     {
-        return false;
+        return $user->hasAnyRole(['super-admin',]);
     }
 
     /**
@@ -45,7 +45,7 @@ class AllowDomainRegistrationPolicy
      */
     public function delete(User $user, AllowDomainRegistration $allowDomainRegistration): bool
     {
-        return false;
+        return $user->hasAnyRole(['super-admin',]);
     }
 
     /**
@@ -53,7 +53,7 @@ class AllowDomainRegistrationPolicy
      */
     public function restore(User $user, AllowDomainRegistration $allowDomainRegistration): bool
     {
-        return false;
+        return $user->hasAnyRole(['super-admin',]);
     }
 
     /**
@@ -61,6 +61,6 @@ class AllowDomainRegistrationPolicy
      */
     public function forceDelete(User $user, AllowDomainRegistration $allowDomainRegistration): bool
     {
-        return false;
+        return $user->hasAnyRole(['super-admin',]);
     }
 }

@@ -5,11 +5,11 @@
 @section('content')
     <div class="row">
         <div class="col-12 col-lg-8 offset-lg-2">
+            <h1 class="h3 mb-3">{!! __('ticketattachment.h1.Create') !!}</h1>
             <div class="card">
                 <div class="card-header">
                     <h4 class="mb-0">
-                        <i class="fa-regular fa-file-import me-2"></i>
-                        {{ __('ticketattachment.Add Attachment') }}
+                        Support n°{{ $ticket->id }}
                     </h4>
                 </div>
                 <div class="card-body p-2 p-sm-3">
@@ -32,7 +32,6 @@
                         <input type="hidden" name="status" value="active">
 
                         <div class="mb-5">
-                            <h5>Support #{{ $ticket->id }}</h5>
                             <div class="alert alert-warning" role="alert">
                                 <p><i class="fa-regular fa-triangle-exclamation me-2"></i> Vous êtes sur le point d'ajouter un fichier à ce support. Assurez-vous que le fichier est pertinent et respecte notre politique de confidentialité.</p>
                                 <p class="fw-bold mb-0">Maximum {{ \App\Helpers\Helper::getMaxFileSizeFormatted() }} par fichier.</p>

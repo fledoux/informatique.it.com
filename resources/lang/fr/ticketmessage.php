@@ -21,6 +21,21 @@ return [
     'public_messages' => 'Messages publics',
     'internal_messages' => 'Notes internes',
 
+    'h1' => [
+        'List' => '<i class="fa-regular fa-messages me-2"></i>Messages',
+        'Create' => '<i class="fa-regular fa-plus me-2"></i>Nouveau message',
+        'Edit' => '<i class="fa-regular fa-pen-to-square me-2"></i>Modifier le message',
+        'Details' => '<i class="fa-regular fa-eye me-2"></i>Détails du message',
+        'Reply' => '<i class="fa-regular fa-reply me-2"></i>Répondre',
+        'InternalNote' => '<i class="fa-regular fa-lock me-2"></i>Note interne'
+    ],
+
+    'btn' => [
+        'New' => '<i class="fa-regular fa-plus me-2"></i>Nouveau message',
+        'Reply' => '<i class="fa-regular fa-reply me-2"></i>Répondre',
+        'InternalNote' => '<i class="fa-regular fa-lock me-2"></i>Note interne'
+    ],
+
     'fields' => [
         'status' => 'Statut',
         'subject' => 'Sujet',

@@ -1,26 +1,21 @@
 @extends('layouts.app')
 
 @section('title')
-    @if (auth()->check() && auth()->user()->hasRole('manager'))
-        {{ __('allowdomain.List') }}
-    @else
-        {{ __('allowdomain.YourList') }}
-    @endif
+    {{ __('allowdomain.List') }}
 @endsection
 
 @section('content')
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-1 gap-sm-2 mb-4">
         <h1 class="h3 mb-0">
-            <i class="fa-regular fa-globe me-2"></i>
-            {{ __('allowdomain.List') }}
+            {!! __('allowdomain.h1.List') !!}
         </h1>
-        @can('create', App\Models\AllowDomainRegistration::class)
+        @hasanyrole(['super-admin'])
             <div class="d-flex gap-1 gap-sm-2">
-                <a href="{{ route('allowdomainregistration.create') }}" class="btn btn-orange">
-                    {!! __('global.btn.New') !!}
+                <a href="{{ route('allowdomain.create') }}" class="btn btn-orange">
+                    {!! __('allowdomain.btn.New') !!}
                 </a>
             </div>
-        @endcan
+        @endhasanyrole
     </div>
 
     <div class="table-responsive">
