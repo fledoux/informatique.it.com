@@ -10,8 +10,8 @@
                     <h1 class="text-center fw-bold text-danger"><i class="fa-solid fa-biohazard"></i> VIRUS ! <i
                             class="fa-solid fa-biohazard"></i></h1>
                     @if (request()->has('firstname'))
-                        <h5 class="text-center mb-0"><strong>{{ ucfirst(request('firstname')) }}</strong>, votre VIRUS
-                            est&nbsp;bien installé sur&nbsp;votre&nbsp;téléphone !</h5>
+                        <h5 class="text-center mb-0"><strong>{{ ucfirst(request('firstname')) }}</strong>,<br>votre VIRUS
+                            est&nbsp;bien&nbsp;installé sur&nbsp;votre&nbsp;téléphone !</h5>
                     @else
                         <h5 class="text-center mb-0">VIRUS installé sur&nbsp;votre&nbsp;téléphone !</h5>
                     @endif
@@ -25,7 +25,7 @@
                 <p><strong>{{ ucfirst(request('firstname')) }}</strong>, ne scannez que les QR&nbsp;codes provenant
                     de sources fiables.</p>
                 <p>Bien évidemment, le message ci-dessus n'est pas réel, mais <u>soyez très vigilant(e)</u> !</p>
-                <p>Merci à vous d'avoir participé à cette démonstration de cybersécurité.</p>
+                <p>Merci à vous, d'avoir participé à cette démonstration de cybersécurité.</p>
                 <div class="row g-2 mt-4">
                     <div class="col-3">
                         <img src="{{ asset('assets/img/cybersecurite/fledoux.jpg') }}" alt="{{ config('app.brand_name') }}"
@@ -40,12 +40,12 @@
                     </div>
                     <div class="col-12">
                         <ul>
-                            <li><a href="https://cyber.gouv.fr">cyber.gouv.fr</a></li>
                             <li><a href="mailto:fledoux@yellowcactus.com">fledoux@yellowcactus.com</a></li>
                             <li><a href="https://www.linkedin.com/in/fledoux/">LinkedIn</a></li>
                             <li><a href="https://github.com/fledoux">GitHub</a></li>
                             <li><a href="https://yellowcactus.com">yellowcactus.com</a></li>
                             <li><a href="https://extranet.yellowcactus.com/home/share/create">Envoyer un secret</a></li>
+                            <li><a href="https://cyber.gouv.fr">cyber.gouv.fr</a></li>
                         </ul>
                     </div>
                 </div>
