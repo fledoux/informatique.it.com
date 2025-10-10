@@ -3,7 +3,7 @@
 @section('title', __('home.Welcome'))
 
 @section('content')
-    <div class="mx-2 mt-4">
+    <div class="mx-2 mt-2">
         <div class="row">
             <div class="col-12">
                 <div class="alert alert-warning" role="alert">
