@@ -143,7 +143,7 @@ footer a { text-decoration: none; }
 .table-xs td a {  padding-top: 0; padding-bottom: 0;}
 
 /* Prevent table headers from wrapping */
-/*.table th, .table td { white-space: nowrap; }*/
+.table th { white-space: nowrap; }
 
 /* Responsive width utilities (extending Bootstrap w-* classes) */
 @media (min-width: 576px) { .w-sm-25 { width: 25% !important; } .w-sm-50 { width: 50% !important; } .w-sm-75 { width: 75% !important; } .w-sm-100 { width: 100% !important; } .w-sm-auto { width: auto !important; } }
@@ -196,6 +196,13 @@ table th {
 
 .datatable .badge {
   font-size: 0.75em;
+}
+
+/* Bold sorted column */
+.datatable thead th.sorting_asc,
+.datatable thead th.sorting_desc,
+.datatable tbody td.sorting_1 {
+  font-weight: 600;
 }
 
 /* Remove padding from DataTables info for better alignment */

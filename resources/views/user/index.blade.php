@@ -120,19 +120,33 @@
 
     @hasanyrole(['super-admin', 'manager', 'admin'])
         <div class="alert alert-info mt-3">
-            <i class="fa-regular fa-info-circle me-2"></i>
-            <strong>Pour ajouter un nouvel utilisateur :</strong> Invitez-le à s'inscrire via le
-            <a href="{{ route('register') }}" class="alert-link" target="_blank">formulaire d'inscription</a>.
-            Une fois inscrit et approuvé, l'utilisateur apparaîtra dans cette liste.
+            <div class="d-flex align-items-start">
+                <i class="fa-regular fa-info-circle me-2 mt-1"></i>
+                <div>
+                    <strong>Pour ajouter un nouvel utilisateur :</strong> Invitez-le à s'inscrire via le
+                    <a href="{{ route('register') }}" class="alert-link" target="_blank">formulaire d'inscription</a>.
+                    Une fois inscrit et approuvé, l'utilisateur apparaîtra dans cette liste.
+                </div>
+            </div>
         </div>
         <div class="alert alert-warning mt-3">
             @if (!empty($allowedDomains))
-                <i class="fa-regular fa-exclamation-triangle me-2"></i>
-                Domaines d'emails autorisés pour votre société :
-                <strong>{{ implode(', ', array_map(fn($domain) => '@' . $domain, $allowedDomains)) }}</strong>
+                <div class="d-flex align-items-start">
+                    <i class="fa-regular fa-exclamation-triangle me-2 mt-1"></i>
+                    <div>
+                        Domaines d'emails autorisés pour les inscriptions automatiques :
+                        <strong>{{ implode(', ', array_map(fn($domain) => '@' . $domain, $allowedDomains)) }}</strong>
+                        <br>
+                        Si vous avez besoin d'ajouter d'autres domaines, contactez-nous.
+                    </div>
+                </div>
             @else
-                <i class="fa-regular fa-exclamation-triangle me-2"></i>
-                Aucun domaine d'email autorisé configuré pour votre société.
+                <div class="d-flex align-items-start">
+                    <i class="fa-regular fa-exclamation-triangle me-2 mt-1"></i>
+                    <div>
+                        Aucun domaine d'email autorisé configuré pour votre société. Contactez-nous pour en ajouter.
+                    </div>
+                </div>
             @endif
         </div>
     @endhasanyrole

@@ -34,6 +34,9 @@ class PageController extends Controller
         // Get the 20 most recent tickets
         $recentTickets = Ticket::getMyLastTickets($lastXTickets);
 
+        // Test SMS sending
+        //\App\Services\SmsService::send('+33661478068', 'Test SMS OK');
+
         return view('pages.dashboard', compact(
             'ticketStats',
             'companiesCount',

@@ -88,9 +88,9 @@
                                 Technologies utilisées :
                             </span>
                             <span>
-                                <span class="badge badge-outline-secondary me-1">Laravel 12</span>
-                                <span class="badge badge-outline-secondary me-1">PHP 8.4</span>
-                                <span class="badge badge-outline-secondary me-1">Bootstrap 5</span>
+                                <span class="badge badge-outline-secondary me-1">Laravel</span>
+                                <span class="badge badge-outline-secondary me-1">PHP</span>
+                                <span class="badge badge-outline-secondary me-1">Bootstrap</span>
                                 <span class="badge badge-outline-secondary me-1">MySQL</span>
                                 <span class="badge badge-outline-secondary me-1">jQuery</span>
                                 <span class="badge badge-outline-secondary me-1">Docker</span>

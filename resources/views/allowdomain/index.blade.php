@@ -62,6 +62,13 @@
 
 @if ($allowDomainRegistrations->count() > 0)
     @push('javascripts')
-        @include('partials._datatable')
+        @include('partials._datatable', [
+            'datatableOptions' => [
+                'order' => [[2, 'asc']], // Tri par colonne 3 (domain) croissant
+                'columnDefs' => [
+                    ['orderable' => false, 'targets' => -1] // Désactiver le tri sur la dernière colonne (Actions)
+                ]
+            ]
+        ])
     @endpush
 @endif

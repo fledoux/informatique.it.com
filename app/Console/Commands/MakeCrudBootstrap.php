@@ -8,6 +8,14 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * CRUD Generator for Bootstrap 5 views
+ * 
+ * @see .github/UI_STANDARDS.md for UI standards and best practices
+ *      - Alert with icons structure
+ *      - DataTable configuration
+ *      - Form patterns
+ */
 class MakeCrudBootstrap extends Command
 {
     protected $signature = 'make:crud-bootstrap {model : Eloquent model name, e.g. Company} {--table=} {--force : Force overwrite existing files}';

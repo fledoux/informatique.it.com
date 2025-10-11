@@ -387,9 +387,9 @@
                             @endforeach
                         </ul>
                     @else
-                        <p class="text-muted mb-3">
-                            <i class="fa-regular fa-info-circle me-2"></i>
-                            Aucun fichier joint pour ce ticket.
+                        <p class="text-muted mb-3 d-flex align-items-start">
+                            <i class="fa-regular fa-info-circle me-2 mt-1"></i>
+                            <span>Aucun fichier joint pour ce ticket.</span>
                         </p>
                     @endif
                 </div>
@@ -415,9 +415,9 @@
                             @endforeach
                         </ul>
                     @else
-                        <p class="text-muted">
-                            <i class="fa-regular fa-info-circle me-2"></i>
-                            Aucun Manager assigné à cette société et/ou compte pour approbation.
+                        <p class="text-muted d-flex align-items-start">
+                            <i class="fa-regular fa-info-circle me-2 mt-1"></i>
+                            <span>Aucun Manager assigné à cette société et/ou compte pour approbation.</span>
                         </p>
                     @endif
                 </div>

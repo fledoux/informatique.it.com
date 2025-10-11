@@ -4,6 +4,7 @@ return [
     'Welcome' => 'Bienvenue sur votre tableau de bord',
     'WelcomeTitle' => 'Tableau de bord',
     'RecentTickets' => 'Dernières demandes de support',
+    'RecentTicketsSmall' => 'Dernières demandes',
     
     'KPI' => [
         'Tickets' => 'Demandes',

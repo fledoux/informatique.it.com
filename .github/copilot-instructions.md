@@ -1,5 +1,39 @@
 # Project Guidelines
 
+## 🎯 PRINCIPE FONDAMENTAL : SIMPLICITÉ TOUJOURS !
+
+**TOUJOURS privilégier la solution la plus SIMPLE :**
+- ✅ CSS global > Classes répétées partout
+- ✅ Convention > Configuration
+- ✅ DRY (Don't Repeat Yourself)
+- ✅ Une seule source de vérité
+- ✅ Moins de code = Moins de bugs
+
+**Exemples concrets :**
+```css
+/* ✅ BIEN : 1 règle CSS globale */
+.table th { white-space: nowrap; }
+
+/* ❌ MAL : text-nowrap sur 100+ éléments <th> dans les vues */
+<th class="text-nowrap">...</th>
+```
+
+```php
+/* ✅ BIEN : Logique métier dans le modèle */
+public function getManagers() {
+    return User::where('company_id', $this->company_id)->role('manager')->get();
+}
+
+/* ❌ MAL : Requête SQL directement dans la vue */
+@foreach(User::where('company_id', $ticket->company_id)->role('manager')->get() as $manager)
+```
+
+**Avant de coder, demandez-vous :**
+1. Est-ce que je répète du code ?
+2. Puis-je créer une règle CSS globale ?
+3. Cette logique appartient-elle au modèle ?
+4. Y a-t-il une solution plus simple ?
+
 ## Project Context
 Laravel 12.x helpdesk application with multi-tenant architecture. Key business domains:
 - **Multi-tenant**: Companies with associated users using Spatie Permissions

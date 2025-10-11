@@ -113,7 +113,8 @@
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h2 class="h6 mb-0">
                     <i class="fa-light fa-clock-rotate-left me-2"></i>
-                    {{ $lastXTickets }} {{ __('dashboard.RecentTickets') }}
+                    <span class="d-none d-sm-inline">{{ $lastXTickets }} {{ __('dashboard.RecentTickets') }}</span>
+                    <span class="d-inline d-sm-none">{{ $lastXTickets }} {{ __('dashboard.RecentTicketsSmall') }}</span>
                 </h2>
                 <a href="{{ route('ticket.index') }}" class="btn btn-sm btn-link text-decoration-none">
                     {!! __('btn.ViewAll') !!} →

@@ -8,7 +8,8 @@
 return [
 
     // @see https://docs.sentry.io/product/sentry-basics/dsn-explainer/
-    'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')),
+    // Only enable Sentry in production (check APP_ENV)
+    'dsn' => env('APP_ENV') === 'production' ? env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')) : null,
 
     // @see https://spotlightjs.com/
     // 'spotlight' => env('SENTRY_SPOTLIGHT', false),

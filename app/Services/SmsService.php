@@ -14,21 +14,30 @@ class SmsService
     {
         try {
             $sns = new SnsClient([
-                'region' => config('services.ses.region', 'eu-west-1'),
+                'region' => config('services.sns.region', 'eu-west-3'),
                 'version' => 'latest',
                 'credentials' => [
-                    'key' => config('services.ses.key'),
-                    'secret' => config('services.ses.secret'),
+                    'key' => config('services.sns.key'),
+                    'secret' => config('services.sns.secret'),
                 ]
             ]);
 
-            $sns->publish([
+            $params = [
                 'Message' => $message,
-                'PhoneNumber' => $phoneNumber
-            ]);
+                'PhoneNumber' => $phoneNumber,
+                'MessageAttributes' => [
+                    'AWS.SNS.SMS.SMSType' => [
+                        'DataType' => 'String',
+                        'StringValue' => 'Transactional' // Pour les notifications importantes
+                    ]
+                ]
+            ];
+
+            $result = $sns->publish($params);
 
             Log::info('SMS envoyé avec succès', [
-                'phone' => $phoneNumber
+                'phone' => $phoneNumber,
+                'message_id' => $result->get('MessageId')
             ]);
 
             return true;

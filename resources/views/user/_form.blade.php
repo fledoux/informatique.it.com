@@ -1,17 +1,17 @@
 @csrf
 <div class="row g-3">
-    <div class="col-12 col-lg-4">
+    <div class="col-12 col-lg-12">
         <div class="row">
-            <div class="col-12 col-lg-12">
+            <div class="col-12 col-lg-4">
                 <x-forms.select name="status" :label="__('user.fields.status')" :options="['active' => __('user.status.active'), 'inactive' => __('user.status.inactive')]" :required="true" :value="$user->status ?? 'active'" />
             </div>
             @hasanyrole(['super-admin'])
-                <div class="col-12 col-lg-12">
+                <div class="col-12 col-lg-4">
                     <x-forms.select name="agree_terms" :label="__('user.fields.agree_terms')" :options="['oui' => __('user.agree_terms.oui'), 'non' => __('user.agree_terms.non')]" :value="$user->agree_terms ?? 'oui'" />
                 </div>
             @endhasanyrole
             @hasanyrole(['super-admin'])
-                <div class="col-12 col-lg-12">
+                <div class="col-12 col-lg-4">
                     <x-forms.relation name="company_id" :label="__('user.fields.company_id')" model="Company" display-field="name"
                         :value="$user->company_id ?? null" />
                 </div>
@@ -44,6 +44,16 @@
 </div>
 
 <div class="row g-3 mt-1">
+    @hasanyrole(['super-admin'])
+        <div class="col-4">
+            <x-forms.roles-radio name="roles" :label="__('user.fields.roles')" :required="true" :options="collect(App\Models\User::getAvailableRoles())
+                ->mapWithKeys(function ($role, $key) {
+                    return [$key => __('user.roles.' . $key)];
+                })
+                ->toArray()"
+                :values="old('roles', isset($user) ? $user->getRoleNames()->toArray() : [])" />
+        </div>
+    @endhasanyrole
     <div class="col-12 col-lg-4">
         <x-forms.checkbox-group name="channels" :label="__('user.fields.channels')" :options="['email' => __('user.fields.channels_email'), 'sms' => __('user.fields.channels_sms')]" :values="old(
             'channels',
@@ -57,16 +67,6 @@
     <div class="col-12 col-lg-4">
         <x-forms.input name="phone" :label="__('user.fields.phone')" type="tel" :value="old('phone', $user->phone ?? null)" placeholder="" />
     </div>
-    @hasanyrole(['super-admin'])
-        <div class="col-4">
-            <x-forms.roles-radio name="roles" :label="__('user.fields.roles')" :required="true" :options="collect(App\Models\User::getAvailableRoles())
-                ->mapWithKeys(function ($role, $key) {
-                    return [$key => __('user.roles.' . $key)];
-                })
-                ->toArray()"
-                :values="old('roles', isset($user) ? $user->getRoleNames()->toArray() : [])" />
-        </div>
-    @endhasanyrole
     @hasanyrole(['super-admin'])
         <div class="col-12 col-lg-12">
             <x-forms.textarea name="note" :label="__('user.fields.note')" :value="old('note', $user->note ?? null)" placeholder="" />

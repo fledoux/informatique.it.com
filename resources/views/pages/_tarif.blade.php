@@ -99,7 +99,7 @@
                             <span class="js-per" data-ht="47">47</span>€ / ticket
                         </li>
                         <li class="mb-2">
-                            <i class="fa-regular fa-check text-success me-2"></i>Validité 2 ans
+                            <i class="fa-regular fa-check text-success me-2"></i>Validité 10 ans
                         </li>
                     </ul>
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-dark w-100">Souscrire</a>
