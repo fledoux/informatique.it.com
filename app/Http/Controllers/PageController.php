@@ -54,6 +54,8 @@ class PageController extends Controller
             'firstname' => ['required', 'string', 'max:100'],
         ]);
 
+        Page::scan($request, $validated['firstname']);
+
         //return redirect()->route('cybersecurite.result', ['firstname' => $validated['firstname']]);
         return view('pages.cybersecurite', ['firstname' => $validated['firstname']]);
     }
@@ -109,7 +111,7 @@ class PageController extends Controller
 
     public function qrCode()
     {
-        $dataUri = Page::generateQrCode(config('app.company.url') . '/cybersecurite');
+        $dataUri = Page::generateQrCode(config('app.company.url') . '/web');
         return view('pages.qr-code', compact('dataUri'));
     }
 
