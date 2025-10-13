@@ -116,8 +116,8 @@
                     <span class="d-none d-sm-inline">{{ $lastXTickets }} {{ __('dashboard.RecentTickets') }}</span>
                     <span class="d-inline d-sm-none">{{ $lastXTickets }} {{ __('dashboard.RecentTicketsSmall') }}</span>
                 </h2>
-                <a href="{{ route('ticket.index') }}" class="btn btn-sm btn-link text-decoration-none">
-                    {!! __('btn.ViewAll') !!} →
+                <a href="{{ route('ticket.index') }}" class="btn btn-sm btn-link text-decoration-none p-0">
+                    {!! __('btn.ViewAll') !!} <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
             <div class="card-body p-0">

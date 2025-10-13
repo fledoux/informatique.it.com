@@ -142,8 +142,11 @@ footer a { text-decoration: none; }
 .table-xs td { padding: 0 0.25rem;}
 .table-xs td a {  padding-top: 0; padding-bottom: 0;}
 
-/* Prevent table headers from wrapping */
-.table th { white-space: nowrap; }
+/* Global table no-wrap - NO MORE text-nowrap classes needed! */
+.table th,
+.table td {
+    white-space: nowrap;
+}
 
 /* Responsive width utilities (extending Bootstrap w-* classes) */
 @media (min-width: 576px) { .w-sm-25 { width: 25% !important; } .w-sm-50 { width: 50% !important; } .w-sm-75 { width: 75% !important; } .w-sm-100 { width: 100% !important; } .w-sm-auto { width: auto !important; } }

@@ -137,14 +137,14 @@
                         Domaines d'emails autorisés pour les inscriptions automatiques :
                         <strong>{{ implode(', ', array_map(fn($domain) => '@' . $domain, $allowedDomains)) }}</strong>
                         <br>
-                        Si vous avez besoin d'ajouter d'autres domaines, contactez-nous.
+                        Si vous avez besoin d'ajouter d'autres domaines, <a href="{{ route('contact.create') }}">contactez-nous</a>.
                     </div>
                 </div>
             @else
                 <div class="d-flex align-items-start">
                     <i class="fa-regular fa-exclamation-triangle me-2 mt-1"></i>
                     <div>
-                        Aucun domaine d'email autorisé configuré pour votre société. Contactez-nous pour en ajouter.
+                        Aucun domaine d'email autorisé configuré pour votre société. <a href="{{ route('contact.create') }}">Contactez-nous</a> pour en ajouter.
                     </div>
                 </div>
             @endif
@@ -154,6 +154,13 @@
 
 @if ($users->count() > 0)
     @push('javascripts')
-        @include('partials._datatable')
+        @include('partials._datatable', [
+            'datatableOptions' => [
+                'order' => [[2, 'asc']], // Tri sur colonne 3 (index 2 = name) en ASC
+                'columnDefs' => [
+                    ['orderable' => false, 'targets' => -1] // Désactiver tri sur dernière colonne (Actions)
+                ]
+            ]
+        ])
     @endpush
 @endif

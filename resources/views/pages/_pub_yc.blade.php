@@ -72,10 +72,10 @@
                             </a>
                         </div>
 
-                        <div class="mt-3 pt-3 border-top">
+                        <div class="mt-3 py-2">
                             <small class="text-secondary">
                                 <i class="fa-regular fa-phone me-1"></i>
-                                (+33) 1 49 66 21 77
+                                <a href="tel:+33149662177" class="text-decoration-none text-secondary">+33 1 49 66 21 77</a>
                             </small>
                         </div>
                     </div>

@@ -22,6 +22,13 @@ return [
         'key' => env('RESEND_KEY'),
     ],
 
+    'aws' => [
+        'key' => env('AWS_ACCESS_KEY_ID'),
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        'region' => env('AWS_DEFAULT_REGION', 'eu-west-3'), // Paris region
+        'bucket' => env('AWS_BUCKET'),
+    ],
+
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),

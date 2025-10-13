@@ -323,9 +323,11 @@ class TicketController extends Controller
                 }
                 
                 // 3. Créer un message système pour indiquer la fusion
+                $messagesCount = \App\Models\TicketMessage::where('ticket_id', $targetTicket->id)->count();
+                
                 $mergeDetails = "Le ticket #{$sourceTicket->id} (créé le " . $sourceTicket->created_at->format('d/m/Y à H:i') . ") a été fusionné avec ce ticket.\n\n";
                 $mergeDetails .= "Sujet du ticket fusionné : {$sourceTicket->subject}\n";
-                $mergeDetails .= "Messages transférés : " . \App\Models\TicketMessage::where('ticket_id', $targetTicket->id)->count() . "\n";
+                $mergeDetails .= "Contenu transféré : Question initiale + {$messagesCount} message(s)\n";
                 $mergeDetails .= "Pièces jointes déplacées : {$movedCount}";
                 
                 if ($failedCount > 0) {
@@ -343,7 +345,22 @@ class TicketController extends Controller
                     'updated_at' => now(),
                 ]);
                 
-                // 4. Supprimer l'ancien ticket
+                // 4. Créer un message avec le contenu initial du ticket source (question de départ)
+                // On le crée APRÈS le message système pour qu'il apparaisse juste au-dessus (ordre DESC)
+                if ($sourceTicket->question) {
+                    \App\Models\TicketMessage::create([
+                        'ticket_id' => $targetTicket->id,
+                        'company_id' => $sourceTicket->company_id,
+                        'author_id' => $sourceTicket->author_id,
+                        'status' => 'active',
+                        'subject' => $sourceTicket->subject,
+                        'body' => $sourceTicket->question, // Le champ 'question' du ticket → 'body' du message
+                        'created_at' => now(), // Date actuelle pour l'ordre d'affichage
+                        'updated_at' => now(),
+                    ]);
+                }
+                
+                // 5. Supprimer l'ancien ticket
                 $sourceTicket->delete();
                 
                 \Illuminate\Support\Facades\DB::commit();

@@ -41,6 +41,15 @@ class ContactController extends Controller
     public function create()
     {
         $contact = new \App\Models\Contact();
+        
+        // Pré-remplir avec les infos de l'utilisateur connecté
+        if (auth()->check()) {
+            $user = auth()->user();
+            $contact->name = \App\Helpers\Helper::getFullName($user->firstname, $user->lastname, $user->name);
+            $contact->email = $user->email;
+            $contact->phone = $user->phone;
+        }
+        
         return view('contact.create', compact('contact'));
     }
 

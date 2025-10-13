@@ -22,6 +22,7 @@
         @yield('content')
     </main>
     @include('partials._matomo')
+    @include('partials._scrolltop')
     @stack('javascripts')
 </body>
 </html>

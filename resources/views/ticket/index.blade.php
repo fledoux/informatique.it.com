@@ -12,7 +12,7 @@
         @can('create', App\Models\Ticket::class)
             <div class="d-flex gap-1 gap-sm-2">
                 <a href="{{ route('ticket.create') }}" class="btn btn-orange">
-                    {!! __('ticket.btn.New') !!}
+                    {!! __('btn.NewTicket') !!}
                 </a>
             </div>
         @endcan
