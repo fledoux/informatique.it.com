@@ -32,7 +32,7 @@
                                             {!! __('ticket.Note Interne') !!}
                                         </a>
                                         <a href="{{ route('ticket.merge.form', $ticket->id) }}"
-                                            class="btn btn-outline-secondary">
+                                            class="btn btn-warning">
                                             <i class="fa-regular fa-code-merge me-1"></i>
                                             Fusionner
                                         </a>
@@ -91,7 +91,7 @@
                                                 {{ $message->created_at->format('H\hi') }}
                                             </small>
                                         </div>
-                                        <div class="card-body p-2 p-sm-3">
+                                        <div class="card-body p-2 p-sm-3 {{ $message->status === 'internal' ? 'bg-warning text-warning' : ($message->author_id === $ticket->author_id ? 'bg-success text-success' : 'bg-primary text-primary') }} bg-opacity-10">
                                             @if ($message->subject)
                                                 <strong>{{ $message->subject }}</strong><br>
                                             @endif
@@ -100,7 +100,7 @@
                                             {{-- Pièces jointes du message --}}
                                             @if ($message->attachments->count() > 0)
                                                 <div class="mt-3 pt-3 border-top">
-                                                    <small class="text-muted">
+                                                    <small class="text-secondary">
                                                         <i class="fa-regular fa-paperclip me-1"></i>
                                                         <strong>{{ \App\Helpers\Helper::pluralize($message->attachments->count(), 'global.attachment', 'global.attachments') }}
                                                             :</strong>
@@ -120,7 +120,7 @@
                                                                         class="fa-regular {{ $fileIcon['icon'] }} {{ $fileIcon['color'] }} me-1"></i>
                                                                     {{ \Illuminate\Support\Str::limit($attachment->original_filename, 20) }}
                                                                     <small
-                                                                        class="text-muted">({{ $attachment->getFormattedSize() }})</small>
+                                                                        class="text-secondary">({{ $attachment->getFormattedSize() }})</small>
                                                                 </a>
                                                             </div>
                                                         @endforeach
@@ -148,7 +148,7 @@
                                         {{ $ticket->created_at->format('H\hi') }}
                                     </small>
                                 </div>
-                                <div class="card-body p-2 p-sm-3">
+                                <div class="card-body p-2 p-sm-3 bg-primary text-primary bg-opacity-10">
                                     <p>Nous avons bien reçu votre demande.</p>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@
                                         {{ $ticket->created_at->format('H\hi') }}
                                     </small>
                                 </div>
-                                <div class="card-body p-2 p-sm-3">
+                                <div class="card-body p-2 p-sm-3 bg-success text-success bg-opacity-10">
 
                                     <strong>{{ $ticket->subject }}</strong><br>
                                     {!! $ticket->question !!}
@@ -198,7 +198,7 @@
                                             $initialAttachments = $ticket->initialAttachments;
                                         @endphp
                                         <div class="mt-3 pt-3 border-top">
-                                            <small class="text-muted">
+                                            <small class="text-secondary">
                                                 <i class="fa-regular fa-paperclip me-1"></i>
                                                 <strong>{{ \App\Helpers\Helper::pluralize($initialAttachments->count(), 'global.attachment', 'global.attachments') }}
                                                     :</strong>
@@ -218,7 +218,7 @@
                                                                 class="fa-regular {{ $fileIcon['icon'] }} {{ $fileIcon['color'] }} me-1"></i>
                                                             {{ \Illuminate\Support\Str::limit($attachment->original_filename, 20) }}
                                                             <small
-                                                                class="text-muted">({{ $attachment->getFormattedSize() }})</small>
+                                                                class="text-secondary">({{ $attachment->getFormattedSize() }})</small>
                                                         </a>
                                                     </div>
                                                 @endforeach
@@ -274,7 +274,7 @@
                         </span><br>
                         {{ $user->name ?? '' }}<br>
                         @hasanyrole(['super-admin'])
-                            <small class="text-muted">{{ $ticket->author?->getRoleNames()->implode(', ') }}</small><br>
+                            <small class="text-secondary">{{ $ticket->author?->getRoleNames()->implode(', ') }}</small><br>
                         @endhasanyrole
                         {!! \App\Helpers\Helper::mailTo($user->email) !!}<br>
                         {!! $user->phone
@@ -283,26 +283,26 @@
                     </p>
                     <p>
                         @if ($ticket->folder_code)
-                            <span class="text-muted">{{ __('ticket.fields.folder_code') }}
+                            <span class="text-secondary">{{ __('ticket.fields.folder_code') }}
                                 : </span>{{ $ticket->folder_code ?? '' }}<br>
                         @endif
                         @if ($ticket->due)
-                            <span class="text-muted">{{ __('ticket.fields.due') }} :</span>
+                            <span class="text-secondary">{{ __('ticket.fields.due') }} :</span>
                             <span>{{ \App\Helpers\Helper::formatDateWithFrenchDay($ticket->due, 'l j/m/y - H\hi', true) }}</span><br>
                         @endif
                         @if ($ticket->assignedTo?->name)
-                            <span class="text-muted">
+                            <span class="text-secondary">
                                 {{ __('ticket.fields.assigned_to') }} :
                             </span>
                             {{ $ticket->assignedTo?->name ?? '' }}<br>
                         @endif
                         @if ($ticket->assigned_at)
-                            <span class="text-muted">
+                            <span class="text-secondary">
                                 {{ __('ticket.fields.assigned_at') }} :
                             </span>
                             {{ $ticket->assigned_at ? ($ticket->assigned_at instanceof \Carbon\Carbon ? $ticket->assigned_at->format('d/m/y à H\hi') : $ticket->assigned_at) : '' }}<br>
                         @endif
-                        <span class="{{ $ticket->billable ? 'text-muted' : 'text-danger' }}">
+                        <span class="{{ $ticket->billable ? 'text-secondary' : 'text-danger' }}">
                             {{ __('ticket.fields.billable') }} :
                         </span>
                         {!! $ticket->billable ? __('ticket.billable.yes') : __('ticket.billable.no') !!}
@@ -356,7 +356,7 @@
                                                 {{ \Illuminate\Support\Str::limit($attachment->original_filename, 30) }}
                                             </a>
                                             <br>
-                                            <small class="text-muted">
+                                            <small class="text-secondary">
                                                 {{ $attachment->getFormattedSize() }}
                                                 @if ($attachment->uploaded_by)
                                                     • {{ $attachment->created_at->format('d/m') }}
@@ -387,7 +387,7 @@
                             @endforeach
                         </ul>
                     @else
-                        <p class="text-muted mb-3 d-flex align-items-start">
+                        <p class="text-secondary mb-3 d-flex align-items-start">
                             <i class="fa-regular fa-info-circle me-2 mt-1"></i>
                             <span>Aucun fichier joint pour ce ticket.</span>
                         </p>
@@ -415,7 +415,7 @@
                             @endforeach
                         </ul>
                     @else
-                        <p class="text-muted d-flex align-items-start">
+                        <p class="text-secondary d-flex align-items-start">
                             <i class="fa-regular fa-info-circle me-2 mt-1"></i>
                             <span>Aucun Manager assigné à cette société et/ou compte pour approbation.</span>
                         </p>

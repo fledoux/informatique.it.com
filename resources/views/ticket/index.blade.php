@@ -1,4 +1,4 @@
-@extends('layouts.app-fluid')
+@extends(auth()->user()->hasRole('super-admin') ? 'layouts.app-fluid' : 'layouts.app')
 
 @section('title')
     {{ __('ticket.List') }}

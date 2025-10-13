@@ -3,7 +3,6 @@ php artisan migrate:fresh
 php artisan db:seed --class=PermissionSeeder
 php artisan make:crud-bootstrap User --force
 php artisan optimize:clear
-
 php artisan email:fetch
 
 # User
