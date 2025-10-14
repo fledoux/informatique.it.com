@@ -21,6 +21,7 @@
     @include('pages._contact')
     @include('pages._cta')
     @include('pages._pub_yc')
+        @include('pages._pub_audit')
     {{-- @include('pages._pub_goes') --}}
     {{-- @include('pages._pub_xpedit') --}}
     @include('pages.script-home')

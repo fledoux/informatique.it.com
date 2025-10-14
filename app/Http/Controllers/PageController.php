@@ -35,7 +35,9 @@ class PageController extends Controller
         $recentTickets = Ticket::getMyLastTickets($lastXTickets);
 
         // Test SMS sending
-        //\App\Services\SmsService::send('+33661478068', 'Test SMS OK');
+        //\App\Services\SmsService::send('+33613741994', '12h10 TEST SMS DE FRED');
+        // +33613741994
+        // +33661478068
 
         return view('pages.dashboard', compact(
             'ticketStats',
@@ -43,7 +45,7 @@ class PageController extends Controller
             'contactsCount',
             'recentTickets',
             'lastXTickets'
-        ));
+        ))->with('success', 'SMS OK');
     }
 
     public function cybersecurite()

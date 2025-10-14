@@ -114,7 +114,7 @@ return [
         'no' => '<i class="fa-solid fa-square-xmark text-danger"></i>'
     ],
     'empty_state' => [
-        'title' => 'Bienvenue sur votre espace support',
-        'create_button' => 'Créer ma première demande'
+        'title' => 'Bienvenue sur votre support',
+        'create_button' => '<i class="fa-regular fa-plus"></i> Créer ma première demande'
     ],
 ];

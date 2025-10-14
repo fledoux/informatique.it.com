@@ -85,7 +85,14 @@ La colonne actuellement triée est automatiquement mise en gras via CSS :
 
 - **Région** : `eu-west-3` (Paris)
 - **Type de message** : `Transactional` (priorité élevée)
-- **Sender ID** : Géré automatiquement par AWS (36650)
+- **Sender ID** : `INFO-IT` (configuré dans AWS Console SNS)
+- **Config** : `config/services.php` → `services.sns.sender_id`
+
+### Prérequis
+
+⚠️ **Important** : Le Sender ID doit être **enregistré dans la console AWS SNS** pour la région utilisée :
+- Console : https://eu-west-3.console.aws.amazon.com/sms-voice/home?region=eu-west-3#/sender-ids
+- Sans cette configuration, AWS utilisera un numéro court par défaut (36650)
 
 ### Utilisation
 
@@ -94,6 +101,24 @@ La colonne actuellement triée est automatiquement mise en gras via CSS :
 ```
 
 Le numéro doit être au format international (+33 pour la France).
+
+### Structure du service
+
+```php
+$params = [
+    'SMSType' => 'Transactional',      // Type de SMS (au niveau racine)
+    'Message' => $message,
+    'PhoneNumber' => $phoneNumber,
+    'MessageAttributes' => [
+        'AWS.SNS.SMS.SenderID' => [    // Sender ID dans les attributs
+            'DataType' => 'String',
+            'StringValue' => 'INFO-IT'
+        ]
+    ]
+];
+```
+
+**Important** : `SMSType` doit être au niveau racine, **pas dans `MessageAttributes`** !
 
 ## Sentry
 

@@ -22,15 +22,13 @@ class SmsService
                 ]
             ]);
 
+            // Récupérer le Sender ID depuis la config (optionnel)
+            $senderId = config('services.sns.sender_id');
+            
             $params = [
+                'SMSType' => 'Transactional',
                 'Message' => $message,
                 'PhoneNumber' => $phoneNumber,
-                'MessageAttributes' => [
-                    'AWS.SNS.SMS.SMSType' => [
-                        'DataType' => 'String',
-                        'StringValue' => 'Transactional' // Pour les notifications importantes
-                    ]
-                ]
             ];
 
             $result = $sns->publish($params);

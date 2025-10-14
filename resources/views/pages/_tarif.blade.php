@@ -84,7 +84,8 @@
             <div class="col-md-6 col-lg-3">
                 <div class="p-3 p-lg-4 bg-info border border-info bg-opacity-50 rounded-4 shadow-soft h-100 position-relative">
                     <span class="ribbon">
-                        <i class="fa-regular fa-star me-1"></i>Meilleur offre</span>
+                        <i class="fa-regular fa-star me-1"></i>Meilleur offre
+                    </span>
                     <h6 class="text-secondary">Pack 100 tickets</h6>
                     <h3 class="price mb-0">
                         <span class="js-price" data-ht="4700">4 700</span>€

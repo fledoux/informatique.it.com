@@ -101,7 +101,7 @@ Votre message de confirmation...
 ────────────────────────────────────────
 Pour répondre à ce ticket, répondez directement à cet email.
 Code de réponse : ### 15.KD8BSBS35 ###
-Ne supprimez pas cette ligne lors de votre réponse.
+Ne supprimez pas ces lignes lors de votre réponse.
 ```
 
 ## API du Service

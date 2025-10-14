@@ -9,13 +9,15 @@
         <h1 class="h3 mb-0">
             {!! __('ticket.h1.List') !!}
         </h1>
-        @can('create', App\Models\Ticket::class)
-            <div class="d-flex gap-1 gap-sm-2">
-                <a href="{{ route('ticket.create') }}" class="btn btn-orange">
-                    {!! __('btn.NewTicket') !!}
-                </a>
-            </div>
-        @endcan
+        @if ($tickets->count() > 0)
+            @can('create', App\Models\Ticket::class)
+                <div class="d-flex gap-1 gap-sm-2">
+                    <a href="{{ route('ticket.create') }}" class="btn btn-orange">
+                        {!! __('btn.NewTicket') !!}
+                    </a>
+                </div>
+            @endcan
+        @endif
     </div>
 
     @if ($tickets->count() > 0)
@@ -102,13 +104,13 @@
         </div>
     @else
         <div class="card border-0 shadow-sm">
-            <div class="card-body p-2 p-sm-3 text-center py-5">
+            <div class="card-body p-2 p-sm-5 text-center py-5">
                 <i class="fa-light fa-message-smile text-orange mb-4" style="font-size: 5rem;"></i>
                 <h3 class="text-muted mb-3">{{ __('ticket.empty_state.title') }}</h3>
                 @can('ticket.create')
                     <a href="{{ route('ticket.create') }}" class="btn btn-orange">
 
-                        {{ __('ticket.empty_state.create_button') }}
+                        {!! __('ticket.empty_state.create_button') !!}
                     </a>
                 @endcan
             </div>

@@ -193,7 +193,7 @@ class EmailReplyCodeService
                      '<div style="font-size: 12px;">' .
                      'Pour répondre à ce ticket, répondez directement à cet email.<br>' .
                      'Code de réponse : ' . $formattedCode . '<br>' .
-                     'Ne supprimez pas cette ligne lors de votre réponse.' .
+                     'Ne supprimez pas ces lignes lors de votre réponse.' .
                      '</div>' .
                      '</div>';
             

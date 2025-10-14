@@ -16,7 +16,7 @@
 
         {{-- Formulaire de réponse --}}
         <div class="card">
-            <div class="card-body p-2 p-sm-3">
+            <div class="card-body p-2 p-sm-3 {{ $isInternal ? 'bg-warning text-warning bg-opacity-10' : '' }}">
                 <form action="{{ route('ticketmessage.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
@@ -26,7 +26,7 @@
 
                     {{-- Sujet --}}
                     <div class="mb-3">
-                        <label for="subject" class="form-label">
+                        <label for="subject" class="form-label {{ $isInternal ? 'fw-bold text-secondary' : '' }}">
                             Sujet <span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control @error('subject') is-invalid @enderror" id="subject"
@@ -41,7 +41,7 @@
 
                     {{-- Message --}}
                     <div class="mb-5">
-                        <label for="body" class="form-label">
+                        <label for="body" class="form-label {{ $isInternal ? 'fw-bold text-secondary' : '' }}">
                             {{ $isInternal ? 'Contenu de la note' : 'Votre message' }}
                         </label>
                         <textarea class="form-control tinymce @error('body') is-invalid @enderror" id="body" name="body" rows="8"
@@ -60,7 +60,7 @@
 
                     {{-- Pièces jointes --}}
                     <div class="mb-5">
-                        <label for="files" class="form-label">
+                        <label for="files" class="form-label {{ $isInternal ? 'fw-bold text-btn-outline-primary' : '' }}">
                             <i class="fa-regular fa-paperclip me-2"></i>{{ __('ticketattachment.fields.files') }}
                         </label>
                         <input type="file" class="form-control @error('files') is-invalid @enderror" id="files"
@@ -85,7 +85,7 @@
                             <i class="fa-regular fa-{{ $isInternal ? 'lock' : 'paper-plane' }} me-2"></i>
                             {{ $isInternal ? 'Ajouter la note' : 'Envoyer la réponse' }}
                         </button>
-                        <a href="{{ route('ticket.show', $ticket->id) }}" class="btn btn-outline-primary">
+                        <a href="{{ route('ticket.show', $ticket->id) }}" class="btn {{ $isInternal ? 'btn-outline-warning text-secondary' : 'btn-outline-primary' }}">
                             <i class="fa-regular fa-times me-2"></i>Annuler
                         </a>
                     </div>

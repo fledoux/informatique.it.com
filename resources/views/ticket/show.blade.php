@@ -10,10 +10,8 @@
                     <i class="fa-regular fa-comments me-2"></i> Conversation - </span>Support n°{{ $ticket->id }}
                 </h1>
             </div>
-
             <div class="card mb-4">
                 <div class="card-body p-2 p-sm-3">
-
                     {{-- Boutons de réponse --}}
                     @auth
                         <div class="row mb-4 text-center">
@@ -41,7 +39,6 @@
                             </div>
                         </div>
                     @endauth
-
                     {{-- Messages de conversation (plus récents en haut) --}}
                     @foreach ($ticket->messages as $message)
                         @if (
@@ -96,7 +93,6 @@
                                                 <strong>{{ $message->subject }}</strong><br>
                                             @endif
                                             {!! $message->body !!}
-
                                             {{-- Pièces jointes du message --}}
                                             @if ($message->attachments->count() > 0)
                                                 <div class="mt-3 pt-3 border-top">
@@ -133,7 +129,6 @@
                             </div>
                         @endif
                     @endforeach
-
                     {{-- Message d'accueil --}}
                     <div class="row mb-3">
                         <div class="col-12 col-sm-11">
@@ -154,7 +149,6 @@
                             </div>
                         </div>
                     </div>
-
                     {{-- Message client original (en bas pour le contexte) --}}
                     <div class="row">
                         <div class="col-12 col-sm-11 offset-sm-1">
@@ -188,10 +182,8 @@
                                     </small>
                                 </div>
                                 <div class="card-body p-2 p-sm-3 bg-success text-success bg-opacity-10">
-
                                     <strong>{{ $ticket->subject }}</strong><br>
                                     {!! $ticket->question !!}
-
                                     {{-- Pièces jointes de la demande initiale (sans message_id) --}}
                                     @if ($ticket->initialAttachments->count() > 0)
                                         @php
@@ -247,8 +239,8 @@
 
         {{-- Sidebar avec infos du ticket --}}
         <div class="col-12 col-lg-3">
-            <div class="card border border border-secondary border-opacity-25 mb-4">
-                <div class="card-header bg-secondary bg-opacity-75 text-white">
+            <div class="card border border border-primary border-opacity-25 mb-4">
+                <div class="card-header bg-primary bg-opacity-75 text-white">
                     <h3 class="h6 mb-0"><i class="fa-regular fa-message-question"></i> Demande n°{{ $ticket->id }}</h3>
                 </div>
                 <div class="card-body p-2 p-sm-3 pb-0">
@@ -309,7 +301,6 @@
                     </p>
                 </div>
             </div>
-
             {{-- Facturation --}}
             <div class="card border border-secondary border-opacity-25 mb-4">
                 <div class="card-header bg-secondary bg-opacity-75 text-white">
@@ -327,7 +318,6 @@
                             class="float-end">{{ \App\Helpers\Helper::pluralize(12, 'ticket.ticket', 'ticket.tickets') }}</span></span><br>
                 </div>
             </div>
-
             {{-- Fichiers joints --}}
             <div class="card border border-secondary border-opacity-25 mb-4">
                 <div class="card-header bg-secondary bg-opacity-75 text-white">
@@ -394,7 +384,6 @@
                     @endif
                 </div>
             </div>
-
             {{-- Approbation --}}
             <div class="card border border-secondary border-opacity-25 mb-4">
                 <div class="card-header bg-secondary bg-opacity-75 text-white">
@@ -422,7 +411,6 @@
                     @endif
                 </div>
             </div>
-
             {{-- TeamViewer --}}
             <div class="card border border-secondary border-opacity-25 mb-4">
                 <div class="card-header bg-secondary bg-opacity-75 text-white">

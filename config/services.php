@@ -39,7 +39,7 @@ return [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_SNS_REGION', 'eu-west-3'), // Paris region for SMS
-        'sender_id' => env('AWS_SNS_SENDER_ID', 'INFOIT'), // Default sender ID for SMS
+        'sender_id' => env('AWS_SNS_SENDER_ID', 'INFO-IT'), // Default sender ID for SMS (configuré dans AWS Console)
     ],
 
     'slack' => [

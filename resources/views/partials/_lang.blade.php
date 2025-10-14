@@ -1,3 +1,4 @@
+<?php /*
 @if (app()->isLocal())
     {{-- Language Selector --}}
     <li class="nav-item ms-lg-2 mb-2">
@@ -83,3 +84,4 @@
         });
     </script>
 @endif
+<?php */ ?>
