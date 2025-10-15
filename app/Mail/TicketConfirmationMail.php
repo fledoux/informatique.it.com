@@ -43,7 +43,8 @@ class TicketConfirmationMail extends Mailable
         // Ajouter le code de réponse
         $emailData = \App\Services\EmailReplyCodeService::buildEmailWithReplyCode(
             $confirmationContent, 
-            $this->ticket
+            $this->ticket,
+            $this->ticket->author->email
         );
 
         return new Content(

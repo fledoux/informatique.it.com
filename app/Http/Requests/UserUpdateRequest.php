@@ -22,7 +22,7 @@ class UserUpdateRequest extends FormRequest
             'lastname' => ['required','string','max:120'],
             'phone' => ['nullable','string','max:50'],
             'last_login' => ['nullable','date'],
-            'channels' => ['nullable','array','nullable']
+            'channels' => ['nullable','array']
         ];
 
         // Champs réservés aux super-admins

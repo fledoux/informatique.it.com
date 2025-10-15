@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Ticket;
+use App\Models\TicketReplyCode;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
@@ -21,19 +22,40 @@ class EmailReplyCodeService
     private const CODE_SUFFIX = ' ###';
     
     /**
-     * Génère un code de réponse unique pour un ticket
+     * Génère un code de réponse unique pour un ticket et le stocke en BDD
      *
      * @param Ticket $ticket
+     * @param string $recipientEmail
      * @return string
      */
-    public static function generateReplyCode(Ticket $ticket): string
+    public static function generateReplyCode(Ticket $ticket, string $recipientEmail): string
     {
         // Format: TICKET_ID.UNIQUE_9_CHARS
         // Ex: 15.KD8BSBS35, 142.ABC123XYZ
         $ticketId = $ticket->id;
         $uniquePart = strtoupper(Str::random(self::UNIQUE_PART_LENGTH));
+        $code = $ticketId . '.' . $uniquePart;
         
-        return $ticketId . '.' . $uniquePart;
+        // Stocker le code en BDD avec expiration configurable
+        $expirationDays = (int) config('mail.reply_code_expiration_days', 30);
+        $expiresAt = now()->addDays($expirationDays);
+        
+        TicketReplyCode::create([
+            'ticket_id' => $ticket->id,
+            'code' => $code,
+            'recipient_email' => $recipientEmail,
+            'expires_at' => $expiresAt,
+        ]);
+        
+        Log::info('EmailReplyCode - Code generated and stored', [
+            'ticket_id' => $ticket->id,
+            'code' => $code,
+            'recipient_email' => $recipientEmail,
+            'expires_at' => $expiresAt->toDateTimeString(),
+            'expiration_days' => $expirationDays,
+        ]);
+        
+        return $code;
     }
     
     /**
@@ -67,42 +89,47 @@ class EmailReplyCodeService
     }
     
     /**
-     * Récupère le ticket associé à un code de réponse
+     * Récupère le ticket associé à un code de réponse avec validation sécurisée
      *
      * @param string $code
+     * @param string $senderEmail Email de l'expéditeur pour validation
      * @return Ticket|null
      */
-    public static function getTicketFromReplyCode(string $code): ?Ticket
+    public static function getTicketFromReplyCode(string $code, string $senderEmail): ?Ticket
     {
-        // Extraire l'ID du ticket avant le point
-        // Ex: "15.KD8BSBS35" -> 15
-        $parts = explode('.', $code);
+        // Vérifier que le code existe en BDD
+        $replyCode = TicketReplyCode::where('code', $code)
+            ->valid()
+            ->first();
         
-        if (count($parts) !== 2) {
-            Log::warning('EmailReplyCode - Invalid code format', ['code' => $code]);
-            return null;
-        }
-        
-        $ticketId = (int) $parts[0];
-        
-        // Vérifier que le ticket existe
-        $ticket = Ticket::find($ticketId);
-        
-        if (!$ticket) {
-            Log::warning('EmailReplyCode - Ticket not found', [
+        if (!$replyCode) {
+            Log::warning('EmailReplyCode - Code not found or expired', [
                 'code' => $code,
-                'extracted_ticket_id' => $ticketId
+                'sender_email' => $senderEmail
             ]);
             return null;
         }
         
-        Log::info('EmailReplyCode - Ticket found', [
+        // SÉCURITÉ : Vérifier que l'email de l'expéditeur correspond au destinataire du code
+        if ($replyCode->recipient_email !== $senderEmail) {
+            Log::warning('EmailReplyCode - Email mismatch', [
+                'code' => $code,
+                'expected_email' => $replyCode->recipient_email,
+                'sender_email' => $senderEmail
+            ]);
+            return null;
+        }
+        
+        // Marquer le code comme utilisé (première utilisation)
+        $replyCode->markAsUsed();
+        
+        Log::info('EmailReplyCode - Valid code, ticket found', [
             'code' => $code,
-            'ticket_id' => $ticket->id,
-            'ticket_subject' => $ticket->subject
+            'ticket_id' => $replyCode->ticket_id,
+            'sender_email' => $senderEmail
         ]);
         
-        return $ticket;
+        return $replyCode->ticket;
     }
     
     /**
@@ -175,13 +202,14 @@ class EmailReplyCodeService
      *
      * @param string $messageContent
      * @param Ticket $ticket
+     * @param string $recipientEmail Email du destinataire pour générer le code
      * @param string|null $existingCode Code existant à utiliser (optionnel)
      * @param bool $includeInstructions Inclure les instructions (pour emails seulement)
      * @return array Format: ['content' => string, 'header' => string|null]
      */
-    public static function buildEmailWithReplyCode(string $messageContent, Ticket $ticket, ?string $existingCode = null, bool $includeInstructions = true): array
+    public static function buildEmailWithReplyCode(string $messageContent, Ticket $ticket, string $recipientEmail, ?string $existingCode = null, bool $includeInstructions = true): array
     {
-        $replyCode = $existingCode ?? self::generateReplyCode($ticket);
+        $replyCode = $existingCode ?? self::generateReplyCode($ticket, $recipientEmail);
         $formattedCode = self::formatCodeForEmail($replyCode);
         
         if ($includeInstructions) {

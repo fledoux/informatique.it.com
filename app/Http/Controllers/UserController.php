@@ -136,6 +136,11 @@ class UserController extends Controller
             // Générer les initiales automatiquement
             $data['initial'] = Helper::generateInitials($data['firstname'] ?? '', $data['lastname'] ?? '');
 
+            // Gérer les channels : si absent de la requête, c'est que toutes les cases sont décochées
+            if (!isset($data['channels'])) {
+                $data['channels'] = [];
+            }
+
             // Si l'utilisateur n'est pas super-admin, on préserve les valeurs existantes
             $currentUser = Auth::user();
             if (!$currentUser->hasRole('super-admin')) {

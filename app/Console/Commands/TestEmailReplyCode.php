@@ -50,8 +50,10 @@ class TestEmailReplyCode extends Command
         
         // Test 1: Générer un code de réponse
         $this->info("\n1️⃣ Génération du code de réponse");
-        $code = EmailReplyCodeService::generateReplyCode($ticket);
+        $testEmail = 'test@example.com';
+        $code = EmailReplyCodeService::generateReplyCode($ticket, $testEmail);
         $this->line("Code généré: {$code}");
+        $this->line("Pour l'email: {$testEmail}");
         
         // Test 2: Formater le code pour email
         $this->info("\n2️⃣ Format pour email");
@@ -61,25 +63,30 @@ class TestEmailReplyCode extends Command
         // Test 3: Construire un email complet
         $this->info("\n3️⃣ Construction d'un email avec code");
         $sampleMessage = "Bonjour,\n\nVotre ticket a été créé avec succès.\nNous vous recontacterons bientôt.\n\nCordialement,\nL'équipe support";
-        $emailWithCode = EmailReplyCodeService::buildEmailWithReplyCode($sampleMessage, $ticket, $code);
+        $emailData = EmailReplyCodeService::buildEmailWithReplyCode($sampleMessage, $ticket, $testEmail, $code);
         $this->line("Email complet:");
         $this->line("─────────────────");
-        $this->line($emailWithCode);
+        $this->line($emailData['content']);
+        if ($emailData['header']) {
+            $this->line("\nHeader:");
+            $this->line($emailData['header']);
+        }
         $this->line("─────────────────");
         
         // Test 4: Extraction du code depuis l'email
         $this->info("\n4️⃣ Extraction du code depuis l'email");
-        $extractedCode = EmailReplyCodeService::extractReplyCode($emailWithCode);
+        $fullEmailContent = $emailData['content'] . "\n" . ($emailData['header'] ?? '');
+        $extractedCode = EmailReplyCodeService::extractReplyCode($fullEmailContent);
         $this->line("Code extrait: " . ($extractedCode ?? 'NON TROUVÉ'));
         
-        // Test 5: Récupération du ticket depuis le code
+        // Test 5: Récupération du ticket depuis le code (avec validation email)
         if ($extractedCode) {
-            $this->info("\n5️⃣ Récupération du ticket depuis le code");
-            $foundTicket = EmailReplyCodeService::getTicketFromReplyCode($extractedCode);
+            $this->info("\n5️⃣ Récupération du ticket depuis le code avec validation");
+            $foundTicket = EmailReplyCodeService::getTicketFromReplyCode($extractedCode, $testEmail);
             if ($foundTicket) {
                 $this->line("✅ Ticket trouvé: #{$foundTicket->id} - {$foundTicket->subject}");
             } else {
-                $this->error("❌ Ticket non trouvé avec le code {$extractedCode}");
+                $this->error("❌ Ticket non trouvé ou email non autorisé");
             }
         }
         

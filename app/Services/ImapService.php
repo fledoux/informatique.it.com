@@ -4,11 +4,9 @@ namespace App\Services;
 
 use App\Models\Ticket;
 use App\Models\User;
-use App\Models\Company;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UnauthorizedReplyMail;
-use App\Services\EmailReplyCodeService;
 use Exception;
 
 class ImapService
@@ -19,9 +17,7 @@ class ImapService
     private ?string $username;
     private ?string $password;
     private string $encryption;
-    private string $folder;
     private string $archiveFolder;
-    private string $folderSeparator;
     private array $messages = []; // Pour collecter les messages à afficher
     
     // Compteurs pour les statistiques
@@ -36,8 +32,6 @@ class ImapService
         $this->username = config('imap.username');
         $this->password = config('imap.password');
         $this->encryption = config('imap.encryption', 'ssl');
-        $this->folder = config('imap.folder', 'INBOX');
-        $this->folderSeparator = config('imap.folder_separator', '.');
         
         // Le dossier d'archives sera défini après la connexion
         $this->archiveFolder = '';
@@ -217,6 +211,13 @@ class ImapService
             $senderEmail = strtolower($from->mailbox . '@' . $from->host);
             $senderName = $from->personal ?? $senderEmail;
 
+            // Ignorer les emails provenant de notre propre adresse (éviter les boucles)
+            $ourEmail = strtolower(config('app.company.emails.help'));
+            if ($senderEmail === $ourEmail) {
+                Log::info("Ignoring email from our own address: {$senderEmail}");
+                return true; // Marquer comme traité pour l'archiver
+            }
+
             // Décoder le nom si nécessaire
             if ($senderName && $senderName !== $senderEmail) {
                 $senderName = $this->decodeHeader($senderName);
@@ -255,7 +256,8 @@ class ImapService
                 // C'est une réponse à un ticket existant
                 Log::info("Reply code found in email", ['code' => $replyCode, 'sender' => $senderEmail]);
                 
-                $existingTicket = \App\Services\EmailReplyCodeService::getTicketFromReplyCode($replyCode);
+                // SÉCURITÉ : Valider le code avec l'email de l'expéditeur
+                $existingTicket = \App\Services\EmailReplyCodeService::getTicketFromReplyCode($replyCode, $senderEmail);
                 
                 if ($existingTicket) {
                     // Nettoyer le contenu (supprimer tout après le code)
@@ -264,8 +266,8 @@ class ImapService
                     // Ajouter un message au ticket existant avec les pièces jointes
                     return $this->addMessageToTicket($existingTicket, $senderEmail, $cleanedBody, $attachments);
                 } else {
-                    Log::warning("Invalid reply code in email", ['code' => $replyCode, 'sender' => $senderEmail]);
-                    // Traiter comme un nouveau ticket si le code est invalide
+                    Log::warning("Invalid reply code or unauthorized sender", ['code' => $replyCode, 'sender' => $senderEmail]);
+                    // Traiter comme un nouveau ticket si le code est invalide ou l'expéditeur non autorisé
                 }
             }
 
@@ -462,7 +464,8 @@ class ImapService
             }
 
             // VÉRIFICATION DE SÉCURITÉ : L'utilisateur doit appartenir à la même société que le ticket
-            if ($user->company_id !== $ticket->company_id) {
+            // EXCEPTION : Les membres du support (company_id = 1) peuvent répondre à tous les tickets
+            if ($user->company_id !== $ticket->company_id && $user->company_id !== 1) {
                 Log::warning("Security: User from different company trying to reply to ticket", [
                     'user_email' => $senderEmail,
                     'user_company_id' => $user->company_id,
@@ -483,7 +486,66 @@ class ImapService
                 return false;
             }
 
-            // Créer un nouveau message pour le ticket
+            // Si le ticket est clôturé (resolved, closed, canceled), créer un nouveau ticket
+            if (in_array($ticket->status, ['resolved', 'closed', 'canceled'])) {
+                Log::info("Ticket n°{$ticket->id} is closed ({$ticket->status}), creating new ticket");
+                
+                $newTicket = Ticket::create([
+                    'status' => 'new',
+                    'priority' => $ticket->priority,
+                    'company_id' => $ticket->company_id,
+                    'author_id' => $user->id,
+                    'assigned_to' => $ticket->assigned_to,
+                    'folder_code' => $ticket->folder_code,
+                    'subject' => 'Re: ' . $ticket->subject,
+                    'question' => "Suite à la demande #" . $ticket->id . " :\n\n" . ($ticket->question ?? ''),
+                    'billable' => $ticket->billable,
+                    'source' => 'email',
+                ]);
+                
+                // Créer le message dans le nouveau ticket
+                $ticketMessage = \App\Models\TicketMessage::create([
+                    'status' => 'active',
+                    'subject' => 'Re: ' . $ticket->subject,
+                    'body' => $messageContent,
+                    'company_id' => $ticket->company_id,
+                    'ticket_id' => $newTicket->id,
+                    'author_id' => $user->id,
+                ]);
+                
+                // Uploader les pièces jointes dans le nouveau ticket
+                if (!empty($attachments)) {
+                    Log::info("Traitement de " . count($attachments) . " fichier(s) pour le nouveau ticket #{$newTicket->id}");
+                    
+                    $attachmentService = new \App\Services\AttachmentService();
+                    $uploadedAttachments = $attachmentService->uploadEmailAttachments(
+                        $attachments,
+                        $newTicket->id,
+                        $newTicket->company_id,
+                        $user->id,
+                        $ticketMessage->id
+                    );
+                    
+                    Log::info("✅ " . count($uploadedAttachments) . " fichier(s) uploadé(s) pour le nouveau ticket #{$newTicket->id}");
+                }
+                
+                // Envoyer l'email de confirmation pour le nouveau ticket
+                try {
+                    \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\TicketConfirmationMail($newTicket));
+                    Log::info("Confirmation email sent for new Support n°{$newTicket->id} to {$user->email}");
+                    $this->addMessage("📧 Email de confirmation envoyé à {$user->email}");
+                } catch (Exception $e) {
+                    Log::error("Failed to send confirmation email for new Support n°{$newTicket->id}: " . $e->getMessage());
+                    $this->addMessage("⚠️  Échec envoi email de confirmation");
+                }
+                
+                Log::info("Created new Support n°{$newTicket->id} from closed ticket n°{$ticket->id}");
+                $this->addMessage("✅ Support n°{$newTicket->id} créé (réponse au ticket clôturé n°{$ticket->id})");
+                
+                return true;
+            }
+
+            // Créer un nouveau message pour le ticket existant (non clôturé)
             $ticketMessage = \App\Models\TicketMessage::create([
                 'status' => 'active', // Message public, visible par le client
                 'subject' => 'Re: ' . $ticket->subject,
@@ -514,6 +576,93 @@ class ImapService
                 'status' => 'in_progress',
                 'updated_at' => now()
             ]);
+
+            // Déterminer qui a répondu : support ou client
+            $isSupport = $user->company_id === 1;
+            
+            // Récupérer les utilisateurs du support avec email activé
+            $supportUsers = \App\Models\User::where('company_id', 1)
+                ->where('status', 'active')
+                ->get()
+                ->filter(function ($user) {
+                    $channels = $user->channels ?? [];
+                    return !empty($channels['email']);
+                });
+            
+            if ($isSupport) {
+                // Le support a répondu → Envoyer le récap au CLIENT + Notifier le SUPPORT
+                Log::info("📧 Support replied, sending recap to client + notifying support team", [
+                    'support_user' => $user->email,
+                    'client_email' => $ticket->author->email,
+                    'ticket_id' => $ticket->id
+                ]);
+                
+                // 1. Envoyer récap au client
+                try {
+                    Mail::to($ticket->author->email)
+                        ->send(new \App\Mail\TicketClientRecapMail($ticket, $ticketMessage));
+                    Log::info("✅ Client recap email sent to {$ticket->author->email} for ticket #{$ticket->id}");
+                } catch (Exception $e) {
+                    Log::error("❌ Failed to send client recap email: " . $e->getMessage());
+                }
+                
+                // 2. Notifier l'équipe support
+                foreach ($supportUsers as $supportUser) {
+                    try {
+                        Mail::to($supportUser->email)
+                            ->send(new \App\Mail\TicketReplyNotificationMail($ticket, $ticketMessage, $supportUser->email));
+                        Log::info("✅ Support notification sent to {$supportUser->email} for ticket #{$ticket->id}");
+                    } catch (Exception $e) {
+                        Log::error("❌ Failed to send notification to {$supportUser->email}: " . $e->getMessage());
+                    }
+                }
+            } else {
+                // Le client a répondu → Notifier le SUPPORT + Envoyer récap au CLIENT
+                Log::info("📧 Client replied, notifying support team + sending recap to client", [
+                    'client_user' => $user->email,
+                    'ticket_id' => $ticket->id
+                ]);
+                
+                // 1. Notifier l'équipe support
+                foreach ($supportUsers as $supportUser) {
+                    try {
+                        Mail::to($supportUser->email)
+                            ->send(new \App\Mail\TicketReplyNotificationMail($ticket, $ticketMessage, $supportUser->email));
+                        Log::info("✅ Support notification sent to {$supportUser->email} for ticket #{$ticket->id}");
+                    } catch (Exception $e) {
+                        Log::error("❌ Failed to send notification to {$supportUser->email}: " . $e->getMessage());
+                    }
+                }
+                
+                // 2. Envoyer récap au client (auto-send)
+                try {
+                    Mail::to($ticket->author->email)
+                        ->send(new \App\Mail\TicketClientRecapMail($ticket, $ticketMessage));
+                    Log::info("✅ Client recap email (auto) sent to {$ticket->author->email} for ticket #{$ticket->id}");
+                } catch (Exception $e) {
+                    Log::error("❌ Failed to send client recap email: " . $e->getMessage());
+                }
+            }
+            
+            // Récupérer les utilisateurs avec Pushover activé
+            $pushoverUsers = \App\Models\User::where('company_id', 1)
+                ->where('status', 'active')
+                ->get()
+                ->filter(function ($user) {
+                    $channels = $user->channels ?? [];
+                    return !empty($channels['sms']);
+                });
+            
+            // Envoyer notification Pushover si au moins un utilisateur l'a activée
+            if ($pushoverUsers->count() > 0) {
+                $pushoverMessage = "🔔 Nouvelle réponse par email sur Support #{$ticket->id}\n";
+                $pushoverMessage .= "Client : {$ticket->author->name}\n";
+                $pushoverMessage .= "Sujet : {$ticket->subject}\n";
+                $pushoverMessage .= "Voir : " . route('ticket.show', $ticket->id);
+                
+                \App\Helpers\Helper::sendPushoverNotification('Nouvelle réponse client', $pushoverMessage);
+                Log::info("Pushover notification sent for ticket #{$ticket->id} to {$pushoverUsers->count()} user(s)");
+            }
 
             Log::info("✅ Message #{$ticketMessage->id} ajouté au Support n°{$ticket->id} avec " . count($attachments) . " fichier(s)");
             return true;
@@ -603,70 +752,6 @@ class ImapService
             // Fallback: marquer comme lu
             imap_setflag_full($this->connection, $uid, "\\Seen", ST_UID);
             return true;
-        }
-    }
-
-    /**
-     * Déplace un email dans le dossier d'archives (ancienne méthode, conservée pour compatibilité)
-     */
-    private function moveEmailToArchive(int $emailId): bool
-    {
-        try {
-            // Créer le dossier d'archives si nécessaire
-            if (!$this->ensureArchiveFolderExists()) {
-                Log::error("Cannot create archive folder, marking email as read instead");
-                imap_setflag_full($this->connection, $emailId, "\\Seen");
-                return true; // Continue le traitement
-            }
-
-            // Marquer comme lu avant de déplacer
-            imap_setflag_full($this->connection, $emailId, "\\Seen");
-            
-            // Déplacer l'email
-            $result = imap_mail_move($this->connection, $emailId, $this->archiveFolder);
-            
-            if ($result) {
-                // Expunge pour finaliser le déplacement
-                imap_expunge($this->connection);
-                Log::info("Email {$emailId} moved to {$this->archiveFolder}");
-                return true;
-            } else {
-                Log::error("Failed to move email {$emailId}: " . imap_last_error());
-                Log::info("Email {$emailId} was marked as read but could not be moved");
-                return true; // Email traité et marqué comme lu même si pas déplacé
-            }
-        } catch (Exception $e) {
-            Log::error("Error moving email {$emailId} to archive: " . $e->getMessage());
-            // Fallback: marquer comme lu
-            imap_setflag_full($this->connection, $emailId, "\\Seen");
-            return true;
-        }
-    }
-
-    /**
-     * Détecte le séparateur de dossier du serveur IMAP
-     */
-    private function detectFolderSeparator(): void
-    {
-        try {
-            $folders = imap_list($this->connection, "{{$this->host}:{$this->port}/imap/{$this->encryption}/novalidate-cert}", "*");
-            
-            if ($folders) {
-                foreach ($folders as $folder) {
-                    if (str_contains($folder, '.')) {
-                        $this->folderSeparator = '.';
-                        break;
-                    } elseif (str_contains($folder, '/')) {
-                        $this->folderSeparator = '/';
-                        break;
-                    }
-                }
-            }
-            
-            Log::info("Detected folder separator: '{$this->folderSeparator}'");
-        } catch (Exception $e) {
-            Log::warning("Could not detect folder separator, using default '.': " . $e->getMessage());
-            $this->folderSeparator = '.';
         }
     }
 

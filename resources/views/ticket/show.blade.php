@@ -14,10 +14,18 @@
                 <div class="card-body p-2 p-sm-3">
                     {{-- Boutons de réponse --}}
                     @auth
+                        {{-- Avertissement si ticket clôturé --}}
+                        @if(in_array($ticket->status, ['resolved', 'closed', 'canceled']))
+                            <div class="alert alert-warning text-center mb-3">
+                                <i class="fa-solid fa-circle-info me-2"></i>
+                                <strong>Attention :</strong> Ce ticket est clôturé. Toute réponse créera automatiquement une nouvelle demande.
+                            </div>
+                        @endif
+                        
                         <div class="row mb-4 text-center">
                             <div class="col-12 d-flex flex-column justify-content-center flex-sm-row gap-2">
                                 <a href="{{ route('ticketmessage.create', [$ticket->id]) }}" class="btn btn-orange">
-                                    {!! __('ticket.Answer') !!}
+                                    {!! in_array($ticket->status, ['resolved', 'closed', 'canceled']) ? '<i class="fa-solid fa-plus me-1"></i> Nouvelle demande' : __('ticket.Answer') !!}
                                 </a>
                                 <a href="{{ route('ticketattachment.create', [$ticket->id]) }}" class="btn btn-outline-orange">
                                     <i class="fa-regular fa-file-import me-1"></i>

@@ -115,4 +115,16 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Support Informatique'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Reply Code Expiration
+    |--------------------------------------------------------------------------
+    |
+    | Number of days before a reply code expires. After this period, the code
+    | will no longer be valid for email replies to tickets.
+    |
+    */
+
+    'reply_code_expiration_days' => env('MAIL_REPLY_CODE_EXPIRATION_DAYS', 30),
+
 ];

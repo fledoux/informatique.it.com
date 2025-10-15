@@ -63,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Routes User - Permissions gérées dans UserController::__construct()
-Route::prefix('user')->group(function () {
+Route::prefix('user')->middleware(['throttle:60,1'])->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('user.index');
     Route::get('/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/', [UserController::class, 'store'])->name('user.store');
@@ -78,7 +78,7 @@ Route::prefix('user')->group(function () {
 });
 
 // Routes Contact - Permissions gérées dans ContactController::__construct()
-Route::prefix('contact')->group(function () {
+Route::prefix('contact')->middleware(['throttle:60,1'])->group(function () {
     Route::get('/', [ContactController::class, 'index'])->name('contact.index');
     Route::get('/create', [ContactController::class, 'create'])->name('contact.create');
     Route::post('/', [ContactController::class, 'store'])->name('contact.store');
@@ -89,7 +89,7 @@ Route::prefix('contact')->group(function () {
 });
 
 // Routes Ticket - Permissions gérées dans TicketController::__construct()
-Route::prefix('ticket')->group(function () {
+Route::prefix('ticket')->middleware(['throttle:60,1'])->group(function () {
     Route::get('/', [TicketController::class, 'index'])->name('ticket.index');
     Route::get('/create', [TicketController::class, 'create'])->name('ticket.create');
     Route::post('/', [TicketController::class, 'store'])->name('ticket.store');
@@ -103,7 +103,7 @@ Route::prefix('ticket')->group(function () {
 });
 
 // Routes Company - Permissions gérées dans CompanyController::__construct()
-Route::prefix('company')->group(function () {
+Route::prefix('company')->middleware(['throttle:60,1'])->group(function () {
     Route::get('/', [CompanyController::class, 'index'])->name('company.index');
     Route::get('/create', [CompanyController::class, 'create'])->name('company.create');
     Route::post('/', [CompanyController::class, 'store'])->name('company.store');
@@ -114,7 +114,7 @@ Route::prefix('company')->group(function () {
 });
 
 // Permission management routes - Permissions gérées dans PermissionController::__construct()
-Route::prefix('permissions')->middleware(['auth'])->group(function () {
+Route::prefix('permissions')->middleware(['auth', 'throttle:60,1'])->group(function () {
     Route::get('/', [\App\Http\Controllers\PermissionController::class, 'index'])->name('permissions.index');
     Route::get('/create', [\App\Http\Controllers\PermissionController::class, 'create'])->name('permissions.create');
     Route::post('/', [\App\Http\Controllers\PermissionController::class, 'store'])->name('permissions.store');
@@ -127,7 +127,7 @@ Route::prefix('permissions')->middleware(['auth'])->group(function () {
 });
 
 // Routes AllowDomainRegistration - Permissions gérées dans AllowDomainRegistrationController::__construct()
-Route::prefix('allowdomain')->group(function () {
+Route::prefix('allowdomain')->middleware(['throttle:60,1'])->group(function () {
     Route::get('/', [AllowDomainRegistrationController::class, 'index'])->name('allowdomain.index');
     Route::get('/create', [AllowDomainRegistrationController::class, 'create'])->name('allowdomain.create');
     Route::post('/', [AllowDomainRegistrationController::class, 'store'])->name('allowdomain.store');
@@ -142,7 +142,7 @@ Route::prefix('allowdomain')->group(function () {
 
 // Routes TicketMessage - Permissions gérées dans TicketMessageController::__construct()
 // Note: Pas de route index - les messages se gèrent depuis les tickets
-Route::prefix('ticketmessage')->group(function () {
+Route::prefix('ticketmessage')->middleware(['throttle:60,1'])->group(function () {
     Route::get('/create/{ticket}/{internal?}', [TicketMessageController::class, 'create'])->name('ticketmessage.create');
     Route::post('/', [TicketMessageController::class, 'store'])->name('ticketmessage.store');
     Route::get('/{ticketmessage}', [TicketMessageController::class, 'show'])->name('ticketmessage.show');
@@ -152,7 +152,7 @@ Route::prefix('ticketmessage')->group(function () {
 });
 
 // Routes TicketAttachment - Permissions gérées dans TicketAttachmentController::__construct()
-Route::prefix('ticketattachment')->group(function () {
+Route::prefix('ticketattachment')->middleware(['throttle:60,1'])->group(function () {
     Route::get('/', [TicketAttachmentController::class, 'index'])->name('ticketattachment.index');
     Route::get('/ticket/{ticketId}/create', [TicketAttachmentController::class, 'create'])->name('ticketattachment.create');
     Route::post('/', [TicketAttachmentController::class, 'store'])->name('ticketattachment.store');

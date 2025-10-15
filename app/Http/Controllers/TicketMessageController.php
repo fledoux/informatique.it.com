@@ -118,6 +118,93 @@ class TicketMessageController extends Controller
                 ->withInput();
         }
         
+        // Si le ticket est clôturé (resolved, closed, canceled), créer un nouveau ticket
+        if (in_array($ticket->status, ['resolved', 'closed', 'canceled']) && $validated['status'] === 'active') {
+            $newTicket = Ticket::create([
+                'status' => 'new',
+                'priority' => $ticket->priority,
+                'company_id' => $ticket->company_id,
+                'author_id' => Auth::id(),
+                'assigned_to' => $ticket->assigned_to,
+                'folder_code' => $ticket->folder_code,
+                'subject' => 'Re: ' . $ticket->subject,
+                'question' => "Suite à la demande #" . $ticket->id . " :\n\n" . ($ticket->question ?? ''),
+                'billable' => $ticket->billable,
+                'source' => 'web',
+            ]);
+            
+            // Créer le message dans le nouveau ticket
+            $validated['ticket_id'] = $newTicket->id;
+            $validated['author_id'] = Auth::id();
+            $validated['company_id'] = $ticket->company_id;
+            
+            $ticketMessage = TicketMessage::create($validated);
+            
+            // Gérer les pièces jointes si présentes
+            if ($request->hasFile('files')) {
+                $attachmentService = new AttachmentService();
+                $attachmentService->uploadMultipleAttachments(
+                    $request->file('files'),
+                    $newTicket->id,
+                    $newTicket->company_id,
+                    Auth::id(),
+                    $ticketMessage->id
+                );
+            }
+            
+            // Envoyer email de confirmation au client
+            try {
+                \Illuminate\Support\Facades\Mail::to($newTicket->author->email)
+                    ->send(new \App\Mail\TicketConfirmationMail($newTicket));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error("Failed to send confirmation email: " . $e->getMessage());
+            }
+            
+            // Récupérer les utilisateurs de la société de support (company_id = 1) avec notifications activées
+            $supportUsers = \App\Models\User::where('company_id', 1)
+                ->where('status', 'active')
+                ->get()
+                ->filter(function ($user) {
+                    $channels = $user->channels ?? [];
+                    return !empty($channels['email']);
+                });
+            
+            // Envoyer notification email avec l'historique complet
+            foreach ($supportUsers as $supportUser) {
+                try {
+                    \Illuminate\Support\Facades\Mail::to($supportUser->email)
+                        ->send(new \App\Mail\TicketReplyNotificationMail($newTicket, $ticketMessage, $supportUser->email));
+                    \Illuminate\Support\Facades\Log::info("Notification email sent to {$supportUser->email} for ticket #{$newTicket->id}");
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error("Failed to send notification email to {$supportUser->email}: " . $e->getMessage());
+                }
+            }
+            
+            // Récupérer les utilisateurs avec Pushover activé
+            $pushoverUsers = \App\Models\User::where('company_id', 1)
+                ->where('status', 'active')
+                ->get()
+                ->filter(function ($user) {
+                    $channels = $user->channels ?? [];
+                    return !empty($channels['sms']);
+                });
+            
+            // Envoyer notification Pushover si au moins un utilisateur l'a activée
+            if ($pushoverUsers->count() > 0) {
+                $message = "🔔 Nouveau ticket créé #" . $newTicket->id . "\n";
+                $message .= "Client : {$newTicket->author->name}\n";
+                $message .= "Sujet : {$newTicket->subject}\n";
+                $message .= "Voir : " . route('ticket.show', $newTicket->id);
+                
+                \App\Helpers\Helper::sendPushoverNotification('Nouveau ticket', $message);
+                \Illuminate\Support\Facades\Log::info("Pushover notification sent for ticket #{$newTicket->id} to {$pushoverUsers->count()} user(s)");
+            }
+            
+            return redirect()
+                ->route('ticket.show', $newTicket->id)
+                ->with('success', 'Le ticket était clôturé. Une nouvelle demande #' . $newTicket->id . ' a été créée.');
+        }
+        
         // Ajouter l'auteur et la société du ticket
         $validated['author_id'] = Auth::id();
         $validated['company_id'] = $ticket->company_id;
@@ -139,6 +226,68 @@ class TicketMessageController extends Controller
         // Mettre à jour le statut du ticket si c'est une réponse publique
         if ($validated['status'] === 'active') {
             $ticket->update(['status' => 'in_progress']);
+            
+            // Récupérer les utilisateurs de la société de support (company_id = 1) avec notifications activées
+            $supportUsers = \App\Models\User::where('company_id', 1)
+                ->where('status', 'active')
+                ->get()
+                ->filter(function ($user) {
+                    $channels = $user->channels ?? [];
+                    return !empty($channels['email']);
+                });
+            
+            // Envoyer notification email avec l'historique complet
+            foreach ($supportUsers as $supportUser) {
+                try {
+                    \Illuminate\Support\Facades\Mail::to($supportUser->email)
+                        ->send(new \App\Mail\TicketReplyNotificationMail($ticket, $ticketMessage, $supportUser->email));
+                    \Illuminate\Support\Facades\Log::info("Notification email sent to {$supportUser->email} for ticket #{$ticket->id}");
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error("Failed to send notification email to {$supportUser->email}: " . $e->getMessage());
+                }
+            }
+            
+            // Récupérer les utilisateurs avec Pushover activé
+            $pushoverUsers = \App\Models\User::where('company_id', 1)
+                ->where('status', 'active')
+                ->get()
+                ->filter(function ($user) {
+                    $channels = $user->channels ?? [];
+                    return !empty($channels['sms']);
+                });
+            
+            // Envoyer notification Pushover si au moins un utilisateur l'a activée
+            if ($pushoverUsers->count() > 0) {
+                $message = "🔔 Nouvelle réponse sur Support #{$ticket->id}\n";
+                $message .= "Client : {$ticket->author->name}\n";
+                $message .= "Sujet : {$ticket->subject}\n";
+                $message .= "Voir : " . route('ticket.show', $ticket->id);
+                
+                \App\Helpers\Helper::sendPushoverNotification('Nouvelle réponse client', $message);
+                \Illuminate\Support\Facades\Log::info("Pushover notification sent for ticket #{$ticket->id} to {$pushoverUsers->count()} user(s)");
+            }
+            
+            // Envoyer email récapitulatif au client
+            $shouldSendToClient = false;
+            
+            // Cas 1 : Le client répond lui-même → toujours envoyer
+            if (Auth::id() === $ticket->author_id) {
+                $shouldSendToClient = true;
+            }
+            // Cas 2 : Super-admin répond et coche la case
+            elseif (Auth::user()->hasRole('super-admin') && isset($validated['send_email_to_client']) && $validated['send_email_to_client']) {
+                $shouldSendToClient = true;
+            }
+            
+            if ($shouldSendToClient) {
+                try {
+                    \Illuminate\Support\Facades\Mail::to($ticket->author->email)
+                        ->send(new \App\Mail\TicketClientRecapMail($ticket, $ticketMessage));
+                    \Illuminate\Support\Facades\Log::info("Client recap email sent to {$ticket->author->email} for ticket #{$ticket->id}");
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error("Failed to send client recap email: " . $e->getMessage());
+                }
+            }
         }
 
         $messageType = $validated['status'] === 'internal' ? 'Note interne' : 'Réponse';

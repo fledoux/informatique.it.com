@@ -21,6 +21,7 @@ return [
     'Pricing' => 'Tarifs',
     'CaseStudies' => 'Cas clients',
     'FAQ' => 'FAQ',
+    'Scan' => 'Scan',
     'FreeQuote' => 'Devis gratuit',
     'Domains' => 'Domaines',
 ];

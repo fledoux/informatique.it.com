@@ -14,6 +14,14 @@
             </div>
         </div>
 
+        {{-- Avertissement si ticket clôturé --}}
+        @if(!$isInternal && in_array($ticket->status, ['resolved', 'closed', 'canceled']))
+            <div class="alert alert-warning">
+                <i class="fa-solid fa-circle-info me-2"></i>
+                <strong>Attention :</strong> Ce ticket est clôturé. Votre réponse créera automatiquement une <strong>nouvelle demande</strong>.
+            </div>
+        @endif
+
         {{-- Formulaire de réponse --}}
         <div class="card">
             <div class="card-body p-2 p-sm-3 {{ $isInternal ? 'bg-warning text-warning bg-opacity-10' : '' }}">
@@ -57,6 +65,24 @@
                             </div>
                         @endif
                     </div>
+
+                    {{-- Option d'envoi email au client (super-admin uniquement) --}}
+                    @hasanyrole(['super-admin'])
+                        @if(!$isInternal)
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="send_email_to_client" name="send_email_to_client" value="1" {{ old('send_email_to_client', '1') === '1' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="send_email_to_client">
+                                        <i class="fa-regular fa-envelope me-2"></i>
+                                        <strong>Envoyer un email récapitulatif au client</strong>
+                                    </label>
+                                    <div class="form-text">
+                                        Le client recevra un email avec l'historique complet de la conversation.
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endhasanyrole
 
                     {{-- Pièces jointes --}}
                     <div class="mb-5">

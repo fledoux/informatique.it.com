@@ -20,6 +20,7 @@ class TicketMessageStoreRequest extends FormRequest
             'subject' => ['required', 'string', 'max:190'],
             'body' => ['nullable', 'string'],
             'status' => ['required', 'string', 'in:active,inactive,internal'],
+            'send_email_to_client' => ['nullable', 'boolean'],
             'files' => ['nullable', 'array'],
             'files.*' => ['nullable', 'file', 'max:' . $maxFileSize],
         ];

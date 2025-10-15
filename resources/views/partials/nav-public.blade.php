@@ -25,7 +25,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('qr-code') }}">
-                        <i class="fa-solid fa-qrcode me-1"></i>Scannez-moi
+                        <i class="fa-solid fa-qrcode me-1"></i>{{ __('nav.Scan') }}
                     </a>
                 </li>
                 @include('partials._lang')

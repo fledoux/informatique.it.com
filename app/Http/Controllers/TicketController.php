@@ -95,11 +95,42 @@ class TicketController extends Controller
         $message = 'Création de Ticket';
         Helper::sendPushoverNotification($title, $message);
 
-        // Envoyer l'email de confirmation
+        // Envoyer l'email de confirmation au client
         try {
             \Illuminate\Support\Facades\Mail::to($ticket->author->email)->send(new \App\Mail\TicketConfirmationMail($ticket));
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('Failed to send ticket confirmation email: ' . $e->getMessage());
+        }
+        
+        // Récupérer les utilisateurs de la société de support (company_id = 1) avec notifications activées
+        $supportUsers = \App\Models\User::where('company_id', 1)
+            ->where('status', 'active')
+            ->get()
+            ->filter(function ($user) {
+                $channels = $user->channels ?? [];
+                return !empty($channels['email']);
+            });
+        
+        // Envoyer notification email à l'équipe support
+        foreach ($supportUsers as $supportUser) {
+            try {
+                // Créer un message fictif pour l'email de notification (question initiale)
+                $initialMessage = new \App\Models\TicketMessage();
+                $initialMessage->id = 0;
+                $initialMessage->ticket_id = $ticket->id;
+                $initialMessage->author_id = $ticket->author_id;
+                $initialMessage->subject = $ticket->subject;
+                $initialMessage->body = $ticket->question;
+                $initialMessage->status = 'active';
+                $initialMessage->created_at = $ticket->created_at;
+                $initialMessage->setRelation('author', $ticket->author);
+                
+                \Illuminate\Support\Facades\Mail::to($supportUser->email)
+                    ->send(new \App\Mail\TicketReplyNotificationMail($ticket, $initialMessage, $supportUser->email));
+                \Illuminate\Support\Facades\Log::info("New ticket notification email sent to {$supportUser->email} for ticket #{$ticket->id}");
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error("Failed to send new ticket notification email to {$supportUser->email}: " . $e->getMessage());
+            }
         }
 
         return redirect()->route('ticket.show', $ticket->id)->with('success', __('global.messages.created'));
