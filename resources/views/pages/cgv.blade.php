@@ -12,7 +12,7 @@
             Dernière mise à jour : {{ date('01/m/Y') }}
         </p>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">1. Objet</h2>
             <p class="mb-0 text-secondary">
                 Les présentes conditions générales de vente (ci-après « CGV ») régissent l'ensemble des prestations de services informatiques 
@@ -22,7 +22,7 @@
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">2. Prestations</h2>
             <p class="mb-0 text-secondary">
                 Nos services comprennent notamment : le support informatique à distance ou sur site, l'infogérance, 
@@ -30,7 +30,7 @@
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">3. Commandes</h2>
             <p class="mb-0 text-secondary">
                 Toute commande de prestation implique l'adhésion pleine et entière du client aux présentes CGV. 
@@ -38,7 +38,7 @@
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">4. Tarifs et facturation</h2>
             <p class="mb-0 text-secondary">
                 Les prix sont exprimés en euros HT, auxquels s'ajoute la TVA au taux en vigueur. 
@@ -48,7 +48,7 @@
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">5. Modalités de paiement</h2>
             <p class="mb-0 text-secondary">
                 Les factures sont payables comptant, sauf conditions particulières mentionnées au devis. 
@@ -57,7 +57,7 @@
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">6. Obligations du client</h2>
             <p class="mb-0 text-secondary">
                 Le client s'engage à fournir toutes les informations nécessaires à la bonne exécution des prestations 
@@ -65,7 +65,7 @@
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">7. Responsabilité</h2>
             <p class="mb-0 text-secondary">
                 La société <strong>Yellow Cactus</strong> ne pourra être tenue responsable des dommages indirects subis par le client, 
@@ -73,7 +73,7 @@
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">8. Résiliation</h2>
             <p class="mb-0 text-secondary">
                 En cas de manquement grave de l'une des parties à ses obligations, le contrat pourra être résilié de plein droit par l'autre partie, 
@@ -81,7 +81,7 @@
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">9. Données personnelles</h2>
             <p class="mb-0 text-secondary">
                 Le traitement des données personnelles est régi par notre 
@@ -89,7 +89,7 @@
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">10. Droit applicable et juridiction</h2>
             <p class="mb-0 text-secondary">
                 Les présentes CGV sont soumises au droit français. Tout litige relatif à leur interprétation ou exécution 

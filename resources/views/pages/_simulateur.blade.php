@@ -8,7 +8,7 @@
             class="row g-4 mt-1">
             {{-- Entrées --}}
             <div class="col-lg-5">
-                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100 zoom-hover">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100 zoom-hover">
                     <h5 class="fw-bold mb-3">
                         <i class="fa-regular fa-calculator me-2 text-orange"></i>Paramètres
                     </h5>
@@ -75,26 +75,26 @@
 
             {{-- Résultats --}}
             <div class="col-lg-7">
-                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <h5 class="fw-bold mb-3">
                         <i class="fa-regular fa-ticket me-2 text-orange"></i>Résultat pour
                         <span class="totalEnHeure"></span>
                         d'intervention
                     </h5>
                     <div class="d-flex flex-wrap align-items-center gap-1 gap-sm-3 mb-3">
-                        <div class="p-2 px-3 border border-2 rounded-4 text-center text-uppercase fw-bold w-100 w-sm-auto">
+                        <div class="p-2 px-3 border border-2 rounded-2 text-center text-uppercase fw-bold w-100 w-sm-auto">
                             <small class="text-secondary">Base :
                                 <span class="fw-bold" id="outBase">0</span>
                                 <i class="fa-regular fa-ticket ms-1"></i>
                             </small>
                         </div>
-                        <div class="p-2 px-3 border border-2 rounded-4 text-center text-uppercase fw-bold text-secondary w-100 w-sm-auto">
+                        <div class="p-2 px-3 border border-2 rounded-2 text-center text-uppercase fw-bold text-secondary w-100 w-sm-auto">
                             <small>+ Majoration :
                                 <span class="fw-bold" id="outExtra">0</span>
                                 <i class="fa-regular fa-ticket ms-1"></i>
                             </small>
                         </div>
-                        <div class="p-2 px-3 border border-2 border-orange rounded-4 text-center text-uppercase bg-light fw-bold text-orange w-100 w-sm-auto">
+                        <div class="p-2 px-3 border border-2 border-orange rounded-2 text-center text-uppercase bg-light fw-bold text-orange w-100 w-sm-auto">
                             <small class="">Total :
                                 <span class="fw-bold" id="outTotal">0</span>
                                 <i class="fa-regular fa-ticket ms-1 text-orange"></i>
@@ -103,7 +103,7 @@
                     </div>
 
                     {{-- Aide au scroll – visible uniquement en petit écran --}}
-                    <div class="d-sm-none p-2 mb-3 text-center bg-orange text-white border rounded-4 text-uppercase">
+                    <div class="d-sm-none p-2 mb-3 text-center bg-orange text-white border rounded-2 text-uppercase">
                         <i class="fa-regular fa-arrows-left-right me-1 fa-2xl"></i><br>
                         Faites glisser<br>le tableau horizontalement<br>pour voir la suite
                     </div>

@@ -5,7 +5,7 @@
         <div class="gradient-bar"></div>
         <div class="row g-4 mt-1">
             <div class="col-md-4">
-                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <div class="d-flex align-items-center mb-2">
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/abhaye_g.jpg') }}" alt="Abhaye G.">
                         <div>
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <div class="d-flex align-items-center mb-2">
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/man.jpg') }}" alt="Marc D.">
                         <div>
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <div class="d-flex align-items-center mb-2">
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/emilie_p.jpg') }}" alt="Emilie P.">
                         <div>
@@ -41,7 +41,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <div class="d-flex align-items-center mb-2">
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/sabine_l.jpg') }}" alt="Sabine L.">
                         <div>
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <div class="d-flex align-items-center mb-2">
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/francois_g.jpg') }}" alt="François G.">
                         <div>
@@ -65,7 +65,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <div class="d-flex align-items-center mb-2">
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/man.jpg') }}" alt="Jérôme K.">
                         <div>
@@ -78,7 +78,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <div class="d-flex align-items-center mb-2">
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/elie_e.jpg') }}" alt="Elie E.">
                         <div>
@@ -91,7 +91,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <div class="d-flex align-items-center mb-2">
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/amedee_p.jpg') }}" alt="Rémi F.">
                         <div>
@@ -104,7 +104,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <div class="d-flex align-items-center mb-2">
                         <img class="rounded-circle me-3" src="{{ asset('assets/img/customer_case/man.jpg') }}" alt="Laurent P.">
                         <div>

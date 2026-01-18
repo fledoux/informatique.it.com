@@ -5,7 +5,7 @@
 			<div class="gradient-bar"></div>
 			<div class="row g-4 mt-1">
 				<div class="col-lg-4">
-					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+					<div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
 						<div class="d-flex align-items-center mb-3">
 							<i class="fa-regular fa-building-circle-check text-orange fs-3 me-2"></i>
 							<h5 class="mb-0">Cabinet d’avocats  25 postes</h5>
@@ -27,7 +27,7 @@
 					</div>
 				</div>
 				<div class="col-lg-4">
-					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+					<div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
 						<div class="d-flex align-items-center mb-3">
 							<i class="fa-regular fa-store text-orange fs-3 me-2"></i>
 							<h5 class="mb-0">Commerce multi-sites  12 caisses</h5>
@@ -45,7 +45,7 @@
 					</div>
 				</div>
 				<div class="col-lg-4">
-					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+					<div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
 						<div class="d-flex align-items-center mb-3">
 							<i class="fa-regular fa-house-signal text-orange fs-3 me-2"></i>
 							<h5 class="mb-0">Particulier  Maison connectée</h5>
@@ -61,7 +61,7 @@
 					</div>
 				</div>
 				<div class="col-lg-4">
-					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+					<div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
 						<div class="d-flex align-items-center mb-3">
 							<i class="fa-regular fa-building-shield text-orange fs-3 me-2"></i>
 							<h5 class="mb-0">Start-up SaaS  40 utilisateurs</h5>
@@ -83,7 +83,7 @@
 					</div>
 				</div>
 				<div class="col-lg-4">
-					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+					<div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
 						<div class="d-flex align-items-center mb-3">
 							<i class="fa-regular fa-truck-fast text-orange fs-3 me-2"></i>
 							<h5 class="mb-0">Logistique  3 entrepôts</h5>
@@ -103,7 +103,7 @@
 					</div>
 				</div>
 				<div class="col-lg-4">
-					<div class="p-3 p-lg-4 bg-white border rounded-4 shadow-soft h-100">
+					<div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
 						<div class="d-flex align-items-center mb-3">
 							<i class="fa-regular fa-city text-orange fs-3 me-2"></i>
 							<h5 class="mb-0">Collectivité  120 postes</h5>

@@ -18,7 +18,7 @@ $soc_email = config('app.company.emails.legal');
             Dernière mise à jour : {{ date('01/m/Y') }}
         </p>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">1. Objet et champ d'application</h2>
             <p class="mb-0 text-secondary">
                 Les présentes conditions générales d'utilisation (ci-après « CGU ») régissent l'utilisation du site web 
@@ -27,7 +27,7 @@ $soc_email = config('app.company.emails.legal');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">2. Accès au service</h2>
             <p class="text-secondary mb-2">
                 L'accès à la plateforme est réservé aux entreprises clientes de <strong>{{ $soc_nom }}</strong>. 
@@ -41,7 +41,7 @@ $soc_email = config('app.company.emails.legal');
             </ul>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">3. Utilisation autorisée</h2>
             <p class="text-secondary mb-2">L'utilisateur s'engage à utiliser le service uniquement pour :</p>
             <ul class="text-secondary mb-0">
@@ -52,7 +52,7 @@ $soc_email = config('app.company.emails.legal');
             </ul>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">4. Utilisation interdite</h2>
             <p class="text-secondary mb-2">Il est strictement interdit de :</p>
             <ul class="text-secondary mb-0">
@@ -65,7 +65,7 @@ $soc_email = config('app.company.emails.legal');
             </ul>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">5. Responsabilités de l'utilisateur</h2>
             <p class="text-secondary mb-2">L'utilisateur est responsable de :</p>
             <ul class="text-secondary mb-0">
@@ -77,7 +77,7 @@ $soc_email = config('app.company.emails.legal');
             </ul>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">6. Propriété intellectuelle</h2>
             <p class="mb-0 text-secondary">
                 Tous les éléments du site (textes, images, logos, structure, etc.) sont protégés par le droit d'auteur 
@@ -86,7 +86,7 @@ $soc_email = config('app.company.emails.legal');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">7. Données personnelles</h2>
             <p class="mb-0 text-secondary">
                 Le traitement des données personnelles collectées dans le cadre de l'utilisation du service 
@@ -95,7 +95,7 @@ $soc_email = config('app.company.emails.legal');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">8. Disponibilité du service</h2>
             <p class="mb-0 text-secondary">
                 <strong>{{ $soc_nom }}</strong> s'efforce d'assurer une disponibilité optimale du service, 
@@ -104,7 +104,7 @@ $soc_email = config('app.company.emails.legal');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">9. Limitation de responsabilité</h2>
             <p class="mb-0 text-secondary">
                 <strong>{{ $soc_nom }}</strong> ne pourra être tenue responsable des dommages indirects 
@@ -113,7 +113,7 @@ $soc_email = config('app.company.emails.legal');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">10. Suspension et résiliation</h2>
             <p class="mb-0 text-secondary">
                 <strong>{{ $soc_nom }}</strong> se réserve le droit de suspendre ou supprimer l'accès 
@@ -122,7 +122,7 @@ $soc_email = config('app.company.emails.legal');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">11. Évolution des CGU</h2>
             <p class="mb-0 text-secondary">
                 Les présentes CGU peuvent être modifiées à tout moment. Les utilisateurs seront informés 
@@ -131,7 +131,7 @@ $soc_email = config('app.company.emails.legal');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">12. Droit applicable et juridiction</h2>
             <p class="mb-0 text-secondary">
                 Les présentes CGU sont soumises au droit français. Tout litige sera de la compétence 
@@ -140,7 +140,7 @@ $soc_email = config('app.company.emails.legal');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">13. Contact</h2>
             <p class="mb-0 text-secondary">
                 Pour toute question relative aux présentes CGU, vous pouvez nous contacter à l'adresse : 

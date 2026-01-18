@@ -29,7 +29,7 @@ $hebergeur_site = 'https://aws.amazon.com';
             Dernière mise à jour : {{ date('01/m/Y') }}
         </p>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">1. Éditeur du site</h2>
             <p class="mb-0 text-secondary">
                 Le site <strong>{{ $soc_marque }}</strong> est édité par <strong>{{ $soc_nom }}</strong>,
@@ -42,7 +42,7 @@ $hebergeur_site = 'https://aws.amazon.com';
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">2. Hébergement</h2>
             <p class="mb-0 text-secondary">
                 Hébergeur : <strong>{{ $hebergeur_nom }}</strong>  {{ $hebergeur_ad }} 
@@ -50,7 +50,7 @@ $hebergeur_site = 'https://aws.amazon.com';
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">3. Propriété intellectuelle</h2>
             <p class="mb-0 text-secondary">
                 L'ensemble des contenus (textes, visuels, logos, icônes, mises en page) présents sur {{ $soc_marque }}
@@ -59,7 +59,7 @@ $hebergeur_site = 'https://aws.amazon.com';
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">4. Responsabilité</h2>
             <p class="mb-0 text-secondary">
                 Nous mettons tout en œuvre pour assurer l'exactitude et l'actualité des informations publiées. 
@@ -68,7 +68,7 @@ $hebergeur_site = 'https://aws.amazon.com';
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">5. Données personnelles</h2>
             <p class="mb-0 text-secondary">
                 Pour toute information concernant le traitement de vos données et l'exercice de vos droits, 
@@ -76,7 +76,7 @@ $hebergeur_site = 'https://aws.amazon.com';
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">6. Cookies</h2>
             <p class="mb-0 text-secondary">
                 Le site peut utiliser des cookies techniques nécessaires à son fonctionnement. 
@@ -84,7 +84,7 @@ $hebergeur_site = 'https://aws.amazon.com';
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">7. Médiation et droit applicable</h2>
             <p class="mb-0 text-secondary">
                 En cas de litige, vous pouvez adresser une réclamation à <a href="mailto:{{ $soc_email }}" class="text-orange">{{ $soc_email }}</a>. 
@@ -94,7 +94,7 @@ $hebergeur_site = 'https://aws.amazon.com';
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft">
             <h2 class="h4 fw-bold mb-3">8. Crédits</h2>
             <p class="mb-0 text-secondary">
                 Conception & développement : {{ $soc_nom }}. Logos et marques cités restent la propriété de leurs titulaires. 

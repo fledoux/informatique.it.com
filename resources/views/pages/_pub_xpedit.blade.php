@@ -1,7 +1,7 @@
 {{-- PUBLICITÉ XPEDIT --}}
 <section class="py-5">
     <div class="container">
-        <div class="hero border border-success border-4 rounded-4 p-3 p-lg-4" style="background: linear-gradient(135deg, #8ac338 0%, #6fa026 100%);">
+        <div class="hero border border-success border-4 rounded-2 p-3 p-lg-4" style="background: linear-gradient(135deg, #8ac338 0%, #6fa026 100%);">
             <div class="row align-items-center">
                 <div class="col-lg-8">
                     <h2 class="fw-bold mb-3 text-white">
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="col-lg-4 text-center">
-                    <div class="bg-white rounded-4 p-3 p-lg-4 shadow-lg">
+                    <div class="bg-white rounded-2 p-3 p-lg-4 shadow-lg">
                         <div class="mb-3">
                             <i class="fa-regular fa-file-arrow-up" style="font-size: 3rem; color: #8ac338;"></i>
                         </div>

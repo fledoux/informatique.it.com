@@ -17,7 +17,7 @@ $rgpd_email = config('app.company.emails.rgpd');
             Dernière mise à jour : {{ date('01/m/Y') }}
         </p>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft" id="point1">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft" id="point1">
             <h2 class="h4 fw-bold mb-3">1. Responsable du traitement</h2>
             <p class="text-secondary mb-0">
                 <strong>{{ config('app.brand_name') }}</strong>, marque de <strong>Yellow Cactus</strong> (ci-après « nous »),
@@ -27,7 +27,7 @@ $rgpd_email = config('app.company.emails.rgpd');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft" id="point2">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft" id="point2">
             <h2 class="h4 fw-bold mb-3">2. Données collectées</h2>
             <ul class="text-secondary mb-0">
                 <li class="mb-1">Données d'identification : nom, société, e-mail, téléphone.</li>
@@ -37,7 +37,7 @@ $rgpd_email = config('app.company.emails.rgpd');
             </ul>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft" id="point3">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft" id="point3">
             <h2 class="h4 fw-bold mb-3">3. Finalités & bases légales</h2>
             <ul class="text-secondary mb-0">
                 <li class="mb-1"><strong>Traitement des demandes et support</strong> (exécution d'un contrat ou mesures précontractuelles).</li>
@@ -47,7 +47,7 @@ $rgpd_email = config('app.company.emails.rgpd');
             </ul>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft" id="point4">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft" id="point4">
             <h2 class="h4 fw-bold mb-3">4. Durées de conservation</h2>
             <ul class="text-secondary mb-0">
                 <li class="mb-1">Prospects : jusqu'à 3 ans après le dernier contact.</li>
@@ -57,7 +57,7 @@ $rgpd_email = config('app.company.emails.rgpd');
             </ul>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft" id="point5">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft" id="point5">
             <h2 class="h4 fw-bold mb-3">5. Destinataires</h2>
             <p class="text-secondary mb-0">
                 Accès limité à nos équipes habilitées. Prestataires (hébergement, outils de ticketing, e-mail) 
@@ -65,7 +65,7 @@ $rgpd_email = config('app.company.emails.rgpd');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft" id="point6">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft" id="point6">
             <h2 class="h4 fw-bold mb-3">6. Transferts hors UE</h2>
             <p class="text-secondary mb-0">
                 Lorsque des prestataires situés hors UE sont utilisés, les transferts s'appuient sur un
@@ -74,7 +74,7 @@ $rgpd_email = config('app.company.emails.rgpd');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft" id="point7">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft" id="point7">
             <h2 class="h4 fw-bold mb-3">7. Sécurité</h2>
             <p class="text-secondary mb-0">
                 Mesures techniques et organisationnelles proportionnées : contrôle d'accès, sauvegardes, 
@@ -82,7 +82,7 @@ $rgpd_email = config('app.company.emails.rgpd');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft" id="point8">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft" id="point8">
             <h2 class="h4 fw-bold mb-3">8. Vos droits</h2>
             <p class="text-secondary mb-2">
                 Vous disposez des droits d'<strong>accès</strong>, <strong>rectification</strong>, <strong>effacement</strong>,
@@ -96,7 +96,7 @@ $rgpd_email = config('app.company.emails.rgpd');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft" id="point9">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft" id="point9">
             <h2 class="h4 fw-bold mb-3">9. Cookies</h2>
             <p class="text-secondary mb-2">
                 Nous utilisons uniquement des <strong>cookies techniques</strong> nécessaires au fonctionnement du site (ex. session).
@@ -131,7 +131,7 @@ $rgpd_email = config('app.company.emails.rgpd');
             </div>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft" id="point10">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft" id="point10">
             <h2 class="h4 fw-bold mb-3">10. Mineurs</h2>
             <p class="text-secondary mb-0">
                 Nos services s'adressent aux professionnels et aux particuliers majeurs. 
@@ -139,7 +139,7 @@ $rgpd_email = config('app.company.emails.rgpd');
             </p>
         </div>
 
-        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-4 shadow-soft" id="point11">
+        <div class="mt-4 p-3 p-lg-4 bg-white border rounded-2 shadow-soft" id="point11">
             <h2 class="h4 fw-bold mb-3">11. Évolutions de la politique</h2>
             <p class="text-secondary mb-0">
                 Cette politique peut être mise à jour pour refléter des évolutions légales, techniques ou organisationnelles.

@@ -494,6 +494,18 @@ class Helper
 	}
 
 	/**
+	 * Génère une chaîne aléatoire de 32 caractères alphanumériques avec extension
+	 * 
+	 * @param string $extension Extension du fichier (sans le point)
+	 * @return string Chaîne aléatoire de 32 caractères + extension (ex: a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6.pdf)
+	 */
+	public static function generateRandomFilename(string $extension): string
+	{
+		$randomString = strtolower(substr(bin2hex(random_bytes(16)), 0, 32));
+		return $randomString . '.' . strtolower(trim($extension, '.'));
+	}
+
+	/**
 	 * Supprime un fichier depuis S3
 	 * 
 	 * @param string $s3Path Chemin du fichier dans S3

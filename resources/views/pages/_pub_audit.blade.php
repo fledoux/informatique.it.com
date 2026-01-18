@@ -1,7 +1,7 @@
 {{-- PUBLICITÉ AUDIT DE SÉCURITÉ & FORMATIONS --}}
 <section class="py-3">
     <div class="container">
-        <div class="overflow-hidden rounded-4"
+        <div class="overflow-hidden rounded-2"
             style="background: linear-gradient(135deg, rgba(220, 38, 38, 0.95), rgba(239, 68, 68, 0.2)), url('/assets/img/background/cybersecurity.jpg') center/cover no-repeat;">
             <div class="row align-items-center py-4 px-3">
                 <div class="col-lg-7 text-white">

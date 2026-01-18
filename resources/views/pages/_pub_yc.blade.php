@@ -1,7 +1,7 @@
 {{-- PUBLICITÉ YELLOW CACTUS --}}
 <section class="py-5">
     <div class="container">
-        <div class="hero border border-1 rounded-4 p-3 p-lg-4">
+        <div class="hero border border-1 rounded-2 p-3 p-lg-4">
             <div class="row align-items-center">
                 <div class="col-lg-8">
                     <h2 class="fw-bold mb-3">
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="col-lg-4 text-center">
-                    <div class="bg-white rounded-4 p-3 p-lg-4 shadow-lg">
+                    <div class="bg-white rounded-2 p-3 p-lg-4 shadow-lg">
                         <img src="{{ asset('assets/img/logo/yellowcactus_logo_bw.svg') }}" alt="Yellow Cactus"
                             class="img-fluid mb-3" style="max-height: 50px;">
 

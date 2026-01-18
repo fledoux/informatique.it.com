@@ -13,6 +13,8 @@ use \App\Http\Controllers\CompanyController;
 use \App\Http\Controllers\AllowDomainRegistrationController;
 use \App\Http\Controllers\TicketMessageController;
 use \App\Http\Controllers\TicketAttachmentController;
+use \App\Http\Controllers\FulllTestController;
+use \App\Http\Controllers\FulllDemoController;
 
 // Locale routes (accessible sans authentification)
 Route::post('/locale/change', [LocaleController::class, 'change'])->name('locale.change');
@@ -161,4 +163,30 @@ Route::prefix('ticketattachment')->middleware(['throttle:60,1'])->group(function
     Route::get('/{ticketattachment}/edit', [TicketAttachmentController::class, 'edit'])->name('ticketattachment.edit');
     Route::put('/{ticketattachment}', [TicketAttachmentController::class, 'update'])->name('ticketattachment.update');
     Route::delete('/{ticketattachment}', [TicketAttachmentController::class, 'destroy'])->name('ticketattachment.destroy');
+});
+
+// Routes Fulll Test - Test API pour comptabilité full.io
+Route::prefix('fulll/test')->middleware(['throttle:60,1'])->group(function () {
+    // Page de test - Accessible en dev sans authentification
+    if (app()->isLocal()) {
+        Route::get('/page', [FulllTestController::class, 'testPage'])->name('fulll.test.page');
+    }
+    
+    // Routes API - Avec authentification
+    Route::middleware('auth')->group(function () {
+        Route::get('/connection', [FulllTestController::class, 'testConnection'])->name('fulll.test.connection');
+        Route::get('/clients', [FulllTestController::class, 'listClients'])->name('fulll.test.list');
+        Route::post('/clients', [FulllTestController::class, 'createClient'])->name('fulll.test.create');
+        Route::get('/clients/{id}', [FulllTestController::class, 'getClient'])->name('fulll.test.get');
+        Route::put('/clients/{id}', [FulllTestController::class, 'updateClient'])->name('fulll.test.update');
+        Route::delete('/clients/{id}', [FulllTestController::class, 'deleteClient'])->name('fulll.test.delete');
+    });
+});
+
+// Routes Fulll Demo - Documentation et exemples (dev only)
+Route::prefix('fulll/demo')->middleware(['throttle:60,1'])->group(function () {
+    if (app()->isLocal()) {
+        Route::get('/', [FulllDemoController::class, 'index'])->name('fulll.demo');
+        Route::get('/test-token/{token}', [FulllDemoController::class, 'testWithToken'])->name('fulll.demo.test');
+    }
 });
