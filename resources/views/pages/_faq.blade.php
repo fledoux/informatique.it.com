@@ -5,7 +5,7 @@
         <div class="gradient-bar"></div>
         <div class="row justify-content-center mt-3">
             <div class="col-lg-10">
-                <div class="accordion zoom-hover" id="faqAcc">
+                <div class="accordion" id="faqAcc">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="q1">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1">
