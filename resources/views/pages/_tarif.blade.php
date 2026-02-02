@@ -11,9 +11,9 @@
                         <h6 class="text-secondary mb-1">Achat de Ticket unitaire</h6>
                         <div class="d-flex align-items-baseline gap-1 gap-sm-2">
                             <h3 class="price mb-0">
-                                <span class="js-price" data-ht="69">69</span>€
+                                <span class="js-price" data-ht="{{ \App\Helpers\Helper::getTicketPrice('unit') }}">{{ number_format(\App\Helpers\Helper::getTicketPrice('unit'), 0, ',', ' ') }}</span>€
                             </h3>
-                            <span class="text-secondary small" data-suffix="ticket">/ ticket H.T. (<span class="fw-bold">30 min</span>), valable 6 mois.</span>
+                            <span class="text-secondary small" data-suffix="ticket">/ ticket H.T. (<span class="fw-bold">30 min</span>), valable {{ \App\Helpers\Helper::getTicketValidity('unit') }} mois.</span>
                         </div>
                     </div>
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-dark w-100 w-sm-auto mt-3 mt-md-0">Souscrire</a>
@@ -39,7 +39,7 @@
                 <div class="p-3 p-lg-4 bg-info border border-info bg-opacity-50 rounded-2 shadow-soft h-100">
                     <h6 class="text-secondary">Pack 10 tickets</h6>
                     <h3 class="price mb-0">
-                        <span class="js-price" data-ht="590">590</span>€
+                        <span class="js-price" data-ht="{{ \App\Helpers\Helper::getTicketPrice('p10') * 10 }}">{{ number_format(\App\Helpers\Helper::getTicketPrice('p10') * 10, 0, ',', ' ') }}</span>€
                     </h3>
                     <p class="text-secondary" data-suffix="pack">/ pack H.T.</p>
                     <ul class="list-unstyled small">
@@ -48,10 +48,10 @@
                         </li>
                         <li class="mb-2">
                             <i class="fa-regular fa-check text-success me-2"></i>
-                            <span class="js-per" data-ht="59">59</span>€ / ticket
+                            <span class="js-per" data-ht="{{ \App\Helpers\Helper::getTicketPrice('p10') }}">{{ number_format(\App\Helpers\Helper::getTicketPrice('p10'), 0, ',', ' ') }}</span>€ / ticket
                         </li>
                         <li class="mb-2">
-                            <i class="fa-regular fa-check text-success me-2"></i>Validité 6 mois
+                            <i class="fa-regular fa-check text-success me-2"></i>{{ \App\Helpers\Helper::getValidityLabel('p10') }}
                         </li>
                     </ul>
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-dark w-100">Souscrire</a>
@@ -62,7 +62,7 @@
                 <div class="p-3 p-lg-4 bg-info border border-info bg-opacity-50 rounded-2 shadow-soft h-100">
                     <h6 class="text-secondary">Pack 50 tickets</h6>
                     <h3 class="price mb-0">
-                        <span class="js-price" data-ht="2750">2 750</span>€
+                        <span class="js-price" data-ht="{{ \App\Helpers\Helper::getTicketPrice('p50') * 50 }}">{{ number_format(\App\Helpers\Helper::getTicketPrice('p50') * 50, 0, ',', ' ') }}</span>€
                     </h3>
                     <p class="text-secondary" data-suffix="pack">/ pack H.T.</p>
                     <ul class="list-unstyled small">
@@ -71,10 +71,10 @@
                         </li>
                         <li class="mb-2">
                             <i class="fa-regular fa-check text-success me-2"></i>
-                            <span class="js-per" data-ht="55">55</span>€ / ticket
+                            <span class="js-per" data-ht="{{ \App\Helpers\Helper::getTicketPrice('p50') }}">{{ number_format(\App\Helpers\Helper::getTicketPrice('p50'), 0, ',', ' ') }}</span>€ / ticket
                         </li>
                         <li class="mb-2">
-                            <i class="fa-regular fa-check text-success me-2"></i>Validité 12 mois
+                            <i class="fa-regular fa-check text-success me-2"></i>{{ \App\Helpers\Helper::getValidityLabel('p50') }}
                         </li>
                     </ul>
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-dark w-100">Souscrire</a>
@@ -88,7 +88,7 @@
                     </span>
                     <h6 class="text-secondary">Pack 100 tickets</h6>
                     <h3 class="price mb-0">
-                        <span class="js-price" data-ht="4900">4 900</span>€
+                        <span class="js-price" data-ht="{{ \App\Helpers\Helper::getTicketPrice('p100') * 100 }}">{{ number_format(\App\Helpers\Helper::getTicketPrice('p100') * 100, 0, ',', ' ') }}</span>€
                     </h3>
                     <p class="text-secondary" data-suffix="pack">/ pack H.T.</p>
                     <ul class="list-unstyled small">
@@ -97,10 +97,10 @@
                         </li>
                         <li class="mb-2">
                             <i class="fa-regular fa-check text-success me-2"></i>
-                            <span class="js-per" data-ht="49">49</span>€ / ticket
+                            <span class="js-per" data-ht="{{ \App\Helpers\Helper::getTicketPrice('p100') }}">{{ number_format(\App\Helpers\Helper::getTicketPrice('p100'), 0, ',', ' ') }}</span>€ / ticket
                         </li>
                         <li class="mb-2">
-                            <i class="fa-regular fa-check text-success me-2"></i>Validité 12 mois
+                            <i class="fa-regular fa-check text-success me-2"></i>{{ \App\Helpers\Helper::getValidityLabel('p100') }}
                         </li>
                     </ul>
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-dark w-100">Souscrire</a>

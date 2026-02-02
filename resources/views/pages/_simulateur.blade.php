@@ -4,8 +4,7 @@
         <h2 class="section-title text-center">Simulateur rapide</h2>
         <div class="gradient-bar"></div>
 
-        <div
-            class="row g-4 mt-1">
+        <div class="row g-4 mt-1">
             {{-- Entrées --}}
             <div class="col-lg-5">
                 <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100 zoom-hover">
@@ -17,10 +16,12 @@
                             <span class="totalEnHeure"></span>
                         </label>
                         <div class="input-group">
-                            <input type="range" class="form-range" id="calcMinutes" min="30" max="480" value="30" step="30">
+                            <input type="range" class="form-range" id="calcMinutes" min="30" max="480"
+                                value="30" step="30">
                         </div>
 
-                        <div id="calcHelp" class="form-text">Base de calcul : 1 ticket pour 30 minutes (arrondi au supérieur).</div>
+                        <div id="calcHelp" class="form-text">Base de calcul : 1 ticket pour 30 minutes (arrondi au
+                            supérieur).</div>
                     </div>
 
                     <div class="row g-3">
@@ -34,7 +35,8 @@
                         </div>
                         <div class="col-12 col-lg-6">
                             <div class="form-check form-check-lg">
-                                <input class="form-check-input form-check-input-orange" type="checkbox" id="calcWeekend">
+                                <input class="form-check-input form-check-input-orange" type="checkbox"
+                                    id="calcWeekend">
                                 <label class="form-check-label" for="calcWeekend">Week-end
                                     <span class="badge badge-outline-secondary ms-1 js-extra" data-key="weekend"></span>
                                 </label>
@@ -42,7 +44,8 @@
                         </div>
                         <div class="col-12 col-lg-6">
                             <div class="form-check form-check-lg">
-                                <input class="form-check-input form-check-input-orange" type="checkbox" id="calcHoliday">
+                                <input class="form-check-input form-check-input-orange" type="checkbox"
+                                    id="calcHoliday">
                                 <label class="form-check-label" for="calcHoliday">Jour férié
                                     <span class="badge badge-outline-secondary ms-1 js-extra" data-key="holiday"></span>
                                 </label>
@@ -82,19 +85,22 @@
                         d'intervention
                     </h5>
                     <div class="d-flex flex-wrap align-items-center gap-1 gap-sm-3 mb-3">
-                        <div class="p-2 px-3 border border-2 rounded-2 text-center text-uppercase fw-bold w-100 w-sm-auto">
+                        <div
+                            class="p-2 px-3 border border-2 rounded-2 text-center text-uppercase fw-bold w-100 w-sm-auto">
                             <small class="text-secondary">Base :
                                 <span class="fw-bold" id="outBase">0</span>
                                 <i class="fa-regular fa-ticket ms-1"></i>
                             </small>
                         </div>
-                        <div class="p-2 px-3 border border-2 rounded-2 text-center text-uppercase fw-bold text-secondary w-100 w-sm-auto">
+                        <div
+                            class="p-2 px-3 border border-2 rounded-2 text-center text-uppercase fw-bold text-secondary w-100 w-sm-auto">
                             <small>+ Majoration :
                                 <span class="fw-bold" id="outExtra">0</span>
                                 <i class="fa-regular fa-ticket ms-1"></i>
                             </small>
                         </div>
-                        <div class="p-2 px-3 border border-2 border-orange rounded-2 text-center text-uppercase bg-light fw-bold text-orange w-100 w-sm-auto">
+                        <div
+                            class="p-2 px-3 border border-2 border-orange rounded-2 text-center text-uppercase bg-light fw-bold text-orange w-100 w-sm-auto">
                             <small class="">Total :
                                 <span class="fw-bold" id="outTotal">0</span>
                                 <i class="fa-regular fa-ticket ms-1 text-orange"></i>
@@ -110,9 +116,7 @@
 
                     {{-- Ajoute la classe scroll-shadow au wrapper --}}
                     <div class="table-responsive scroll-shadow">
-                        <table
-                            class="table border border-2 border-secondary align-middle mb-0">{{-- ... le contenu de la table reste inchangé ... --}}
-                        </table>
+                        <table class="table border border-2 border-secondary align-middle mb-0"></table>
                     </div>
 
                     <div class="table-responsive">
@@ -120,94 +124,83 @@
                             <thead>
                                 <tr>
                                     <th>Offres</th>
-                                    <th class="text-end bg-info bg-opacity-25 text-nowrap">Ticket HT</th>
-                                    <th class="text-end bg-info bg-opacity-25">Total HT</th>
-                                    <th class="text-end bg-info bg-opacity-50 text-nowrap">Ticket TTC</th>
-                                    <th class="text-end bg-info bg-opacity-50">Total TTC</th>
+                                    <th class="text-center text-orange">Remises</th>
+                                    <th class="text-end bg-info bg-opacity-25 text-nowrap colht">Ticket HT</th>
+                                    <th class="text-end bg-info bg-opacity-50 fw-bold colht">Total HT</th>
+                                    <th class="text-end bg-info bg-opacity-25 text-nowrap colttc">Ticket TTC</th>
+                                    <th class="text-end bg-info bg-opacity-50 fw-bold colttc">Total TTC</th>
                                 </tr>
                             </thead>
                             <tbody id="simuRows">
                                 <tr data-offre="unit">
                                     <td class="fw-bold">Ticket unitaire</td>
-                                    <td class="text-end bg-info bg-opacity-25">
-                                        <span id="t_ht_unit">68€</span>
+                                    <td class="fw-bold"></td>
+                                    <td class="text-end bg-info bg-opacity-25 colht">   
+                                        <span id="t_ht_unit">-</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-25">
-                                        <span id="tot_ht_unit">68€</span>
+                                    <td class="text-end bg-info bg-opacity-50 fw-bold colht">
+                                        <span id="tot_ht_unit">-</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-50">
-                                        <span id="t_ttc_unit">81,60€</span>
+                                    <td class="text-end bg-info bg-opacity-25 colttc">
+                                        <span id="t_ttc_unit">-</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-50">
-                                        <span id="tot_ttc_unit">81,60€</span>
+                                    <td class="text-end bg-info bg-opacity-50 fw-bold colttc">
+                                        <span id="tot_ttc_unit">-</span>
                                     </td>
                                 </tr>
                                 <tr data-offre="p10">
                                     <td class="fw-bold">Pack 10</td>
-                                    <td class="text-end bg-info bg-opacity-25">
-                                        <span id="t_ht_p10">57€</span>
+                                    <td class="fw-bold text-center text-orange">-14,5%</td>
+                                    <td class="text-end bg-info bg-opacity-25 colht">
+                                        <span id="t_ht_p10">-</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-25">
-                                        <span id="tot_ht_p10">57€</span>
+                                    <td class="text-end bg-info bg-opacity-50 fw-bold colht">
+                                        <span id="tot_ht_p10">-</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-50">
-                                        <span id="t_ttc_p10">68,40€</span>
+                                    <td class="text-end bg-info bg-opacity-25 colttc">
+                                        <span id="t_ttc_p10">-</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-50">
-                                        <span id="tot_ttc_p10">68,40€</span>
+                                    <td class="text-end bg-info bg-opacity-50 fw-bold colttc">
+                                        <span id="tot_ttc_p10">-</span>
                                     </td>
                                 </tr>
                                 <tr data-offre="p50">
                                     <td class="fw-bold">Pack 50</td>
-                                    <td class="text-end bg-info bg-opacity-25">
-                                        <span id="t_ht_p50">52€</span>
+                                    <td class="fw-bold text-center text-orange">-20%</td>
+                                    <td class="text-end bg-info bg-opacity-25 colht">
+                                        <span id="t_ht_p50">-</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-25">
-                                        <span id="tot_ht_p50">52€</span>
+                                    <td class="text-end bg-info bg-opacity-50 fw-bold colht">
+                                        <span id="tot_ht_p50">-</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-50">
-                                        <span id="t_ttc_p50">62,40€</span>
+                                    <td class="text-end bg-info bg-opacity-25 colttc">
+                                        <span id="t_ttc_p50">-</span>
                                     </td>
-                                    <td class="text-end bg-info bg-opacity-50">
-                                        <span id="tot_ttc_p50">62,40€</span>
+                                    <td class="text-end bg-info bg-opacity-50 fw-bold colttc">
+                                        <span id="tot_ttc_p50">-</span>
                                     </td>
                                 </tr>
                                 <tr data-offre="p100">
                                     <td class="fw-bold">Pack 100</td>
-                                    <td class="text-end bg-success bg-opacity-25">
-                                        <span id="t_ht_p100">47€</span>
+                                    <td class="fw-bold text-center text-orange">-29%</td>
+                                    <td class="text-end bg-success bg-opacity-25 colht">
+                                        <span id="t_ht_p100">-</span>
                                     </td>
-                                    <td class="text-end bg-success bg-opacity-25">
-                                        <span id="tot_ht_p100">47€</span>
+                                    <td class="text-end bg-success bg-opacity-50 fw-bold colht">
+                                        <span id="tot_ht_p100">-</span>
                                     </td>
-                                    <td class="text-end bg-success bg-opacity-50">
-                                        <span id="t_ttc_p100">56,40€</span>
+                                    <td class="text-end bg-success bg-opacity-25 colttc">
+                                        <span id="t_ttc_p100">-</span>
                                     </td>
-                                    <td class="text-end bg-success bg-opacity-50">
-                                        <span id="tot_ttc_p100">56,40€</span>
-                                    </td>
-                                </tr>
-                                <?php /* ?>
-                                <tr data-offre="p400">
-                                    <td class="fw-bold">Pack 400</td>
-                                    <td class="text-end bg-success bg-opacity-25">
-                                        <span id="t_ht_p400">34€</span>
-                                    </td>
-                                    <td class="text-end bg-success bg-opacity-25">
-                                        <span id="tot_ht_p400">34€</span>
-                                    </td>
-                                    <td class="text-end bg-success bg-opacity-50">
-                                        <span id="t_ttc_p400">40,80€</span>
-                                    </td>
-                                    <td class="text-end bg-success bg-opacity-50">
-                                        <span id="tot_ttc_p400">40,80€</span>
+                                    <td class="text-end bg-success bg-opacity-50 fw-bold colttc">
+                                        <span id="tot_ttc_p100">-</span>
                                     </td>
                                 </tr>
-                                <?php */ ?>
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-3 small text-secondary">Les montants ci-dessus sont calculés selon vos paramètres (HT et TTC affichés).</div>
+                    <div class="mt-3 small text-secondary">Les montants ci-dessus sont calculés selon vos paramètres
+                        (HT et TTC affichés).</div>
                 </div>
             </div>
         </div>

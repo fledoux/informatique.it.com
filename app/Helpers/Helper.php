@@ -542,4 +542,70 @@ class Helper
 			return false;
 		}
 	}
+
+	/**
+	 * Récupère le prix unitaire HT pour une catégorie de ticket
+	 * 
+	 * @param string $category Catégorie: unit, p10, p50, p100, p400
+	 * @return float Prix unitaire HT
+	 */
+	public static function getTicketPrice(string $category): float
+	{
+		return config("pricing.prices.{$category}", 0);
+	}
+
+	/**
+	 * Récupère tous les prix des tickets
+	 * 
+	 * @return array Tableau associatif [category => price]
+	 */
+	public static function getAllTicketPrices(): array
+	{
+		return config('pricing.prices', []);
+	}
+
+	/**
+	 * Récupère la validité en mois pour une catégorie de ticket
+	 * 
+	 * @param string $category Catégorie: unit, p10, p50, p100, p400
+	 * @return int Validité en mois
+	 */
+	public static function getTicketValidity(string $category): int
+	{
+		return config("pricing.validity.{$category}", 0);
+	}
+
+	/**
+	 * Récupère toutes les validités des tickets
+	 * 
+	 * @return array Tableau associatif [category => validity in months]
+	 */
+	public static function getAllTicketValidities(): array
+	{
+		return config('pricing.validity', []);
+	}
+
+	/**
+	 * Calcule le prix TTC à partir d'un prix HT
+	 * 
+	 * @param float $priceHT Prix HT
+	 * @return float Prix TTC
+	 */
+	public static function calculateTTC(float $priceHT): float
+	{
+		$tvaRate = config('pricing.tva_rate', 0.20);
+		return $priceHT * (1 + $tvaRate);
+	}
+
+	/**
+	 * Formatte le texte de validité d'un ticket
+	 * 
+	 * @param string $category Catégorie du ticket
+	 * @return string Texte formaté (ex: "Validité 6 mois")
+	 */
+	public static function getValidityLabel(string $category): string
+	{
+		$months = self::getTicketValidity($category);
+		return $months > 0 ? "Validité {$months} mois" : '';
+	}
 }

@@ -25,5 +25,6 @@
     @include('pages._pub_audit')
     {{-- @include('pages._pub_goes') --}}
     {{-- @include('pages._pub_xpedit') --}}
+    @include('pages._pricing_config')
     @include('pages.script-home')
 @endsection
