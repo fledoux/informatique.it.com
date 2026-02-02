@@ -14,7 +14,7 @@
                 <p class="lead text-secondary mb-4">
                     Assistance technique, maintenance proactive, cybersécurité et infogérance de vos systèmes..<br>
                     Nous prenons en charge vos incidents et prévenons les suivants.<br>
-                    Plus de <u class="fw-bold text-orange"><span class="support">9999</span> demandes</u> et projets traités avec succès depuis 2000.
+                    Plus de <span class="fw-bold text-orange"><span class="support">9999</span> demandes</span> et projets traités avec succès depuis 2000.
                 </p>
                 <div class="d-flex flex-wrap gap-1 gap-sm-2">
                     <a href="#contact" class="btn btn-orange btn-lg w-100 w-sm-auto">
