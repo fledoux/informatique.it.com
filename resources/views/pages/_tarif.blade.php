@@ -11,9 +11,9 @@
                         <h6 class="text-secondary mb-1">Achat de Ticket unitaire</h6>
                         <div class="d-flex align-items-baseline gap-1 gap-sm-2">
                             <h3 class="price mb-0">
-                                <span class="js-price" data-ht="68">68</span>€
+                                <span class="js-price" data-ht="69">69</span>€
                             </h3>
-                            <span class="text-secondary small" data-suffix="ticket">/ ticket H.T. (<span class="fw-bold">30 min</span>), valable 1 an.</span>
+                            <span class="text-secondary small" data-suffix="ticket">/ ticket H.T. (<span class="fw-bold">30 min</span>), valable 6 mois.</span>
                         </div>
                     </div>
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-dark w-100 w-sm-auto mt-3 mt-md-0">Souscrire</a>
@@ -39,7 +39,7 @@
                 <div class="p-3 p-lg-4 bg-info border border-info bg-opacity-50 rounded-2 shadow-soft h-100">
                     <h6 class="text-secondary">Pack 10 tickets</h6>
                     <h3 class="price mb-0">
-                        <span class="js-price" data-ht="570">570</span>€
+                        <span class="js-price" data-ht="590">590</span>€
                     </h3>
                     <p class="text-secondary" data-suffix="pack">/ pack H.T.</p>
                     <ul class="list-unstyled small">
@@ -48,10 +48,10 @@
                         </li>
                         <li class="mb-2">
                             <i class="fa-regular fa-check text-success me-2"></i>
-                            <span class="js-per" data-ht="57">57</span>€ / ticket
+                            <span class="js-per" data-ht="59">59</span>€ / ticket
                         </li>
                         <li class="mb-2">
-                            <i class="fa-regular fa-check text-success me-2"></i>Validité 1 an
+                            <i class="fa-regular fa-check text-success me-2"></i>Validité 6 mois
                         </li>
                     </ul>
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-dark w-100">Souscrire</a>
@@ -62,7 +62,7 @@
                 <div class="p-3 p-lg-4 bg-info border border-info bg-opacity-50 rounded-2 shadow-soft h-100">
                     <h6 class="text-secondary">Pack 50 tickets</h6>
                     <h3 class="price mb-0">
-                        <span class="js-price" data-ht="2600">2 600</span>€
+                        <span class="js-price" data-ht="2750">2 750</span>€
                     </h3>
                     <p class="text-secondary" data-suffix="pack">/ pack H.T.</p>
                     <ul class="list-unstyled small">
@@ -71,10 +71,10 @@
                         </li>
                         <li class="mb-2">
                             <i class="fa-regular fa-check text-success me-2"></i>
-                            <span class="js-per" data-ht="52">52</span>€ / ticket
+                            <span class="js-per" data-ht="55">55</span>€ / ticket
                         </li>
                         <li class="mb-2">
-                            <i class="fa-regular fa-check text-success me-2"></i>Validité 2 ans
+                            <i class="fa-regular fa-check text-success me-2"></i>Validité 12 mois
                         </li>
                     </ul>
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-dark w-100">Souscrire</a>
@@ -88,7 +88,7 @@
                     </span>
                     <h6 class="text-secondary">Pack 100 tickets</h6>
                     <h3 class="price mb-0">
-                        <span class="js-price" data-ht="4700">4 700</span>€
+                        <span class="js-price" data-ht="4900">4 900</span>€
                     </h3>
                     <p class="text-secondary" data-suffix="pack">/ pack H.T.</p>
                     <ul class="list-unstyled small">
@@ -97,10 +97,10 @@
                         </li>
                         <li class="mb-2">
                             <i class="fa-regular fa-check text-success me-2"></i>
-                            <span class="js-per" data-ht="47">47</span>€ / ticket
+                            <span class="js-per" data-ht="49">49</span>€ / ticket
                         </li>
                         <li class="mb-2">
-                            <i class="fa-regular fa-check text-success me-2"></i>Validité 10 ans
+                            <i class="fa-regular fa-check text-success me-2"></i>Validité 12 mois
                         </li>
                     </ul>
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-dark w-100">Souscrire</a>
