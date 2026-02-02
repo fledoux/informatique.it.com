@@ -62,8 +62,8 @@ return [
                 $discounts[$key] = 0;
             } else {
                 $rawDiscount = (($priceUnit - $price) / $priceUnit) * 100;
-                // Arrondi au 0,5 près
-                $discounts[$key] = round($rawDiscount * 2) / 2;
+                // Arrondi à l'entier
+                $discounts[$key] = round($rawDiscount);
             }
         }
         
