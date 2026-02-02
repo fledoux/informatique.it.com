@@ -14,7 +14,7 @@
                 <p class="lead text-secondary mb-4">
                     Assistance express, maintenance proactive, cybersécurité et infogérance. Nous prenons en charge vos
                     incidents et prévenons les suivants.
-                    <u>Plus de <span class="support">9999</span> projets traités</u> depuis l’an 2000.
+                    <u>Plus de <span class="support">9999</span> demandes/projets traités</u> depuis l’an 2000.
                 </p>
                 <div class="d-flex flex-wrap gap-1 gap-sm-2">
                     <a href="#contact" class="btn btn-orange btn-lg w-100 w-sm-auto">
