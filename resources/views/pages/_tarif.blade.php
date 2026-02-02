@@ -27,7 +27,7 @@
                     </div>
                     <p class="text-secondary mb-0">
                         Tarifs au 1<sup>er</sup>
-                        septembre
+                        janvier
                         {{ date('Y') }}<br>1 ticket équivant à une intervention de 30 minutes.
                     </p>
                 </div>
