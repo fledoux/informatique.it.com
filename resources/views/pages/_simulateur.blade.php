@@ -7,7 +7,7 @@
         <div class="row g-4 mt-1">
             {{-- Entrées --}}
             <div class="col-lg-5">
-                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100 zoom-hover">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <h5 class="fw-bold mb-3">
                         <i class="fa-regular fa-calculator me-2 text-orange"></i>Paramètres
                     </h5>
@@ -150,7 +150,7 @@
                                 </tr>
                                 <tr data-offre="p10">
                                     <td class="fw-bold">Pack 10</td>
-                                    <td class="fw-bold text-center text-orange">-14,5%</td>
+                                    <td class="fw-bold text-center text-orange">{{ \App\Helpers\Helper::getDiscountLabel('p10') }}</td>
                                     <td class="text-end bg-info bg-opacity-25 colht">
                                         <span id="t_ht_p10">-</span>
                                     </td>
@@ -166,7 +166,7 @@
                                 </tr>
                                 <tr data-offre="p50">
                                     <td class="fw-bold">Pack 50</td>
-                                    <td class="fw-bold text-center text-orange">-20%</td>
+                                    <td class="fw-bold text-center text-orange">{{ \App\Helpers\Helper::getDiscountLabel('p50') }}</td>
                                     <td class="text-end bg-info bg-opacity-25 colht">
                                         <span id="t_ht_p50">-</span>
                                     </td>
@@ -182,7 +182,7 @@
                                 </tr>
                                 <tr data-offre="p100">
                                     <td class="fw-bold">Pack 100</td>
-                                    <td class="fw-bold text-center text-orange">-29%</td>
+                                    <td class="fw-bold text-center text-orange">{{ \App\Helpers\Helper::getDiscountLabel('p100') }}</td>
                                     <td class="text-end bg-success bg-opacity-25 colht">
                                         <span id="t_ht_p100">-</span>
                                     </td>

@@ -18,7 +18,6 @@ return [
         'p10' => (float) env('TICKET_PRICE_P10'),
         'p50' => (float) env('TICKET_PRICE_P50'),
         'p100' => (float) env('TICKET_PRICE_P100'),
-        'p400' => (float) env('TICKET_PRICE_P400'),
     ],
 
     /*
@@ -36,8 +35,40 @@ return [
         'p10' => (int) env('TICKET_VALIDITY_P10'),
         'p50' => (int) env('TICKET_VALIDITY_P50'),
         'p100' => (int) env('TICKET_VALIDITY_P100'),
-        'p400' => (int) env('TICKET_VALIDITY_P400'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Ticket Discount Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Taux de remise par rapport au ticket unitaire (en pourcentage).
+    | Calculés automatiquement à partir des prix.
+    |
+    */
+
+    'discounts' => (function() {
+        $priceUnit = (float) env('TICKET_PRICE_UNIT');
+        $prices = [
+            'unit' => $priceUnit,
+            'p10' => (float) env('TICKET_PRICE_P10'),
+            'p50' => (float) env('TICKET_PRICE_P50'),
+            'p100' => (float) env('TICKET_PRICE_P100'),
+        ];
+        
+        $discounts = [];
+        foreach ($prices as $key => $price) {
+            if ($key === 'unit' || $priceUnit <= 0) {
+                $discounts[$key] = 0;
+            } else {
+                $rawDiscount = (($priceUnit - $price) / $priceUnit) * 100;
+                // Arrondi au 0,5 près
+                $discounts[$key] = round($rawDiscount * 2) / 2;
+            }
+        }
+        
+        return $discounts;
+    })(),
 
     /*
     |--------------------------------------------------------------------------

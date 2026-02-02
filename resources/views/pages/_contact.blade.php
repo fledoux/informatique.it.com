@@ -5,7 +5,7 @@
         <div class="gradient-bar"></div>
         <div class="row g-4 mt-1">
             <div class="col-lg-7">
-                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100 zoom-hover">
+                <div class="p-3 p-lg-4 bg-white border rounded-2 shadow-soft h-100">
                     <form action="{{ route('contact.submit') }}" method="POST">
                         @csrf
                         @honeypot

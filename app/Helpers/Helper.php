@@ -586,6 +586,42 @@ class Helper
 	}
 
 	/**
+	 * Récupère le taux de remise pour une catégorie de ticket
+	 * 
+	 * @param string $category Catégorie: unit, p10, p50, p100, p400
+	 * @return float Taux de remise en pourcentage
+	 */
+	public static function getTicketDiscount(string $category): float
+	{
+		return config("pricing.discounts.{$category}", 0);
+	}
+
+	/**
+	 * Récupère tous les taux de remise des tickets
+	 * 
+	 * @return array Tableau associatif [category => discount percentage]
+	 */
+	public static function getAllTicketDiscounts(): array
+	{
+		return config('pricing.discounts', []);
+	}
+
+	/**
+	 * Formatte le taux de remise pour affichage
+	 * 
+	 * @param string $category Catégorie du ticket
+	 * @return string Texte formaté (ex: "-14,5%") ou chaîne vide si pas de remise
+	 */
+	public static function getDiscountLabel(string $category): string
+	{
+		$discount = self::getTicketDiscount($category);
+		if ($discount <= 0) {
+			return '';
+		}
+		return '~' . number_format($discount, (fmod($discount, 1) !== 0.0 ? 1 : 0), ',', ' ') . '%';
+	}
+
+	/**
 	 * Calcule le prix TTC à partir d'un prix HT
 	 * 
 	 * @param float $priceHT Prix HT

@@ -19,11 +19,11 @@
                     depuis l’an 2000.
                 </p>
                 <div class="d-flex flex-wrap gap-1 gap-sm-2">
-                    <a href="#contact" class="btn btn-orange btn-lg w-100 w-sm-auto zoom-hover">
+                    <a href="#contact" class="btn btn-orange btn-lg w-100 w-sm-auto">
                         <i class="fa-regular fa-calendar-check me-2"></i><span class="d-none d-sm-inline">Obtenir un&nbsp;</span>devis en&nbsp;2&nbsp;min
                     </a>
-                    <a href="#tarifs" class="btn border-2 btn-outline-orange btn-lg w-100 w-sm-auto zoom-hover">
-                        <i class="fa-regular fa-tags me-2"></i>Voir les tarifs
+                    <a href="#tarifs" class="btn border-2 btn-outline-orange btn-lg w-100 w-sm-auto">
+                        <i class="fa-regular fa-tags me-2"></i>Consultez nos tarifs
                     </a>
                 </div>
                 <div class="d-flex align-items-center gap-1 gap-sm-3 mt-4">
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="p-2 p-lg-5 bg-white rounded-2 border shadow-soft zoom-hover">
+                <div class="p-2 p-lg-5 bg-white rounded-2 border shadow-soft">
                     <h3 class="fw-bold mb-3">
                         <i class="fa-regular fa-screwdriver-wrench me-2 text-orange"></i>Besoin d’aide maintenant ?
                     </h3>
