@@ -5,22 +5,21 @@
             <div class="col-lg-6">
                 <span class="badge badge-soft rounded-pill mb-3">
                     <i class="fa-solid fa-shield-halved me-1"></i>
-                    Assistance rapide  Distant & Sur site</span>
+                    Assistance rapide Distant & Sur site</span>
                 <h1 class="display-5 fw-bold mb-3">
                     Support informatique
                     <span class="text-orange">depuis plus de&nbsp;{{ date('Y') - 2000 }}&nbsp;ans</span>
                     pour&nbsp;entreprises et&nbsp;particuliers
                 </h1>
                 <p class="lead text-secondary mb-4">
-                    Assistance express, maintenance proactive, cybersécurité et infogérance. Nous prenons en charge vos incidents et prévenons les suivants.
-                    <u>Plus de
-                        <span class="support">9999</span>
-                        demandes traitées</u>
-                    depuis l’an 2000.
+                    Assistance express, maintenance proactive, cybersécurité et infogérance. Nous prenons en charge vos
+                    incidents et prévenons les suivants.
+                    <u>Plus de <span class="support">9999</span> projets traités</u> depuis l’an 2000.
                 </p>
                 <div class="d-flex flex-wrap gap-1 gap-sm-2">
                     <a href="#contact" class="btn btn-orange btn-lg w-100 w-sm-auto">
-                        <i class="fa-regular fa-calendar-check me-2"></i><span class="d-none d-sm-inline">Obtenir un&nbsp;</span>devis en&nbsp;2&nbsp;min
+                        <i class="fa-regular fa-calendar-check me-2"></i><span class="d-none d-sm-inline">Obtenir
+                            un&nbsp;</span>devis en&nbsp;2&nbsp;min
                     </a>
                     <a href="#tarifs" class="btn border-2 btn-outline-orange btn-lg w-100 w-sm-auto">
                         <i class="fa-regular fa-tags me-2"></i>Consultez nos tarifs
@@ -34,7 +33,7 @@
                         <i class="fa-solid fa-star text-warning"></i>
                         <i class="fa-solid fa-star-half-stroke text-warning"></i>
                     </div>
-                    <small class="text-secondary">4.8/5  370+ interventions notées</small>
+                    <small class="text-secondary">4.8/5 370+ interventions notées</small>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -50,10 +49,12 @@
                             <i class="fa-solid fa-circle-check check me-2"></i>Messagerie, imprimantes, Wi-Fi, réseaux
                         </li>
                         <li class="mb-2">
-                            <i class="fa-solid fa-circle-check check me-2"></i>Microsoft 365/Google Workspace, sauvegardes
+                            <i class="fa-solid fa-circle-check check me-2"></i>Microsoft 365/Google Workspace,
+                            sauvegardes
                         </li>
                         <li class="mb-2">
-                            <i class="fa-solid fa-circle-check check me-2"></i>Cybersécurité, MFA, pare-feu, anti-phishing
+                            <i class="fa-solid fa-circle-check check me-2"></i>Cybersécurité, MFA, pare-feu,
+                            anti-phishing
                         </li>
                     </ul>
                     <a href="{{ route('dashboard') }}" class="btn btn-orange w-100">
@@ -83,7 +84,8 @@
                         <img src="{{ asset('assets/img/customer/samsung.svg') }}" alt="Samsung" />
                         <img src="{{ asset('assets/img/customer/total.svg') }}" alt="TotalEnergies" />
                         <img src="{{ asset('assets/img/customer/natixis.png') }}" alt="Natixis Investment Managers" />
-                        <img src="{{ asset('assets/img/customer/hopscotch.png') }}" class="bg-black p-2" alt="Hopscotch Groupe" />
+                        <img src="{{ asset('assets/img/customer/hopscotch.png') }}" class="bg-black p-2"
+                            alt="Hopscotch Groupe" />
                         <img src="{{ asset('assets/img/customer/ls.svg') }}" alt="LS GROUP" />
                         <img src="{{ asset('assets/img/customer/roche.svg') }}" alt="Roche" />
                         <img src="{{ asset('assets/img/customer/neutrik.svg') }}" alt="Neutrik France" />
@@ -94,12 +96,16 @@
                         <img src="{{ asset('assets/img/customer/samsung.svg') }}" alt="Samsung" />
                         <img src="{{ asset('assets/img/customer/total.svg') }}" alt="TotalEnergies" />
                         <img src="{{ asset('assets/img/customer/natixis.png') }}" alt="Natixis Investment Managers" />
-                        <img src="{{ asset('assets/img/customer/hopscotch.png') }}" class="bg-black p-2" alt="Hopscotch Groupe" aria-hidden="true" />
+                        <img src="{{ asset('assets/img/customer/hopscotch.png') }}" class="bg-black p-2"
+                            alt="Hopscotch Groupe" aria-hidden="true" />
                         <img src="{{ asset('assets/img/customer/ls.svg') }}" alt="LS GROUP" aria-hidden="true" />
                         <img src="{{ asset('assets/img/customer/roche.svg') }}" alt="Roche" aria-hidden="true" />
-                        <img src="{{ asset('assets/img/customer/neutrik.svg') }}" alt="Neutrik France" aria-hidden="true" />
-                        <img src="{{ asset('assets/img/customer/sagarmatha.svg') }}" alt="Sagarmatha" aria-hidden="true" />
-                        <img src="{{ asset('assets/img/customer/pwc.svg') }}" alt="PricewaterhouseCoopers" aria-hidden="true" />
+                        <img src="{{ asset('assets/img/customer/neutrik.svg') }}" alt="Neutrik France"
+                            aria-hidden="true" />
+                        <img src="{{ asset('assets/img/customer/sagarmatha.svg') }}" alt="Sagarmatha"
+                            aria-hidden="true" />
+                        <img src="{{ asset('assets/img/customer/pwc.svg') }}" alt="PricewaterhouseCoopers"
+                            aria-hidden="true" />
                     </div>
                 </div>
             </div>
