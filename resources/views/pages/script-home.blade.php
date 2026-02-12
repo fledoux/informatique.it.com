@@ -38,8 +38,10 @@
                 suffixes().forEach(el => {
                     const kind = el.getAttribute('data-suffix');
                     if (kind === 'ticket') {
-                        el.innerHTML = isTTC ? '/ ticket T.T.C. (30 min), valable 1 an.' :
-                            '/ ticket H.T. (30 min), valable 6 mois.';
+                        const validity = window.ticketConfig.validities.unit;
+                        const validityText = validity === 12 ? '1 an' : validity + ' mois';
+                        el.innerHTML = isTTC ? '/ ticket T.T.C. (30 min), valable ' + validityText + '.' :
+                            '/ ticket H.T. (30 min), valable ' + validity + ' mois.';
                     } else if (kind === 'pack') {
                         el.innerHTML = isTTC ? '/ pack T.T.C.' : '/ pack H.T.';
                     }
