@@ -1,5 +1,5 @@
 {{-- NAVBAR --}}
-<nav class="navbar border-top border-5 border-orange navbar-expand-lg bg-white sticky-top shadow-sm mb-4">
+<nav class="navbar border-bottom border-5 border-orange navbar-expand-lg bg-white sticky-top shadow-sm mb-4">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ route('dashboard') }}">
             <img src="{{ asset('assets/img/logo/logo-horizontal.svg') }}" alt="{{ config('app.brand_name') }}"
