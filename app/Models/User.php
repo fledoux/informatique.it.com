@@ -119,7 +119,7 @@ class User extends Authenticatable implements MustVerifyEmail
         );
 
         // Envoyer l'email directement avec globalMail (pas de queue)
-        \Illuminate\Support\Facades\Mail::to($this->email)
+       // \Illuminate\Support\Facades\Mail::to($this->email)
             ->send(new \App\Mail\VerifyEmailMail($this, $verificationUrl));
     }
 }

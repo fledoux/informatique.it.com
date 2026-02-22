@@ -61,7 +61,7 @@ class ForgotPasswordController extends Controller
 
             // Envoyer l'email avec votre système globalMail
             try {
-                Mail::to($user->email)->send(new ResetPasswordGlobalMail($user, $token));
+                //Mail::to($user->email)->send(new ResetPasswordGlobalMail($user, $token));
             } catch (\Exception $e) {
                 // En cas d'erreur d'envoi, on log mais on affiche quand même le message de succès
                 Log::error('Erreur envoi email reset password: ' . $e->getMessage());
