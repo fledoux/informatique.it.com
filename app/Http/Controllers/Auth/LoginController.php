@@ -64,7 +64,7 @@ class LoginController extends Controller
         } else {
 
             // Envoyer une alerte par email en cas de tentative de connexion échouée
-            Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Failed login', $request->ip() . ' - ' . $request->input('email')));
+            //Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Failed login', $request->ip() . ' - ' . $request->input('email')));
 
             Log::info('Failed login', [
                 'ip' => $request->ip(),

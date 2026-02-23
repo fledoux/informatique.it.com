@@ -279,7 +279,7 @@ class ImapService
                 
                 // Envoyer un mail d'erreur pour inciter à s'inscrire
                 try {
-                    Mail::to($senderEmail)->send(new UnauthorizedReplyMail($senderEmail, 'NOUVEAU'));
+                    //Mail::to($senderEmail)->send(new UnauthorizedReplyMail($senderEmail, 'NOUVEAU'));
                     Log::info("✅ Mail de rejet envoyé à l'utilisateur non-inscrit: {$senderEmail}");
                     $this->addMessage("✅ Mail de rejet envoyé à l'utilisateur non-inscrit: {$senderEmail}");
                 } catch (Exception $e) {
@@ -454,7 +454,7 @@ class ImapService
                 
                 // Envoyer un mail d'erreur pour inciter à s'inscrire
                 try {
-                    Mail::to($senderEmail)->send(new UnauthorizedReplyMail($senderEmail, $ticket->id));
+                    //Mail::to($senderEmail)->send(new UnauthorizedReplyMail($senderEmail, $ticket->id));
                     Log::info("Unauthorized reply email sent to: {$senderEmail}");
                 } catch (Exception $e) {
                     Log::error("Failed to send unauthorized reply email to {$senderEmail}: " . $e->getMessage());
@@ -475,7 +475,7 @@ class ImapService
                 
                 // Envoyer un mail d'erreur pour sécurité
                 try {
-                    Mail::to($senderEmail)->send(new UnauthorizedReplyMail($senderEmail, $ticket->id));
+                    //Mail::to($senderEmail)->send(new UnauthorizedReplyMail($senderEmail, $ticket->id));
                     Log::info("✅ Mail de rejet de sécurité envoyé à: {$senderEmail}");
                     $this->addMessage("✅ Mail de rejet de sécurité envoyé à: {$senderEmail}");
                 } catch (Exception $e) {
@@ -599,8 +599,7 @@ class ImapService
                 
                 // 1. Envoyer récap au client
                 try {
-                    Mail::to($ticket->author->email)
-                        ->send(new \App\Mail\TicketClientRecapMail($ticket, $ticketMessage));
+                    //Mail::to($ticket->author->email)->send(new \App\Mail\TicketClientRecapMail($ticket, $ticketMessage));
                     Log::info("✅ Client recap email sent to {$ticket->author->email} for ticket #{$ticket->id}");
                 } catch (Exception $e) {
                     Log::error("❌ Failed to send client recap email: " . $e->getMessage());
@@ -609,8 +608,7 @@ class ImapService
                 // 2. Notifier l'équipe support
                 foreach ($supportUsers as $supportUser) {
                     try {
-                        Mail::to($supportUser->email)
-                            ->send(new \App\Mail\TicketReplyNotificationMail($ticket, $ticketMessage, $supportUser->email));
+                        //Mail::to($supportUser->email)->send(new \App\Mail\TicketReplyNotificationMail($ticket, $ticketMessage, $supportUser->email));
                         Log::info("✅ Support notification sent to {$supportUser->email} for ticket #{$ticket->id}");
                     } catch (Exception $e) {
                         Log::error("❌ Failed to send notification to {$supportUser->email}: " . $e->getMessage());
@@ -626,8 +624,7 @@ class ImapService
                 // 1. Notifier l'équipe support
                 foreach ($supportUsers as $supportUser) {
                     try {
-                        Mail::to($supportUser->email)
-                            ->send(new \App\Mail\TicketReplyNotificationMail($ticket, $ticketMessage, $supportUser->email));
+                        //Mail::to($supportUser->email)->send(new \App\Mail\TicketReplyNotificationMail($ticket, $ticketMessage, $supportUser->email));
                         Log::info("✅ Support notification sent to {$supportUser->email} for ticket #{$ticket->id}");
                     } catch (Exception $e) {
                         Log::error("❌ Failed to send notification to {$supportUser->email}: " . $e->getMessage());
@@ -701,7 +698,7 @@ class ImapService
 
             // Envoyer l'email de confirmation
             try {
-                \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\TicketConfirmationMail($ticket));
+                //\Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\TicketConfirmationMail($ticket));
                 Log::info("Confirmation email sent for Support n°{$ticket->id} to {$user->email}");
             } catch (Exception $e) {
                 Log::error("Failed to send confirmation email for Support n°{$ticket->id}: " . $e->getMessage());
