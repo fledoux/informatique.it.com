@@ -58,4 +58,20 @@ return [
     'pushover_token' => env('PUSHOVER_APP_TOKEN'),
     'pushover_user' => env('PUSHOVER_USER_KEY'),
 
+    // Configuration Unifi WiFi Management
+    'unifi' => [
+        'controller_url' => env('UNIFI_CONTROLLER_URL', 'https://192.168.111.35:8443'),
+        'api_key' => env('UNIFI_API_KEY'),
+        'site_name' => env('UNIFI_SITE_NAME', 'default'),
+        'verify_ssl' => env('UNIFI_VERIFY_SSL', false), // Désactiver SSL self-signed
+    ],
+
+    // Configuration LaMetric Display (Local Device API v1)
+    // Documentation: https://lametric-documentation.readthedocs.io/
+    'lametric' => [
+        'device_ip' => env('LAMETRIC_DEVICE_IP'),
+        'access_token' => env('LAMETRIC_ACCESS_TOKEN'),
+        'widget_id' => env('LAMETRIC_WIDGET_ID'),
+    ],
+
 ];
