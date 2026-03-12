@@ -14,27 +14,20 @@ class LaMetricController extends Controller
      */
     public function displaySocrate(Request $request): JsonResponse
     {
-        // Vérifier le token dans le header X-Access-Token
-        // Essayer différents cas pour accéder au header
-        $token = $request->header('X-Access-Token') 
-            ?? $request->header('x-access-token')
-            ?? $_SERVER['HTTP_X_ACCESS_TOKEN'] ?? null;
-        
+        // Récupérer le Bearer Token depuis le header Authorization
+        $token = $request->bearerToken();
         $expectedToken = config('services.lametric.access_token');
 
-        Log::debug('LaMetric: Token debug', [
-            'header_x-Access-Token' => $request->header('X-Access-Token'),
-            'header_x-access-token' => $request->header('x-access-token'),
-            'server_http_x_access_token' => $_SERVER['HTTP_X_ACCESS_TOKEN'] ?? null,
-            'final_token' => $token
+        Log::debug('LaMetric: Bearer token check', [
+            'ip' => $request->ip(),
+            'token_received' => !!$token,
+            'token_match' => $token === $expectedToken
         ]);
 
         if (!$token || $token !== $expectedToken) {
             Log::warning('LaMetric: Unauthorized access attempt', [
                 'ip' => $request->ip(),
-                'token_provided' => !!$token,
-                'token_valid' => $token === $expectedToken,
-                'expected' => $expectedToken
+                'token_provided' => !!$token
             ]);
             return response()->json([
                 'error' => 'Unauthorized'
@@ -49,6 +42,10 @@ class LaMetricController extends Controller
                 'error' => 'WiFi password not found'
             ], 404);
         }
+
+        Log::info('LaMetric: Code WiFi returned', [
+            'ip' => $request->ip()
+        ]);
 
         return response()->json([
             'frames' => [
