@@ -31,12 +31,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('wifi:change-password --ssid=test --length=12')
             ->dailyAt('08:00')
             ->name('wifi-password-change')
-            ->onOneServer();        
-        // Envoyer le code à LaMetric toutes les 5 minutes (au cas où le device redémarre)
-        $schedule->command('wifi:push-password --ssid=test')
-            ->everyFiveMinutes()
-            ->name('wifi-push-password')
-            ->onOneServer();    })
+            ->onOneServer();
+    })
     ->withExceptions(function (Exceptions $exceptions) {
         // Capturer les sessions expirées (CSRF Token mismatch)
         $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, \Illuminate\Http\Request $request) {
