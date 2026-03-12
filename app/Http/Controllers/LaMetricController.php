@@ -47,8 +47,7 @@ class LaMetricController extends Controller
         return response()->json([
             'frames' => [
                 [
-                    'text' => $wifiPassword->password,
-                    'index' => 0
+                    'text' => $wifiPassword->password
                 ]
             ]
         ], 200);
