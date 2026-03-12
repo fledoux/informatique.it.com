@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\WifiPassword;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LaMetricController extends Controller
 {
@@ -18,6 +19,11 @@ class LaMetricController extends Controller
         $expectedToken = config('services.lametric.access_token');
 
         if (!$token || $token !== $expectedToken) {
+            Log::warning('LaMetric: Unauthorized access attempt', [
+                'ip' => $request->ip(),
+                'token_provided' => !!$token,
+                'token_valid' => $token === $expectedToken
+            ]);
             return response()->json([
                 'error' => 'Unauthorized'
             ], 401);
