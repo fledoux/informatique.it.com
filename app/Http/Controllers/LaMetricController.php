@@ -18,6 +18,13 @@ class LaMetricController extends Controller
         $token = $request->header('X-Access-Token');
         $expectedToken = config('services.lametric.access_token');
 
+        // Logging des headers reçus
+        Log::debug('LaMetric request headers', [
+            'x-access-token' => $request->header('X-Access-Token'),
+            'authorization' => $request->header('Authorization'),
+            'all_headers' => $request->headers->all()
+        ]);
+
         if (!$token || $token !== $expectedToken) {
             Log::warning('LaMetric: Unauthorized access attempt', [
                 'ip' => $request->ip(),
