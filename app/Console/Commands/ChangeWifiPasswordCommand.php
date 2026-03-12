@@ -4,13 +4,12 @@ namespace App\Console\Commands;
 
 use App\Models\WifiPassword;
 use App\Services\UnifiService;
-use App\Services\LaMetricService;
 use Illuminate\Console\Command;
 
 class ChangeWifiPasswordCommand extends Command
 {
     protected $signature = 'wifi:change-password {--ssid=test} {--length=12}';
-    protected $description = 'Changer le mot de passe Wi-Fi Unifi et l\'afficher sur LaMetric';
+    protected $description = 'Changer le mot de passe Wi-Fi Unifi';
 
     public function handle(): int
     {
@@ -29,18 +28,17 @@ class ChangeWifiPasswordCommand extends Command
         $dayNames = ['', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
         $this->info("Nouveau mot de passe: {$newPassword} ({$dayNames[$dayOfWeek]})");
 
-
         // Changer sur Unifi
         $unifiService = new UnifiService();
         
         if (!$unifiService->changeWifiPassword($ssid, $newPassword)) {
-            $this->error('Erreur lors du changement sur Unifi');
+            $this->error('❌ Erreur lors du changement sur Unifi');
             return 1;
         }
 
         $this->info('✓ Mot de passe changé sur Unifi');
 
-        // Stocker en base de données (chiffré)
+        // Stocker en base de données UNIQUEMENT après confirmation Unifi
         WifiPassword::create([
             'network_name' => $ssid,
             'password' => $newPassword,
@@ -49,14 +47,9 @@ class ChangeWifiPasswordCommand extends Command
 
         $this->info('✓ Mot de passe enregistré en base de données');
 
-        // Afficher sur LaMetric
-        $laMetricService = new LaMetricService();
-        
-        if ($laMetricService->displayWifiPassword($newPassword)) {
-            $this->info('✓ Mot de passe affiché sur LaMetric');
-        } else {
-            $this->warn('⚠ Erreur lors de l\'affichage sur LaMetric');
-        }
+        // Supprimer les enregistrements plus anciens que 2 jours
+        WifiPassword::where('created_at', '<', now()->subDays(2))->delete();
+        $this->info('✓ Ancien mot de passe supprimé (conservation 2 jours)');
 
         $this->line('');
         $this->info('✓ Processus terminé avec succès');
