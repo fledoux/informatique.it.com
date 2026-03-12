@@ -14,8 +14,8 @@ class LaMetricController extends Controller
      */
     public function displaySocrate(Request $request): JsonResponse
     {
-        // Vérifier le Bearer Token
-        $token = $request->bearerToken();
+        // Vérifier le token dans le header X-Access-Token
+        $token = $request->header('X-Access-Token');
         $expectedToken = config('services.lametric.access_token');
 
         if (!$token || $token !== $expectedToken) {
