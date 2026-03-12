@@ -74,4 +74,9 @@ return [
         'widget_id' => env('LAMETRIC_WIDGET_ID'),
     ],
 
+    // Configuration WiFi - Mots de passe réseau
+    'wifi' => [
+        'socrate_password' => env('WIFI_SOCRATE_PASSWORD'),
+    ],
+
 ];

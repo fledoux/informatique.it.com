@@ -15,6 +15,7 @@ use \App\Http\Controllers\TicketMessageController;
 use \App\Http\Controllers\TicketAttachmentController;
 use \App\Http\Controllers\FulllTestController;
 use \App\Http\Controllers\FulllDemoController;
+use App\Http\Controllers\LaMetricController;
 
 // Locale routes (accessible sans authentification)
 Route::post('/locale/change', [LocaleController::class, 'change'])->name('locale.change');
@@ -189,4 +190,9 @@ Route::prefix('fulll/demo')->middleware(['throttle:60,1'])->group(function () {
         Route::get('/', [FulllDemoController::class, 'index'])->name('fulll.demo');
         Route::get('/test-token/{token}', [FulllDemoController::class, 'testWithToken'])->name('fulll.demo.test');
     }
+});
+
+// Routes LaMetric - Affichage d'informations sur appareil LaMetric
+Route::prefix('lametric')->middleware(['throttle:60,1'])->group(function () {
+    Route::get('/socrate', [LaMetricController::class, 'displaySocrate'])->name('lametric.socrate');
 });

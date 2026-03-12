@@ -1,0 +1,99 @@
+{
+  "endpoint": "https://informatique-it.com/lametric/socrate",
+  "documentation": "Test JSON for LaMetric WiFi Socrate display endpoint",
+  "info": {
+    "description": "Affiche le mot de passe WiFi Socrate sur l'appareil LaMetric",
+    "method": "GET",
+    "requiresAuth": false,
+    "throttle": "60 requests per minute"
+  },
+  "curl_examples": {
+    "simple_get": {
+      "description": "Appel simple pour afficher le mot de passe sur LaMetric",
+      "command": "curl -X GET 'https://informatique-it.com/lametric/socrate' -H 'Accept: application/json'"
+    },
+    "with_verbose": {
+      "description": "Appel avec logs détaillés",
+      "command": "curl -v 'https://informatique-it.com/lametric/socrate'"
+    },
+    "check_before": {
+      "description": "Vérifier que le LaMetric est accessible et configuré",
+      "command": "curl -v 'https://{DEVICE_IP}:4343/api/v1/dev/widget/update/{WIDGET_ID}/{FRAME_ID}' -H 'X-Access-Token: {ACCESS_TOKEN}' --data '{\"frames\":[{\"text\":\"Test\",\"index\":0}]}'"
+    }
+  },
+  "http_responses": {
+    "200": {
+      "status": "OK",
+      "meaning": "Mot de passe affiché avec succès sur LaMetric"
+    },
+    "503": {
+      "status": "Service Unavailable",
+      "meaning": "Configuration manquante ou erreur de connexion au LaMetric"
+    }
+  },
+  "required_env_variables": {
+    "WIFI_SOCRATE_PASSWORD": {
+      "description": "Le mot de passe WiFi Socrate à afficher",
+      "example": "MonMotDePasse123!"
+    },
+    "LAMETRIC_DEVICE_IP": {
+      "description": "Adresse IP du LaMetric sur le réseau local",
+      "example": "192.168.1.100"
+    },
+    "LAMETRIC_ACCESS_TOKEN": {
+      "description": "Token d'accès généré dans l'app LaMetric",
+      "example": "abcd1234efgh5678"
+    },
+    "LAMETRIC_WIDGET_ID": {
+      "description": "ID du widget créé pour le WiFi",
+      "example": "com.lametric.3045"
+    }
+  },
+  "payload_sent_to_lametric_device": {
+    "description": "Format du payload envoyé au LaMetric (géré automatiquement)",
+    "endpoint_on_device": "https://{DEVICE_IP}:4343/api/v1/dev/widget/update/{WIDGET_ID}/{FRAME_ID}",
+    "method": "POST",
+    "header": "X-Access-Token: {ACCESS_TOKEN}",
+    "body": {
+      "frames": [
+        {
+          "text": "{PASSWORD}",
+          "index": 0
+        }
+      ]
+    }
+  },
+  "testing_steps": {
+    "step1": "S'assurer que le LaMetric est sur le même réseau",
+    "step2": "Configurer les variables d'environnement dans .env",
+    "step3": "Exécuter: curl 'https://informatique-it.com/lametric/socrate'",
+    "step4": "Vérifier que le mot de passe s'affiche sur l'écran LaMetric",
+    "step5": "Vérifier les logs: tail -f storage/logs/laravel.log"
+  },
+  "debug_logs": {
+    "success_log": {
+      "type": "info",
+      "message": "LaMetric: Password displayed successfully",
+      "context": {
+        "password": "[MASKED]"
+      }
+    },
+    "error_config": {
+      "type": "error",
+      "message": "LaMetric: Configuration missing",
+      "context": {
+        "device_ip": false,
+        "access_token": false,
+        "widget_id": false
+      }
+    },
+    "error_response": {
+      "type": "error",
+      "message": "LaMetric: Failed to display password",
+      "context": {
+        "status": 401,
+        "response": "Unauthorized"
+      }
+    }
+  }
+}
