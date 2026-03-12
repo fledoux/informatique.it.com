@@ -18,13 +18,6 @@ class LaMetricController extends Controller
         $token = $request->header('X-Access-Token');
         $expectedToken = config('services.lametric.access_token');
 
-        // Logging des headers reçus
-        Log::debug('LaMetric request headers', [
-            'x-access-token' => $request->header('X-Access-Token'),
-            'authorization' => $request->header('Authorization'),
-            'all_headers' => $request->headers->all()
-        ]);
-
         if (!$token || $token !== $expectedToken) {
             Log::warning('LaMetric: Unauthorized access attempt', [
                 'ip' => $request->ip(),
@@ -37,7 +30,13 @@ class LaMetricController extends Controller
         }
 
         // Récupérer le code WiFi depuis la base de données
-        $wifiPassword = WifiPassword::getLatest();
+        $wifiPassword = WifiPassword::latest('changed_at')->first();
+
+        Log::debug('LaMetric: WiFi password query', [
+            'found' => !!$wifiPassword,
+            'total_records' => WifiPassword::count(),
+            'password' => $wifiPassword ? $wifiPassword->password : null
+        ]);
 
         if (!$wifiPassword) {
             return response()->json([
@@ -48,7 +47,8 @@ class LaMetricController extends Controller
         return response()->json([
             'frames' => [
                 [
-                    'text' => $wifiPassword->password
+                    'text' => $wifiPassword->password,
+                    'index' => 0
                 ]
             ]
         ], 200);
