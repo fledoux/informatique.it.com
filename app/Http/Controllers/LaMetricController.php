@@ -7,14 +7,17 @@ use Illuminate\Http\JsonResponse;
 class LaMetricController extends Controller
 {
     /**
-     * Affiche le mot de passe WiFi Socrate sur LaMetric
+     * Retourne le payload attendu par LaMetric
      */
     public function displaySocrate(): JsonResponse
     {
         return response()->json([
-            'status' => 'success',
-            'message' => 'WiFi password displayed on LaMetric',
-            'endpoint' => '/lametric/socrate'
+            'frames' => [
+                [
+                    'text' => 'WiFi Ready',
+                    'index' => 0
+                ]
+            ]
         ], 200);
     }
 }
