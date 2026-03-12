@@ -18,12 +18,6 @@ class LaMetricController extends Controller
         $token = $request->bearerToken();
         $expectedToken = config('services.lametric.access_token');
 
-        Log::debug('LaMetric: Bearer token check', [
-            'ip' => $request->ip(),
-            'token_received' => !!$token,
-            'token_match' => $token === $expectedToken
-        ]);
-
         if (!$token || $token !== $expectedToken) {
             Log::warning('LaMetric: Unauthorized access attempt', [
                 'ip' => $request->ip(),
@@ -38,14 +32,13 @@ class LaMetricController extends Controller
         $wifiPassword = WifiPassword::latest('changed_at')->first();
 
         if (!$wifiPassword) {
+            Log::error('LaMetric: WiFi password not found in database', [
+                'ip' => $request->ip()
+            ]);
             return response()->json([
                 'error' => 'WiFi password not found'
             ], 404);
         }
-
-        Log::info('LaMetric: Code WiFi returned', [
-            'ip' => $request->ip()
-        ]);
 
         return response()->json([
             'frames' => [
