@@ -27,9 +27,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withSchedule(function ($schedule) {
-        // Changer le mot de passe Wi-Fi tous les jours à 8h
-        $schedule->command('wifi:change-password --ssid=test --length=12')
-            ->dailyAt('08:00')
+        // Changer le mot de passe Wi-Fi tous les jours à 5h
+        $schedule->command('wifi:change-password --ssid=test --length=8')
+            ->dailyAt('05:00')
             ->name('wifi-password-change')
             ->onOneServer();
     })
