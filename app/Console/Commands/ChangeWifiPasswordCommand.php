@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 
 class ChangeWifiPasswordCommand extends Command
 {
-    protected $signature = 'wifi:change-password {--ssid=test} {--length=12}';
+    protected $signature = 'wifi:change-password {--ssid=socrate_guest} {--length=8}';
     protected $description = 'Changer le mot de passe Wi-Fi Unifi';
 
     public function handle(): int

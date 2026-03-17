@@ -14,8 +14,10 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "sentry/sentry-laravel": "^4.16",
+        "setasign/fpdi": "^2.6",
         "spatie/laravel-honeypot": "^4.6",
-        "spatie/laravel-permission": "^6.21"
+        "spatie/laravel-permission": "^6.21",
+        "tecnickcom/tcpdf": "^6.11"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",

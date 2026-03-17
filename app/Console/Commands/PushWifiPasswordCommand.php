@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 
 class PushWifiPasswordCommand extends Command
 {
-    protected $signature = 'wifi:push-password {--ssid=test}';
+    protected $signature = 'wifi:push-password {--ssid=socrate_guest}';
     protected $description = 'Envoyer le mot de passe du jour sur LaMetric';
 
     public function handle(): int
