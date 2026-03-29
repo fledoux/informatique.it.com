@@ -60,18 +60,20 @@ class ChangeWifiPasswordCommand extends Command
     /**
      * Générer un mot de passe sécurisé
      * Majuscules uniquement, sans caractères ambigus (I, L, O, S, 0, 1, 5)
+     * Aucun caractère ne se répète dans le mot de passe
      */
     private function generatePassword(int $length = 12): string
     {
         // Majuscules sans I, L, O, S (pour éviter confusion avec i, l, 0, s)
         // Chiffres sans 0, 1, 5 (pour éviter confusion avec O, I, S)
-        $characters = 'ABCDEFGHJKMNPQRTUVWXYZ2346789';
+        $availableCharacters = str_split('ABCDEFGHJKMNPQRTUVWXYZ2346789');
         
-        $password = '';
-        for ($i = 0; $i < $length; $i++) {
-            $password .= $characters[random_int(0, strlen($characters) - 1)];
+        if ($length > count($availableCharacters)) {
+            throw new \RuntimeException("Longueur demandée ({$length}) dépasse le nombre de caractères uniques disponibles (" . count($availableCharacters) . ')');
         }
-
-        return $password;
+        
+        // Mélanger et prendre les N premiers caractères uniques
+        shuffle($availableCharacters);
+        return implode('', array_slice($availableCharacters, 0, $length));
     }
 }
