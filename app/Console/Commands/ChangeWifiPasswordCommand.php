@@ -66,7 +66,7 @@ class ChangeWifiPasswordCommand extends Command
     {
         // Majuscules sans I, L, O, S (pour éviter confusion avec i, l, 0, s)
         // Chiffres sans 0, 1, 5 (pour éviter confusion avec O, I, S)
-        $availableCharacters = str_split('ABCDEFGHJKMNPQRTUVXYZ2346789');
+        $availableCharacters = str_split('ABCDEFGHJKNPQRTUVXYZ2346789');
         
         if ($length > count($availableCharacters)) {
             throw new \RuntimeException("Longueur demandée ({$length}) dépasse le nombre de caractères uniques disponibles (" . count($availableCharacters) . ')');
