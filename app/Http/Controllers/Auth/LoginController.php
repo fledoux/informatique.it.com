@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Fledoux\LaravelSSO\Services\SSOAuditService;
 
 class LoginController extends Controller
 {
@@ -26,7 +27,7 @@ class LoginController extends Controller
     /**
      * Handle login request
      */
-    public function login(Request $request): RedirectResponse
+    public function login(Request $request, SSOAuditService $auditService): RedirectResponse
     {
         Log::info('2/3 Tentative login', [
             'ip' => $request->ip(),
@@ -45,6 +46,8 @@ class LoginController extends Controller
 
         if (!$user) {
             // L'utilisateur n'existe pas ou email non vérifié
+            $auditService->logAuthentication($credentials['email'], 'native', false, 'email_not_verified');
+            
             return back()->withErrors([
                 'email' => __('auth.email_not_verified'),
             ])->onlyInput('email');
@@ -60,6 +63,9 @@ class LoginController extends Controller
                 'email' => $request->input('email'),
             ]);
 
+            // Log successful native authentication
+            $auditService->logAuthentication($credentials['email'], 'native', true);
+
             return redirect()->intended(route('dashboard'))->with('success', __('login.Welcome back!'));
         } else {
 
@@ -70,6 +76,9 @@ class LoginController extends Controller
                 'ip' => $request->ip(),
                 'email' => $request->input('email'),
             ]);
+
+            // Log failed authentication
+            $auditService->logAuthentication($credentials['email'], 'native', false, 'invalid_credentials');
         }
 
         return back()->withErrors([
@@ -80,8 +89,14 @@ class LoginController extends Controller
     /**
      * Handle logout request
      */
-    public function logout(Request $request): RedirectResponse
+    public function logout(Request $request, SSOAuditService $auditService): RedirectResponse
     {
+        $user = Auth::user();
+        
+        if ($user) {
+            $auditService->logAuthentication($user->email, 'native', true, 'logout');
+        }
+
         Auth::logout();
 
         $request->session()->invalidate();

@@ -12,6 +12,19 @@
                     <i class="fa-regular fa-shield-keyhole"></i>
                     {{ __('login.Please log in') }}
                 </h5>
+
+                {{-- SAML 2.0 Login Button --}}
+                @if (!empty(env('SAML_SP_ENTITY_ID')))
+                    <a href="/saml2/synology/login" class="btn btn-lg btn-primary w-100 mb-3">
+                        <i class="fa-solid fa-key me-2"></i>
+                        {{ __('login.Sign in with SSO') }}
+                    </a>
+                    <div class="text-center text-muted small mb-3">
+                        <span>{{ __('login.OR') }}</span>
+                    </div>
+                @endif
+
+                {{-- Email/Password Login Form --}}
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="form-floating form-field-start">
@@ -24,7 +37,7 @@
                     </div>
                     <x-forms.checkbox name="remember" :label="__('login.Remember me')" :checked="false" />
 
-                    <button type="submit" class="btn btn-orange w-100 my-3">
+                    <button type="submit" class="btn btn-lg btn-orange w-100 my-3">
                         {{ __('login.Connect') }}
                     </button>
                 </form>
