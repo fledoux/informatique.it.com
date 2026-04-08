@@ -42,6 +42,9 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// SAML routes
+Route::get('/saml2/{idpName}/logout', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'sls'])->name('saml_logout');
+
 // Registration routes
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);

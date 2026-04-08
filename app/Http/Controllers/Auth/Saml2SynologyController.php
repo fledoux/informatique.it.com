@@ -135,4 +135,22 @@ class Saml2SynologyController extends Saml2Controller
 
         return redirect()->intended('/dashboard');
     }
+
+    /**
+     * Handle SAML logout (SLS - Single Logout Service)
+     */
+    public function sls(Saml2Auth $saml2Auth, $idpName)
+    {
+        Log::info('Saml2 SLS: User logout', [
+            'user' => Auth::user()?->email,
+            'idp' => $idpName,
+        ]);
+
+        Auth::logout();
+        session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return redirect(config('saml2_settings.logoutRoute', '/login'))
+            ->with('success', __('login.Logout successful'));
+    }
 }
