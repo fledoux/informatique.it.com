@@ -34,6 +34,7 @@ return [
                 'initial' => 'Initiale',
                 'phone' => 'Téléphone',
                 'last_login' => 'Dernière connexion',
+                'created_at' => 'Date de création',
                 'agree_terms' => 'Accepter les conditions',
                 'Conditions' => 'CGU',
                 'channels' => 'Communications',

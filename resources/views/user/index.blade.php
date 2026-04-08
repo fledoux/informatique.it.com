@@ -38,6 +38,7 @@
                         <th class="text-left">{{ __('user.fields.initial') }}</th>
                     @endhasanyrole
                     <th class="text-left">{{ __('user.fields.phone') }}</th>
+                    <th class="text-left">{{ __('user.fields.created_at') }}</th>
                     @can('user.edit')
                         <th class="text-center">{{ __('user.fields.Conditions') }}</th>
                     @endcan
@@ -73,6 +74,7 @@
                             <td>{{ $user->initial }}</td>
                         @endhasanyrole
                         <td>{{ \App\Helpers\Helper::internationalFormatPhone($user->phone) }}</td>
+                        <td>{{ $user->created_at?->format('d/m/y \à H\hi') ?? '-' }}</td>
                         @can('user.edit')
                             <td class="text-center">
                                 {!! __('user.statusAgreeTermsColor.' . $user->agree_terms) !!}
@@ -109,7 +111,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="16" class="text-center">
+                        <td colspan="17" class="text-center">
                             {!! __('global.No data') !!}
                         </td>
                     </tr>
