@@ -82,12 +82,9 @@
                 @endhasanyrole
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">
-                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-secondary w-100">
-                                <i class="fa-regular fa-arrow-right-from-bracket"></i>
-                            </button>
-                        </form>
+                        <a href="{{ route('saml_logout', 'synology') }}" class="btn btn-outline-secondary w-100">
+                            <i class="fa-regular fa-arrow-right-from-bracket"></i>
+                        </a>
                     </li>
                 @else
                     <li class="nav-item ms-lg-2 mb-2">

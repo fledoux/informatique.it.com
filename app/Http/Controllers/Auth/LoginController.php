@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
-use Aacotroneo\Saml2\Saml2Auth;
 
 class LoginController extends Controller
 {
@@ -79,8 +78,8 @@ class LoginController extends Controller
     /**
      * Handle logout request using SAML2 package
      */
-    public function logout(Request $request, Saml2Auth $saml2Auth): RedirectResponse
-    {
+     */
+    public function logout(Request $request
         $user = Auth::user();
 
         Auth::logout();
