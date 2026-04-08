@@ -74,7 +74,7 @@
                             <td>{{ $user->initial }}</td>
                         @endhasanyrole
                         <td>{{ \App\Helpers\Helper::internationalFormatPhone($user->phone) }}</td>
-                        <td>{{ $user->created_at?->format('d/m/y \à H\hi') ?? '-' }}</td>
+                        <td>{{ $user->created_at?->format('y-m-d \à H\hi') ?? '-' }}</td>
                         @can('user.edit')
                             <td class="text-center">
                                 {!! __('user.statusAgreeTermsColor.' . $user->agree_terms) !!}
