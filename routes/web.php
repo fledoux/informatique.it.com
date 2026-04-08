@@ -59,7 +59,6 @@ Route::get('/saml2/metadata', [\App\Http\Controllers\Auth\Saml2SynologyControlle
     ->middleware(['throttle:60,1'])
     ->defaults('idpName', env('SAML_IDP_NAME', 'synology'))
     ->name('saml_metadata');
-    ->name('saml_metadata');
 
 // Registration routes
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
