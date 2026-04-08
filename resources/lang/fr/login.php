@@ -14,7 +14,7 @@ return [
     'Please verify your email address before logging in.' => 'Veuillez vérifier votre adresse e-mail avant de vous connecter.',
     
     // SSO / SAML
-    'Sign in with SSO' => 'Se connecter avec SSO',
+    'Sign in with SSO' => 'SSO Yellow Cactus',
     'OR' => 'OU',
     
     // SAML / SSO errors
