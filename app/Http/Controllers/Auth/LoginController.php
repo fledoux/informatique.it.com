@@ -76,10 +76,10 @@ class LoginController extends Controller
     }
 
     /**
-     * Handle logout request using SAML2 package
+     * Handle logout request
      */
-     */
-    public function logout(Request $request
+    public function logout(Request $request)
+    {
         $user = Auth::user();
 
         Auth::logout();
