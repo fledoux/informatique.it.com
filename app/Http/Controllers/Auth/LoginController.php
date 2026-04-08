@@ -91,6 +91,10 @@ class LoginController extends Controller
             'user' => $user?->email
         ]);
 
-        return redirect()->route('home')->with('success', __('login.Logout successful'));
+        return redirect()->route('home')
+            ->with('success', __('login.Logout successful'))
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 }

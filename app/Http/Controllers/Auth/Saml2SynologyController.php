@@ -151,6 +151,9 @@ class Saml2SynologyController extends Saml2Controller
         request()->session()->regenerateToken();
 
         return redirect(config('saml2_settings.logoutRoute', '/login'))
-            ->with('success', __('login.Logout successful'));
+            ->with('success', __('login.Logout successful'))
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 }
