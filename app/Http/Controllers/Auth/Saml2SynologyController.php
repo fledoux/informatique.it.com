@@ -13,7 +13,7 @@ class Saml2SynologyController extends Saml2Controller
     /**
      * Process SAML Assertion Consumer Service (ACS) response with group validation
      */
-    public function acs(Saml2Auth $saml2Auth, $idpName = 'synology')
+    public function acs(Saml2Auth $saml2Auth, $idpName)
     {
         $errors = $saml2Auth->acs();
 
@@ -139,7 +139,7 @@ class Saml2SynologyController extends Saml2Controller
     /**
      * Handle SAML logout (SLS - Single Logout Service)
      */
-    public function sls(Saml2Auth $saml2Auth, $idpName = 'synology')
+    public function sls(Saml2Auth $saml2Auth, $idpName)
     {
         Log::info('Saml2 SLS: User logout', [
             'user' => Auth::user()?->email,
