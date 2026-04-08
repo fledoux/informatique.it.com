@@ -38,7 +38,7 @@ class Saml2SynologyController extends Saml2Controller
 
         if (!$email) {
             Log::warning('Saml2 ACS: No email in SAML response', ['idp' => $idpName]);
-            session()->flash('error', __('No email found in SAML response.'));
+            session()->flash('error', __('login.saml.no_email'));
             return redirect(config('saml2_settings.errorRoute'));
         }
 
@@ -67,7 +67,7 @@ class Saml2SynologyController extends Saml2Controller
                 'required_groups' => array_keys($groupMapping),
                 'idp' => $idpName,
             ]);
-            session()->flash('error', __('Your group does not have access to this application.'));
+            session()->flash('error', __('login.saml.no_access'));
             return redirect(config('saml2_settings.errorRoute'));
         }
 
@@ -98,7 +98,7 @@ class Saml2SynologyController extends Saml2Controller
                     'error' => $e->getMessage(),
                     'idp' => $idpName,
                 ]);
-                session()->flash('error', __('Failed to create user account.'));
+                session()->flash('error', __('login.saml.failed_to_create'));
                 return redirect(config('saml2_settings.errorRoute'));
             }
         }
@@ -110,7 +110,7 @@ class Saml2SynologyController extends Saml2Controller
                 'user_id' => $user->id,
                 'idp' => $idpName,
             ]);
-            session()->flash('error', __('Your account is inactive.'));
+            session()->flash('error', __('login.saml.inactive_account'));
             return redirect(config('saml2_settings.errorRoute'));
         }
 

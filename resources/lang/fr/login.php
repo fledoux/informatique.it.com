@@ -12,4 +12,14 @@ return [
     'Logout successful' => 'Déconnexion réussie',
     'too_many_attempts' => 'Trop de tentatives de connexion. Veuillez réessayer dans :seconds secondes.',
     'Please verify your email address before logging in.' => 'Veuillez vérifier votre adresse e-mail avant de vous connecter.',
+    
+    // SSO / SAML
+    'Sign in with SSO' => 'Se connecter avec SSO',
+    'OR' => 'OU',
+    
+    // SAML / SSO errors
+    'saml.no_email' => 'Aucun e-mail trouvé dans la réponse SAML.',
+    'saml.no_access' => 'Votre groupe n\'a pas accès à cette application.',
+    'saml.inactive_account' => 'Votre compte est inactif.',
+    'saml.failed_to_create' => 'Échec de la création du compte utilisateur.',
 ];
