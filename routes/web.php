@@ -42,8 +42,19 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// SAML routes
-Route::get('/saml2/{idpName}/logout', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'sls'])->name('saml_logout');
+// SAML routes (simplified without idpName in URL)
+Route::get('/saml2/login', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'login'])
+    ->middleware(['throttle:60,1'])
+    ->name('saml_login');
+Route::post('/saml2/acs', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'acs'])
+    ->middleware(['throttle:60,1'])
+    ->name('saml_acs');
+Route::get('/saml2/sls', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'sls'])
+    ->middleware(['throttle:60,1'])
+    ->name('saml_logout');
+Route::get('/saml2/metadata', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'metadata'])
+    ->middleware(['throttle:60,1'])
+    ->name('saml_metadata');
 
 // Registration routes
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');

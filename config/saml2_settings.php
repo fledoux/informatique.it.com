@@ -20,7 +20,7 @@ return $settings = array(
      *    GET    | {routesPrefix}/{idpName}/metadata  | saml_metadata
      *    GET    | {routesPrefix}/{idpName}/sls       | saml_sls
      */
-    'useRoutes' => true,
+    'useRoutes' => false,
 
     /**
      * Optional, leave empty if you want the defined routes to be top level, i.e. "/{idpName}/*"

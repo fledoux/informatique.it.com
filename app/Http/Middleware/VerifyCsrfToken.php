@@ -14,7 +14,7 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         'sso/acs',
         '/sso/acs',
-        'saml2/synology/acs',
-        '/saml2/synology/acs',
+        'saml2/acs',
+        '/saml2/acs',
     ];
 }

@@ -25,7 +25,7 @@ class SkipCsrfForSaml
     {
         $path = $request->path();
         
-        return str_contains($path, 'saml2/synology/acs')
+        return str_contains($path, 'saml2/acs')
             || str_contains($path, 'sso/acs');
     }
 }
