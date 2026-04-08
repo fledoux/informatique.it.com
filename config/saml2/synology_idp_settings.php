@@ -29,8 +29,12 @@ return [
             'url' => env('SAML_SP_SLS_URL'),
             'binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
         ],
-        'x509cert' => file_get_contents(storage_path('app/sso/sp.crt')),
-        'privateKey' => file_get_contents(storage_path('app/sso/sp.key')),
+        'x509cert' => env('SAML_SP_CERT')
+            ? base64_decode(env('SAML_SP_CERT'))
+            : file_get_contents(storage_path('app/sso/sp.crt')),
+        'privateKey' => env('SAML_SP_KEY')
+            ? base64_decode(env('SAML_SP_KEY'))
+            : file_get_contents(storage_path('app/sso/sp.key')),
     ],
 
     /**
@@ -46,7 +50,9 @@ return [
             'url' => env('SAML_IDP_SLS_URL'),
             'binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
         ],
-        'x509cert' => file_get_contents(storage_path('app/sso/idp.cert')),
+        'x509cert' => env('SAML_IDP_CERT')
+            ? base64_decode(env('SAML_IDP_CERT'))
+            : file_get_contents(storage_path('app/sso/idp.cert')),
     ],
 
     /**
