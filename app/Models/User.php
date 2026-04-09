@@ -13,6 +13,15 @@ class User extends Authenticatable implements MustVerifyEmail
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
 
+    protected static function booted(): void
+    {
+        // Nettoyer les rôles et permissions quand l'utilisateur est supprimé
+        static::deleted(function (self $user) {
+            \DB::table('model_has_roles')->where('model_id', $user->id)->delete();
+            \DB::table('model_has_permissions')->where('model_id', $user->id)->delete();
+        });
+    }
+
     /**
      * The attributes that are mass assignable.
      *
