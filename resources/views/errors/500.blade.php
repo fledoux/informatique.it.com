@@ -21,11 +21,7 @@
                 <!-- Code d'erreur -->
                 <h1 class="display-1 fw-bold text-danger mb-0">500</h1>
                 <h2 class="h4 fw-normal text-secondary mb-4">
-                    @if(isset($exception) && $exception->getMessage())
-                        {{ __('error.' . $exception->getMessage()) }}
-                    @else
-                        {{ __('error.500.title') }}
-                    @endif
+                    {{ __('error.500.title') }}
                 </h2>
                 
                 <!-- Message d'explication -->
