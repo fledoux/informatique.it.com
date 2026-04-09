@@ -33,7 +33,7 @@
 
                 {{-- OIDC Login Button (Synology SSO) --}}
                 @if (config('oauth.client_id'))
-                    <div class="text-center text-muted small mb-3">
+                    <div class="text-center text-muted mb-3">
                         <span>{{ __('login.OR') }}</span>
                     </div>
                     <a href="{{ route('oauth.redirect') }}" class="btn btn-lg btn-primary w-100 mb-3">
