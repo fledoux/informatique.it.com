@@ -22,7 +22,7 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'email' => [
                 'required',
                 'string',
@@ -40,6 +40,13 @@ class RegisterRequest extends FormRequest
                 'accepted'
             ],
         ];
+
+        // Ajouter la validation Turnstile si configuré
+        if (config('services.turnstile.secret_key')) {
+            $rules['cf-turnstile-response'] = ['required', new \App\Rules\ValidTurnstile()];
+        }
+
+        return $rules;
     }
 
     /**
@@ -57,6 +64,7 @@ class RegisterRequest extends FormRequest
             'password.confirmed' => __('register.Password confirmation does not match'),
             'agree_terms.required' => __('register.You must accept the terms'),
             'agree_terms.accepted' => __('register.You must accept the terms'),
+            'cf-turnstile-response.required' => __('global.messages.captcha_required'),
         ];
     }
 

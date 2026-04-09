@@ -13,6 +13,43 @@
                     {{ __('login.Please log in') }}
                 </h5>
 
+                {{-- Social Login Buttons --}}
+                <div class="d-grid gap-2 mb-3">
+                    <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
+                        <i class="fa-brands fa-google me-1"></i>
+                        Google
+                    </button>
+                </div>
+                <div class="d-grid gap-2 mb-3">
+                    <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
+                        <i class="fa-brands fa-apple me-1"></i>
+                        Apple
+                    </button>
+                </div>
+                <div class="d-grid gap-2 mb-3">
+                    <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
+                        <i class="fa-brands fa-github me-1"></i>
+                        GitHub
+                    </button>
+                </div>
+
+                {{-- OIDC Login Button (Synology SSO) --}}
+                @if (config('oauth.client_id'))
+                    <div class="d-grid gap-2 mb-3">
+                        <a href="{{ route('oauth.redirect') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-shield-halved me-1"></i>
+                            {{ __('login.Sign in with SSO') }}
+                        </a>
+                    </div>
+
+                    <div class="position-relative my-4">
+                        <hr>
+                        <span class="position-absolute top-50 start-50 translate-middle bg-white small px-3 text-muted">
+                            {{ __('login.OR') }}
+                        </span>
+                    </div>
+                @endif
+
                 {{-- Email/Password Login Form --}}
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
@@ -26,21 +63,24 @@
                     </div>
                     <x-forms.checkbox name="remember" :label="__('login.Remember me')" :checked="false" />
 
-                    <button type="submit" class="btn btn-lg btn-orange w-100 my-3">
+                    @if (config('services.turnstile.site_key'))
+                        <div class="my-3">
+                            <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"
+                                data-theme="{{ config('services.turnstile.theme', 'light') }}"
+                                data-size="{{ config('services.turnstile.size', 'normal') }}"></div>
+                            @error('cf-turnstile-response')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+                    @endif
+
+                    <button type="submit" class="btn btn-orange w-100 my-3">
                         {{ __('login.Connect') }}
                     </button>
                 </form>
 
-                {{-- OIDC Login Button (Synology SSO) --}}
-                @if (config('oauth.client_id'))
-                    <div class="text-center text-muted mb-3">
-                        <span>{{ __('login.OR') }}</span>
-                    </div>
-                    <a href="{{ route('oauth.redirect') }}" class="btn btn-lg btn-primary w-100 mb-3">
-                        <i class="fa-solid fa-key me-2"></i>
-                        {{ __('login.Sign in with SSO') }}
-                    </a>
-                @endif
+
                 <div class="mb-2">
                     <a href="{{ route('register') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
                         <i class="fa-regular fa-user-plus me-1"></i>

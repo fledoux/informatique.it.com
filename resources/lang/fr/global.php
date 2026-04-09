@@ -81,6 +81,8 @@ return [
         'locale_updated' => 'Langue mise à jour avec succès',
         'access_denied' => 'Accès refusé. Veuillez vous connecter.',
         'unauthorized' => 'Vous devez être connecté pour accéder à cette page.',
+        'captcha_required' => 'Veuillez valider le CAPTCHA',
+        'captcha_failed' => 'Erreur de validation du CAPTCHA. Veuillez réessayer.',
     ],
 
     // Salutations contextuelles

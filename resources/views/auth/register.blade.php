@@ -109,6 +109,17 @@
                         </div>
                     @enderror
                 </div>
+
+                @if(config('services.turnstile.site_key'))
+                    <div class="my-3">
+                        <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}" data-theme="{{ config('services.turnstile.theme', 'light') }}" data-size="{{ config('services.turnstile.size', 'normal') }}"></div>
+                        @error('cf-turnstile-response')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+                @endif
+
                 <button type="submit" class="btn btn-orange w-100 my-3">
                     {{ __('register.Register') }}
                 </button>

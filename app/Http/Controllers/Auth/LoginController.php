@@ -32,10 +32,17 @@ class LoginController extends Controller
             'email' => $request->input('email'),
         ]);
 
-        $credentials = $request->validate([
+        $validationRules = [
             'email' => ['required', 'email'],
             'password' => ['required'],
-        ]);
+        ];
+
+        // Ajouter la validation Turnstile si configuré
+        if (config('services.turnstile.secret_key')) {
+            $validationRules['cf-turnstile-response'] = ['required', new \App\Rules\ValidTurnstile()];
+        }
+
+        $credentials = $request->validate($validationRules);
 
         // Vérifier d'abord si l'utilisateur existe et a un email vérifié
         $user = \App\Models\User::where('email', $credentials['email'])
