@@ -46,19 +46,19 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/saml2/login', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'login'])
     ->middleware(['throttle:60,1'])
     ->defaults('idpName', env('SAML_IDP_NAME', 'synology'))
-    ->name('saml_login');
+    ->name('saml2_login');
 Route::post('/saml2/acs', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'acs'])
     ->middleware(['throttle:60,1'])
     ->defaults('idpName', env('SAML_IDP_NAME', 'synology'))
-    ->name('saml_acs');
+    ->name('saml2_acs');
 Route::get('/saml2/sls', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'sls'])
     ->middleware(['throttle:60,1'])
     ->defaults('idpName', env('SAML_IDP_NAME', 'synology'))
-    ->name('saml_logout');
+    ->name('saml2_logout');
 Route::get('/saml2/metadata', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'metadata'])
     ->middleware(['throttle:60,1'])
     ->defaults('idpName', env('SAML_IDP_NAME', 'synology'))
-    ->name('saml_metadata');
+    ->name('saml2_metadata');
 
 // Registration routes
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
