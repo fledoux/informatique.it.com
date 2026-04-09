@@ -82,7 +82,7 @@
                 @endhasanyrole
                 @auth
                     <li class="nav-item ms-lg-2 mb-2">
-                        <a href="{{ route('saml2_logout') }}" class="btn btn-outline-secondary w-100">
+                        <a href="{{ route('logout') }}" class="btn btn-outline-secondary w-100">
                             <i class="fa-regular fa-arrow-right-from-bracket"></i>
                         </a>
                     </li>

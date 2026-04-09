@@ -79,4 +79,5 @@ return [
         'socrate_password' => env('WIFI_SOCRATE_PASSWORD'),
     ],
 
+
 ];

@@ -42,23 +42,7 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// SAML routes (simplified - idpName from .env)
-Route::get('/saml2/login', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'login'])
-    ->middleware(['throttle:60,1'])
-    ->defaults('idpName', env('SAML_IDP_NAME', 'synology'))
-    ->name('saml2_login');
-Route::post('/saml2/acs', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'acs'])
-    ->middleware(['throttle:60,1'])
-    ->defaults('idpName', env('SAML_IDP_NAME', 'synology'))
-    ->name('saml2_acs');
-Route::get('/saml2/sls', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'sls'])
-    ->middleware(['throttle:60,1'])
-    ->defaults('idpName', env('SAML_IDP_NAME', 'synology'))
-    ->name('saml2_logout');
-Route::get('/saml2/metadata', [\App\Http\Controllers\Auth\Saml2SynologyController::class, 'metadata'])
-    ->middleware(['throttle:60,1'])
-    ->defaults('idpName', env('SAML_IDP_NAME', 'synology'))
-    ->name('saml2_metadata');
+// OAuth routes are now provided by fledoux/laravel-oauth package
 
 // Registration routes
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');

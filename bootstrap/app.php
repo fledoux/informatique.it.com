@@ -36,10 +36,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         // Capturer les sessions expirées (CSRF Token mismatch)
         $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, \Illuminate\Http\Request $request) {
-            // Ne pas rediriger si c'est une route SAML - laisser VerifyCsrfToken gérer l'exemption
-            if ($request->is('saml2/*') || $request->is('sso/*')) {
-                throw $e; // Relancer pour que le middleware VerifyCsrfToken l'exemption s'applique
-            }
             return redirect('/login')->with('error', 'Session expirée. Veuillez vous reconnecter.');
         });
         
