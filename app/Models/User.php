@@ -27,7 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var list<string>
      */
-    protected $fillable = ['name','email','password','status','company_id','firstname','lastname','initial','phone','last_login','agree_terms','channels','note'];
+    protected $fillable = ['name','email','password','status','company_id','firstname','lastname','initial','phone','last_login','agree_terms','channels','note','oidc_sub'];
 
     protected $casts = ['email_verified_at' => 'datetime','password' => 'hashed','created_at' => 'datetime','updated_at' => 'datetime','status' => 'string','agree_terms' => 'string','channels' => 'array'];
 

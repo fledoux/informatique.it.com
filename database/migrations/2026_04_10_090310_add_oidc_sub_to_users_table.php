@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('initial', 5)->nullable()->after('lastname');
+            $table->string('oidc_sub')->nullable()->unique()->after('note');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('initial');
+            $table->dropColumn('oidc_sub');
         });
     }
 };

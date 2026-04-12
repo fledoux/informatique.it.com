@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e5f6205096f4b7e289b6dae112025e5",
+    "content-hash": "52a05b0977c9a3f0095c195fd737a6c5",
     "packages": [
         {
             "name": "art-of-wifi/unifi-api-client",
@@ -941,16 +941,10 @@
         {
             "name": "fledoux/laravel-oauth",
             "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:fledoux/laravel-oauth.git",
-                "reference": "8d033af1c7b3831261abf1ef8fa7eff0b18473d7"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fledoux/laravel-oauth/zipball/8d033af1c7b3831261abf1ef8fa7eff0b18473d7",
-                "reference": "8d033af1c7b3831261abf1ef8fa7eff0b18473d7",
-                "shasum": ""
+                "type": "path",
+                "url": "../laravel-oauth",
+                "reference": "939a44eaba5f1a7c1ec6dfe91302c5559f127981"
             },
             "require": {
                 "kovah/laravel-socialite-oidc": "^0.7",
@@ -962,7 +956,6 @@
             "suggest": {
                 "spatie/laravel-permission": "Required for automatic group-to-role mapping"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -987,11 +980,9 @@
                 "socialite",
                 "sso"
             ],
-            "support": {
-                "source": "https://github.com/fledoux/laravel-oauth/tree/main",
-                "issues": "https://github.com/fledoux/laravel-oauth/issues"
-            },
-            "time": "2026-04-09T08:10:41+00:00"
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "fruitcake/php-cors",

@@ -13,9 +13,13 @@ return [
 
     'redirect_on_login' => '/dashboard',
     'redirect_on_error' => '/login',
+    'redirect_on_logout' => env('OIDC_REDIRECT_ON_LOGOUT', '/'),
+
+    'end_session_endpoint' => env('OIDC_END_SESSION_ENDPOINT'),
 
     'user_model' => \App\Models\User::class,
     'create_user' => true,
+    'sub_column' => 'oidc_sub',
 
     'user_fields' => [
         'email' => 'email',

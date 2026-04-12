@@ -33,7 +33,7 @@
                     </button>
                 </div>
 
-                {{-- OIDC Login Button (Synology SSO) --}}
+                {{-- OIDC Login Button (Authentik SSO) --}}
                 @if (config('oauth.client_id'))
                     <div class="d-grid gap-2 mb-3">
                         <a href="{{ route('oauth.redirect') }}" class="btn btn-outline-primary">

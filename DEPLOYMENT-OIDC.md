@@ -15,3 +15,11 @@ composer update fledoux/laravel-oauth
 "repositories": [
     { "type": "path", "url": "../laravel-oauth" }
 ]
+
+
+
+# ENVOYER LES MISES À JOURS SUR GITHUB
+cd ~/Sites/laravel-oauth
+git add -A
+git commit -m "Security: use immutable OIDC sub for user lookup instead of email"
+git push

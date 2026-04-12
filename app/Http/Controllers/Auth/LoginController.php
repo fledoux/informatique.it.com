@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
+use Fledoux\LaravelOAuth\OAuthController;
 
 class LoginController extends Controller
 {
@@ -16,92 +17,54 @@ class LoginController extends Controller
      */
     public function showLoginForm(Request $request): View
     {
-        Log::info('1/3 Login page', [
-            'ip' => $request->ip()
-        ]);
         return view('auth.login');
     }
 
     /**
-     * Handle login request
+     * Handle login request (traditional email/password login)
      */
     public function login(Request $request): RedirectResponse
     {
-        Log::info('2/3 Tentative login', [
-            'ip' => $request->ip(),
-            'email' => $request->input('email'),
-        ]);
+        Log::info('Login attempt', ['email' => $request->input('email')]);
 
         $validationRules = [
             'email' => ['required', 'email'],
             'password' => ['required'],
         ];
 
-        // Ajouter la validation Turnstile si configuré
+        // Add CAPTCHA validation if configured
         if (config('services.turnstile.secret_key')) {
             $validationRules['cf-turnstile-response'] = ['required', new \App\Rules\ValidTurnstile()];
         }
 
         $credentials = $request->validate($validationRules);
 
-        // Vérifier d'abord si l'utilisateur existe et a un email vérifié
+        // Check if user exists and has verified email
         $user = \App\Models\User::where('email', $credentials['email'])
                                 ->whereNotNull('email_verified_at')
                                 ->first();
 
         if (!$user) {
-            // L'utilisateur n'existe pas ou email non vérifié
-            return back()->withErrors([
-                'email' => __('auth.email_not_verified'),
-            ])->onlyInput('email');
+            return back()->withErrors(['email' => __('auth.email_not_verified')])->onlyInput('email');
         }
 
-        $remember = $request->boolean('remember');
-
-        if (Auth::attempt($credentials, $remember)) {
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-
-            Log::info('3/3 Successful login', [
-                'ip' => $request->ip(),
-                'email' => $request->input('email'),
-            ]);
-
+            Log::info('Login successful', ['email' => $credentials['email']]);
             return redirect()->intended(route('dashboard'))->with('success', __('login.Welcome back!'));
-        } else {
-            // Envoyer une alerte par email en cas de tentative de connexion échouée
-            //Mail::to('fledoux@yellowcactus.com')->send(new \App\Mail\globalMail('Failed login', $request->ip() . ' - ' . $request->input('email')));
-
-            Log::info('Failed login', [
-                'ip' => $request->ip(),
-                'email' => $request->input('email'),
-            ]);
         }
 
-        return back()->withErrors([
-            'email' => __('auth.failed'),
-        ])->onlyInput('email')->with('error', __('login.Your credentials are not recognized.'));
+        Log::info('Login failed', ['email' => $credentials['email']]);
+        return back()->withErrors(['email' => __('auth.failed')])->onlyInput('email');
     }
 
     /**
      * Handle logout request
+     * Directly calls the OIDC logout to preserve session data (access token)
      */
     public function logout(Request $request)
     {
-        $user = Auth::user();
-
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        Log::info('Logout', [
-            'ip' => $request->ip(),
-            'user' => $user?->email
-        ]);
-
-        return redirect()->route('home')
-            ->with('success', __('login.Logout successful'))
-            ->header('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0')
-            ->header('Pragma', 'no-cache')
-            ->header('Expires', '0');
+        // Call OIDC logout directly without redirecting (to preserve session)
+        return app(OAuthController::class)->logout($request);
     }
 }

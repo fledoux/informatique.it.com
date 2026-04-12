@@ -7,8 +7,8 @@
     "license": "MIT",
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/fledoux/laravel-oauth.git"
+            "type": "path",
+            "url": "../laravel-oauth"
         }
     ],
     "require": {
