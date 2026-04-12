@@ -9,6 +9,10 @@
         {
             "type": "path",
             "url": "../laravel-oauth"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/fledoux/laravel-oauth.git"
         }
     ],
     "require": {
