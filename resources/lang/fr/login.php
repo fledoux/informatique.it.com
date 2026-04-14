@@ -12,6 +12,7 @@ return [
     'Logout successful' => 'Déconnexion réussie',
     'too_many_attempts' => 'Trop de tentatives de connexion. Veuillez réessayer dans :seconds secondes.',
     'Please verify your email address before logging in.' => 'Veuillez vérifier votre adresse e-mail avant de vous connecter.',
+    'Coming soon' => 'Bientôt disponible',
     
     // SSO / SAML
     'Sign in with SSO' => 'SSO Yellow Cactus',

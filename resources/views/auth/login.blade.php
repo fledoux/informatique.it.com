@@ -66,19 +66,19 @@
                 <div class="d-grid gap-2 mb-3">
                     <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
                         <i class="fa-brands fa-google me-1"></i>
-                        Google
+                        Google <small>({{ __('login.Coming soon') }})</small>
                     </button>
                 </div>
                 <div class="d-grid gap-2 mb-3">
                     <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
                         <i class="fa-brands fa-apple me-1"></i>
-                        Apple
+                        Apple <small>({{ __('login.Coming soon') }})</small>
                     </button>
                 </div>
                 <div class="d-grid gap-2 mb-3">
                     <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
                         <i class="fa-brands fa-github me-1"></i>
-                        GitHub
+                        GitHub <small>({{ __('login.Coming soon') }})</small>
                     </button>
                 </div>
 
