@@ -26,8 +26,8 @@
                 {{-- Toggle Button for Traditional Login --}}
                 <div class="d-grid gap-2 mb-3">
                     <button type="button" class="btn btn-outline-primary" id="toggle-traditional-login">
-                        <i class="fa-solid fa-chevron-down me-1"></i>
                         <span id="toggle-text">{{ __('login.Traditional Login') }}</span>
+                        <i class="fa-solid fa-chevron-down me-1"></i>
                     </button>
                 </div>
 
