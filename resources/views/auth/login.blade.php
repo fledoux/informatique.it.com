@@ -48,10 +48,19 @@
                             {{ __('login.OR') }}
                         </span>
                     </div>
+
+                    {{-- Bootstrap Toggle Switch for Traditional Login --}}
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="toggle-traditional-login">
+                        <label class="form-check-label" for="toggle-traditional-login">
+                            {{ __('login.Traditional Login') }}
+                        </label>
+                    </div>
                 @endif
 
-                {{-- Email/Password Login Form --}}
-                <form method="POST" action="{{ route('login') }}">
+                {{-- Email/Password Login Form (Hidden by default if SSO available) --}}
+                <form method="POST" action="{{ route('login') }}" id="traditional-login-form"
+                    @if(config('oauth.client_id')) style="display: none;" @endif>
                     @csrf
                     <div class="form-floating form-field-start">
                         <x-forms.input name="email" type="email" :label="__('login.Email')" :value="old('email')" :required="true"
@@ -80,6 +89,38 @@
                     </button>
                 </form>
 
+                @if (!config('oauth.client_id'))
+                    {{-- If no SSO, show traditional login form directly --}}
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div class="form-floating form-field-start">
+                            <x-forms.input name="email" type="email" :label="__('login.Email')" :value="old('email')" :required="true"
+                                :labelAfter="true" autofocus />
+                        </div>
+                        <div class="form-floating form-field-end">
+                            <x-forms.input name="password" type="password" :label="__('login.Password')" :required="true"
+                                :labelAfter="true" />
+                        </div>
+                        <x-forms.checkbox name="remember" :label="__('login.Remember me')" :checked="false" />
+
+                        @if (config('services.turnstile.site_key'))
+                            <div class="my-3">
+                                <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"
+                                    data-theme="{{ config('services.turnstile.theme', 'light') }}"
+                                    data-size="{{ config('services.turnstile.size', 'normal') }}"></div>
+                                @error('cf-turnstile-response')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+                        @endif
+
+                        <button type="submit" class="btn btn-orange w-100 my-3">
+                            {{ __('login.Connect') }}
+                        </button>
+                    </form>
+                @endif
+
 
                 <div class="mb-2">
                     <a href="{{ route('register') }}" class="btn btn-link p-0 text-secondary text-decoration-none">
@@ -103,4 +144,23 @@
         </div>
         @include('emails._baseline-small')
     </main>
+
+    <script>
+        @if(config('oauth.client_id'))
+        document.getElementById('toggle-traditional-login').addEventListener('change', function() {
+            const form = document.getElementById('traditional-login-form');
+            
+            if (this.checked) {
+                form.style.display = 'block';
+                // Focus on email field when showing
+                setTimeout(() => {
+                    const emailInput = form.querySelector('input[name="email"]');
+                    if (emailInput) emailInput.focus();
+                }, 100);
+            } else {
+                form.style.display = 'none';
+            }
+        });
+        @endif
+    </script>
 @endsection

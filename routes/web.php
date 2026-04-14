@@ -130,7 +130,7 @@ Route::prefix('permissions')->middleware(['auth', 'throttle:60,1'])->group(funct
 });
 
 // Routes AllowDomainRegistration - Permissions gérées dans AllowDomainRegistrationController::__construct()
-Route::prefix('allowdomain')->middleware(['throttle:60,1'])->group(function () {
+Route::prefix('allowdomain')->middleware(['auth', 'throttle:60,1'])->group(function () {
     Route::get('/', [AllowDomainRegistrationController::class, 'index'])->name('allowdomain.index');
     Route::get('/create', [AllowDomainRegistrationController::class, 'create'])->name('allowdomain.create');
     Route::post('/', [AllowDomainRegistrationController::class, 'store'])->name('allowdomain.store');

@@ -16,6 +16,8 @@ return [
     // SSO / SAML
     'Sign in with SSO' => 'SSO Yellow Cactus',
     'OR' => 'OU',
+    'Traditional Login' => 'Identifiant/mot de passe',
+    'Hide Traditional Login' => 'Masquer connexion',
     
     // SAML / SSO errors
     'saml.no_email' => 'Aucun e-mail trouvé dans la réponse SAML.',
