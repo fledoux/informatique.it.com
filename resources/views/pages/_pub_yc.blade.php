@@ -60,7 +60,7 @@
                         </p>
 
                         <div class="d-grid gap-1 gap-sm-2">
-                            <a href="https://yellowcactus.com/fr/contact/create"
+                            <a href="https://yellowcactus.com/contact"
                                 class="btn btn-orange btn-sm fw-semibold" target="_blank" rel="noopener">
                                 <i class="fa-regular fa-paper-plane me-1"></i>
                                 Contactez-nous
