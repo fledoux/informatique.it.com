@@ -13,26 +13,6 @@
                     {{ __('login.Please log in') }}
                 </h5>
 
-                {{-- Social Login Buttons --}}
-                <div class="d-grid gap-2 mb-3">
-                    <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
-                        <i class="fa-brands fa-google me-1"></i>
-                        Google
-                    </button>
-                </div>
-                <div class="d-grid gap-2 mb-3">
-                    <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
-                        <i class="fa-brands fa-apple me-1"></i>
-                        Apple
-                    </button>
-                </div>
-                <div class="d-grid gap-2 mb-3">
-                    <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
-                        <i class="fa-brands fa-github me-1"></i>
-                        GitHub
-                    </button>
-                </div>
-
                 {{-- OIDC Login Button (Authentik SSO) --}}
                 @if (config('oauth.client_id'))
                     <div class="d-grid gap-2 mb-3">
@@ -41,26 +21,19 @@
                             {{ __('login.Sign in with SSO') }}
                         </a>
                     </div>
-
-                    <div class="position-relative my-4">
-                        <hr>
-                        <span class="position-absolute top-50 start-50 translate-middle bg-white small px-3 text-muted">
-                            {{ __('login.OR') }}
-                        </span>
-                    </div>
-
-                    {{-- Bootstrap Toggle Switch for Traditional Login --}}
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input" type="checkbox" id="toggle-traditional-login">
-                        <label class="form-check-label" for="toggle-traditional-login">
-                            {{ __('login.Traditional Login') }}
-                        </label>
-                    </div>
                 @endif
+
+                {{-- Toggle Button for Traditional Login --}}
+                <div class="d-grid gap-2 mb-3">
+                    <button type="button" class="btn btn-outline-primary" id="toggle-traditional-login">
+                        <i class="fa-solid fa-chevron-down me-1"></i>
+                        <span id="toggle-text">{{ __('login.Traditional Login') }}</span>
+                    </button>
+                </div>
 
                 {{-- Email/Password Login Form (Hidden by default if SSO available) --}}
                 <form method="POST" action="{{ route('login') }}" id="traditional-login-form"
-                    @if(config('oauth.client_id')) style="display: none;" @endif>
+                    @if (config('oauth.client_id')) style="display: none;" @endif>
                     @csrf
                     <div class="form-floating form-field-start">
                         <x-forms.input name="email" type="email" :label="__('login.Email')" :value="old('email')" :required="true"
@@ -89,13 +62,33 @@
                     </button>
                 </form>
 
+                {{-- Social Login Buttons --}}
+                <div class="d-grid gap-2 mb-3">
+                    <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
+                        <i class="fa-brands fa-google me-1"></i>
+                        Google
+                    </button>
+                </div>
+                <div class="d-grid gap-2 mb-3">
+                    <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
+                        <i class="fa-brands fa-apple me-1"></i>
+                        Apple
+                    </button>
+                </div>
+                <div class="d-grid gap-2 mb-3">
+                    <button type="button" class="btn btn-outline-secondary" disabled title="Coming soon">
+                        <i class="fa-brands fa-github me-1"></i>
+                        GitHub
+                    </button>
+                </div>
+
                 @if (!config('oauth.client_id'))
                     {{-- If no SSO, show traditional login form directly --}}
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-floating form-field-start">
-                            <x-forms.input name="email" type="email" :label="__('login.Email')" :value="old('email')" :required="true"
-                                :labelAfter="true" autofocus />
+                            <x-forms.input name="email" type="email" :label="__('login.Email')" :value="old('email')"
+                                :required="true" :labelAfter="true" autofocus />
                         </div>
                         <div class="form-floating form-field-end">
                             <x-forms.input name="password" type="password" :label="__('login.Password')" :required="true"
@@ -146,21 +139,28 @@
     </main>
 
     <script>
-        @if(config('oauth.client_id'))
-        document.getElementById('toggle-traditional-login').addEventListener('change', function() {
-            const form = document.getElementById('traditional-login-form');
-            
-            if (this.checked) {
-                form.style.display = 'block';
-                // Focus on email field when showing
-                setTimeout(() => {
-                    const emailInput = form.querySelector('input[name="email"]');
-                    if (emailInput) emailInput.focus();
-                }, 100);
-            } else {
-                form.style.display = 'none';
-            }
-        });
+        @if (config('oauth.client_id'))
+            document.getElementById('toggle-traditional-login').addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = document.getElementById('traditional-login-form');
+                const toggleText = document.getElementById('toggle-text');
+                const icon = this.querySelector('i');
+
+                if (form.style.display === 'none') {
+                    form.style.display = 'block';
+                    toggleText.textContent = '{{ __('login.Hide Traditional Login') }}';
+                    icon.className = 'fa-solid fa-chevron-up me-1';
+                    // Focus on email field when showing
+                    setTimeout(() => {
+                        const emailInput = form.querySelector('input[name="email"]');
+                        if (emailInput) emailInput.focus();
+                    }, 100);
+                } else {
+                    form.style.display = 'none';
+                    toggleText.textContent = '{{ __('login.Traditional Login') }}';
+                    icon.className = 'fa-solid fa-chevron-down me-1';
+                }
+            });
         @endif
     </script>
 @endsection
