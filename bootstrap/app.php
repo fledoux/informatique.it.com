@@ -27,6 +27,16 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withSchedule(function ($schedule) {
+        // Traiter la queue toutes les minutes
+        $schedule->command('queue:work', [
+            '--max-jobs=1000',
+            '--max-time=55',
+            '--once'
+        ])
+            ->everyMinute()
+            ->name('queue-worker')
+            ->withoutOverlapping();
+
         // Changer le mot de passe Wi-Fi tous les jours à 5h
         $schedule->command('wifi:change-password --ssid=socrate_guest --length=8')
             ->dailyAt('05:00')
