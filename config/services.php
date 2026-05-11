@@ -60,7 +60,7 @@ return [
 
     // Configuration Unifi WiFi Management
     'unifi' => [
-        'controller_url' => env('UNIFI_CONTROLLER_URL', 'https://192.168.111.35:8443'),
+        'controller_url' => env('UNIFI_CONTROLLER_URL', 'https://192.168.99.10:8443'),
         'api_key' => env('UNIFI_API_KEY'),
         'site_name' => env('UNIFI_SITE_NAME', 'default'),
         'verify_ssl' => env('UNIFI_VERIFY_SSL', false), // Désactiver SSL self-signed
