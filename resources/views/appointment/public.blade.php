@@ -101,107 +101,54 @@
                     </div>
                 </div>
 
-                <style>
-                    .slots-grid {
-                        display: grid;
-                        gap: 0.75rem;
-                        width: 100%;
-                        grid-auto-rows: max-content;
-                        box-sizing: border-box;
-                        overflow-x: auto;
-                    }
-                    .slots-grid > * {
-                        min-width: 0;
-                        box-sizing: border-box;
-                    }
-                    .slot-btn {
-                        white-space: normal;
-                        width: 100%;
-                        box-sizing: border-box;
-                    }
-                    @media (max-width: 768px) {
-                        .slots-grid {
-                            font-size: 0.875rem;
-                        }
-                        .slot-btn {
-                            font-size: 0.75rem;
-                            padding: 0.5rem 0.75rem !important;
-                        }
-                    }
-                    @media (max-width: 576px) {
-                        .slots-grid {
-                            font-size: 0.75rem;
-                            gap: 0.5rem;
-                        }
-                        .slot-btn {
-                            font-size: 0.65rem;
-                            padding: 0.375rem 0.5rem !important;
-                        }
-                    }
-                </style>
-
                 @forelse ($dates as $day)
                     @if ($loop->first)
-                        @php
-                            // Collect all unique time slots across all days
-                            $allTimes = collect();
-                            foreach ($dates as $d) {
-                                foreach ($d['slots'] as $s) {
-                                    $allTimes->push($s['label']);
-                                }
-                            }
-                            $uniqueTimes = $allTimes->unique()->sort()->values();
-                            $dayCount = count($dates);
-                        @endphp
-                        <div class="slots-grid" style="grid-template-columns: repeat({{ $dayCount }}, 1fr);">
-                            @foreach ($dates as $dayIndex => $d)
-                                <div class="fw-semibold text-center text-lowercase text-body-secondary" style="grid-column: {{ $dayIndex + 1 }}; grid-row: 1;">
-                                    {{ $d['date']->locale('fr')->translatedFormat('l d F') }}
+                        <div class="row g-2">
+                            @foreach ($dates as $d)
+                                <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                    <!-- Titre du jour -->
+                                    <div class="fw-semibold text-center text-lowercase text-body-secondary small mb-2">
+                                        {{ $d['date']->locale('fr')->translatedFormat('l d F') }}
+                                    </div>
+                                    
+                                    <!-- Créneaux du jour empilés -->
+                                    <div class="d-flex flex-column gap-2">
+                                        @foreach ($d['slots'] as $slotForTime)
+                                            @php
+                                                $checked = old('selected_slot') === $slotForTime['key'];
+                                                list($date, $slotTime) = explode('|', $slotForTime['key']);
+                                                $slotStart = \Carbon\Carbon::createFromFormat('Y-m-d H:i', "$date $slotTime");
+                                                $isPast = $slotStart->isPast();
+                                                $buttonClasses = 'btn btn-sm w-100';
+                                                if ($isPast) {
+                                                    $buttonClasses .= ' btn-light text-body-tertiary border';
+                                                } elseif ($slotForTime['is_break'] ?? false) {
+                                                    $buttonClasses .= ' btn-light text-body-tertiary border border-primary';
+                                                } elseif ($slotForTime['is_available']) {
+                                                    $buttonClasses .= ' btn-outline-orange ' . ($checked ? 'btn-orange' : '');
+                                                } else {
+                                                    $buttonClasses .= ' btn-light text-body-tertiary border';
+                                                }
+                                            @endphp
+                                            <button
+                                                type="button"
+                                                class="{{ $buttonClasses }}"
+                                                data-slot="{{ $slotForTime['key'] }}"
+                                                style="opacity: {{ $isPast ? 0.5 : 1 }};"
+                                                {{ ($isPast || !$slotForTime['is_available'] || $slotForTime['is_break'] ?? false) ? 'disabled' : '' }}
+                                            >
+                                                @if (!($slotForTime['is_break'] ?? false))
+                                                    <span class="d-block">{{ $slotForTime['label'] }}</span>
+                                                @endif
+                                                @if ($slotForTime['break_text'] ?? false)
+                                                    <span class="d-block text-primary">{{ $slotForTime['break_text'] }}</span>
+                                                @elseif (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
+                                                    <small class="d-block">{{ $slotForTime['booking_name'] }}</small>
+                                                @endif
+                                            </button>
+                                        @endforeach
+                                    </div>
                                 </div>
-                            @endforeach
-
-                            @foreach ($uniqueTimes as $timeIndex => $time)
-                                @foreach ($dates as $dayIndex => $d)
-                                    @php
-                                        $slotForTime = collect($d['slots'])->firstWhere('label', $time);
-                                    @endphp
-                                    @if ($slotForTime)
-                                        @php
-                                            $checked = old('selected_slot') === $slotForTime['key'];
-                                            list($date, $slotTime) = explode('|', $slotForTime['key']);
-                                            $slotStart = \Carbon\Carbon::createFromFormat('Y-m-d H:i', "$date $slotTime");
-                                            $isPast = $slotStart->isPast();
-                                            $buttonClasses = 'btn btn-sm slot-btn';
-                                            if ($isPast) {
-                                                $buttonClasses .= ' btn-light text-body-tertiary border';
-                                            } elseif ($slotForTime['is_break'] ?? false) {
-                                                $buttonClasses .= ' btn-light text-body-tertiary border border-primary';
-                                            } elseif ($slotForTime['is_available']) {
-                                                $buttonClasses .= ' btn-outline-orange ' . ($checked ? 'btn-orange' : '');
-                                            } else {
-                                                $buttonClasses .= ' btn-light text-body-tertiary border';
-                                            }
-                                        @endphp
-                                        <button
-                                            type="button"
-                                            class="{{ $buttonClasses }}"
-                                            data-slot="{{ $slotForTime['key'] }}"
-                                            style="grid-column: {{ $dayIndex + 1 }}; grid-row: {{ $timeIndex + 2 }}; padding: 0.625rem 1.25rem; font-size: 1rem; opacity: {{ $isPast ? 0.5 : 1 }};"
-                                            {{ ($isPast || !$slotForTime['is_available'] || $slotForTime['is_break'] ?? false) ? 'disabled' : '' }}
-                                        >
-                                            @if (!($slotForTime['is_break'] ?? false))
-                                                <span class="d-block">{{ $time }}</span>
-                                            @endif
-                                            @if ($slotForTime['break_text'] ?? false)
-                                                <span class="d-block text-primary">{{ $slotForTime['break_text'] }}</span>
-                                            @elseif (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
-                                                <small class="d-block">{{ $slotForTime['booking_name'] }}</small>
-                                            @endif
-                                        </button>
-                                    @else
-                                        <div style="grid-column: {{ $dayIndex + 1 }}; grid-row: {{ $timeIndex + 2 }};"></div>
-                                    @endif
-                                @endforeach
                             @endforeach
                         </div>
                     @endif
