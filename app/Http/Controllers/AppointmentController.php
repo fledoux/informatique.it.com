@@ -159,21 +159,20 @@ class AppointmentController extends Controller
 
         if ($notificationEmail) {
             try {
-                $booking->setRelation('project', $project);
+                $booking->load('project');
                 \Illuminate\Support\Facades\Mail::to($notificationEmail)
                     ->send(new \App\Mail\AppointmentBookingNotificationMail($booking));
             } catch (\Throwable $e) {
-                \Illuminate\Support\Facades\Log::error('Échec envoi email rendez-vous: ' . $e->getMessage());
+                \Illuminate\Support\Facades\Log::error('Échec envoi email rendez-vous à ' . $notificationEmail . ': ' . $e->getMessage(), ['exception' => $e]);
             }
         }
 
         // Email de confirmation au client
         try {
-            $booking->setRelation('project', $project);
             \Illuminate\Support\Facades\Mail::to($booking->email)
                 ->send(new \App\Mail\AppointmentBookingConfirmationMail($booking));
         } catch (\Throwable $e) {
-            \Illuminate\Support\Facades\Log::error('Échec envoi email confirmation client: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error('Échec envoi email confirmation client à ' . $booking->email . ': ' . $e->getMessage(), ['exception' => $e]);
         }
 
         return redirect()

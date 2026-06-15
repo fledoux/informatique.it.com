@@ -37,7 +37,7 @@ class AppointmentBookingNotificationMail extends Mailable
         $start = \Carbon\Carbon::parse($booking->starts_at);
         $end = \Carbon\Carbon::parse($booking->ends_at);
 
-        $content = '<p>Un nouveau rendez-vous vient d\'\u00eatre enregistré.</p>'
+        $content = '<p>Un nouveau rendez-vous vient d\'être enregistré.</p>'
             . '<ul>'
             . '<li><strong>Projet :</strong> ' . e($project->title) . ' (' . e($project->serial) . ')</li>'
             . '<li><strong>Date :</strong> ' . e($start->locale('fr')->translatedFormat('l d F Y')) . '</li>'
