@@ -16,7 +16,7 @@
                             <div class="lead mb-2">{!! $project->subtitle !!}</div>
                         @endif
                         <p class="text-body-secondary mb-0">
-                            Créneaux de {{ $project->slot_duration_minutes }} minutes - Horaires {{ \Carbon\Carbon::parse($project->day_start_time)->format('H:i') }} a {{ \Carbon\Carbon::parse($project->day_end_time)->format('H:i') }}
+                            Créneaux de {{ $project->slot_duration_minutes }} minutes - Horaires {{ \Carbon\Carbon::parse($project->day_start_time)->format('H\hi') }} à {{ \Carbon\Carbon::parse($project->day_end_time)->format('H\hi') }}
                         </p>
                     </div>
                 </div>

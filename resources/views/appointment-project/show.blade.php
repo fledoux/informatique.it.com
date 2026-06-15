@@ -20,7 +20,7 @@
                 <dd class="col-sm-8">{{ $project->serial }}</dd>
 
                 <dt class="col-sm-4">Sous-titre</dt>
-                <dd class="col-sm-8">{{ $project->subtitle ?: '-' }}</dd>
+                <dd class="col-sm-8">{!! $project->subtitle ?: '-' !!}</dd>
 
                 <dt class="col-sm-4">Email de notification</dt>
                 <dd class="col-sm-8">{{ $project->notification_email ?: 'Email support par défaut' }}</dd>
@@ -29,7 +29,7 @@
                 <dd class="col-sm-8">{{ $project->slot_duration_minutes }} minutes</dd>
 
                 <dt class="col-sm-4">Horaires</dt>
-                <dd class="col-sm-8">{{ \Carbon\Carbon::parse($project->day_start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($project->day_end_time)->format('H:i') }}</dd>
+                <dd class="col-sm-8">{{ \Carbon\Carbon::parse($project->day_start_time)->format('H\hi') }} à {{ \Carbon\Carbon::parse($project->day_end_time)->format('H\hi') }}</dd>
 
                 <dt class="col-sm-4">Nombre de jours affichés</dt>
                 <dd class="col-sm-8">{{ $project->booking_horizon_days ?? 'ouvert (pas de limite stricte)' }}</dd>
@@ -53,7 +53,7 @@
         <div class="card-body">
             <p class="text-body-secondary">
                 Seuls les créneaux enregistrés ci-dessous sont proposés sur la page publique.
-                Génére une journée complète ({{ \Carbon\Carbon::parse($project->day_start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($project->day_end_time)->format('H:i') }}, toutes les {{ $project->slot_duration_minutes }} min), puis supprime les créneaux qui ne te conviennent pas. Tu peux aussi ajouter une heure précise.
+                Génère une journée complète ({{ \Carbon\Carbon::parse($project->day_start_time)->format('H\hi') }} à {{ \Carbon\Carbon::parse($project->day_end_time)->format('H\hi') }}, toutes les {{ $project->slot_duration_minutes }} min), puis supprime les créneaux qui ne te conviennent pas. Tu peux aussi ajouter une heure précise.
             </p>
 
             <div class="row g-3 mb-4">
