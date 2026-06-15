@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-fluid')
 
 @section('title', 'Projets de rendez-vous')
 
@@ -20,7 +20,7 @@
                     <th>Jours</th>
                     <th>Unique</th>
                     <th>Actif</th>
-                    <th>Afficher noms</th>
+                    <th>Noms</th>
                     <th>Lien public</th>
                     <th>Actions</th>
                 </tr>
