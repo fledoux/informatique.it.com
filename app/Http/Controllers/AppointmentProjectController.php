@@ -162,8 +162,8 @@ class AppointmentProjectController extends Controller
             $project = AppointmentProject::query()->findOrFail($id);
             $bookings = AppointmentBooking::query()
                 ->where('appointment_project_id', $project->id)
-                ->orderBy('starts_at', 'desc')
-                ->paginate(20);
+                ->orderBy('starts_at', 'asc')
+                ->get();
 
             return view('appointment-project.bookings', compact('project', 'bookings'));
         } catch (ModelNotFoundException $e) {
