@@ -41,7 +41,7 @@
                                 @csrf
                                 @method('PATCH')
                                 <button type="submit" class="btn btn-link {{ $project->show_booking_names ? 'btn-success' : 'btn-danger' }}">
-                                    <i class="fa-solid {{ $project->show_booking_names ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
+                                    <i class="fa-solid {{ $project->show_booking_names ? 'fa-toggle-on text-success' : 'fa-toggle-off text-danger' }}"></i>
                                 </button>
                             </form>
                         </td>
