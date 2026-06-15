@@ -106,11 +106,13 @@
                         display: grid;
                         gap: 0.75rem;
                         width: 100%;
+                        grid-auto-rows: max-content;
                     }
                     .slot-btn {
                         word-wrap: break-word;
                         word-break: break-word;
                         overflow-wrap: break-word;
+                        min-height: 100%;
                     }
                 </style>
 
