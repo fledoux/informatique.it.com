@@ -107,12 +107,18 @@
                         gap: 0.75rem;
                         width: 100%;
                         grid-auto-rows: max-content;
+                        box-sizing: border-box;
+                    }
+                    .slots-grid > * {
+                        min-width: 0;
+                        box-sizing: border-box;
                     }
                     .slot-btn {
                         word-wrap: break-word;
                         word-break: break-word;
                         overflow-wrap: break-word;
-                        min-height: 100%;
+                        width: 100%;
+                        box-sizing: border-box;
                     }
                 </style>
 
