@@ -8,7 +8,7 @@
             <div class="col-12 col-xl-11">
                 <div class="d-flex align-items-start gap-3 mb-4">
                     <div class="bg-secondary-subtle border rounded-3 p-3 d-none d-sm-block" aria-hidden="true">
-                        <i class="fa-regular fa-calendar fs-3 text-secondary"></i>
+                        <i class="fa-regular fa-calendar-days fs-3 text-secondary"></i>
                     </div>
                     <div>
                         <h1 class="display-6 fw-semibold mb-2">{{ $project->title }}</h1>
