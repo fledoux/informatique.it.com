@@ -25,11 +25,6 @@ class AppointmentController extends Controller
             $date = $startDate->addDays($i);
             $slots = $project->getDateSlots($date);
 
-            // N'afficher que les jours qui ont au moins un créneau enregistré
-            if (count($slots) === 0) {
-                continue;
-            }
-
             $bookings = AppointmentBooking::query()
                 ->where('appointment_project_id', $project->id)
                 ->whereDate('appointment_date', $date->toDateString())
