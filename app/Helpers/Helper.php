@@ -7,6 +7,17 @@ use App\Services\PushoverService;
 class Helper
 {
 	/**
+	 * Capitalise correctement en UTF-8 (première lettre majuscule, reste minuscule)
+	 */
+	public static function capitalizeUTF8(string $str): string
+	{
+		if (empty($str)) {
+			return $str;
+		}
+		return mb_strtoupper(mb_substr($str, 0, 1, 'UTF-8'), 'UTF-8') . mb_strtolower(mb_substr($str, 1, null, 'UTF-8'), 'UTF-8');
+	}
+
+	/**
 	 * Génère les initiales à partir du prénom et nom
 	 */
 	public static function generateInitials(string $firstname, string $lastname): string

@@ -44,7 +44,13 @@ class AppointmentController extends Controller
                     $slotKey = $slot['starts_at']->format('Y-m-d H:i');
                     $booking = $bookings[$slotKey] ?? null;
                     $slot['is_available'] = is_null($booking);
-                    $slot['booking_name'] = $booking ? $booking->first_name . ' ' . $booking->last_name : null;
+                    if ($booking) {
+                        $firstName = \App\Helpers\Helper::capitalizeUTF8($booking->first_name);
+                        $lastName = \App\Helpers\Helper::capitalizeUTF8($booking->last_name);
+                        $slot['booking_name'] = $firstName . ' ' . $lastName;
+                    } else {
+                        $slot['booking_name'] = null;
+                    }
                     return $slot;
                 })
                 ->values()
@@ -137,8 +143,8 @@ class AppointmentController extends Controller
                 'appointment_date' => $appointmentDate,
                 'starts_at' => $start,
                 'ends_at' => $end,
-                'first_name' => $validated['first_name'],
-                'last_name' => $validated['last_name'],
+                'first_name' => \App\Helpers\Helper::capitalizeUTF8($validated['first_name']),
+                'last_name' => \App\Helpers\Helper::capitalizeUTF8($validated['last_name']),
                 'email' => $validated['email'],
                 'phone' => $validated['phone'],
             ]);
