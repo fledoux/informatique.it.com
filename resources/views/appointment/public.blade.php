@@ -108,9 +108,9 @@
                         width: 100%;
                     }
                     .slot-btn {
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
+                        word-wrap: break-word;
+                        word-break: break-word;
+                        overflow-wrap: break-word;
                     }
                 </style>
 
