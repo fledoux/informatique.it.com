@@ -13,7 +13,7 @@
                     <div>
                         <h1 class="display-6 fw-semibold mb-2">{{ $project->title }}</h1>
                         @if ($project->subtitle)
-                            <p class="lead mb-2">{{ $project->subtitle }}</p>
+                            <div class="lead mb-2">{!! $project->subtitle !!}</div>
                         @endif
                         <p class="text-body-secondary mb-0">
                             Créneaux de {{ $project->slot_duration_minutes }} minutes - Horaires {{ \Carbon\Carbon::parse($project->day_start_time)->format('H:i') }} a {{ \Carbon\Carbon::parse($project->day_end_time)->format('H:i') }}
