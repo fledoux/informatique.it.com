@@ -277,7 +277,14 @@ class ImapService
             if (!$user) {
                 Log::warning("SÉCURITÉ: Tentative de création de ticket par utilisateur non-inscrit: {$senderEmail}");
                 
-                // Envoyer un mail d'erreur pour inciter à s'inscrire
+                // Vérifier si c'est une adresse système/bounce/noreply
+                if ($this->isSystemEmail($senderEmail)) {
+                    Log::info("Ignoring system/bounce email (no reply): {$senderEmail}");
+                    $this->addMessage("🤖 Adresse système ignorée (pas de réponse): {$senderEmail}");
+                    return false; // Archiver sans répondre
+                }
+                
+                // C'est une vraie adresse non inscrite - Envoyer un mail d'erreur
                 try {
                     //Mail::to($senderEmail)->send(new UnauthorizedReplyMail($senderEmail, 'NOUVEAU'));
                     Log::info("✅ Mail de rejet envoyé à l'utilisateur non-inscrit: {$senderEmail}");
@@ -1075,6 +1082,72 @@ class ImapService
         }
 
         return $attachments;
+    }
+
+    /**
+     * Vérifie si une adresse email est une adresse système/bounce/noreply
+     * Ces adresses ne doivent jamais recevoir de mail de réponse
+     */
+    private function isSystemEmail(string $email): bool
+    {
+        $email = strtolower(trim($email));
+
+        // Liste des patterns d'adresses système à ignorer
+        $systemPatterns = [
+            'mailer-daemon@',
+            'postmaster@',
+            'mail-daemon@',
+            'noreply@',
+            'no-reply@',
+            'donotreply@',
+            'do-not-reply@',
+            'bounce@',
+            'bounces@',
+            'notification@',
+            'notifications@',
+            'info@',
+            'support@',
+            'admin@',
+            'abuse@',
+            'security@',
+            'webmaster@',
+            'hostmaster@',
+            'news@',
+            '@amazonses.com',  // Tous les bounces AWS SES
+            '@bounce.amazonses.com',
+            '@complaints.amazonses.com',
+            'delivery-status@',
+            'failure-notice@',
+            'system@',
+        ];
+
+        // Vérifier les patterns
+        foreach ($systemPatterns as $pattern) {
+            if (strpos($email, $pattern) !== false) {
+                return true;
+            }
+        }
+
+        // Vérifier si c'est notre propre adresse (éviter les boucles)
+        $ourEmail = strtolower(config('app.company.emails.help', 'help@example.com'));
+        if ($email === $ourEmail) {
+            return true;
+        }
+
+        // Vérifier si c'est une adresse spammy connue (optionnel)
+        $spamDomains = [
+            'spam@',
+            'test@',
+            'noproxy@',
+        ];
+
+        foreach ($spamDomains as $pattern) {
+            if (strpos($email, $pattern) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
