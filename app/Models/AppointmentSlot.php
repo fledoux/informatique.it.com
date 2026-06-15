@@ -14,6 +14,7 @@ class AppointmentSlot extends Model
         'appointment_project_id',
         'slot_date',
         'slot_time',
+        'break_text',
     ];
 
     protected $casts = [

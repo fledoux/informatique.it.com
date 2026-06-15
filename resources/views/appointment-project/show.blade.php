@@ -105,6 +105,13 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <div class="col-12 col-sm-5">
+                                <label class="form-label" for="break_text">Texte de pause (optionnel)</label>
+                                <input id="break_text" name="break_text" type="text" class="form-control @error('break_text') is-invalid @enderror" value="{{ old('break_text') }}" placeholder="ex: Pause déj, Non disponible">
+                                @error('break_text')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                             <div class="col-12 col-sm-3">
                                 <button type="submit" class="btn btn-outline-primary w-100">Ajouter</button>
                             </div>

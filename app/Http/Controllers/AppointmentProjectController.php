@@ -113,12 +113,15 @@ class AppointmentProjectController extends Controller
         $validated = $request->validate([
             'slot_date' => ['required', 'date_format:Y-m-d'],
             'slot_time' => ['required', 'date_format:H:i'],
+            'break_text' => ['nullable', 'string', 'max:50'],
         ]);
 
-        AppointmentSlot::firstOrCreate([
+        AppointmentSlot::updateOrCreate([
             'appointment_project_id' => $project->id,
             'slot_date' => $validated['slot_date'],
             'slot_time' => $validated['slot_time'],
+        ], [
+            'break_text' => $validated['break_text'] ?? null,
         ]);
 
         return redirect()->route('appointment-project.show', $project->id)

@@ -144,6 +144,8 @@
                                             $buttonClasses = 'btn btn-sm slot-btn';
                                             if ($isPast) {
                                                 $buttonClasses .= ' btn-light text-body-tertiary border';
+                                            } elseif ($slotForTime['is_break'] ?? false) {
+                                                $buttonClasses .= ' btn-light text-body-tertiary border';
                                             } elseif ($slotForTime['is_available']) {
                                                 $buttonClasses .= ' btn-outline-orange ' . ($checked ? 'btn-orange' : '');
                                             } else {
@@ -155,10 +157,14 @@
                                             class="{{ $buttonClasses }}"
                                             data-slot="{{ $slotForTime['key'] }}"
                                             style="grid-column: {{ $dayIndex + 1 }}; grid-row: {{ $timeIndex + 2 }}; padding: 0.625rem 1.25rem; font-size: 1rem; opacity: {{ $isPast ? 0.5 : 1 }};"
-                                            {{ ($isPast || !$slotForTime['is_available']) ? 'disabled' : '' }}
+                                            {{ ($isPast || !$slotForTime['is_available'] || $slotForTime['is_break'] ?? false) ? 'disabled' : '' }}
                                         >
-                                            <span class="d-block">{{ $time }}</span>
-                                            @if (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
+                                            @if (!($slotForTime['is_break'] ?? false))
+                                                <span class="d-block">{{ $time }}</span>
+                                            @endif
+                                            @if ($slotForTime['break_text'] ?? false)
+                                                <span class="d-block">{{ $slotForTime['break_text'] }}</span>
+                                            @elseif (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
                                                 <small class="d-block text-nowrap">{{ $slotForTime['booking_name'] }}</small>
                                             @endif
                                         </button>

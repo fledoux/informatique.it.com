@@ -65,27 +65,34 @@ class AppointmentProject extends Model
     {
         $duration = (int) $this->slot_duration_minutes;
 
-        // Seuls les créneaux enregistrés pour ce jour sont proposés
-        $times = $this->manualSlots()
+        // Récupérer tous les créneaux du jour avec leurs détails
+        $manualSlots = $this->manualSlots()
             ->whereDate('slot_date', $date->toDateString())
             ->orderBy('slot_time')
-            ->pluck('slot_time')
-            ->map(static fn ($value) => CarbonImmutable::parse($value)->format('H:i'))
-            ->unique()
-            ->values();
+            ->get();
 
         $slots = [];
 
-        foreach ($times as $time) {
-            $slotStart = CarbonImmutable::parse($date->format('Y-m-d') . ' ' . $time);
+        foreach ($manualSlots as $slot) {
+            $slotStart = CarbonImmutable::parse($date->format('Y-m-d') . ' ' . $slot->slot_time);
             $slotEnd = $slotStart->addMinutes($duration);
+            
+            // Générer le label avec le temps d'début et fin
+            $label = $slotStart->format('H\hi') . ' à ' . $slotEnd->format('H\hi');
+            // Si c'est une pause avec texte, afficher en format multi-ligne
+            if ($slot->break_text) {
+                $label = $slotStart->format('H\hi') . "\n" . $slot->break_text;
+            }
+            
             $slots[] = [
                 'date' => $date->toDateString(),
                 'start_time' => $slotStart->format('H:i'),
                 'end_time' => $slotEnd->format('H:i'),
                 'key' => $date->toDateString() . '|' . $slotStart->format('H:i'),
                 'starts_at' => $slotStart,
-                'label' => $slotStart->format('H\hi') . ' à ' . $slotEnd->format('H\hi'),
+                'label' => $label,
+                'break_text' => $slot->break_text,
+                'is_break' => !is_null($slot->break_text),
             ];
         }
 
