@@ -65,10 +65,6 @@
                     </table>
                 </div>
             </div>
-
-            <div class="d-flex justify-content-center mt-4">
-                {{ $bookings->links() }}
-            </div>
         @else
             <div class="alert alert-info mb-0">
                 Aucune réservation pour le moment.
