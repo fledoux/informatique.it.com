@@ -20,7 +20,7 @@
                     <th>Jours</th>
                     <th>Unique</th>
                     <th>Actif</th>
-                    <th>Noms</th>
+                    <th>Afficher les noms</th>
                     <th>Lien public</th>
                     <th>Actions</th>
                 </tr>
