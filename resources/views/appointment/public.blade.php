@@ -108,6 +108,7 @@
                         width: 100%;
                         grid-auto-rows: max-content;
                         box-sizing: border-box;
+                        overflow-x: auto;
                     }
                     .slots-grid > * {
                         min-width: 0;
@@ -117,6 +118,25 @@
                         white-space: normal;
                         width: 100%;
                         box-sizing: border-box;
+                    }
+                    @media (max-width: 768px) {
+                        .slots-grid {
+                            font-size: 0.875rem;
+                        }
+                        .slot-btn {
+                            font-size: 0.75rem;
+                            padding: 0.5rem 0.75rem !important;
+                        }
+                    }
+                    @media (max-width: 576px) {
+                        .slots-grid {
+                            font-size: 0.75rem;
+                            gap: 0.5rem;
+                        }
+                        .slot-btn {
+                            font-size: 0.65rem;
+                            padding: 0.375rem 0.5rem !important;
+                        }
                     }
                 </style>
 
