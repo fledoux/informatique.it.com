@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AppointmentProjectController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -34,6 +36,27 @@ Route::get('/scannez-moi', [PageController::class, 'qrCode'])->name('qr-code');
 Route::get('/cybersecurite', [PageController::class, 'cybersecurite'])->name('cybersecurite');
 Route::post('/cybersecurite', [PageController::class, 'cybersecuriteSubmit'])->name('cybersecurite.submit');
 Route::get('/cybersecurite-resultat', [PageController::class, 'cybersecuriteResult'])->name('cybersecurite.result');
+
+// Public appointment routes (project serial based)
+Route::get('/rdv/{serial}', [AppointmentController::class, 'show'])->name('appointment.public.show');
+Route::post('/rdv/{serial}', [AppointmentController::class, 'store'])->name('appointment.public.store');
+
+Route::middleware(['auth'])->prefix('appointment-project')->group(function () {
+    Route::get('/', [AppointmentProjectController::class, 'index'])->name('appointment-project.index');
+    Route::get('/create', [AppointmentProjectController::class, 'create'])->name('appointment-project.create');
+    Route::post('/', [AppointmentProjectController::class, 'store'])->name('appointment-project.store');
+    Route::get('/{appointment_project}', [AppointmentProjectController::class, 'show'])->name('appointment-project.show');
+    Route::get('/{appointment_project}/bookings', [AppointmentProjectController::class, 'bookings'])->name('appointment-project.bookings');
+    Route::delete('/{appointment_project}/bookings/{booking}', [AppointmentProjectController::class, 'destroyBooking'])->name('appointment-project.bookings.destroy');
+    Route::get('/{appointment_project}/edit', [AppointmentProjectController::class, 'edit'])->name('appointment-project.edit');
+    Route::put('/{appointment_project}', [AppointmentProjectController::class, 'update'])->name('appointment-project.update');
+    Route::delete('/{appointment_project}', [AppointmentProjectController::class, 'destroy'])->name('appointment-project.destroy');
+    Route::post('/{appointment_project}/slots', [AppointmentProjectController::class, 'storeSlot'])->name('appointment-project.slots.store');
+    Route::post('/{appointment_project}/slots/generate', [AppointmentProjectController::class, 'generateSlots'])->name('appointment-project.slots.generate');
+    Route::delete('/{appointment_project}/slots/day/{day}', [AppointmentProjectController::class, 'destroyDay'])->name('appointment-project.slots.destroyDay');
+    Route::delete('/{appointment_project}/slots/{slot}', [AppointmentProjectController::class, 'destroySlot'])->name('appointment-project.slots.destroy');
+    Route::patch('/{appointment_project}/toggle-booking-names', [AppointmentProjectController::class, 'toggleShowBookingNames'])->name('appointment-project.toggle-booking-names');
+});
 
 // Auth routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

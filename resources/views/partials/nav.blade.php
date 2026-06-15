@@ -78,6 +78,15 @@
                     </li>
                 @endhasanyrole
                 @hasanyrole(['super-admin'])
+                    <li class="nav-item ms-lg-2 mb-2">
+                        <a class="ms-auto mb-2 btn w-100 {{ $currentRoute && str_starts_with($currentRoute, 'appointment-project.') ? 'btn-orange' : 'btn-outline-secondary' }}"
+                            href="{{ route('appointment-project.index') }}">
+                            <i class="fa-regular fa-calendar-check"></i>
+                            RDV
+                        </a>
+                    </li>
+                @endhasanyrole
+                @hasanyrole(['super-admin'])
                     @include('partials._lang')
                 @endhasanyrole
                 @auth
