@@ -105,8 +105,12 @@
                     .slots-grid {
                         display: grid;
                         gap: 0.75rem;
-                        grid-auto-flow: dense;
-                        max-width: fit-content;
+                        width: 100%;
+                    }
+                    .slot-btn {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                     }
                 </style>
 
