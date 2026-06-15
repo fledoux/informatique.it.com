@@ -119,7 +119,7 @@
                                                 list($date, $slotTime) = explode('|', $slotForTime['key']);
                                                 $slotStart = \Carbon\Carbon::createFromFormat('Y-m-d H:i', "$date $slotTime");
                                                 $isPast = $slotStart->isPast();
-                                                $buttonClasses = 'btn btn-sm w-100';
+                                                $buttonClasses = 'btn btn-sm w-100 slot-btn';
                                                 if ($isPast) {
                                                     $buttonClasses .= ' btn-light text-body-tertiary border';
                                                 } elseif ($slotForTime['is_break'] ?? false) {
