@@ -18,7 +18,7 @@
 
     <div class="col-12">
         <label class="form-label" for="subtitle">Sous-titre</label>
-        <textarea id="subtitle" name="subtitle" rows="3" class="form-control @error('subtitle') is-invalid @enderror">{{ old('subtitle', $project->subtitle ?? '') }}</textarea>
+        <textarea id="subtitle" name="subtitle" rows="3" class="form-control tinymce @error('subtitle') is-invalid @enderror">{{ old('subtitle', $project->subtitle ?? '') }}</textarea>
         @error('subtitle')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
