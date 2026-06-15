@@ -114,9 +114,7 @@
                         box-sizing: border-box;
                     }
                     .slot-btn {
-                        word-wrap: break-word;
-                        word-break: break-word;
-                        overflow-wrap: break-word;
+                        white-space: normal;
                         width: 100%;
                         box-sizing: border-box;
                     }
