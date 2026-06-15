@@ -1,7 +1,7 @@
 @csrf
 <div class="row g-3">
     <div class="col-12 col-lg-4">
-        <label class="form-label" for="serial">Numero de serie public</label>
+        <label class="form-label" for="serial">Numéro de série public</label>
         <input id="serial" name="serial" type="text" class="form-control @error('serial') is-invalid @enderror" value="{{ old('serial', $project->serial ?? '') }}" required>
         @error('serial')
             <div class="invalid-feedback">{{ $message }}</div>

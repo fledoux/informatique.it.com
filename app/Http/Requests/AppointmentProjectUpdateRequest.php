@@ -17,7 +17,7 @@ class AppointmentProjectUpdateRequest extends FormRequest
         $projectId = $this->route('appointment_project');
 
         return [
-            'serial' => ['required', 'string', 'max:64', 'alpha_dash', Rule::unique('appointment_projects', 'serial')->ignore($projectId)],
+            'serial' => ['required', 'string', 'max:36', Rule::unique('appointment_projects', 'serial')->ignore($projectId)],
             'title' => ['required', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string'],
             'notification_email' => ['nullable', 'email', 'max:255'],

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('appointment_projects', function (Blueprint $table) {
             $table->id();
-            $table->string('serial', 64)->unique()->comment('Numero de serie public du projet');
+            $table->string('serial', 36)->unique()->comment('UUID generé automatiquement pour accès public');
             $table->string('title')->comment('Titre affiche sur la page publique');
             $table->text('subtitle')->nullable()->comment('Sous-titre affiche sur la page publique');
             $table->boolean('single_registration_per_person')->default(true)

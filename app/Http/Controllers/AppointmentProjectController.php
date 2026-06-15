@@ -9,6 +9,7 @@ use App\Models\AppointmentProject;
 use App\Models\AppointmentSlot;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AppointmentProjectController extends Controller
 {
@@ -26,6 +27,7 @@ class AppointmentProjectController extends Controller
     public function create()
     {
         $project = new AppointmentProject([
+            'serial' => Str::uuid()->toString(),
             'slot_duration_minutes' => 30,
             'day_start_time' => '08:00',
             'day_end_time' => '17:00',

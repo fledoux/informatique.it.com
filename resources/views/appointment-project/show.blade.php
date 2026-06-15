@@ -16,7 +16,7 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <dl class="row mb-0">
-                <dt class="col-sm-4">Numero de serie</dt>
+                <dt class="col-sm-4">Numéro de série</dt>
                 <dd class="col-sm-8">{{ $project->serial }}</dd>
 
                 <dt class="col-sm-4">Sous-titre</dt>

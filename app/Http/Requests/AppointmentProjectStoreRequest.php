@@ -14,7 +14,7 @@ class AppointmentProjectStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'serial' => ['required', 'string', 'max:64', 'alpha_dash', 'unique:appointment_projects,serial'],
+            'serial' => ['required', 'string', 'max:36', 'unique:appointment_projects,serial'],
             'title' => ['required', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string'],
             'notification_email' => ['nullable', 'email', 'max:255'],
