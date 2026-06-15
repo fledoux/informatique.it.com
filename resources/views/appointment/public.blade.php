@@ -155,7 +155,7 @@
                                             if ($isPast) {
                                                 $buttonClasses .= ' btn-light text-body-tertiary border';
                                             } elseif ($slotForTime['is_break'] ?? false) {
-                                                $buttonClasses .= ' btn-light text-body-tertiary border';
+                                                $buttonClasses .= ' btn-light text-body-tertiary border border-primary';
                                             } elseif ($slotForTime['is_available']) {
                                                 $buttonClasses .= ' btn-outline-orange ' . ($checked ? 'btn-orange' : '');
                                             } else {
@@ -173,7 +173,7 @@
                                                 <span class="d-block">{{ $time }}</span>
                                             @endif
                                             @if ($slotForTime['break_text'] ?? false)
-                                                <span class="d-block">{{ $slotForTime['break_text'] }}</span>
+                                                <span class="d-block text-primary">{{ $slotForTime['break_text'] }}</span>
                                             @elseif (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
                                                 <small class="d-block">{{ $slotForTime['booking_name'] }}</small>
                                             @endif
