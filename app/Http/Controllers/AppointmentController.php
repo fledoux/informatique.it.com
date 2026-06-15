@@ -20,10 +20,18 @@ class AppointmentController extends Controller
         $startDate = CarbonImmutable::today();
         $horizonDays = $project->getEffectiveBookingHorizonDays();
         $dates = collect();
+        $daysDisplayed = 0;
+        $i = 0;
 
-        for ($i = 0; $i < $horizonDays; $i++) {
+        while ($daysDisplayed < $horizonDays) {
             $date = $startDate->addDays($i);
             $slots = $project->getDateSlots($date);
+
+            // Sauter les jours sans créneaux
+            if (count($slots) === 0) {
+                $i++;
+                continue;
+            }
 
             $bookings = AppointmentBooking::query()
                 ->where('appointment_project_id', $project->id)
@@ -46,6 +54,9 @@ class AppointmentController extends Controller
                 'date' => $date,
                 'slots' => $dateSlots,
             ]);
+
+            $daysDisplayed++;
+            $i++;
         }
 
         return view('appointment.public', compact('project', 'dates'));
