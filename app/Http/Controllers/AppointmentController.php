@@ -89,7 +89,7 @@ class AppointmentController extends Controller
         }
 
         if (!is_null($project->booking_horizon_days)) {
-            $maxDate = CarbonImmutable::today()->addDays($project->getEffectiveBookingHorizonDays() - 1)->endOfDay();
+            $maxDate = $project->getMaxBookingDate();
             if ($start->isAfter($maxDate)) {
                 return back()->withInput()->withErrors([
                     'selected_slot' => 'La date dépasse la fenêtre de réservation autorisée pour ce projet.',
@@ -117,6 +117,18 @@ class AppointmentController extends Controller
                     'email' => 'Une réservation existe déjà avec cet email pour ce projet.',
                 ]);
             }
+        }
+
+        // Vérifier que le créneau n'a pas été réservé entre-temps
+        $conflictingBooking = AppointmentBooking::query()
+            ->where('appointment_project_id', $project->id)
+            ->where('starts_at', $start)
+            ->exists();
+
+        if ($conflictingBooking) {
+            return back()->withInput()->withErrors([
+                'selected_slot' => 'Ce créneau vient d\'être réservé. Merci d\'en choisir un autre.',
+            ]);
         }
 
         try {

@@ -61,6 +61,27 @@ class AppointmentProject extends Model
         return max(1, (int) $this->booking_horizon_days);
     }
 
+    public function getMaxBookingDate(): CarbonImmutable
+    {
+        $horizonDays = $this->getEffectiveBookingHorizonDays();
+        $i = 0;
+        $daysDisplayed = 0;
+
+        while ($daysDisplayed < $horizonDays) {
+            $date = CarbonImmutable::today()->addDays($i);
+            $slots = $this->getDateSlots($date);
+            if (count($slots) > 0) {
+                $daysDisplayed++;
+                if ($daysDisplayed === $horizonDays) {
+                    return $date->endOfDay();
+                }
+            }
+            $i++;
+        }
+
+        return CarbonImmutable::today()->addDays($horizonDays - 1)->endOfDay();
+    }
+
     public function getDateSlots(CarbonImmutable $date): array
     {
         $duration = (int) $this->slot_duration_minutes;
