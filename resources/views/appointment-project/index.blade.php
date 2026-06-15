@@ -40,7 +40,7 @@
                             <form action="{{ route('appointment-project.toggle-booking-names', $project->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="btn btn-sm {{ $project->show_booking_names ? 'btn-success' : 'btn-secondary' }}">
+                                <button type="submit" class="btn btn-link {{ $project->show_booking_names ? 'btn-success' : 'btn-danger' }}">
                                     <i class="fa-solid {{ $project->show_booking_names ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
                                 </button>
                             </form>
