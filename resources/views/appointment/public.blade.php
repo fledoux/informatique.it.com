@@ -94,7 +94,7 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex flex-wrap gap-2 mt-3">
+                            <div class="d-flex flex-wrap gap-2">
                                 <button type="submit" class="btn btn-primary">Enregistrer mon rendez-vous</button>
                             </div>
                         </form>
