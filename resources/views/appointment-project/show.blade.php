@@ -144,9 +144,11 @@
                                         <form method="POST" action="{{ route('appointment-project.slots.destroy', [$project->id, $slot->id]) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-secondary" title="Cliquer pour supprimer">
+                                            <button type="submit" class="btn btn-sm @if($slot->break_text) btn-primary @else btn-outline-secondary @endif" title="Cliquer pour supprimer">
                                                 {{ \Carbon\Carbon::parse($slot->slot_time)->format('H:i') }}
-                                                <i class="fa-solid fa-xmark ms-1 text-danger"></i>
+                                                @if(!$slot->break_text)
+                                                    <i class="fa-solid fa-xmark ms-1 text-danger"></i>
+                                                @endif
                                             </button>
                                         </form>
                                     @endforeach
