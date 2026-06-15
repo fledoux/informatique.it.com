@@ -21,7 +21,7 @@
                     </div>
                 </div>
 
-                <div class="card shadow-sm border-0 mb-4">
+                <div class="card shadow-sm border-0">
                     <div class="card-body">
                         <form method="POST" action="{{ route('appointment.public.store', ['serial' => $project->serial]) }}" novalidate>
                             @csrf
@@ -107,7 +107,7 @@
                             @foreach ($dates as $d)
                                 <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                     <!-- Titre du jour -->
-                                    <div class="fw-semibold text-center text-lowercase text-body-secondary small mb-2">
+                                    <div class="fw-semibold text-center text-lowercase text-body-secondary small mt-4 mb-2">
                                         {{ $d['date']->locale('fr')->translatedFormat('l d F') }}
                                     </div>
                                     
