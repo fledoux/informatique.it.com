@@ -130,7 +130,7 @@
                                                 $isPast = $slotStart->isPast();
                                                 $buttonClasses = 'btn btn-sm w-100 slot-btn';
                                                 if ($isPast) {
-                                                    $buttonClasses .= ' btn-light text-body-tertiary border opacity-50';
+                                                    $buttonClasses .= ' btn-light text-body-tertiary border';
                                                 } elseif ($slotForTime['is_break'] ?? false) {
                                                     $buttonClasses .= ' btn-light text-body-tertiary border border-primary';
                                                 } elseif ($slotForTime['is_available']) {
@@ -139,25 +139,22 @@
                                                     $buttonClasses .= ' btn-light text-body-secondary border-secondary border';
                                                 }
                                             @endphp
-                                            <div>
-                                                <button
-                                                    type="button"
-                                                    class="{{ $buttonClasses }}"
-                                                    data-slot="{{ $slotForTime['key'] }}"
-                                                    style="opacity: {{ $isPast ? 0.5 : 1 }};"
-                                                    {{ ($isPast || !$slotForTime['is_available'] || $slotForTime['is_break'] ?? false) ? 'disabled' : '' }}
-                                                >
-                                                    @if (!($slotForTime['is_break'] ?? false))
-                                                        <span class="d-block">{{ $slotForTime['label'] }}</span>
-                                                    @endif
-                                                    @if ($slotForTime['break_text'] ?? false)
-                                                        <span class="d-block text-primary">{{ $slotForTime['break_text'] }}</span>
-                                                    @endif
-                                                </button>
-                                                @if (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
-                                                    <small class="d-block text-center text-body-tertiary">{{ $slotForTime['booking_name'] }}</small>
+                                            <button
+                                                type="button"
+                                                class="{{ $buttonClasses }}"
+                                                data-slot="{{ $slotForTime['key'] }}"
+                                                style="opacity: {{ $isPast ? 0.5 : 1 }};"
+                                                {{ ($isPast || !$slotForTime['is_available'] || $slotForTime['is_break'] ?? false) ? 'disabled' : '' }}
+                                            >
+                                                @if (!($slotForTime['is_break'] ?? false))
+                                                    <span class="d-block">{{ $slotForTime['label'] }}</span>
                                                 @endif
-                                            </div>
+                                                @if ($slotForTime['break_text'] ?? false)
+                                                    <span class="d-block text-primary">{{ $slotForTime['break_text'] }}</span>
+                                                @elseif (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
+                                                    <small class="d-block">{{ $slotForTime['booking_name'] }}</small>
+                                                @endif
+                                            </button>
                                         @endforeach
                                     </div>
                                 </div>
