@@ -151,10 +151,17 @@
                                                 @endif
                                                 @if ($slotForTime['break_text'] ?? false)
                                                     <span class="d-block text-primary">{{ $slotForTime['break_text'] }}</span>
-                                                @elseif (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
-                                                    <small class="d-block">{{ $slotForTime['booking_name'] }}</small>
                                                 @endif
                                             </button>
+                                        @endforeach
+                                    </div>
+                                    
+                                    <!-- Noms EN DESSOUS -->
+                                    <div class="mt-2 small text-body-tertiary">
+                                        @foreach ($d['slots'] as $slotForTime)
+                                            @if (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
+                                                <div class="text-center">{{ $slotForTime['booking_name'] }}</div>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>
