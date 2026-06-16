@@ -101,6 +101,15 @@
                     </div>
                 </div>
 
+                <style>
+                    .slot-btn {
+                        min-height: 60px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                </style>
+
                 @forelse ($dates as $day)
                     @if ($loop->first)
                         <div class="row g-2">
