@@ -127,7 +127,7 @@
                                                 } elseif ($slotForTime['is_available']) {
                                                     $buttonClasses .= ' btn-outline-orange ' . ($checked ? 'btn-orange' : '');
                                                 } else {
-                                                    $buttonClasses .= ' btn-light text-body-secondary border';
+                                                    $buttonClasses .= ' btn-light text-body-secondary border-secondary border';
                                                 }
                                             @endphp
                                             <button
