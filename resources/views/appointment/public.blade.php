@@ -118,7 +118,7 @@
                             @foreach ($dates as $d)
                                 <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                     <!-- Titre du jour -->
-                                    <div class="fw-semibold text-center text-lowercase text-body-secondary small mt-4 mb-2">
+                                    <div class="fw-bold text-center text-lowercase text-body-secondary small mt-4 mb-2">
                                         {{ $d['date']->locale('fr')->translatedFormat('l d F') }}
                                     </div>
                                     
@@ -149,10 +149,10 @@
                                                 {{ ($isPast || !$slotForTime['is_available'] || $slotForTime['is_break'] ?? false) ? 'disabled' : '' }}
                                             >
                                                 @if (!($slotForTime['is_break'] ?? false))
-                                                    <span class="d-block">{{ $slotForTime['label'] }}</span>
+                                                    <span class="d-block fw-bold">{{ $slotForTime['label'] }}</span>
                                                 @endif
                                                 @if ($slotForTime['break_text'] ?? false)
-                                                    <span class="d-block text-primary">{{ $slotForTime['break_text'] }}</span>
+                                                    <span class="d-block fw-bold text-primary">{{ $slotForTime['break_text'] }}</span>
                                                 @elseif (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
                                                     <span class="d-block small">{{ $slotForTime['booking_name'] }}</span>
                                                 @endif
