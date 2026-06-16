@@ -121,7 +121,7 @@
                                                 $isPast = $slotStart->isPast();
                                                 $buttonClasses = 'btn btn-sm w-100 slot-btn';
                                                 if ($isPast) {
-                                                    $buttonClasses .= ' btn-light text-body-tertiary border opacity-25';
+                                                    $buttonClasses .= ' btn-light text-body-tertiary border opacity-50';
                                                 } elseif ($slotForTime['is_break'] ?? false) {
                                                     $buttonClasses .= ' btn-light text-body-tertiary border border-primary';
                                                 } elseif ($slotForTime['is_available']) {
