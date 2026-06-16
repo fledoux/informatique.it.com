@@ -139,29 +139,25 @@
                                                     $buttonClasses .= ' btn-light text-body-secondary border-secondary border';
                                                 }
                                             @endphp
-                                            <button
-                                                type="button"
-                                                class="{{ $buttonClasses }}"
-                                                data-slot="{{ $slotForTime['key'] }}"
-                                                style="opacity: {{ $isPast ? 0.5 : 1 }};"
-                                                {{ ($isPast || !$slotForTime['is_available'] || $slotForTime['is_break'] ?? false) ? 'disabled' : '' }}
-                                            >
-                                                @if (!($slotForTime['is_break'] ?? false))
-                                                    <span class="d-block">{{ $slotForTime['label'] }}</span>
+                                            <div>
+                                                <button
+                                                    type="button"
+                                                    class="{{ $buttonClasses }}"
+                                                    data-slot="{{ $slotForTime['key'] }}"
+                                                    style="opacity: {{ $isPast ? 0.5 : 1 }};"
+                                                    {{ ($isPast || !$slotForTime['is_available'] || $slotForTime['is_break'] ?? false) ? 'disabled' : '' }}
+                                                >
+                                                    @if (!($slotForTime['is_break'] ?? false))
+                                                        <span class="d-block">{{ $slotForTime['label'] }}</span>
+                                                    @endif
+                                                    @if ($slotForTime['break_text'] ?? false)
+                                                        <span class="d-block text-primary">{{ $slotForTime['break_text'] }}</span>
+                                                    @endif
+                                                </button>
+                                                @if (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
+                                                    <small class="d-block text-center text-body-tertiary">{{ $slotForTime['booking_name'] }}</small>
                                                 @endif
-                                                @if ($slotForTime['break_text'] ?? false)
-                                                    <span class="d-block text-primary">{{ $slotForTime['break_text'] }}</span>
-                                                @endif
-                                            </button>
-                                        @endforeach
-                                    </div>
-                                    
-                                    <!-- Noms EN DESSOUS -->
-                                    <div class="mt-2 small text-body-tertiary">
-                                        @foreach ($d['slots'] as $slotForTime)
-                                            @if (!$slotForTime['is_available'] && $project->show_booking_names && $slotForTime['booking_name'])
-                                                <div class="text-center">{{ $slotForTime['booking_name'] }}</div>
-                                            @endif
+                                            </div>
                                         @endforeach
                                     </div>
                                 </div>
