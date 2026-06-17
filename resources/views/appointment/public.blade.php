@@ -136,7 +136,7 @@
                                                 } elseif ($slotForTime['is_break'] ?? false) {
                                                     $buttonClasses .= ' btn-light text-body-tertiary border border-primary';
                                                 } elseif ($slotForTime['is_available']) {
-                                                    $buttonClasses .= ' btn-outline-orange ' . ($checked ? 'btn-orange' : '');
+                                                    $buttonClasses .= ' btn-outline-success ' . ($checked ? 'btn-success' : '');
                                                 } else {
                                                     $buttonClasses .= ' btn-light text-body-secondary border-secondary border';
                                                 }
