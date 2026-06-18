@@ -147,11 +147,19 @@
                                                 ->where('appointment_project_id', $project->id)
                                                 ->where('starts_at', $slotDateTime)
                                                 ->exists();
+                                            
+                                            if ($slot->break_text) {
+                                                $buttonClass = 'btn-primary';
+                                            } elseif ($isBooked) {
+                                                $buttonClass = 'btn-outline-orange';
+                                            } else {
+                                                $buttonClass = 'btn-outline-secondary';
+                                            }
                                         @endphp
                                         <form method="POST" action="{{ route('appointment-project.slots.destroy', [$project->id, $slot->id]) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm @if($slot->break_text) btn-primary @elseif($isBooked) btn-outline-orange @else btn-outline-secondary @endif" title="Cliquer pour supprimer">
+                                            <button type="submit" class="btn btn-sm {{ $buttonClass }}" title="Cliquer pour supprimer">
                                                 {{ \Carbon\Carbon::parse($slot->slot_time)->format('H:i') }}
                                                 @if(!$slot->break_text && !$isBooked)
                                                     <i class="fa-solid fa-xmark ms-1 text-danger"></i>
