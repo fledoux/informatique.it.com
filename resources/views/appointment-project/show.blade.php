@@ -142,12 +142,16 @@
                                 <div class="d-flex flex-wrap gap-2">
                                     @foreach ($slots as $slot)
                                         @php
-                                            $slotDateTime = \Carbon\Carbon::parse($slot->slot_date . ' ' . $slot->slot_time);
-                                            $isBooked = \App\Models\AppointmentBooking::query()
-                                                ->where('appointment_project_id', $project->id)
-                                                ->where('starts_at', $slotDateTime)
-                                                ->exists();
-                                            $buttonClass = $slot->break_text ? 'btn-primary' : ($isBooked ? 'btn-outline-orange' : 'btn-outline-secondary');
+                                            $slotDateTime = \Carbon\Carbon::parse($slot->slot_date . ' ' . $slot->slot_time)->format('Y-m-d H:i');
+                                            $isBooked = $bookedSlots->contains($slotDateTime);
+                                            
+                                            if ($slot->break_text) {
+                                                $buttonClass = 'btn-primary';
+                                            } elseif ($isBooked) {
+                                                $buttonClass = 'btn-outline-orange';
+                                            } else {
+                                                $buttonClass = 'btn-outline-secondary';
+                                            }
                                         @endphp
                                         <form method="POST" action="{{ route('appointment-project.slots.destroy', [$project->id, $slot->id]) }}">
                                             @csrf

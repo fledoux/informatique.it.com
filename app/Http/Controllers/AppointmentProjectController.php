@@ -57,8 +57,14 @@ class AppointmentProjectController extends Controller
                 ->orderBy('slot_date')
                 ->orderBy('slot_time')
                 ->get();
+            
+            // Récupérer les slots réservés
+            $bookedSlots = AppointmentBooking::query()
+                ->where('appointment_project_id', $id)
+                ->get()
+                ->map(fn($booking) => $booking->starts_at->format('Y-m-d H:i'));
 
-            return view('appointment-project.show', compact('project', 'manualSlots'));
+            return view('appointment-project.show', compact('project', 'manualSlots', 'bookedSlots'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('appointment-project.index')
                 ->with('error', __('global.messages.not_found'));
