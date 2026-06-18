@@ -147,14 +147,7 @@
                                                 ->where('appointment_project_id', $project->id)
                                                 ->where('starts_at', $slotDateTime)
                                                 ->exists();
-                                            
-                                            if ($slot->break_text) {
-                                                $buttonClass = 'btn-primary';
-                                            } elseif ($isBooked) {
-                                                $buttonClass = 'btn-outline-orange';
-                                            } else {
-                                                $buttonClass = 'btn-outline-secondary';
-                                            }
+                                            $buttonClass = $slot->break_text ? 'btn-primary' : ($isBooked ? 'btn-outline-orange' : 'btn-outline-secondary');
                                         @endphp
                                         <form method="POST" action="{{ route('appointment-project.slots.destroy', [$project->id, $slot->id]) }}">
                                             @csrf
