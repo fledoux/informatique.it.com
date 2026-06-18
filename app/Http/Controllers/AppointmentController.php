@@ -22,8 +22,9 @@ class AppointmentController extends Controller
         $dates = collect();
         $daysDisplayed = 0;
         $i = 0;
+        $maxIterations = 365; // Limite de sécurité : chercher max 1 an de jours
 
-        while ($daysDisplayed < $horizonDays) {
+        while ($daysDisplayed < $horizonDays && $i < $maxIterations) {
             $date = $startDate->addDays($i);
             $slots = $project->getDateSlots($date);
 

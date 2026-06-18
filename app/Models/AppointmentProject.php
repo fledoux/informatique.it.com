@@ -66,8 +66,9 @@ class AppointmentProject extends Model
         $horizonDays = $this->getEffectiveBookingHorizonDays();
         $i = 0;
         $daysDisplayed = 0;
+        $maxIterations = 365; // Limite de sécurité : chercher max 1 an de jours
 
-        while ($daysDisplayed < $horizonDays) {
+        while ($daysDisplayed < $horizonDays && $i < $maxIterations) {
             $date = CarbonImmutable::today()->addDays($i);
             $slots = $this->getDateSlots($date);
             if (count($slots) > 0) {
