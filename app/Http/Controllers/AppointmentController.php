@@ -95,13 +95,11 @@ class AppointmentController extends Controller
             ]);
         }
 
-        if (!is_null($project->booking_horizon_days)) {
-            $maxDate = $project->getMaxBookingDate();
-            if ($start->isAfter($maxDate)) {
-                return back()->withInput()->withErrors([
-                    'selected_slot' => 'La date dépasse la fenêtre de réservation autorisée pour ce projet.',
-                ]);
-            }
+        $maxDate = $project->getMaxBookingDate();
+        if ($start->isAfter($maxDate)) {
+            return back()->withInput()->withErrors([
+                'selected_slot' => 'La date dépasse la fenêtre de réservation autorisée pour ce projet.',
+            ]);
         }
 
         $expectedSlots = collect($project->getDateSlots(CarbonImmutable::parse($appointmentDate)));
