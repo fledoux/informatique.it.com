@@ -18,13 +18,11 @@ class AppointmentController extends Controller
             ->firstOrFail();
 
         $startDate = CarbonImmutable::today();
-        $horizonDays = $project->getEffectiveBookingHorizonDays();
         $dates = collect();
-        $daysDisplayed = 0;
         $i = 0;
         $maxIterations = 365; // Limite de sécurité : chercher max 1 an de jours
 
-        while ($daysDisplayed < $horizonDays && $i < $maxIterations) {
+        while ($i < $maxIterations) {
             $date = $startDate->addDays($i);
             $slots = $project->getDateSlots($date);
 
@@ -62,7 +60,6 @@ class AppointmentController extends Controller
                 'slots' => $dateSlots,
             ]);
 
-            $daysDisplayed++;
             $i++;
         }
 
@@ -92,13 +89,6 @@ class AppointmentController extends Controller
         if ($start->isBefore(CarbonImmutable::today()->startOfDay())) {
             return back()->withInput()->withErrors([
                 'selected_slot' => 'La date choisie doit être aujourd\'hui ou ultérieure.',
-            ]);
-        }
-
-        $maxDate = $project->getMaxBookingDate();
-        if ($start->isAfter($maxDate)) {
-            return back()->withInput()->withErrors([
-                'selected_slot' => 'La date dépasse la fenêtre de réservation autorisée pour ce projet.',
             ]);
         }
 
